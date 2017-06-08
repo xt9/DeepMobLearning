@@ -1,0 +1,16 @@
+[
+{
+  "modid": "deepmoblearning",
+  "name": "Deep Mob Learning",
+  "description": "Mob looting, revamped.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["xt9"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
