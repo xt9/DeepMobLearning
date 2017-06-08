@@ -1,0 +1,10 @@
+{
+  "homepage": "https://github.com/xt9/DeepMobLearner/releases",
+  "<mcversion>": {
+    "<modversion>": "Full changelog @ https://github.com/xt9/DeepMobLearner/blob/master/changelog.md"
+  },
+  "promos": {
+    "<mcversion>-latest": "1.11.2-0.1",
+    "<mcversion>-recommended": "1.11.2-0.1"
+  }
+}
