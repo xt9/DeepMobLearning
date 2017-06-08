@@ -1,4 +1,4 @@
-def mcversion = "1.11.2"
+def clientVersion = "1.11.2"
 def major = "0"
 def minor = "1"
 
@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "${mcversion}-${major}.${minor}"
+version = "${clientVersion}-${major}.${minor}"
 group = "xt9.deepmoblearning" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "deepmoblearning"
 
