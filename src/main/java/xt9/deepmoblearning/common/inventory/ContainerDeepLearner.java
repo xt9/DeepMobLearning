@@ -17,7 +17,6 @@ import java.util.List;
 public class ContainerDeepLearner extends Container {
     protected World world;
     protected EntityPlayer player;
-    protected InventoryPlayer inventory;
     protected ItemStack deepLearner;
     protected int internalSlots;
     protected DeepLearnerInventory internalInventory;
@@ -44,7 +43,7 @@ public class ContainerDeepLearner extends Container {
         // Bind actionbar
         for (int row = 0; row < 9; row++) {
             int index = row;
-            Slot slot = new Slot(this.inventory, index, 220 + row * 18, 202);
+            Slot slot = new Slot(this.player.inventory, index, 220 + row * 18, 202);
             this.addSlotToContainer(slot);
         }
 
@@ -54,7 +53,7 @@ public class ContainerDeepLearner extends Container {
                 int x = 220 + column * 18;
                 int y = 144 + row * 18;
                 int index = column + row * 9 + 9;
-                Slot slot = new Slot(this.inventory, index, x, y);
+                Slot slot = new Slot(this.player.inventory, index, x, y);
                 this.addSlotToContainer(slot);
             }
         }
