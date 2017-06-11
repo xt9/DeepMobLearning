@@ -1,6 +1,7 @@
 package xt9.deepmoblearning.common;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -44,7 +45,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     @Override
-    public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+    public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         // Find which slot triggered this
         EntityEquipmentSlot slot = EntityEquipmentSlot.values()[ID/100];
         ItemStack item = player.getItemStackFromSlot(slot);

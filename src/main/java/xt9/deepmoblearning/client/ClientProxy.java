@@ -19,7 +19,6 @@ import xt9.deepmoblearning.common.items.ItemBase;
  */
 public class ClientProxy extends CommonProxy {
 
-    @Override
     public void registerItemRenderer(Item item, int meta, String id) {
         if(item instanceof ItemBase) {
             ItemBase itemBase = (ItemBase) item;
@@ -35,7 +34,6 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
-    @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         // Find which slot triggered this
         EntityEquipmentSlot slot = EntityEquipmentSlot.values()[ID/100];
