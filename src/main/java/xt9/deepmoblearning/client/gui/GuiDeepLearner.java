@@ -1,28 +1,24 @@
 package xt9.deepmoblearning.client.gui;
 
-import jline.internal.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
-import xt9.deepmoblearning.common.inventory.DeepLearnerSlot;
+import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.MetaUtil;
-import xt9.deepmoblearning.common.util.MobChipHelper;
+import xt9.deepmoblearning.common.util.NBTHelper;
 
 import java.io.IOException;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by xt9 on 2017-06-08.
@@ -64,7 +60,7 @@ public class GuiDeepLearner extends GuiContainer {
 
         // Get the meta for the first mobchip in this container, only loop the internal stacks and not the whole player inventory
         NonNullList<ItemStack> list = ((ContainerDeepLearner) this.inventorySlots).getInternalItemStacks();
-        this.validModelChips = MobChipHelper.getValidFromList(list);
+        this.validModelChips = ItemMobChip.getValidFromList(list);
 
         // Render cycle buttons if we have multiple models (atleast 2).
         if(this.validModelChips.size() > 1) {
@@ -79,7 +75,7 @@ public class GuiDeepLearner extends GuiContainer {
         if(this.validModelChips.size() >= 1 && this.currentItem < this.validModelChips.size()) {
             this.meta = MetaUtil.getMetaFromItemStack(this.validModelChips.get(this.currentItem));
 
-            this.renderMetaDataText(meta, left, top, 8, 162, 3);
+            this.renderMetaDataText(meta, left, top, this.validModelChips.get(this.currentItem));
             this.renderMobDisplayBox(left, top);
             this.renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + 130 + meta.getInterfaceOffsetX(), top + 60 + meta.getInterfaceOffsetY(), partialTicks);
             if(meta instanceof ZombieMeta) {
@@ -157,7 +153,7 @@ public class GuiDeepLearner extends GuiContainer {
         drawString(this.renderer,  "Please insert a Data Model!", leftStart, top, 16777215);
     }
 
-    private void renderMetaDataText(MobMetaData meta, int left, int top, int fightsCompleted, int fightsSimulated, int chipTier) {
+    private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack) {
         int leftStart = left + 180;
         int spacing = 12;
 
@@ -170,9 +166,9 @@ public class GuiDeepLearner extends GuiContainer {
             drawString(this.renderer, mobTrivia[i], leftStart, top + spacing + ((i + 1) * 12), 16777215);
         }
 
-        drawString(this.renderer, "Realistic fights completed: " + fightsCompleted, leftStart, top + (spacing * 5), 16777215);
-        drawString(this.renderer, "Fights simulated: " + fightsSimulated, leftStart, top + (spacing * 6), 16777215);
-        drawString(this.renderer, "Current tier: " + chipTier, leftStart, top + (spacing * 7), 16777215);
+        drawString(this.renderer, "Real fights completed: " + NBTHelper.getInt(stack, "mobsKilled", 0), leftStart, top + (spacing * 5), 16777215);
+        drawString(this.renderer, "Fights simulated: " + NBTHelper.getInt(stack, "simulatedFights", 0), leftStart, top + (spacing * 6), 16777215);
+        drawString(this.renderer, "Current tier: " + NBTHelper.getInt(stack, "tier", 0), leftStart, top + (spacing * 7), 16777215);
 
         // Draw heart
         // Minecraft.getMinecraft().getTextureManager().bindTexture(base);

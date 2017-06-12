@@ -1,7 +1,6 @@
 package xt9.deepmoblearning.api.mobs;
 
 import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.world.World;
 
 /**
  * Created by xt9 on 2017-06-10.

@@ -2,6 +2,7 @@ package xt9.deepmoblearning.common.items;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -26,8 +27,8 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 
-    public NonNullList<ItemStack> getContainedItems(ItemStack deepLearner) {
-        NonNullList<ItemStack> list = NonNullList.withSize(this.numOfInternalSlots(), ItemStack.EMPTY);
+    public static NonNullList<ItemStack> getContainedItems(ItemStack deepLearner) {
+        NonNullList<ItemStack> list = NonNullList.withSize(numOfInternalSlots(), ItemStack.EMPTY);
 
         // Load the inventory if the ItemStack has a NBTTagcompound
         if(deepLearner.hasTagCompound()) {
@@ -40,10 +41,9 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
 
         }
         return list;
-
     }
 
-    public void setContainedItems(ItemStack deepLearner, NonNullList<ItemStack> list) {
+    public static void setContainedItems(ItemStack deepLearner, NonNullList<ItemStack> list) {
         NBTTagList inventory = new NBTTagList();
 
         for(int i = 0; i < list.size(); i++) {
@@ -59,7 +59,7 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
         return DeepConstants.ITEM_DEEP_LEARNER_GUI_ID;
     }
 
-    public int numOfInternalSlots() {
+    public static int numOfInternalSlots() {
         return DeepConstants.DEEP_LEARNER_INTERNAL_SLOTS_SIZE;
     }
 }

@@ -37,7 +37,7 @@ public class ContainerDeepLearner extends Container {
         this.deepLearnerSlot = inventory.currentItem + internalSlots;
 
         // Populate stored items
-        this.internalInventory.list = ((ItemDeepLearner) this.deepLearner.getItem()).getContainedItems(this.deepLearner);
+        this.internalInventory.list = ItemDeepLearner.getContainedItems(this.deepLearner);
     }
 
     public NonNullList<ItemStack> getInternalItemStacks() {
@@ -130,7 +130,7 @@ public class ContainerDeepLearner extends Container {
     }
 
     private void updateInventories() {
-        ((ItemDeepLearner) this.deepLearner.getItem()).setContainedItems(this.deepLearner, this.internalInventory.list);
+        ItemDeepLearner.setContainedItems(this.deepLearner, this.internalInventory.list);
         ItemStack hand = player.getItemStackFromSlot(this.equipmentSlot);
         if(!hand.isEmpty() && !hand.equals(deepLearner))
             player.setItemStackToSlot(this.equipmentSlot, this.deepLearner);

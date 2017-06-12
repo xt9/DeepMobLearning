@@ -4,7 +4,6 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
-import net.minecraft.world.World;
 
 /**
  * Created by xt9 on 2017-06-09.
