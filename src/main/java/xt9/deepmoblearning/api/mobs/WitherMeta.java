@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 public class WitherMeta extends MobMetaData {
     private EntityWither entity;
     private int interfaceScale = 22;
-    private int interfaceOffsetX = 5;
+    private int interfaceOffsetX = 3;
     private int interfaceOffsetY = 18;
     private int numberOfHearts = 150;
     private String mobName = "The Wither";

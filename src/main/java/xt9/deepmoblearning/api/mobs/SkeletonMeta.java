@@ -11,9 +11,9 @@ import net.minecraft.world.World;
  */
 public class SkeletonMeta extends MobMetaData {
     private EntitySkeleton entity;
-    private int interfaceScale = 35;
-    private int interfaceOffsetX = 2;
-    private int interfaceOffsetY = 6;
+    private int interfaceScale = 38;
+    private int interfaceOffsetX = 6;
+    private int interfaceOffsetY = 10;
     private int numberOfHearts = 10;
     private String mobName = "The Skeleton";
     private String[] mobTrivia = {"A formidable archer.", "A shield could prove useful"};

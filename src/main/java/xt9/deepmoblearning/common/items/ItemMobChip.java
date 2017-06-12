@@ -5,6 +5,6 @@ package xt9.deepmoblearning.common.items;
  */
 public class ItemMobChip extends ItemBase {
     public ItemMobChip() {
-        super("mob_chip", 1, "default", "zombie", "skeleton", "blaze");
+        super("mob_chip", 1, "default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch");
     }
 }

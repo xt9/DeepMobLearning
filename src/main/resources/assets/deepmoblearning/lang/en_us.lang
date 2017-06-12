@@ -2,7 +2,11 @@
 
 # Items
 item.deepmoblearning.deep_learner.name=Deep Learner
+
 item.deepmoblearning.mob_chip.default.name=Data Model Chip
 item.deepmoblearning.mob_chip.zombie.name=Zombie Data Model
 item.deepmoblearning.mob_chip.skeleton.name=Skeleton Data Model
 item.deepmoblearning.mob_chip.blaze.name=Blaze Data Model
+item.deepmoblearning.mob_chip.enderman.name=Enderman Data Model
+item.deepmoblearning.mob_chip.wither.name=Wither Data Model
+item.deepmoblearning.mob_chip.witch.name=Witch Data Model

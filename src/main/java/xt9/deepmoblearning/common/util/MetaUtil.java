@@ -1,26 +1,16 @@
 package xt9.deepmoblearning.common.util;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import xt9.deepmoblearning.api.mobs.EndermanMeta;
 import xt9.deepmoblearning.api.mobs.*;
-import xt9.deepmoblearning.common.items.ItemMobChip;
 
 /**
  * Created by xt9 on 2017-06-12.
  */
 public class MetaUtil {
-    public static MobMetaData getMetaFromItemStackList(NonNullList<ItemStack> list) {
+    public static MobMetaData getMetaFromItemStack(ItemStack stack) {
         MobMetaData meta;
-        String unlocName = "";
-
-        // Find
-        for(ItemStack stack : list) {
-            if(stack.getItem() instanceof ItemMobChip) {
-                unlocName = stack.getUnlocalizedName();
-                break;
-            }
-        }
+        String unlocName = stack.getUnlocalizedName();
 
         switch(unlocName) {
             case "item.deepmoblearning.mob_chip.zombie":
@@ -32,8 +22,17 @@ public class MetaUtil {
             case "item.deepmoblearning.mob_chip.blaze":
                 meta = new BlazeMeta();
                 break;
+            case "item.deepmoblearning.mob_chip.enderman":
+                meta = new EndermanMeta();
+                break;
+            case "item.deepmoblearning.mob_chip.wither":
+                meta = new WitherMeta();
+                break;
+            case "item.deepmoblearning.mob_chip.witch":
+                meta = new WitchMeta();
+                break;
             default:
-                meta = new EmptyMeta();
+                meta = new ZombieMeta();
                 break;
         }
         return meta;

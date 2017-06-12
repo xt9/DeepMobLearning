@@ -86,7 +86,6 @@ public class DeepLearnerInventory implements IInventory {
     @Override
     public void markDirty() {
         if(!stack.isEmpty()) {
-            // TODO Save items when dirty
             // ItemDeepLearner deepLearner = this.stack.getItem().setContainedItems(stack, list);
         }
     }
@@ -104,7 +103,6 @@ public class DeepLearnerInventory implements IInventory {
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        // DeepLearnerSlot slot = (DeepLearnerSlot) this.container.getSlot(index);
         return true;
     }
 
