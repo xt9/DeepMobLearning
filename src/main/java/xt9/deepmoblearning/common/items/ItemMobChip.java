@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ItemMobChip extends ItemBase {
     public ItemMobChip() {
-        super("mob_chip", 1, "default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch");
+        super("mob_chip", 1, "default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper");
     }
 
     @Override
@@ -46,7 +46,9 @@ public class ItemMobChip extends ItemBase {
 
             if(item instanceof ItemMobChip) {
                 String subName = ((ItemMobChip) item).getSubNames()[stack.getItemDamage()];
-                filteredList.add(stack);
+                if(!subName.equals("default")) {
+                    filteredList.add(stack);
+                }
             }
         }
 
@@ -56,20 +58,13 @@ public class ItemMobChip extends ItemBase {
     public static boolean entityLivingMatchesType(EntityLivingBase entityLiving, ItemStack stack) {
         String subName = getSubName(stack);
 
-        if(entityLiving instanceof EntityZombie && subName.equals("zombie")) {
-            return true;
-        } else if (entityLiving instanceof EntitySkeleton && subName.equals("skeleton")) {
-            return true;
-        } else if (entityLiving instanceof EntityBlaze && subName.equals("blaze")) {
-            return true;
-        } else if (entityLiving instanceof EntityEnderman && subName.equals("enderman")) {
-            return true;
-        } else if (entityLiving instanceof EntityWither && subName.equals("wither")) {
-            return true;
-        } else if (entityLiving instanceof EntityWitch && subName.equals("witch")) {
-            return true;
-        }
-
-        return false;
+        return (entityLiving instanceof EntityZombie && subName.equals("zombie")) ||
+                (entityLiving instanceof EntitySkeleton && subName.equals("skeleton")) ||
+                (entityLiving instanceof EntityBlaze && subName.equals("blaze")) ||
+                (entityLiving instanceof EntityEnderman && subName.equals("enderman")) ||
+                (entityLiving instanceof EntityWither && subName.equals("wither")) ||
+                (entityLiving instanceof EntityWitch && subName.equals("witch")) ||
+                (entityLiving instanceof  EntitySpider && subName.equals("spider")) ||
+                (entityLiving instanceof EntityCreeper && subName.equals("creeper"));
     }
 }

@@ -10,3 +10,5 @@ item.deepmoblearning.mob_chip.blaze.name=Blaze Data Model
 item.deepmoblearning.mob_chip.enderman.name=Enderman Data Model
 item.deepmoblearning.mob_chip.wither.name=Wither Data Model
 item.deepmoblearning.mob_chip.witch.name=Witch Data Model
+item.deepmoblearning.mob_chip.spider.name=Spider Data Model
+item.deepmoblearning.mob_chip.creeper.name=Creeper Data Model

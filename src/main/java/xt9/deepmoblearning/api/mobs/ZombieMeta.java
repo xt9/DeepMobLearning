@@ -55,15 +55,15 @@ public class ZombieMeta extends MobMetaData {
         return this.interfaceOffsetY;
     }
 
-    public EntityZombie getChildEntity() {
+    public EntityZombie getExtraEntity() {
         return this.childEntity;
     }
 
-    public int getChildInterfaceOffsetX() {
+    public int getExtraInterfaceOffsetX() {
         return this.childInterfaceOffsetX;
     }
 
-    public int getChildInterfaceOffsetY() {
+    public int getExtraInterfaceOffsetY() {
         return this.childInterfaceOffsetY;
     }
 }

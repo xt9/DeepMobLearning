@@ -33,6 +33,12 @@ public class MetaUtil {
             case "witch":
                 meta = new WitchMeta();
                 break;
+            case "spider":
+                meta = new SpiderMeta();
+                break;
+            case "creeper":
+                meta = new CreeperMeta();
+                break;
             default:
                 meta = new ZombieMeta();
                 break;

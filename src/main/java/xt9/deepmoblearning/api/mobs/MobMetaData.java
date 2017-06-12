@@ -21,15 +21,15 @@ public abstract class MobMetaData {
     public abstract int getInterfaceOffsetX();
     public abstract int getInterfaceOffsetY();
 
-    public Entity getChildEntity() {
+    public Entity getExtraEntity() {
         return null;
     }
 
-    public int getChildInterfaceOffsetX() {
+    public int getExtraInterfaceOffsetX() {
         return 0;
     }
 
-    public int getChildInterfaceOffsetY() {
+    public int getExtraInterfaceOffsetY() {
         return 0;
     }
 }

@@ -45,25 +45,25 @@ public class ContainerDeepLearner extends Container {
     }
 
     private void addChipSlots() {
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,0, 388, 80));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,1, 406, 80));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,2, 388, 98));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,3, 406, 98));
+        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,0, 257, 100));
+        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,1, 275, 100));
+        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,2, 257, 118));
+        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,3, 275, 118));
     }
 
     private void addInventorySlots() {
         // Bind actionbar
         for (int row = 0; row < 9; row++) {
             int index = row;
-            Slot slot = new Slot(this.player.inventory, index, 220 + row * 18, 202);
+            Slot slot = new Slot(this.player.inventory, index, 89 + row * 18, 211);
             this.addSlotToContainer(slot);
         }
 
         // 3 Top rows, starting with the bottom one
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                int x = 220 + column * 18;
-                int y = 144 + row * 18;
+                int x = 89 + column * 18;
+                int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(this.player.inventory, index, x, y);
                 this.addSlotToContainer(slot);
@@ -108,7 +108,8 @@ public class ContainerDeepLearner extends Container {
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-        if(slotId == this.deepLearnerSlot || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
+
+        if(slotId == this.deepLearnerSlot && !this.equipmentSlot.getName().equals("offhand") || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
             return ItemStack.EMPTY;
         }
 

@@ -24,8 +24,9 @@ import java.io.IOException;
  * Created by xt9 on 2017-06-08.
  */
 public class GuiDeepLearner extends GuiContainer {
-    public static final int WIDTH =  600;
-    public static final int HEIGHT = 189;
+    public static final int WIDTH =  338;
+    public static final int HEIGHT = 235;
+
     private FontRenderer renderer;
     private MobMetaData meta;
     private World world;
@@ -52,11 +53,11 @@ public class GuiDeepLearner extends GuiContainer {
         // Draw the main GUI
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        drawTexturedModalRect(left + 172, top - 20, 0, 0, 256, 140);
+        drawTexturedModalRect(left + 41, top, 0, 0, 256, 140);
 
         // Draw player inventory
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
-        drawTexturedModalRect(left + 212, top + 136, 0, 0, 176, 90);
+        drawTexturedModalRect(left + 81, top + 145, 0, 0, 176, 90);
 
         // Get the meta for the first mobchip in this container, only loop the internal stacks and not the whole player inventory
         NonNullList<ItemStack> list = ((ContainerDeepLearner) this.inventorySlots).getInternalItemStacks();
@@ -77,9 +78,9 @@ public class GuiDeepLearner extends GuiContainer {
 
             this.renderMetaDataText(meta, left, top, this.validModelChips.get(this.currentItem));
             this.renderMobDisplayBox(left, top);
-            this.renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + 130 + meta.getInterfaceOffsetX(), top + 60 + meta.getInterfaceOffsetY(), partialTicks);
-            if(meta instanceof ZombieMeta) {
-                this.renderEntity(meta.getChildEntity(), meta.getInterfaceScale(), left + 130 + meta.getChildInterfaceOffsetX(), top + 60 + meta.getChildInterfaceOffsetY(), partialTicks);
+            this.renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + meta.getInterfaceOffsetX(), top + 80 + meta.getInterfaceOffsetY(), partialTicks);
+            if(meta instanceof ZombieMeta || meta instanceof SpiderMeta) {
+                this.renderEntity(meta.getExtraEntity(), meta.getInterfaceScale(), left + meta.getExtraInterfaceOffsetX(), top + 80 + meta.getExtraInterfaceOffsetY(), partialTicks);
             }
         } else {
             this.renderDefaultScreen(left, top);
@@ -119,14 +120,14 @@ public class GuiDeepLearner extends GuiContainer {
     private void renderCycleButtons(int left, int top, int mouseX, int mouseY) {
         // Draw the mob display box
         Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
-        drawTexturedModalRect( left + 104, top + 85, 75, 0, 24, 24);
-        drawTexturedModalRect( left + 130, top + 85, 99, 0, 24, 24);
+        drawTexturedModalRect( left - 27, top + 105, 75, 0, 24, 24);
+        drawTexturedModalRect( left - 1, top + 105, 99, 0, 24, 24);
 
         // Hover states
         if(mouseX >= 124 && mouseX < 148 && 160 <= mouseY && mouseY < 184)  {
-            drawTexturedModalRect( left + 104, top + 85, 75, 24, 24, 24);
+            drawTexturedModalRect( left - 27, top + 105, 75, 24, 24, 24);
         } else if(mouseX >= 152 && mouseX < 176 && 160 <= mouseY && mouseY < 184) {
-            drawTexturedModalRect( left + 130, top + 85, 99, 24, 24, 24);
+            drawTexturedModalRect( left - 1, top + 105, 99, 24, 24, 24);
         }
     }
 
@@ -146,42 +147,48 @@ public class GuiDeepLearner extends GuiContainer {
     }
 
     private void renderDefaultScreen(int left, int top) {
-        int leftStart = left + 180;
+        int leftStart = left + 49;
         int spacing = 12;
 
-        drawString(this.renderer, "No Data Model Found", leftStart, top - spacing, 6478079);
-        drawString(this.renderer,  "Please insert a Data Model!", leftStart, top, 16777215);
+        drawString(this.renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
+        drawString(this.renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
+        drawString(this.renderer,  "Your data models will only gain knowledge", leftStart, top + top + (spacing * 3), 16777215);
+        drawString(this.renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
+
+        drawString(this.renderer,  "In order to gain knowledge, you must", leftStart, top + (spacing * 6), 16777215);
+        drawString(this.renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), 16777215);
     }
 
     private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack) {
-        int leftStart = left + 180;
+        int leftStart = left + 49;
+        int topStart = top - 4;
         int spacing = 12;
 
-        drawString(this.renderer, "Name", leftStart, top - spacing, 6478079);
-        drawString(this.renderer,  meta.getMobName(), leftStart, top, 16777215);
+        drawString(this.renderer, "Name", leftStart, topStart + spacing, 6478079);
+        drawString(this.renderer,  meta.getMobName(), leftStart, topStart + (spacing *  2), 16777215);
 
-        drawString(this.renderer, "Information", leftStart, top + spacing, 6478079);
+        drawString(this.renderer, "Information", leftStart, topStart + (spacing *  3), 6478079);
         String mobTrivia[] = meta.getMobTrivia();
         for (int i = 0; i < mobTrivia.length; i++) {
-            drawString(this.renderer, mobTrivia[i], leftStart, top + spacing + ((i + 1) * 12), 16777215);
+            drawString(this.renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
         }
 
-        drawString(this.renderer, "Real fights completed: " + NBTHelper.getInt(stack, "mobsKilled", 0), leftStart, top + (spacing * 5), 16777215);
-        drawString(this.renderer, "Fights simulated: " + NBTHelper.getInt(stack, "simulatedFights", 0), leftStart, top + (spacing * 6), 16777215);
-        drawString(this.renderer, "Current tier: " + NBTHelper.getInt(stack, "tier", 0), leftStart, top + (spacing * 7), 16777215);
+        drawString(this.renderer, "Real fights completed: " + NBTHelper.getInt(stack, "mobsKilled", 0), leftStart, topStart + (spacing * 8), 16777215);
+        drawString(this.renderer, "Fights simulated: " + NBTHelper.getInt(stack, "simulatedFights", 0), leftStart, topStart + (spacing * 9), 16777215);
+        drawString(this.renderer, "Current tier: " + NBTHelper.getInt(stack, "tier", 0), leftStart, topStart + (spacing * 10), 16777215);
 
         // Draw heart
-        // Minecraft.getMinecraft().getTextureManager().bindTexture(base);
-        // drawTexturedModalRect(left + 100, top + 95, 0, 140, 9, 9);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
+        drawTexturedModalRect(left + 235, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
 
-        // drawString(renderer, "Life points", left + 104, top + 84, 6478079);
-        // drawString(renderer, "" + meta.getNumberOfHearts(), left + 110, top + 96, 16777215);
+        drawString(renderer, "Life points", left + 235, topStart + spacing, 6478079);
+        drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, 16777215);
     }
 
     private void renderMobDisplayBox(int left, int top) {
         // Draw the mob display box
         Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
-        drawTexturedModalRect( left + 90, top - 20, 0, 0, 75, 101);
+        drawTexturedModalRect( left -41, top, 0, 0, 75, 101);
     }
 
     private void renderEntity(Entity entity, float scale, float x, float y, float partialTicks) {
@@ -198,7 +205,7 @@ public class GuiDeepLearner extends GuiContainer {
         // Make sure the Z axis is high so it does not clip behind the backdrop or inventory
         GlStateManager.translate(0.2f, 0.0f + heightOffset, 15.0f);
         GlStateManager.rotate((this.world.getTotalWorldTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
-        Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity,0.0, 0.0, 0.0, 1.0f, 0, true);
+        Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
 
         GlStateManager.popMatrix();
         Minecraft.getMinecraft().entityRenderer.enableLightmap();
