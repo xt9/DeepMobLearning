@@ -1,7 +1,5 @@
 package xt9.deepmoblearning.common.items;
 
-import xt9.deepmoblearning.Constants;
-
 /**
  * Created by xt9 on 2017-06-10.
  */

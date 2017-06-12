@@ -5,12 +5,10 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import xt9.deepmoblearning.Constants;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.client.gui.GuiDeepLearner;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.IGuiItem;
 
@@ -51,8 +49,8 @@ public class CommonProxy implements IGuiHandler {
         ItemStack item = player.getItemStackFromSlot(slot);
 
         switch (ID % 100) {
-            case Constants.ITEM_DEEP_LEARNER_GUI_ID:
-                return new ContainerDeepLearner(player.inventory, world, item);
+            case DeepConstants.ITEM_DEEP_LEARNER_GUI_ID:
+                return new ContainerDeepLearner(player.inventory, world, slot, item);
             default:
                 return null;
         }

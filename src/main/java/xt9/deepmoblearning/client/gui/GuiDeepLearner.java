@@ -1,18 +1,26 @@
 package xt9.deepmoblearning.client.gui;
 
+import jline.internal.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import xt9.deepmoblearning.Constants;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
+import xt9.deepmoblearning.common.inventory.DeepLearnerSlot;
+import xt9.deepmoblearning.common.util.MetaUtil;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by xt9 on 2017-06-08.
@@ -27,8 +35,8 @@ public class GuiDeepLearner extends GuiContainer {
     private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/deeplearner_extras.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/default_gui.png");
 
-    public GuiDeepLearner(InventoryPlayer inventory, World world, ItemStack heldItem) {
-        super(new ContainerDeepLearner(inventory, world, heldItem));
+    public GuiDeepLearner(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
+        super(new ContainerDeepLearner(inventory, world, slot, heldItem));
         this.world = world;
         xSize = WIDTH;
         ySize = HEIGHT;
@@ -39,50 +47,29 @@ public class GuiDeepLearner extends GuiContainer {
         int left = getGuiLeft();
         int top = getGuiTop();
 
-        // Draw the mob "pedestal"
-        Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
-        drawTexturedModalRect( left + 90, top - 20, 0, 0, 75, 101);
-
         // Draw the main GUI
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(left + 172, top - 20, 0, 0, 256, 140);
 
-        // Draw heart
-        drawTexturedModalRect(left + 100, top + 95, 0, 140, 9, 9);
-
-
         // Draw player inventory
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 212, top + 136, 0, 0, 176, 90);
 
-        // If mobchip in this tabs slot is certain subchild(mob), make the meta instance for that mob to get the render entity and metadata.
-        // string for now
-        String mobType = Constants.MOB_BLAZE_NAME;
 
-        switch(mobType) {
-            case Constants.MOB_ZOMBIE_NAME:
-                this.meta = new ZombieMeta();
-                break;
-            case Constants.MOB_SKELETON_NAME:
-                this.meta = new SkeletonMeta();
-                break;
-            case Constants.MOB_BLAZE_NAME:
-                this.meta = new BlazeMeta();
-                break;
-            case Constants.MOB_WITHER_NAME:
-                this.meta = new WitherMeta();
-                break;
-            default:
-                this.meta = new SkeletonMeta();
-                break;
+        this.meta = MetaUtil.getMetaFromItemStackList(((ContainerDeepLearner) this.inventorySlots).getInternalItemStacks());
+
+        if(!(this.meta instanceof EmptyMeta)) {
+            // Todo render Switch tab button
+            renderMetaData(meta, left, top, 8, 162, 3);
+            renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + 130 + meta.getInterfaceOffsetX(), top + 60 + meta.getInterfaceOffsetY(), partialTicks);
+            if(meta instanceof ZombieMeta) {
+                renderEntity(meta.getChildEntity(), meta.getInterfaceScale(), left + 130 + meta.getChildInterfaceOffsetX(), top + 60 + meta.getChildInterfaceOffsetY(), partialTicks);
+            }
+        } else {
+            // Todo render "please insert text"
         }
 
-        renderMetaData(meta, left, top, 8, 162, 3);
-        renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + 130 + meta.getInterfaceOffsetX(), top + 60 + meta.getInterfaceOffsetY(), partialTicks);
-        if(meta instanceof ZombieMeta) {
-            renderEntity(meta.getChildEntity(), meta.getInterfaceScale(), left + 130 + meta.getChildInterfaceOffsetX(), top + 60 + meta.getChildInterfaceOffsetY(), partialTicks);
-        }
     }
 
     private void renderMetaData(MobMetaData meta, int left, int top, int fightsCompleted, int fightsSimulated, int chipTier) {
@@ -103,6 +90,13 @@ public class GuiDeepLearner extends GuiContainer {
         drawString(renderer, "Fights simulated: " + fightsSimulated, leftStart, top + (spacing * 6), 16777215);
         drawString(renderer, "Current tier: " + chipTier, leftStart, top + (spacing * 7), 16777215);
 
+        // Draw the mob display box
+        Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
+        drawTexturedModalRect( left + 90, top - 20, 0, 0, 75, 101);
+
+        // Draw heart
+        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
+        drawTexturedModalRect(left + 100, top + 95, 0, 140, 9, 9);
 
         drawString(renderer, "Life points", left + 104, top + 84, 6478079);
         drawString(renderer, "" + meta.getNumberOfHearts(), left + 110, top + 96, 16777215);

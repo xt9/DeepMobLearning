@@ -15,7 +15,7 @@ import xt9.deepmoblearning.common.items.ItemDeepLearner;
 public class DeepLearnerInventory implements IInventory {
     private ItemStack stack;
     private Container container;
-    private NonNullList<ItemStack> list;
+    public NonNullList<ItemStack> list;
     private String name;
 
     public DeepLearnerInventory(Container container, ItemStack stack) {
@@ -33,10 +33,6 @@ public class DeepLearnerInventory implements IInventory {
     @Override
     public String getName() {
         return this.name;
-    }
-
-    public NonNullList<ItemStack> getList() {
-        return this.list;
     }
 
     @Override
@@ -108,10 +104,8 @@ public class DeepLearnerInventory implements IInventory {
 
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack) {
-        DeepLearnerSlot slot = (DeepLearnerSlot) this.container.getSlot(index);
-        System.out.println("called");
-        System.out.println(slot.isItemValid(stack));
-        return slot.isItemValid(stack);
+        // DeepLearnerSlot slot = (DeepLearnerSlot) this.container.getSlot(index);
+        return true;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package xt9.deepmoblearning.api.mobs;
 
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
@@ -11,8 +12,8 @@ import net.minecraft.world.World;
 public class SkeletonMeta extends MobMetaData {
     private EntitySkeleton entity;
     private int interfaceScale = 35;
-    private int interfaceOffsetX = 0;
-    private int interfaceOffsetY = 0;
+    private int interfaceOffsetX = 2;
+    private int interfaceOffsetY = 6;
     private int numberOfHearts = 10;
     private String mobName = "The Skeleton";
     private String[] mobTrivia = {"A formidable archer.", "A shield could prove useful"};
@@ -20,7 +21,7 @@ public class SkeletonMeta extends MobMetaData {
     public SkeletonMeta() {
         super();
         this.entity = new EntitySkeleton(this.world);
-        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(new ItemSword(Item.ToolMaterial.DIAMOND)));
+        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
     }
 
     public String getMobName() {

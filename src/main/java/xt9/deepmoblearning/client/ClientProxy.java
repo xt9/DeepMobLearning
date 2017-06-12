@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import xt9.deepmoblearning.Constants;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.client.gui.GuiDeepLearner;
 import xt9.deepmoblearning.common.CommonProxy;
@@ -40,8 +40,8 @@ public class ClientProxy extends CommonProxy {
         ItemStack item = player.getItemStackFromSlot(slot);
 
         switch (ID % 100) {
-            case Constants.ITEM_DEEP_LEARNER_GUI_ID:
-                return new GuiDeepLearner(player.inventory, world, item);
+            case DeepConstants.ITEM_DEEP_LEARNER_GUI_ID:
+                return new GuiDeepLearner(player.inventory, world, slot, item);
             default:
                 return null;
         }
