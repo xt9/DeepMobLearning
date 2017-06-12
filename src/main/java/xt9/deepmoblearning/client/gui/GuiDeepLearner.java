@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.lwjgl.input.Mouse;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
@@ -26,7 +27,6 @@ import java.io.IOException;
 public class GuiDeepLearner extends GuiContainer {
     public static final int WIDTH =  338;
     public static final int HEIGHT = 235;
-
     private FontRenderer renderer;
     private MobMetaData meta;
     private World world;
@@ -118,32 +118,38 @@ public class GuiDeepLearner extends GuiContainer {
     }
 
     private void renderCycleButtons(int left, int top, int mouseX, int mouseY) {
+        int x = mouseX - guiLeft;
+        int y = mouseY - guiTop;
+
         // Draw the mob display box
         Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
         drawTexturedModalRect( left - 27, top + 105, 75, 0, 24, 24);
         drawTexturedModalRect( left - 1, top + 105, 99, 0, 24, 24);
 
         // Hover states
-        if(mouseX >= 124 && mouseX < 148 && 160 <= mouseY && mouseY < 184)  {
+        if(x >= -27 && x < -3 && 105 <= y && y < 129) {
             drawTexturedModalRect( left - 27, top + 105, 75, 24, 24, 24);
-        } else if(mouseX >= 152 && mouseX < 176 && 160 <= mouseY && mouseY < 184) {
+        } else if(x >= -2 && x < 23 && 105 <= y && y < 129) {
             drawTexturedModalRect( left - 1, top + 105, 99, 24, 24, 24);
         }
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        if(this.validModelChips.size() > 1) {
-            if (mouseX >= 124 && mouseX < 176 && 160 <= mouseY && mouseY < 184) {
+    protected void mouseClicked(int mX, int mY, int mouseButton) throws IOException {
+        int x = mX - guiLeft;
+        int y = mY - guiTop;
 
-                if (124 <= mouseX && mouseX < 148) {
+        if(this.validModelChips.size() > 1) {
+            if (x >= -27 && x < 23 && 105 <= y && y < 129) {
+
+                if (-27 <= x && x < -3) {
                     this.currentItem = this.previousItemIndex();
-                } else if (152 <= mouseX && mouseX < 176) {
+                } else if (-2 <= x && x < 23) {
                     this.currentItem = this.nextItemIndex();
                 }
             }
         }
-        super.mouseClicked(mouseX, mouseY, mouseButton);
+        super.mouseClicked(mX, mY, mouseButton);
     }
 
     private void renderDefaultScreen(int left, int top) {
