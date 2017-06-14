@@ -15,6 +15,7 @@ import org.lwjgl.input.Mouse;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
+import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.MetaUtil;
 import xt9.deepmoblearning.common.util.NBTHelper;
@@ -28,6 +29,7 @@ public class GuiDeepLearner extends GuiContainer {
     public static final int WIDTH =  338;
     public static final int HEIGHT = 235;
     private FontRenderer renderer;
+    protected ItemStack deepLearner;
     private MobMetaData meta;
     private World world;
     private NonNullList<ItemStack> validModelChips;
@@ -41,6 +43,7 @@ public class GuiDeepLearner extends GuiContainer {
         super(new ContainerDeepLearner(inventory, world, slot, heldItem));
         this.world = world;
         this.renderer = Minecraft.getMinecraft().fontRendererObj;
+        this.deepLearner = heldItem;
         xSize = WIDTH;
         ySize = HEIGHT;
     }
@@ -59,8 +62,8 @@ public class GuiDeepLearner extends GuiContainer {
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 81, top + 145, 0, 0, 176, 90);
 
-        // Get the meta for the first mobchip in this container, only loop the internal stacks and not the whole player inventory
-        NonNullList<ItemStack> list = ((ContainerDeepLearner) this.inventorySlots).getInternalItemStacks();
+        // Get the meta for the first mobchip in this deeplearner
+        NonNullList<ItemStack> list = ItemDeepLearner.getContainedItems(this.deepLearner);
         this.validModelChips = ItemMobChip.getValidFromList(list);
 
         // Render cycle buttons if we have multiple models (atleast 2).
@@ -158,7 +161,7 @@ public class GuiDeepLearner extends GuiContainer {
 
         drawString(this.renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
         drawString(this.renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
-        drawString(this.renderer,  "Your data models will only gain knowledge", leftStart, top + top + (spacing * 3), 16777215);
+        drawString(this.renderer,  "Your data models will only gain knowledge", leftStart, top + (spacing * 3), 16777215);
         drawString(this.renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
 
         drawString(this.renderer,  "In order to gain knowledge, you must", leftStart, top + (spacing * 6), 16777215);
@@ -179,9 +182,8 @@ public class GuiDeepLearner extends GuiContainer {
             drawString(this.renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
         }
 
-        drawString(this.renderer, "Real fights completed: " + NBTHelper.getInt(stack, "mobsKilled", 0), leftStart, topStart + (spacing * 8), 16777215);
-        drawString(this.renderer, "Fights simulated: " + NBTHelper.getInt(stack, "simulatedFights", 0), leftStart, topStart + (spacing * 9), 16777215);
-        drawString(this.renderer, "Current tier: " + NBTHelper.getInt(stack, "tier", 0), leftStart, topStart + (spacing * 10), 16777215);
+        drawString(this.renderer, "Chip Tier: " + ItemMobChip.getTierName(stack), leftStart, topStart + (spacing * 8), 16777215);
+        drawString(this.renderer, ItemMobChip.toHumdanReadablePlural(stack) + " defeated: " + ItemMobChip.getMobKillCount(stack), leftStart, topStart + (spacing * 9), 16777215);
 
         // Draw heart
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);

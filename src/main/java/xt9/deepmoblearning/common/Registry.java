@@ -13,11 +13,17 @@ import java.util.List;
  */
 public class Registry {
     protected static List<ItemBase> items = new ArrayList<>();
+    public static ItemDeepLearner deepLearner;
+    public static ItemMobChip mobChip;
 
     public static void preInit() {
         // Create our Item instances
-        items.add(new ItemDeepLearner());
-        items.add(new ItemMobChip());
+        deepLearner = new ItemDeepLearner();
+        items.add(deepLearner);
+
+        mobChip = new ItemMobChip();
+        items.add(mobChip);
+
         registerItems();
     }
 

@@ -33,7 +33,7 @@ public class EntityDeathHandler {
                 for (ItemStack stack : deepLearnerInternalInv) {
                     if (stack.getItem() instanceof ItemMobChip) {
                         if (ItemMobChip.entityLivingMatchesType(event.getEntityLiving(), stack)) {
-                            ItemMobChip.killedMob(stack);
+                            ItemMobChip.increaseMobKillCount(stack);
                         }
                     }
                     ItemDeepLearner.setContainedItems(inventoryStack, deepLearnerInternalInv);

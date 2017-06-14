@@ -15,33 +15,15 @@ public class MetaUtil {
         String subName = ItemMobChip.getSubName(stack);
 
         switch(subName) {
-            case "zombie":
-                meta = new ZombieMeta();
-                break;
-            case "skeleton":
-                meta = new SkeletonMeta();
-                break;
-            case "blaze":
-                meta = new BlazeMeta();
-                break;
-            case "enderman":
-                meta = new EndermanMeta();
-                break;
-            case "wither":
-                meta = new WitherMeta();
-                break;
-            case "witch":
-                meta = new WitchMeta();
-                break;
-            case "spider":
-                meta = new SpiderMeta();
-                break;
-            case "creeper":
-                meta = new CreeperMeta();
-                break;
-            default:
-                meta = new ZombieMeta();
-                break;
+            case "zombie": meta = new ZombieMeta(); break;
+            case "skeleton": meta = new SkeletonMeta(); break;
+            case "blaze": meta = new BlazeMeta(); break;
+            case "enderman": meta = new EndermanMeta(); break;
+            case "wither": meta = new WitherMeta(); break;
+            case "witch": meta = new WitchMeta(); break;
+            case "spider": meta = new SpiderMeta(); break;
+            case "creeper": meta = new CreeperMeta(); break;
+            default: meta = new ZombieMeta(); break;
         }
         return meta;
     }

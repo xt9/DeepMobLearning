@@ -1,14 +1,23 @@
 # Blocks
 
 # Items
-item.deepmoblearning.deep_learner.name=Deep Learner
+item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 
 item.deepmoblearning.mob_chip.default.name=Data Model Chip
-item.deepmoblearning.mob_chip.zombie.name=Zombie Data Model
-item.deepmoblearning.mob_chip.skeleton.name=Skeleton Data Model
-item.deepmoblearning.mob_chip.blaze.name=Blaze Data Model
-item.deepmoblearning.mob_chip.enderman.name=Enderman Data Model
-item.deepmoblearning.mob_chip.wither.name=Wither Data Model
-item.deepmoblearning.mob_chip.witch.name=Witch Data Model
-item.deepmoblearning.mob_chip.spider.name=Spider Data Model
-item.deepmoblearning.mob_chip.creeper.name=Creeper Data Model
+item.deepmoblearning.mob_chip.zombie.name=§bZombie Data Model§r
+item.deepmoblearning.mob_chip.skeleton.name=§bSkeleton Data Model§r
+item.deepmoblearning.mob_chip.blaze.name=§bBlaze Data Model§r
+item.deepmoblearning.mob_chip.enderman.name=§bEnderman Data Model§r
+item.deepmoblearning.mob_chip.wither.name=§bWither Data Model§r
+item.deepmoblearning.mob_chip.witch.name=§bWitch Data Model§r
+item.deepmoblearning.mob_chip.spider.name=§bSpider Data Model§r
+item.deepmoblearning.mob_chip.creeper.name=§bCreeper Data Model§r
+
+
+# Strings
+deepmoblearning.mob_chip.tier=§rTier: %s§r
+deepmoblearning.mob_chip.killcount=§r%s defeated:§7 %s§r
+deepmoblearning.mob_chip.kills.to.next.tier=§rKills to next Tier: §7%s§r
+deepmoblearning.mob_chip.simulations.to.next.tier=§rSimulations to next Tier: §7%s§r
+
+deepmoblearning.holdshift=§7- hold §r§oSHIFT§r§7 for more info§r

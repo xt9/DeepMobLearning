@@ -1,5 +1,6 @@
 package xt9.deepmoblearning.common.items;
 
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -13,6 +14,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.CommonProxy;
+import xt9.deepmoblearning.common.util.KeyboardHelper;
+
+import java.util.List;
 
 public class ItemDeepLearner extends ItemBase implements IGuiItem {
     public ItemDeepLearner () {
@@ -24,6 +28,25 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     {
         CommonProxy.openItemGui(player, hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND);
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
+        NonNullList<ItemStack> internalChips = ItemMobChip.getValidFromList(getContainedItems(stack));
+
+        if(internalChips.size() > 0) {
+            if(!KeyboardHelper.isHoldingShift()) {
+                list.add(I18n.format("deepmoblearning.holdshift"));
+            } else {
+                list.add("Contains the following chips:");
+                for(int i = 0; i < internalChips.size(); i++) {
+                    ItemStack chip = internalChips.get(i);
+                    if(chip.getItemDamage() != 0) {
+                        list.add(ItemMobChip.getTierName(chip) + " " + chip.getDisplayName());
+                    }
+                }
+            }
+        }
     }
 
     public static NonNullList<ItemStack> getContainedItems(ItemStack deepLearner) {

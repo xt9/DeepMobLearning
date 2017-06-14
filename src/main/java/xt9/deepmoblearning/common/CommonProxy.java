@@ -38,10 +38,6 @@ public class CommonProxy implements IGuiHandler {
 
     }
 
-    public void registerItemRenderer(Item item, int meta, String id) {
-
-    }
-
     @Override
     public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         // Find which slot triggered this
@@ -56,8 +52,12 @@ public class CommonProxy implements IGuiHandler {
         }
     }
 
+    // Client only methods
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         return null;
     }
+    public void registerItemRenderer(Item item, int meta, String id) {}
+    public void registerRenderers() {}
+
 }

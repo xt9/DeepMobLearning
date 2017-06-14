@@ -8,47 +8,41 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.items.ItemStackHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.util.ItemHandlerHelper;
 
 /**
  * Created by xt9 on 2017-06-10.
  */
 public class ContainerDeepLearner extends Container {
+    protected ItemStackHandler handler;
+    protected EntityEquipmentSlot equipmentSlot;
     protected World world;
     protected EntityPlayer player;
     protected ItemStack deepLearner;
-    protected EntityEquipmentSlot equipmentSlot;
     protected int internalSlots;
-    protected DeepLearnerInventory internalInventory;
     protected int deepLearnerSlot;
 
     public ContainerDeepLearner(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
+        this.internalSlots = DeepConstants.DEEP_LEARNER_INTERNAL_SLOTS_SIZE;
+        this.handler = new ItemStackHandler(ItemDeepLearner.getContainedItems(heldItem));
+        this.deepLearnerSlot = inventory.currentItem + internalSlots;
+        this.deepLearner = heldItem;
         this.world = world;
         this.player = inventory.player;
-        this.deepLearner = heldItem;
-        this.internalSlots = DeepConstants.DEEP_LEARNER_INTERNAL_SLOTS_SIZE;
-        this.internalInventory = new DeepLearnerInventory(this, this.deepLearner);
         this.equipmentSlot = slot;
         this.addChipSlots();
         this.addInventorySlots();
-        this.deepLearnerSlot = inventory.currentItem + internalSlots;
-
-        // Populate stored items
-        this.internalInventory.list = ItemDeepLearner.getContainedItems(this.deepLearner);
-    }
-
-    public NonNullList<ItemStack> getInternalItemStacks() {
-        return this.internalInventory.list;
     }
 
     private void addChipSlots() {
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,0, 257, 100));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,1, 275, 100));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,2, 257, 118));
-        this.addSlotToContainer(new DeepLearnerSlot(this, this.internalInventory,3, 275, 118));
+        this.addSlotToContainer(new DeepLearnerSlot(this.handler, 0, 257, 100));
+        this.addSlotToContainer(new DeepLearnerSlot(this.handler, 1, 275, 100));
+        this.addSlotToContainer(new DeepLearnerSlot(this.handler, 2, 257, 118));
+        this.addSlotToContainer(new DeepLearnerSlot(this.handler, 3, 275, 118));
     }
 
     private void addInventorySlots() {
@@ -131,7 +125,7 @@ public class ContainerDeepLearner extends Container {
     }
 
     private void updateInventories() {
-        ItemDeepLearner.setContainedItems(this.deepLearner, this.internalInventory.list);
+        ItemDeepLearner.setContainedItems(this.deepLearner, ItemHandlerHelper.getItemStackHandlerList(this.handler));
         ItemStack hand = player.getItemStackFromSlot(this.equipmentSlot);
         if(!hand.isEmpty() && !hand.equals(deepLearner))
             player.setItemStackToSlot(this.equipmentSlot, this.deepLearner);

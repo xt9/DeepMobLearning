@@ -12,7 +12,7 @@ public class CreeperMeta extends MobMetaData {
     private int interfaceOffsetY = 0;
     private int numberOfHearts = 10;
     private String mobName = "The Creeper";
-    private String[] mobTrivia = {"Will blow up your base if left unattended", "The #1 Griefer"};
+    private String[] mobTrivia = {"Will blow up your base if", "left unattended."};
 
     public CreeperMeta() {
         super();

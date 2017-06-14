@@ -1,5 +1,6 @@
 package xt9.deepmoblearning.client;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -8,9 +9,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.MinecraftForge;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.client.gui.GuiDeepLearner;
+import xt9.deepmoblearning.client.gui.GuiExperienceBar;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.items.ItemBase;
 
@@ -18,6 +21,10 @@ import xt9.deepmoblearning.common.items.ItemBase;
  * Created by xt9 on 2017-06-08.
  */
 public class ClientProxy extends CommonProxy {
+    @Override
+    public void registerRenderers() {
+        MinecraftForge.EVENT_BUS.register(new GuiExperienceBar(Minecraft.getMinecraft()));
+    }
 
     public void registerItemRenderer(Item item, int meta, String id) {
         if(item instanceof ItemBase) {

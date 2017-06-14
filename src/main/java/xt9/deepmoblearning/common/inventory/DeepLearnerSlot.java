@@ -4,17 +4,17 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.items.SlotItemHandler;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 
 /**
  * Created by xt9 on 2017-06-11.
  */
-public class DeepLearnerSlot extends Slot {
-    private Container container;
+public class DeepLearnerSlot extends SlotItemHandler {
 
-    public DeepLearnerSlot(Container container, DeepLearnerInventory inventory, int index, int x, int y) {
-        super(inventory, index, x, y);
-        this.container = container;
+    public DeepLearnerSlot(ItemStackHandler handler, int index, int x, int y) {
+        super(handler, index, x, y);
     }
 
     @Override
