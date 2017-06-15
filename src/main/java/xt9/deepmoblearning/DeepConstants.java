@@ -10,4 +10,7 @@ public class DeepConstants {
 
     // Internal inventory sizes
     public static final int DEEP_LEARNER_INTERNAL_SLOTS_SIZE = 4;
+
+    // Mob chip max tier
+    public static final int MOB_CHIP_MAXIMUM_TIER = 4;
 }

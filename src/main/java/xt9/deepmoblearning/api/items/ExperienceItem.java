@@ -1,64 +1,66 @@
 package xt9.deepmoblearning.api.items;
 
+import xt9.deepmoblearning.DeepConstants;
+
 /**
  * Created by xt9 on 2017-06-14.
  */
 public class ExperienceItem {
     // Todo configurable exp
-    // Kills required per  tier 4, 8, 20, 55, 100
-    public static final int[] maxExperience = {64, 256, 960, 3520, 9600};
-    public static final int[] killMultiplier = {16, 32, 48, 64, 96};
+    // Kills required per  tier 8, 16, 48, 256
+    public static final int[] maxExperience = {64, 256, 1056, 8192};
+    public static final int[] killMultiplier = {8, 16, 22, 32};
     // Simulations have no multipliers, they are always 1x
 
-    public static boolean shouldIncreaseTier(int currentTier, int killCount, int simulationCount) {
-        int max = maxExperience[currentTier];
-        int previousTiersExp = getPreviousTierSimulationMax(currentTier);
-
-        int currentKillExp = getKillCountForCurrentTier(currentTier, killCount) * killMultiplier[currentTier];
-
-        return currentKillExp + simulationCount - previousTiersExp >= max;
-    }
-
-    public static int killsToNextTier(int currentTier, int killCount, int simulationCount) {
-        int max = maxExperience[currentTier];
-        int previousMaxes = getPreviousTierKillMax(currentTier);
-
-        int killsFromSims = (int) ((float) getSimulationCountForCurrentTier(currentTier, simulationCount) / killMultiplier[currentTier]);
-        return max + previousMaxes - getKillCountForCurrentTier(currentTier, killCount) - killsFromSims;
-    }
-
-    public static int simulationsToNextTier(int currentTier, int killCount, int simulationCount) {
-        int max = maxExperience[currentTier];
-        int currentKillExp = getKillCountForCurrentTier(currentTier, killCount) * killMultiplier[currentTier];
-        int previousMaxes = getPreviousTierSimulationMax(currentTier);
-        return max + previousMaxes - currentKillExp - simulationCount;
-    }
-
-    public static int getMaxKills(int currentTier) {
-        return (int) ((float) maxExperience[currentTier] / killMultiplier[currentTier]);
-    }
-
-    public static int getKillCountForCurrentTier(int currentTier, int killcount) {
-        return killcount - getPreviousTierKillMax(currentTier);
-    }
-
-    public static int getSimulationCountForCurrentTier(int currentTier, int simulationCount) {
-        return simulationCount - getPreviousTierSimulationMax(currentTier);
-    }
-
-    private static int getPreviousTierKillMax(int currentTier) {
-        int result = 0;
-        for (int i = currentTier - 1; i >= 0; i--) {
-            result = result + (int)((float) maxExperience[i] / killMultiplier[i]);
+    /* tier is CURRENT tier, kc is killcount for CURRENT tier, sc is simulationcount for CURRENT  tier */
+    public static boolean shouldIncreaseTier(int tier, int kc, int sc) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return false;
         }
-        return result;
+        int roof = maxExperience[tier];
+        int killExperience = kc * killMultiplier[tier];
+
+        return killExperience + sc >= roof;
     }
 
-    private static int getPreviousTierSimulationMax(int currentTier) {
-        int result = 0;
-        for (int i = currentTier - 1; i >= 0; i--) {
-            result = result + maxExperience[i];
+    public static double getCurrentTierKillCountWithSims(int tier, int kc, int sc) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return 0;
         }
-        return result;
+        return kc + ((double) sc / killMultiplier[tier]);
+    }
+
+    public static int getCurrentTierSimulationCountWithKills(int tier, int kc, int sc) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return 0;
+        }
+        return sc + (kc * killMultiplier[tier]);
+    }
+
+    public static double getKillsToNextTier(int tier, int kc, int sc) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return 0;
+        }
+        int killRoof = getTierRoof(tier, true);
+        return killRoof - getCurrentTierKillCountWithSims(tier, kc, sc);
+    }
+
+    public static int getSimulationsToNextTier(int tier, int kc, int sc) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return 0;
+        }
+        int roof = getTierRoof(tier, false);
+        return roof - getCurrentTierSimulationCountWithKills(tier, kc, sc);
+    }
+
+    public static int getTierRoof(int tier, boolean asKills) {
+        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            return 0;
+        }
+        if(!asKills) {
+            return maxExperience[tier];
+        } else {
+            return maxExperience[tier] / killMultiplier[tier];
+        }
     }
 }

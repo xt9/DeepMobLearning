@@ -1,22 +1,22 @@
 package xt9.deepmoblearning.api.mobs;
 
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityGhast;
 
 /**
- * Created by xt9 on 2017-06-12.
+ * Created by xt9 on 2017-06-15.
  */
-public class CreeperMeta extends MobMetaData {
-    private EntityCreeper entity;
-    private int interfaceScale = 42;
-    private int interfaceOffsetX = 5;
-    private int interfaceOffsetY = 5;
-    private int numberOfHearts = 10;
-    private String mobName = "The Creeper";
-    private String[] mobTrivia = {"Will blow up your base if", "left unattended."};
+public class GhastMeta extends MobMetaData {
+    private EntityGhast entity;
+    private int interfaceScale = 10;
+    private int interfaceOffsetX = 0;
+    private int interfaceOffsetY = -20;
+    private int numberOfHearts = 5;
+    private String mobName = "The Ghast";
+    private String[] mobTrivia = {"Quite emo"};
 
-    public CreeperMeta() {
+    public GhastMeta() {
         super();
-        this.entity = new EntityCreeper(this.world);
+        this.entity = new EntityGhast(this.world);
     }
 
     public String getMobName() {
@@ -31,7 +31,7 @@ public class CreeperMeta extends MobMetaData {
         return this.numberOfHearts;
     }
 
-    public EntityCreeper getEntity() {
+    public EntityGhast getEntity() {
         return this.entity;
     }
 

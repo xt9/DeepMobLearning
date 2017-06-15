@@ -12,8 +12,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.client.gui.GuiDeepLearner;
-import xt9.deepmoblearning.client.gui.GuiExperienceBar;
+import xt9.deepmoblearning.client.gui.ChipExperienceGui;
+import xt9.deepmoblearning.client.gui.DeepLearnerGui;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.items.ItemBase;
 
@@ -23,7 +23,7 @@ import xt9.deepmoblearning.common.items.ItemBase;
 public class ClientProxy extends CommonProxy {
     @Override
     public void registerRenderers() {
-        MinecraftForge.EVENT_BUS.register(new GuiExperienceBar(Minecraft.getMinecraft()));
+        MinecraftForge.EVENT_BUS.register(new ChipExperienceGui(Minecraft.getMinecraft()));
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {
@@ -48,7 +48,7 @@ public class ClientProxy extends CommonProxy {
 
         switch (ID % 100) {
             case DeepConstants.ITEM_DEEP_LEARNER_GUI_ID:
-                return new GuiDeepLearner(player.inventory, world, slot, item);
+                return new DeepLearnerGui(player.inventory, world, slot, item);
             default:
                 return null;
         }

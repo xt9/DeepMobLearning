@@ -12,7 +12,11 @@ item.deepmoblearning.mob_chip.wither.name=§bWither Data Model§r
 item.deepmoblearning.mob_chip.witch.name=§bWitch Data Model§r
 item.deepmoblearning.mob_chip.spider.name=§bSpider Data Model§r
 item.deepmoblearning.mob_chip.creeper.name=§bCreeper Data Model§r
+item.deepmoblearning.mob_chip.ghast.name=§bGhast Data Model§r
+item.deepmoblearning.mob_chip.witherskeleton.name=§bWither Skeleton Data Model§r
 
+# Blocks
+tile.deepmoblearning.simulation_chamber.name=Simulation Chamber
 
 # Strings
 deepmoblearning.mob_chip.tier=§rTier: %s§r
@@ -21,3 +25,18 @@ deepmoblearning.mob_chip.kills.to.next.tier=§rKills to next Tier: §7%s§r
 deepmoblearning.mob_chip.simulations.to.next.tier=§rSimulations to next Tier: §7%s§r
 
 deepmoblearning.holdshift=§7- hold §r§oSHIFT§r§7 for more info§r
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Dev only strings
+deepmoblearning.devonly.holdcontrol=§7- hold §r§oCONTROL§r§7 for dev data§r

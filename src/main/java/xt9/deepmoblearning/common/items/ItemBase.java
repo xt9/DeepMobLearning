@@ -42,8 +42,7 @@ public class ItemBase extends Item {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list)
-    {
+    public void getSubItems(Item item, CreativeTabs tab, NonNullList<ItemStack> list) {
         if(this.hasSubtypes) {
             for(int i = 0; i < this.subNames.length; i++) {
                 list.add(new ItemStack(this,1, i));

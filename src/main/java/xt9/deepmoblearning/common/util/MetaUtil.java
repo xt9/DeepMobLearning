@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.util;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import xt9.deepmoblearning.api.mobs.EndermanMeta;
 import xt9.deepmoblearning.api.mobs.*;
@@ -23,6 +22,8 @@ public class MetaUtil {
             case "witch": meta = new WitchMeta(); break;
             case "spider": meta = new SpiderMeta(); break;
             case "creeper": meta = new CreeperMeta(); break;
+            case "ghast": meta = new GhastMeta(); break;
+            case "witherskeleton": meta = new WitherSkeletonMeta(); break;
             default: meta = new ZombieMeta(); break;
         }
         return meta;

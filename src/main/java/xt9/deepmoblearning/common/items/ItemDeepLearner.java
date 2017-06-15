@@ -18,8 +18,8 @@ import xt9.deepmoblearning.common.util.KeyboardHelper;
 
 import java.util.List;
 
-public class ItemDeepLearner extends ItemBase implements IGuiItem {
-    public ItemDeepLearner () {
+public class ItemDeepLearner extends ItemBase implements IItemGui {
+    public ItemDeepLearner() {
         super("deep_learner", 1);
     }
 
@@ -38,11 +38,11 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
             if(!KeyboardHelper.isHoldingShift()) {
                 list.add(I18n.format("deepmoblearning.holdshift"));
             } else {
-                list.add("Contains the following chips:");
+                list.add("Contains the following models");
                 for(int i = 0; i < internalChips.size(); i++) {
                     ItemStack chip = internalChips.get(i);
                     if(chip.getItemDamage() != 0) {
-                        list.add(ItemMobChip.getTierName(chip) + " " + chip.getDisplayName());
+                        list.add(ItemMobChip.getTierName(chip, false) + " " + chip.getDisplayName());
                     }
                 }
             }

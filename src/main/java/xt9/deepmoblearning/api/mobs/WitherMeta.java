@@ -1,6 +1,9 @@
 package xt9.deepmoblearning.api.mobs;
 
 import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 
 /**
  * Created by xt9 on 2017-06-10.

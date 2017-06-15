@@ -11,21 +11,21 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.lwjgl.input.Mouse;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.MetaUtil;
-import xt9.deepmoblearning.common.util.NBTHelper;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * Created by xt9 on 2017-06-08.
  */
-public class GuiDeepLearner extends GuiContainer {
+public class DeepLearnerGui extends GuiContainer {
     public static final int WIDTH =  338;
     public static final int HEIGHT = 235;
     private FontRenderer renderer;
@@ -39,7 +39,7 @@ public class GuiDeepLearner extends GuiContainer {
     private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/deeplearner_extras.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/default_gui.png");
 
-    public GuiDeepLearner(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
+    public DeepLearnerGui(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
         super(new ContainerDeepLearner(inventory, world, slot, heldItem));
         this.world = world;
         this.renderer = Minecraft.getMinecraft().fontRendererObj;
@@ -161,14 +161,15 @@ public class GuiDeepLearner extends GuiContainer {
 
         drawString(this.renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
         drawString(this.renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
-        drawString(this.renderer,  "Your data models will only gain knowledge", leftStart, top + (spacing * 3), 16777215);
+        drawString(this.renderer,  "Your data models will collect data", leftStart, top + (spacing * 3), 16777215);
         drawString(this.renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
 
-        drawString(this.renderer,  "In order to gain knowledge, you must", leftStart, top + (spacing * 6), 16777215);
+        drawString(this.renderer,  "In order to collect data, you must", leftStart, top + (spacing * 6), 16777215);
         drawString(this.renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), 16777215);
     }
 
     private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack) {
+        DecimalFormat f = new DecimalFormat("0.#");
         int leftStart = left + 49;
         int topStart = top - 4;
         int spacing = 12;
@@ -182,8 +183,22 @@ public class GuiDeepLearner extends GuiContainer {
             drawString(this.renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
         }
 
-        drawString(this.renderer, "Chip Tier: " + ItemMobChip.getTierName(stack), leftStart, topStart + (spacing * 8), 16777215);
-        drawString(this.renderer, ItemMobChip.toHumdanReadablePlural(stack) + " defeated: " + ItemMobChip.getMobKillCount(stack), leftStart, topStart + (spacing * 9), 16777215);
+        String chipTier = ItemMobChip.getTierName(stack, false);
+        String nextTier = ItemMobChip.getTierName(stack, true);
+        String pluralMobName = ItemMobChip.toHumdanReadablePlural(stack);
+        int totalKills = ItemMobChip.getTotalKillCount(stack);
+        double killsToNextTier = ItemMobChip.getKillsToNextTier(stack);
+
+        drawString(this.renderer, "Model Tier: " + chipTier, leftStart, topStart + (spacing * 8), 16777215);
+        drawString(this.renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 16777215);
+
+
+        if(ItemMobChip.getTier(stack) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            drawString(this.renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), 16777215);
+        } else {
+            drawString(this.renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 16777215);
+        }
+
 
         // Draw heart
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);

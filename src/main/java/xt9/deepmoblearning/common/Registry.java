@@ -1,6 +1,10 @@
 package xt9.deepmoblearning.common;
 
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import xt9.deepmoblearning.common.blocks.BlockBase;
+import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
+import xt9.deepmoblearning.common.blocks.ItemBlockBase;
 import xt9.deepmoblearning.common.items.ItemBase;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
@@ -13,8 +17,11 @@ import java.util.List;
  */
 public class Registry {
     protected static List<ItemBase> items = new ArrayList<>();
+    protected static List<BlockBase> blocks = new ArrayList<>();
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
+
+    public static BlockSimulationChamber simulationChamber;
 
     public static void preInit() {
         // Create our Item instances
@@ -24,13 +31,28 @@ public class Registry {
         mobChip = new ItemMobChip();
         items.add(mobChip);
 
+        // Blocks
+        simulationChamber = new BlockSimulationChamber();
+        blocks.add(simulationChamber);
+
+        registerBlocks();
         registerItems();
     }
 
     public static void registerItems() {
-        for (ItemBase item: items) {
+        for (ItemBase item : items) {
             GameRegistry.register(item);
             item.registerItemModel();
+        }
+    }
+
+    public static void registerBlocks() {
+        for(BlockBase block : blocks) {
+            ItemBlock itemBlock = new ItemBlockBase("simulation_chamber", 64, block);
+            GameRegistry.register(block);
+            GameRegistry.register(itemBlock);
+            block.registerItemModel(itemBlock);
+
         }
     }
 }

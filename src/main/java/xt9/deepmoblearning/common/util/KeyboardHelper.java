@@ -9,4 +9,8 @@ public class KeyboardHelper {
     public static boolean isHoldingShift() {
         return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
     }
+
+    public static boolean isHoldingCTRL() {
+        return Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL);
+    }
 }

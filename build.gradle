@@ -69,7 +69,7 @@ processResources {
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
+
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
@@ -77,5 +77,10 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+
+    from(sourceSets.main.java.srcDirs) {
+        exclude 'DevTooltip.java'
+        exclude 'DevSpawn.java'
     }
 }

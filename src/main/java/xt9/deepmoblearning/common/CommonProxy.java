@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
-import xt9.deepmoblearning.common.items.IGuiItem;
+import xt9.deepmoblearning.common.items.IItemGui;
 
 
 /**
@@ -19,9 +19,9 @@ import xt9.deepmoblearning.common.items.IGuiItem;
 public class CommonProxy implements IGuiHandler {
     public static boolean openItemGui(EntityPlayer player, EntityEquipmentSlot slot) {
         ItemStack stack = player.getItemStackFromSlot(slot);
-        IGuiItem item = (IGuiItem)stack.getItem();
+        IItemGui item = (IItemGui)stack.getItem();
 
-        if(stack.isEmpty() || !(stack.getItem() instanceof IGuiItem)) {
+        if(stack.isEmpty() || !(stack.getItem() instanceof IItemGui)) {
             return false;
         }
         int slotID = slot.getName() == "mainhand" ? 0 : 1;
