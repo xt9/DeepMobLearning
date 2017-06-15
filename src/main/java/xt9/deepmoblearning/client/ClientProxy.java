@@ -15,6 +15,7 @@ import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.client.gui.ChipExperienceGui;
 import xt9.deepmoblearning.client.gui.DeepLearnerGui;
 import xt9.deepmoblearning.common.CommonProxy;
+import xt9.deepmoblearning.common.blocks.ItemBlockBase;
 import xt9.deepmoblearning.common.items.ItemBase;
 
 /**
@@ -27,18 +28,17 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {
+        ResourceLocation location = new ResourceLocation(DeepMobLearning.MODID, id);
+
         if(item instanceof ItemBase) {
             ItemBase itemBase = (ItemBase) item;
-            ResourceLocation location;
 
             if(itemBase.hasSubTypes()) {
                 location = new ResourceLocation(DeepMobLearning.MODID, id + "/" + itemBase.getSubNames()[meta]);
-            } else {
-                location = new ResourceLocation(DeepMobLearning.MODID, id);
             }
-
-            ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
         }
+
+        ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
     }
 
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
