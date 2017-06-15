@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.common.event;
+package xt9.deepmoblearning.common.events;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;

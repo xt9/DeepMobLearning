@@ -1,13 +1,16 @@
 package xt9.deepmoblearning.common;
 
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockBase;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
 import xt9.deepmoblearning.common.blocks.ItemBlockBase;
 import xt9.deepmoblearning.common.items.ItemBase;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +38,21 @@ public class Registry {
         simulationChamber = new BlockSimulationChamber();
         blocks.add(simulationChamber);
 
+        // TileEntities
+        GameRegistry.registerTileEntity(simulationChamber.getTileEntityClass(), DeepMobLearning.MODID + ":simulation_chamber");
+
         registerBlocks();
         registerItems();
     }
 
-    public static void registerItems() {
+    private static void registerItems() {
         for (ItemBase item : items) {
             GameRegistry.register(item);
             item.registerItemModel();
         }
     }
 
-    public static void registerBlocks() {
+    private static void registerBlocks() {
         for(BlockBase block : blocks) {
             ItemBlock itemBlock = new ItemBlockBase("simulation_chamber", 64, block);
             GameRegistry.register(block);

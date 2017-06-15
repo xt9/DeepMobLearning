@@ -6,7 +6,9 @@ import net.minecraft.util.text.TextFormatting;
  * Created by xt9 on 2017-06-08.
  */
 public class DeepConstants {
+    // GUI ids
     public static final int ITEM_DEEP_LEARNER_GUI_ID = 1;
+    public static final int TILE_SIMULATION_CHAMBER_GUI_ID = 2;
 
     // Internal inventory sizes
     public static final int DEEP_LEARNER_INTERNAL_SLOTS_SIZE = 4;
