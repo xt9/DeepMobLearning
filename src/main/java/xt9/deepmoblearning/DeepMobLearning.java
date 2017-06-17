@@ -25,6 +25,7 @@ public class DeepMobLearning {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        // Register blocks/items/TEs
         Registry.preInit();
         proxy.preInit();
     }
@@ -32,6 +33,7 @@ public class DeepMobLearning {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        // Register recipes
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
         proxy.init();
     }

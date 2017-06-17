@@ -21,6 +21,6 @@ public class DevSpawn {
         ItemMobChip.setTier(stack, 4);
         ItemMobChip.setTotalKillCount(stack, 328);
 
-        p.inventory.addItemStackToInventory(stack);
+        // p.inventory.addItemStackToInventory(stack);
     }
 }

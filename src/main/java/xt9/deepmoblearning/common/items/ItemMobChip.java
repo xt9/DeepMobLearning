@@ -11,7 +11,7 @@ import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.api.items.ExperienceItem;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
-import xt9.deepmoblearning.common.util.NBTHelper;
+import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 
 import java.util.List;
 
@@ -146,43 +146,43 @@ public class ItemMobChip extends ItemBase {
 
 
     public static int getTier(ItemStack stack) {
-        return NBTHelper.getInt(stack, "tier", 0);
+        return ItemStackNBTHelper.getInt(stack, "tier", 0);
     }
 
     public static void setTier(ItemStack stack, int tier) {
-        NBTHelper.setInt(stack, "tier", tier);
+        ItemStackNBTHelper.setInt(stack, "tier", tier);
     }
 
     public static int getCurrentTierKillCount(ItemStack stack) {
-        return NBTHelper.getInt(stack, "killCount", 0);
+        return ItemStackNBTHelper.getInt(stack, "killCount", 0);
     }
 
     public static void setCurrentTierKillCount(ItemStack stack, int count) {
-        NBTHelper.setInt(stack, "killCount", count);
+        ItemStackNBTHelper.setInt(stack, "killCount", count);
     }
 
     public static int getCurrentTierSimulationCount(ItemStack stack) {
-        return NBTHelper.getInt(stack, "simulationCount", 0);
+        return ItemStackNBTHelper.getInt(stack, "simulationCount", 0);
     }
 
     public static void setCurrentTierSimulationCount(ItemStack stack, int count) {
-        NBTHelper.setInt(stack, "simulationCount", count);
+        ItemStackNBTHelper.setInt(stack, "simulationCount", count);
     }
 
     public static int getTotalKillCount(ItemStack stack) {
-        return NBTHelper.getInt(stack, "totalKillCount", 0);
+        return ItemStackNBTHelper.getInt(stack, "totalKillCount", 0);
     }
 
     public static void setTotalKillCount(ItemStack stack, int count) {
-        NBTHelper.setInt(stack, "totalKillCount", count);
+        ItemStackNBTHelper.setInt(stack, "totalKillCount", count);
     }
 
     public static int getTotalSimulationCount(ItemStack stack) {
-        return NBTHelper.getInt(stack, "totalSimulationCount", 0);
+        return ItemStackNBTHelper.getInt(stack, "totalSimulationCount", 0);
     }
 
     public static void setTotalSimulationCount(ItemStack stack, int count) {
-        NBTHelper.setInt(stack, "totalSimulationCount", count);
+        ItemStackNBTHelper.setInt(stack, "totalSimulationCount", count);
     }
 
 

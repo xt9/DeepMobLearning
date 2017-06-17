@@ -1,26 +1,22 @@
 package xt9.deepmoblearning.common;
 
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockBase;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
 import xt9.deepmoblearning.common.blocks.ItemBlockBase;
-import xt9.deepmoblearning.common.items.ItemBase;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.items.ItemBase;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by xt9 on 2017-06-08.
  */
 public class Registry {
-    protected static List<ItemBase> items = new ArrayList<>();
-    protected static List<BlockBase> blocks = new ArrayList<>();
+    public static NonNullList<ItemBase> items = NonNullList.create();
+    public static NonNullList<BlockBase> blocks = NonNullList.create();
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
 

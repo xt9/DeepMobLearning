@@ -6,7 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by xt9 on 2017-06-12.
  */
-public class NBTHelper {
+public class ItemStackNBTHelper {
     public static boolean hasTag(ItemStack stack) {
         return stack.hasTagCompound();
     }

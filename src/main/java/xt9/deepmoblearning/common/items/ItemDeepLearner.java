@@ -16,15 +16,16 @@ import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemDeepLearner extends ItemBase implements IItemGui {
+public class ItemDeepLearner extends ItemBase implements IGuiItem {
     public ItemDeepLearner() {
         super("deep_learner", 1);
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, EnumHand hand)
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand)
     {
         CommonProxy.openItemGui(player, hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND);
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
