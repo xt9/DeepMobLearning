@@ -193,7 +193,7 @@ public class ItemMobChip extends ItemBase {
         return ExperienceItem.getCurrentTierKillCountWithSims(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 
-    public static double getCurrentTierSimulationCountWithKills(ItemStack stack) {
+    public static int getCurrentTierSimulationCountWithKills(ItemStack stack) {
         return ExperienceItem.getCurrentTierSimulationCountWithKills(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 

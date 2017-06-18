@@ -87,12 +87,12 @@ public class ChipExperienceGui extends GuiScreen {
 
         // Draw the bar
         mc.getTextureManager().bindTexture(experienceBar);
-        this.drawTexturedModalRect(x, y + spacing + (index * componentHeight), 0, 0, 89, 12);
+        drawTexturedModalRect(x, y + spacing + (index * componentHeight), 0, 0, 89, 12);
 
         if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-            this.drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12, 89, 11);
+            drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12, 89, 11);
         } else {
-            this.drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12,
+            drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12,
                     (int) (((float) currenKillCount / tierRoof * 89)), 11);
             drawString(this.renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + spacing + (index * componentHeight), 16777215);
         }

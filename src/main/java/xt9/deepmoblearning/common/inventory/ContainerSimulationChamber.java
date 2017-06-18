@@ -34,22 +34,22 @@ public class ContainerSimulationChamber extends Container {
     private void addSlotsToHandler() {
         // Todo implement SimulationChamberSlot
         this.addSlotToContainer(new SlotMobChip(this.handler, DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT, -21, 1));
-        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 129, 16));
-        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 151, 16));
+        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 168, 16));
+        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 190, 16));
     }
 
     private void addInventorySlots() {
         // Bind actionbar
         for (int row = 0; row < 9; row++) {
             int index = row;
-            Slot slot = new Slot(this.player.inventory, index, 9 + row * 18, 211);
+            Slot slot = new Slot(this.player.inventory, index, 36 + row * 18, 211);
             this.addSlotToContainer(slot);
         }
 
         // 3 Top rows, starting with the bottom one
         for (int row = 0; row < 3; row++) {
             for (int column = 0; column < 9; column++) {
-                int x = 9 + column * 18;
+                int x = 36 + column * 18;
                 int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(this.player.inventory, index, x, y);

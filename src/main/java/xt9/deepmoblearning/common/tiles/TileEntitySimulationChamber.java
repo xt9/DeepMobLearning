@@ -37,6 +37,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
             // Check obj every 2 seconds
             if(ticks % 40 == 0) {
                 if(this.energy != this.energyStorage.getEnergyStored()) {
+                    this.energy = this.energyStorage.getEnergyStored();
                     this.markDirty();
                 }
             }
