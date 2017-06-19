@@ -10,13 +10,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
+import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.items.ItemPolymerClay;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
 import java.text.DecimalFormat;
@@ -32,11 +33,10 @@ public class SimulationChamberGui extends GuiContainer {
     private HashMap<String, Animation> animationList;
     private ItemStack currentChip = ItemStack.EMPTY;
     private TileEntitySimulationChamber tile;
-    private IItemHandler itemHandler;
-    private IEnergyStorage energyStorage;
+    private SimulationChamberHandler itemHandler;
+    private DeepEnergyStorage energyStorage;
     private FontRenderer renderer;
     private World world;
-
 
     private static final ResourceLocation base = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/simulation_chamber_base.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/default_gui.png");
@@ -44,11 +44,11 @@ public class SimulationChamberGui extends GuiContainer {
     public SimulationChamberGui(TileEntitySimulationChamber te, InventoryPlayer inventory, World world) {
         super(new ContainerSimulationChamber(te, inventory, world));
 
-        this.itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        this.energyStorage = te.getCapability(CapabilityEnergy.ENERGY, null);
+        this.itemHandler = (SimulationChamberHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY, null);
+
         this.renderer = Minecraft.getMinecraft().fontRendererObj;
         this.animationList = new HashMap<>();
-
         this.world = world;
         this.tile = te;
         xSize = WIDTH;
@@ -58,10 +58,14 @@ public class SimulationChamberGui extends GuiContainer {
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         DecimalFormat f = new DecimalFormat("0.#");
-        int left = getGuiLeft();
+        int left = getGuiLeft() + 8;
         int top = getGuiTop();
         int spacing = 12;
         int topStart = top - 3;
+
+        if(this.chipChanged() || this.craftingFinished()) {
+            this.resetAnimations();
+        }
 
         // Draw the main GUI
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);
@@ -71,84 +75,135 @@ public class SimulationChamberGui extends GuiContainer {
         // Draw chip slot
         drawTexturedModalRect(left - 22, top, 0, 141, 18, 18);
 
-        // Draw energy bar
-        drawTexturedModalRect(left + 220, top + 22, 216, 0, 12, 101);
+        // Draw current energy
+        int energyBarHeight = (int) (((float) this.energyStorage.getEnergyStored() / this.energyStorage.getMaxEnergyStored() * 87));
+        int energyBarOffset = 87 - energyBarHeight;
+        drawTexturedModalRect(left + 203,  top + 48 + energyBarOffset, 25, 141, 7, energyBarHeight);
 
-        int energyBarHeight = (int) (((float) this.energyStorage.getEnergyStored() / this.energyStorage.getMaxEnergyStored() * 99));
-        int energyBarOffset = 99 - height;
-        drawTexturedModalRect(left + 221,  top + 23 + energyBarOffset, 228, 0, 10, energyBarHeight);
+        String[] lines;
 
-        if(this.chipChanged()) {
-            this.resetAnimations();
-        }
+        if(!this.itemHandler.hasChip()) {
+            lines = new String[] {"Please insert a data model", "to begin the simulation"};
 
-        if(!this.hasChip()) {
-            this.animateString("Please insert a data model...", this.getAnimation("pleaseInsert"), null, 20, false, left + 10, topStart + spacing, 16777215);
-        } else if(ItemMobChip.getTier(this.getChip()) == 0) {
+            Animation a1 = this.getAnimation("pleaseInsert1");
+            Animation a2 = this.getAnimation("pleaseInsert2");
 
-            String[] il = new String[] {"Insufficient data in model", "please insert a basic model", "or better "};
+            this.animateString(lines[0], a1, null, 20, false, left + 10, topStart + spacing, 16777215);
+            this.animateString(lines[1], a2, a1, 20, false, left + 10, topStart + (spacing * 2), 16777215);
 
-            Animation insufData = this.getAnimation("insufData");
+        } else if(ItemMobChip.getTier(this.itemHandler.getChip()) == 0) {
+
+            lines = new String[] {"Insufficient data in model", "please insert a basic model", "or better "};
+
+            Animation insufData = this.getAnimation("insufData1");
             Animation insufData2 = this.getAnimation("insufData2");
             Animation insufData3 = this.getAnimation("insufData3");
 
-            this.animateString(il[0], insufData, null, 20, false, left + 10, topStart + spacing, 16777215);
-            this.animateString(il[1], insufData2, insufData, 20, false,  left + 10, topStart + (spacing * 2), 16777215);
-            this.animateString(il[2], insufData3, insufData2, 20, false,  left + 10, topStart + (spacing * 3), 16777215);
+            this.animateString(lines[0], insufData, null, 20, false, left + 10, topStart + spacing, 16777215);
+            this.animateString(lines[1], insufData2, insufData, 20, false,  left + 10, topStart + (spacing * 2), 16777215);
+            this.animateString(lines[2], insufData3, insufData2, 20, false,  left + 10, topStart + (spacing * 3), 16777215);
 
         } else {
-            // Draw chip experience
-            drawTexturedModalRect(left - 16, top + 22, 216, 0, 12, 101);
-
-            if(ItemMobChip.getTier(this.getChip()) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-                drawTexturedModalRect(left - 15,  top + 23, 228, 0, 10, 99);
+            // Draw current chip experience
+            if(ItemMobChip.getTier(this.itemHandler.getChip()) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+                drawTexturedModalRect(left + 6,  top + 48, 18, 141, 7, 87);
             } else {
-                int collectedData = ItemMobChip.getCurrentTierSimulationCountWithKills(this.getChip());
-                int tierRoof = ItemMobChip.getTierRoof(this.getChip());
+                int collectedData = ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip());
+                int tierRoof = ItemMobChip.getTierRoof(this.itemHandler.getChip());
 
-                int height = (int) (((float) collectedData / tierRoof * 99));
-                int offset = 99 - height;
-                drawTexturedModalRect(left - 15,  top + 23 + offset, 228, 0, 10, height);
+                int experienceBarHeight = (int) (((float) collectedData / tierRoof * 87));
+                int experienceBarOffset = 87 - experienceBarHeight;
+                drawTexturedModalRect(left + 6,  top + 48 + experienceBarOffset, 18, 141, 7, experienceBarHeight);
             }
 
-            drawString(renderer, "Tier: " + ItemMobChip.getTierName(this.getChip(), false), left + 10, topStart + spacing, 16777215);
-            drawString(renderer, "Iterations completed: " + f.format(ItemMobChip.getTotalSimulationCount(this.getChip())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Success chance: " + ItemMobChip.getSuccessChance(this.getChip()), left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Tier: " + ItemMobChip.getTierName(this.itemHandler.getChip(), false), left + 10, topStart + spacing, 16777215);
+            drawString(renderer, "Iterations: " + f.format(ItemMobChip.getTotalSimulationCount(this.itemHandler.getChip())), left + 10, topStart + spacing * 2, 16777215);
+            drawString(renderer, "Living clay chance: " + ItemMobChip.getSuccessChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
         }
 
         // Draw player inventory
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
-        drawTexturedModalRect(left + 28, top + 145, 0, 0, 176, 90);
+        drawTexturedModalRect(left + 20, top + 145, 0, 0, 176, 90);
 
 
-        this.drawConsoleProgress(left, top);
+        this.drawConsoleText(left, top, spacing);
     }
+
+    private void drawConsoleText(int left, int top, int spacing) {
+        String[] lines;
+
+        if(!this.itemHandler.hasChip()) {
+            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
+
+        } else if(!this.itemHandler.hasPolymer()) {
+            lines = new String[] {"Cannot begin simulation", "Missing binding agent", "_"};
+            Animation a1 = this.getAnimation("inputSlotEmpty1");
+            Animation a2 = this.getAnimation("inputSlotEmpty2");
+            Animation a3 = this.getAnimation("blinkingUnderline1");
+
+            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
+
+        } else if(!this.hasEnergy() && !this.tile.isCrafting) {
+            lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
+            Animation a1 = this.getAnimation("lowEnergy1");
+            Animation a2 = this.getAnimation("lowEnergy2");
+            Animation a3 = this.getAnimation("blinkingUnderline2");
+
+            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
+        } else if(this.itemHandler.outputIsFull()) {
+            lines = new String[] {"Cannot begin simulation", "Output buffer is full", "_"};
+            Animation a1 = this.getAnimation("outputSlotFilled1");
+            Animation a2 = this.getAnimation("outputSlotFilled2");
+            Animation a3 = this.getAnimation("blinkingUnderline3");
+
+            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
+        } else {
+            lines = new String[] {"Simulation started", "Loading Data model", "Assessing threat level", "Engaged enemy", "Processing results", "..."};
+            Animation a1 = this.getAnimation("simulationProgress1");
+            Animation a2 = this.getAnimation("simulationProgress2");
+            Animation a3 = this.getAnimation("simulationProgress3");
+            Animation a4 = this.getAnimation("simulationProgress4");
+            Animation a5 = this.getAnimation("simulationProgress5");
+            Animation a6 = this.getAnimation("blinkingUnderline4");
+
+            drawString(renderer, this.tile.percentDone + "%", left + 176, top + 123, 6478079);
+
+            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 90, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 90, false, left + 21, top + 51 + (spacing * 2), 16777215);
+            this.animateString(lines[3], a4, a3, 90, false, left + 21, top + 51 + (spacing * 3), 16777215);
+            this.animateString(lines[4], a5, a4, 90, false, left + 21, top + 51 + (spacing * 4), 16777215);
+            this.animateString(lines[5], a6, a5, 300, true, left + 118, top + 51 + (spacing * 4), 16777215);
+        }
+    }
+
+    private boolean hasEnergy() {
+        return this.tile.hasEnergyForSimulation();
+    }
+
+    private boolean craftingFinished() {
+        return this.tile.percentDone >= 99;
+    }
+
+    private boolean chipChanged() {
+        if(ItemStack.areItemStacksEqual(this.currentChip, this.itemHandler.getChip())) {
+            return false;
+        } else {
+            this.currentChip = this.itemHandler.getChip();
+            return true;
+        }
+    }
+
 
     private void resetAnimations() {
         for(Animation anim : this.animationList.values()) {
             anim.clear();
-        }
-    }
-
-    private void drawConsoleProgress(int left, int top) {
-        this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 10, top + 49, 16777215);
-    }
-
-    private ItemStack getChip() {
-        return this.itemHandler.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT);
-    }
-
-    private boolean hasChip() {
-        return this.itemHandler.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT).getItem() instanceof ItemMobChip;
-    }
-
-    private boolean chipChanged() {
-        // Todo, check if this resets animation when chip increases simulationcount
-        if(ItemStack.areItemsEqual(this.currentChip, this.getChip())) {
-            return false;
-        } else {
-            this.currentChip = this.getChip();
-            return true;
         }
     }
 

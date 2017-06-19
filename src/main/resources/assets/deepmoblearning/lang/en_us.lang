@@ -15,6 +15,9 @@ item.deepmoblearning.mob_chip.creeper.name=§bCreeper Data Model§r
 item.deepmoblearning.mob_chip.ghast.name=§bGhast Data Model§r
 item.deepmoblearning.mob_chip.witherskeleton.name=§bWither Skeleton Data Model§r
 
+item.deepmoblearning.polymer_clay.name=Polymer Clay
+item.deepmoblearning.living_clay.name=Living Clay
+
 # Blocks
 tile.deepmoblearning.simulation_chamber.name=Simulation Chamber
 

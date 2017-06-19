@@ -1,5 +1,6 @@
 package xt9.deepmoblearning.common;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -36,6 +37,9 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public static void openTileEntityGui(World world, EntityPlayer player, IGuiTile te, BlockPos pos) {
+        IBlockState state = world.getBlockState(pos);
+        // Notify on open so we trigger the TE's getUpdateTag
+        world.notifyBlockUpdate(pos, state, state, 3);
         player.openGui(DeepMobLearning.instance, te.getGuiID(), player.world, pos.getX(), pos.getY(), pos.getZ());
     }
 

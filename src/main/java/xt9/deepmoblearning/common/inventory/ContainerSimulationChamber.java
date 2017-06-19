@@ -1,22 +1,29 @@
 package xt9.deepmoblearning.common.inventory;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
+import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 /**
  * Created by xt9 on 2017-06-17.
  */
 public class ContainerSimulationChamber extends Container {
-    public IItemHandler handler;
+    public DeepEnergyStorage energyStorage;
+    public SimulationChamberHandler handler;
     public TileEntitySimulationChamber tile;
     public EntityPlayer player;
     public World world;
@@ -26,16 +33,41 @@ public class ContainerSimulationChamber extends Container {
         this.world = world;
         this.tile = te;
 
-        this.handler = this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        this.handler = (SimulationChamberHandler) this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        this.energyStorage = (DeepEnergyStorage) this.tile.getCapability(CapabilityEnergy.ENERGY, null);
+
         this.addSlotsToHandler();
         this.addInventorySlots();
     }
 
+
+    @Override
+    public void detectAndSendChanges()
+    {
+        super.detectAndSendChanges();
+        if(!this.world.isRemote) {
+            // Update the tile every other tick while container is open
+            this.intervalUpdate(2);
+        }
+    }
+
+    private void intervalUpdate(int divisor) {
+        if(this.tile.ticks % divisor == 0) {
+            IBlockState state = this.world.getBlockState(this.tile.getPos());
+
+            if(this.tile.energy != this.energyStorage.getEnergyStored()) {
+                this.tile.energy = this.energyStorage.getEnergyStored();
+                this.world.notifyBlockUpdate(this.tile.getPos(), state, state, 3);
+            } else if(this.tile.isCrafting) {
+                this.world.notifyBlockUpdate(this.tile.getPos(), state, state, 3);
+            }
+        }
+    }
+
     private void addSlotsToHandler() {
-        // Todo implement SimulationChamberSlot
-        this.addSlotToContainer(new SlotMobChip(this.handler, DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT, -21, 1));
-        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 168, 16));
-        this.addSlotToContainer(new SlotItemHandler(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 190, 16));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT, -13, 1));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 174, 17));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 198, 17));
     }
 
     private void addInventorySlots() {
@@ -89,6 +121,7 @@ public class ContainerSimulationChamber extends Container {
 
             slot.onTake(player, itemstack1);
         }
+
         this.tile.markDirty();
         this.player.inventory.markDirty();
         return itemstack;

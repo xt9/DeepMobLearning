@@ -7,9 +7,7 @@ import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockBase;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
 import xt9.deepmoblearning.common.blocks.ItemBlockBase;
-import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.items.ItemBase;
-import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.items.*;
 
 /**
  * Created by xt9 on 2017-06-08.
@@ -19,6 +17,8 @@ public class Registry {
     public static NonNullList<BlockBase> blocks = NonNullList.create();
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
+    public static ItemPolymerClay polymerClay;
+    public static ItemLivingClay livingClay;
 
     public static BlockSimulationChamber simulationChamber;
 
@@ -29,6 +29,12 @@ public class Registry {
 
         mobChip = new ItemMobChip();
         items.add(mobChip);
+
+        polymerClay = new ItemPolymerClay();
+        items.add(polymerClay);
+
+        livingClay = new ItemLivingClay();
+        items.add(livingClay);
 
         // Blocks
         simulationChamber = new BlockSimulationChamber();

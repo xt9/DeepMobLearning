@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
@@ -21,19 +22,19 @@ public class EntityDeathHandler {
             EntityPlayer player = (EntityPlayer) event.getSource().getEntity();
 
             // Update the chips in the players deep learner(s)
-            updateDeepLearnerOnEntityDeath(player.inventory.mainInventory, event);
-            updateDeepLearnerOnEntityDeath(player.inventory.offHandInventory, event);
+            updateDeepLearnerOnEntityDeath(player.inventory.mainInventory, event, player);
+            updateDeepLearnerOnEntityDeath(player.inventory.offHandInventory, event, player);
         }
     }
 
-    private static void updateDeepLearnerOnEntityDeath(NonNullList<ItemStack> inventory, LivingDeathEvent event) {
+    private static void updateDeepLearnerOnEntityDeath(NonNullList<ItemStack> inventory, LivingDeathEvent event, EntityPlayer player) {
         for(ItemStack inventoryStack : inventory) {
             if (inventoryStack.getItem() instanceof ItemDeepLearner) {
                 NonNullList<ItemStack> deepLearnerInternalInv = ItemDeepLearner.getContainedItems(inventoryStack);
                 for (ItemStack stack : deepLearnerInternalInv) {
                     if (stack.getItem() instanceof ItemMobChip) {
                         if (ItemMobChip.entityLivingMatchesType(event.getEntityLiving(), stack)) {
-                            ItemMobChip.increaseMobKillCount(stack);
+                            ItemMobChip.increaseMobKillCount(stack, player);
                         }
                     }
                     ItemDeepLearner.setContainedItems(inventoryStack, deepLearnerInternalInv);

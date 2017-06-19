@@ -8,6 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.TextComponentString;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.api.items.ExperienceItem;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
@@ -70,15 +71,15 @@ public class ItemMobChip extends ItemBase {
         }
     }
 
-    public static double getSuccessChance(ItemStack stack) {
+    public static int getSuccessChance(ItemStack stack) {
         // Todo CONFIGURABLE
         switch(getTier(stack)) {
-            case 0: return 0.0;
-            case 1: return 0.10;
-            case 2: return 0.25;
-            case 3: return 0.45;
-            case 4: return 0.70;
-            default: return 0.0;
+            case 0: return 0;
+            case 1: return 10;
+            case 2: return 25;
+            case 3: return 45;
+            case 4: return 70;
+            default: return 0;
         }
     }
 
@@ -106,7 +107,7 @@ public class ItemMobChip extends ItemBase {
     }
 
     // Called by deep learners
-    public static void increaseMobKillCount(ItemStack stack) {
+    public static void increaseMobKillCount(ItemStack stack, EntityPlayer player) {
         // Get our current tier before increasing the kill count;
         int tier = getTier(stack);
         int i = getCurrentTierKillCount(stack);
@@ -118,6 +119,8 @@ public class ItemMobChip extends ItemBase {
 
         if(ExperienceItem.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
             // TODO Gratz you leveled up, DO STUFF Player notice maybe?
+            player.sendMessage(new TextComponentString(stack.getDisplayName() + " reached a new tier!"));
+
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);
             setTier(stack, tier + 1);
@@ -135,7 +138,6 @@ public class ItemMobChip extends ItemBase {
         setTotalSimulationCount(stack, getTotalSimulationCount(stack) + 1);
 
         if(ExperienceItem.shouldIncreaseTier(tier, getCurrentTierKillCount(stack), i)) {
-            // TODO Gratz you leveled up, DO STUFF Player notice maybe?
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);
             setTier(stack, tier + 1);

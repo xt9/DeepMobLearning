@@ -39,10 +39,10 @@ public class ContainerDeepLearner extends Container {
     }
 
     private void addChipSlots() {
-        this.addSlotToContainer(new SlotMobChip(this.handler, 0, 257, 100));
-        this.addSlotToContainer(new SlotMobChip(this.handler, 1, 275, 100));
-        this.addSlotToContainer(new SlotMobChip(this.handler, 2, 257, 118));
-        this.addSlotToContainer(new SlotMobChip(this.handler, 3, 275, 118));
+        this.addSlotToContainer(new SlotDeepLearner(this.handler, 0, 257, 100));
+        this.addSlotToContainer(new SlotDeepLearner(this.handler, 1, 275, 100));
+        this.addSlotToContainer(new SlotDeepLearner(this.handler, 2, 257, 118));
+        this.addSlotToContainer(new SlotDeepLearner(this.handler, 3, 275, 118));
     }
 
     private void addInventorySlots() {

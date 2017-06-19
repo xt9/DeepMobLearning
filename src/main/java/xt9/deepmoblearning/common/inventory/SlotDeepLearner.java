@@ -9,9 +9,9 @@ import xt9.deepmoblearning.common.items.ItemMobChip;
 /**
  * Created by xt9 on 2017-06-11.
  */
-public class SlotMobChip extends SlotItemHandler {
+public class SlotDeepLearner extends SlotItemHandler {
 
-    public SlotMobChip(IItemHandler handler, int index, int x, int y) {
+    public SlotDeepLearner(IItemHandler handler, int index, int x, int y) {
         super(handler, index, x, y);
     }
 
