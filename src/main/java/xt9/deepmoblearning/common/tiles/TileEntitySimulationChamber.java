@@ -127,11 +127,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private void updateSimulationText(ItemStack chip) {
         String[] lines = new String[] {
-                "Launching runtime v1.4",
+                "Launching runtime v1.4.7",
                 "Iteration #" + (ItemMobChip.getTotalSimulationCount(chip) + 1) + " started",
                 "Loading model from chip memory",
                 "Assessing threat level",
                 "Engaged enemy",
+                "Enemy neutralized",
                 "Processing results",
                 "..."
         };
@@ -142,15 +143,17 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         Animation a4 = this.getAnimation("simulationProgress4");
         Animation a5 = this.getAnimation("simulationProgress5");
         Animation a6 = this.getAnimation("simulationProgress6");
-        Animation a7 = this.getAnimation("blinkingDots1");
+        Animation a7 = this.getAnimation("simulationProgress7");
+        Animation a8 = this.getAnimation("blinkingDots1");
 
-        this.simulationText.put("simulationProgress1", this.animate(lines[0], a1, null, 2, false));
-        this.simulationText.put("simulationProgress2", this.animate(lines[1], a2, a1, 2, false));
+        this.simulationText.put("simulationProgress1", this.animate(lines[0], a1, null, 1, false));
+        this.simulationText.put("simulationProgress2", this.animate(lines[1], a2, a1, 1, false));
         this.simulationText.put("simulationProgress3", this.animate(lines[2], a3, a2, 2, false));
-        this.simulationText.put("simulationProgress4", this.animate(lines[3], a4, a3, 2, false));
+        this.simulationText.put("simulationProgress4", this.animate(lines[3], a4, a3, 1, false));
         this.simulationText.put("simulationProgress5", this.animate(lines[4], a5, a4, 2, false));
-        this.simulationText.put("simulationProgress6", this.animate(lines[5], a6, a5, 2, false));
-        this.simulationText.put("blinkingDots1", this.animate(lines[6], a7, a6, 8, true));
+        this.simulationText.put("simulationProgress6", this.animate(lines[5], a6, a5, 3, false));
+        this.simulationText.put("simulationProgress7", this.animate(lines[6], a7, a6, 1, false));
+        this.simulationText.put("blinkingDots1", this.animate(lines[7], a8, a7, 8, true));
     }
 
     public void resetAnimations() {

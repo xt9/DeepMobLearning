@@ -21,7 +21,11 @@ import xt9.deepmoblearning.common.items.ItemPolymerClay;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by xt9 on 2017-06-17.
@@ -32,7 +36,6 @@ public class SimulationChamberGui extends GuiContainer {
 
     private HashMap<String, Animation> animationList;
     private ItemStack currentChip = ItemStack.EMPTY;
-    private ItemStack currentInput = ItemStack.EMPTY;
     private TileEntitySimulationChamber tile;
     private SimulationChamberHandler itemHandler;
     private DeepEnergyStorage energyStorage;
@@ -54,6 +57,30 @@ public class SimulationChamberGui extends GuiContainer {
         this.tile = te;
         xSize = WIDTH;
         ySize = HEIGHT;
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        int x = mouseX - guiLeft;
+        int y = mouseY - guiTop;
+
+        NumberFormat f = NumberFormat.getNumberInstance(Locale.ENGLISH);
+        List<String> tooltip = new ArrayList<>();
+
+        if(47 <= y && y < 135) {
+            if(13 <= x && x < 22) {
+                // Tooltip for Chip exp bar
+                if(this.itemHandler.hasChip()) {
+                    tooltip.add(ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip()) + "/" + ItemMobChip.getTierRoof(this.itemHandler.getChip()) + " Data collected");
+                } else {
+                    tooltip.add("Machine is missing a data model");
+                }
+                drawHoveringText(tooltip, x + 2, y + 2);
+            } else if(211 <= x && x < 220) {
+                tooltip.add(f.format(this.energyStorage.getEnergyStored()) + "/" + f.format(this.energyStorage.getMaxEnergyStored()) + " RF");
+                drawHoveringText(tooltip, x + 2, y + 2);
+            }
+        }
     }
 
     @Override
@@ -80,6 +107,7 @@ public class SimulationChamberGui extends GuiContainer {
         int energyBarHeight = (int) (((float) this.energyStorage.getEnergyStored() / this.energyStorage.getMaxEnergyStored() * 87));
         int energyBarOffset = 87 - energyBarHeight;
         drawTexturedModalRect(left + 203,  top + 48 + energyBarOffset, 25, 141, 7, energyBarHeight);
+
 
         String[] lines;
 
@@ -130,6 +158,7 @@ public class SimulationChamberGui extends GuiContainer {
         this.drawConsoleText(left, top, spacing);
     }
 
+
     private void drawConsoleText(int left, int top, int spacing) {
         String[] lines;
 
@@ -173,7 +202,8 @@ public class SimulationChamberGui extends GuiContainer {
             drawString(renderer, this.tile.getSimulationText("simulationProgress4"), left + 21, top + 51 + (spacing * 3), 16777215);
             drawString(renderer, this.tile.getSimulationText("simulationProgress5"), left + 21, top + 51 + (spacing * 4), 16777215);
             drawString(renderer, this.tile.getSimulationText("simulationProgress6"), left + 21, top + 51 + (spacing * 5), 16777215);
-            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 120, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress7"), left + 21, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 120, top + 51 + (spacing * 6), 16777215);
         } else {
             this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
         }
@@ -192,20 +222,8 @@ public class SimulationChamberGui extends GuiContainer {
         }
     }
 
-    private boolean inputChanged() {
-        if(ItemStack.areItemStacksEqual(this.currentInput, this.itemHandler.getInput())) {
-            return false;
-        } else {
-            this.currentInput = this.itemHandler.getInput();
-            return true;
-        }
-    }
-
-
     private void resetAnimations() {
-        for(Animation anim : this.animationList.values()) {
-            anim.clear();
-        }
+        this.animationList = new HashMap<>();
     }
 
     private Animation getAnimation(String key) {
