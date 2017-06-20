@@ -8,10 +8,9 @@ public class Animation {
     private int renderPos = 0;
     private int renderStop = 0;
     private int callsSinceRenderStart = 0;
+    private String currentString = "";
 
     public String animate(String string, int frame, boolean loop) {
-        String result = "";
-
         if(!this.hasStarted) {
             this.hasStarted = true;
             this.renderPos = 0;
@@ -20,18 +19,22 @@ public class Animation {
             callsSinceRenderStart++;
             if(this.renderPos < this.renderStop) {
                 if(renderPos >= 0) {
-                    result = string.substring(0, this.renderPos);
+                    this.currentString = string.substring(0, this.renderPos);
                 }
                 this.renderPos = callsSinceRenderStart % frame == 0 ? this.renderPos + 1 : this.renderPos;
             } else {
                 if(loop) {
                     this.hasStarted = callsSinceRenderStart % frame != 0;
                 }
-                result = string;
+                this.currentString = string;
             }
         }
 
-        return result;
+        return this.currentString;
+    }
+
+    public String getCurrentString() {
+        return this.currentString;
     }
 
     public boolean hasFinished() {
@@ -39,9 +42,10 @@ public class Animation {
     }
 
     public void clear() {
-        hasStarted = false;
-        renderPos = 0;
-        renderStop = 0;
-        callsSinceRenderStart = 0;
+        this.currentString = "";
+        this.hasStarted = false;
+        this.renderPos = 0;
+        this.renderStop = 0;
+        this.callsSinceRenderStart = 0;
     }
 }

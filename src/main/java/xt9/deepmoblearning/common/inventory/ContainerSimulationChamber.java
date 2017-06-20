@@ -3,6 +3,7 @@ package xt9.deepmoblearning.common.inventory;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -125,6 +126,18 @@ public class ContainerSimulationChamber extends Container {
         this.tile.markDirty();
         this.player.inventory.markDirty();
         return itemstack;
+    }
+
+    @Override
+    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
+        ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
+
+        // Crafting will be interrupted if the slot clicked is the chip/input slot, so reset the animations
+        if(slotId == DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT || slotId == DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT) {
+            this.tile.resetAnimations();
+        }
+
+        return stack;
     }
 
     @Override

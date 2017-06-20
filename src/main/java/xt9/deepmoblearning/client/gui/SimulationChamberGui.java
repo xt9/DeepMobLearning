@@ -32,6 +32,7 @@ public class SimulationChamberGui extends GuiContainer {
 
     private HashMap<String, Animation> animationList;
     private ItemStack currentChip = ItemStack.EMPTY;
+    private ItemStack currentInput = ItemStack.EMPTY;
     private TileEntitySimulationChamber tile;
     private SimulationChamberHandler itemHandler;
     private DeepEnergyStorage energyStorage;
@@ -63,7 +64,7 @@ public class SimulationChamberGui extends GuiContainer {
         int spacing = 12;
         int topStart = top - 3;
 
-        if(this.chipChanged() || this.craftingFinished()) {
+        if(this.chipChanged()) {
             this.resetAnimations();
         }
 
@@ -163,23 +164,18 @@ public class SimulationChamberGui extends GuiContainer {
             this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
             this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
             this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else {
-            lines = new String[] {"Simulation started", "Loading Data model", "Assessing threat level", "Engaged enemy", "Processing results", "..."};
-            Animation a1 = this.getAnimation("simulationProgress1");
-            Animation a2 = this.getAnimation("simulationProgress2");
-            Animation a3 = this.getAnimation("simulationProgress3");
-            Animation a4 = this.getAnimation("simulationProgress4");
-            Animation a5 = this.getAnimation("simulationProgress5");
-            Animation a6 = this.getAnimation("blinkingUnderline4");
-
+        } else if(this.tile.isCrafting) {
             drawString(renderer, this.tile.percentDone + "%", left + 176, top + 123, 6478079);
 
-            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 90, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 90, false, left + 21, top + 51 + (spacing * 2), 16777215);
-            this.animateString(lines[3], a4, a3, 90, false, left + 21, top + 51 + (spacing * 3), 16777215);
-            this.animateString(lines[4], a5, a4, 90, false, left + 21, top + 51 + (spacing * 4), 16777215);
-            this.animateString(lines[5], a6, a5, 300, true, left + 118, top + 51 + (spacing * 4), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress1"), left + 21, top + 51, 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress2"), left + 21, top + 51 + spacing, 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress3"), left + 21, top + 51 + (spacing * 2), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress4"), left + 21, top + 51 + (spacing * 3), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress5"), left + 21, top + 51 + (spacing * 4), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgress6"), left + 21, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 120, top + 51 + (spacing * 5), 16777215);
+        } else {
+            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
         }
     }
 
@@ -187,15 +183,20 @@ public class SimulationChamberGui extends GuiContainer {
         return this.tile.hasEnergyForSimulation();
     }
 
-    private boolean craftingFinished() {
-        return this.tile.percentDone >= 99;
-    }
-
     private boolean chipChanged() {
         if(ItemStack.areItemStacksEqual(this.currentChip, this.itemHandler.getChip())) {
             return false;
         } else {
             this.currentChip = this.itemHandler.getChip();
+            return true;
+        }
+    }
+
+    private boolean inputChanged() {
+        if(ItemStack.areItemStacksEqual(this.currentInput, this.itemHandler.getInput())) {
+            return false;
+        } else {
+            this.currentInput = this.itemHandler.getInput();
             return true;
         }
     }

@@ -95,17 +95,6 @@ public class ItemMobChip extends ItemBase {
         }
     }
 
-    // Use as a helper for the machine, to explain why tier 0 is not working etc.
-    public static String[] getSimulatorMachineHelp(ItemStack stack) {
-        switch(getTier(stack)) {
-            case 0: return new String[] {"This model does not contain enough data", "to accomplish anything useful."};
-            case 1: return new String[] {""};
-            case 2: return new String[] {""};
-            case 3: return new String[] {""};
-            default: return new String[] {""};
-        }
-    }
-
     // Called by deep learners
     public static void increaseMobKillCount(ItemStack stack, EntityPlayer player) {
         // Get our current tier before increasing the kill count;
@@ -118,8 +107,7 @@ public class ItemMobChip extends ItemBase {
         setTotalKillCount(stack, getTotalKillCount(stack) + 1);
 
         if(ExperienceItem.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
-            // TODO Gratz you leveled up, DO STUFF Player notice maybe?
-            player.sendMessage(new TextComponentString(stack.getDisplayName() + " reached a new tier!"));
+            player.sendMessage(new TextComponentString(stack.getDisplayName() + " reached the " + getTierName(stack, true) + " tier"));
 
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);
