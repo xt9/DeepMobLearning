@@ -1,6 +1,10 @@
 # Blocks
 
 # Items
+item.deepmoblearning.blank_simulation_summary.name=Blank Simulation Summary
+item.deepmoblearning.simulation_summary.name=Simulation Summary
+item.deepmoblearning.polymer_clay.name=Polymer Clay
+
 item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 
 item.deepmoblearning.mob_chip.default.name=Data Model Chip
@@ -14,9 +18,6 @@ item.deepmoblearning.mob_chip.spider.name=§bSpider Data Model§r
 item.deepmoblearning.mob_chip.creeper.name=§bCreeper Data Model§r
 item.deepmoblearning.mob_chip.ghast.name=§bGhast Data Model§r
 item.deepmoblearning.mob_chip.witherskeleton.name=§bWither Skeleton Data Model§r
-
-item.deepmoblearning.polymer_clay.name=Polymer Clay
-item.deepmoblearning.living_clay.name=Living Clay
 
 # Blocks
 tile.deepmoblearning.simulation_chamber.name=Simulation Chamber

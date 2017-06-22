@@ -3,9 +3,9 @@ package xt9.deepmoblearning.common.handlers;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.items.ItemLivingClay;
+import xt9.deepmoblearning.common.items.ItemBlankSimulationSummary;
+import xt9.deepmoblearning.common.items.ItemSimulationSummary;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.items.ItemPolymerClay;
 
 import javax.annotation.Nonnull;
 
@@ -56,9 +56,9 @@ public class SimulationChamberHandler extends ItemStackHandler {
             case DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT:
                 return type.equals("insert") && stack.getItem() instanceof ItemMobChip;
             case DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT:
-                return type.equals("insert") && stack.getItem() instanceof ItemPolymerClay;
+                return type.equals("insert") && stack.getItem() instanceof ItemBlankSimulationSummary;
             case DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT:
-                return type.equals("extract") && stack.getItem() instanceof ItemLivingClay;
+                return type.equals("extract") && stack.getItem() instanceof ItemSimulationSummary;
             default:
                 return false;
         }
@@ -85,9 +85,9 @@ public class SimulationChamberHandler extends ItemStackHandler {
         return this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
     }
 
-    public boolean hasPolymer() {
+    public boolean hasSimulationManifest() {
         ItemStack stack = this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT);
-        return stack.getItem() instanceof ItemPolymerClay && stack.getCount() > 0;
+        return stack.getItem() instanceof ItemBlankSimulationSummary && stack.getCount() > 0;
     }
 
     public boolean hasChip() {

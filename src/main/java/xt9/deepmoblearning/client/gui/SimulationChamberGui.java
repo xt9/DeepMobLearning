@@ -17,7 +17,6 @@ import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.items.ItemPolymerClay;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
 import java.text.DecimalFormat;
@@ -147,7 +146,7 @@ public class SimulationChamberGui extends GuiContainer {
 
             drawString(renderer, "Tier: " + ItemMobChip.getTierName(this.itemHandler.getChip(), false), left + 10, topStart + spacing, 16777215);
             drawString(renderer, "Iterations: " + f.format(ItemMobChip.getTotalSimulationCount(this.itemHandler.getChip())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Living clay chance: " + ItemMobChip.getSuccessChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Success chance: " + ItemMobChip.getSuccessChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
         }
 
         // Draw player inventory
@@ -165,8 +164,8 @@ public class SimulationChamberGui extends GuiContainer {
         if(!this.itemHandler.hasChip()) {
             this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
 
-        } else if(!this.itemHandler.hasPolymer()) {
-            lines = new String[] {"Cannot begin simulation", "Missing binding agent", "_"};
+        } else if(!this.itemHandler.hasSimulationManifest()) {
+            lines = new String[] {"Cannot begin simulation", "Missing writable medium", "_"};
             Animation a1 = this.getAnimation("inputSlotEmpty1");
             Animation a2 = this.getAnimation("inputSlotEmpty2");
             Animation a3 = this.getAnimation("blinkingUnderline1");

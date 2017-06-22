@@ -57,6 +57,22 @@ public class ItemMobChip extends ItemBase {
         return filteredList;
     }
 
+    public static String toHumdanReadable(ItemStack stack) {
+        switch(getSubName(stack)) {
+            case "zombie": return "Zombie";
+            case "skeleton": return "Skeleton";
+            case "blaze": return "Blaze";
+            case "enderman": return "Enderman";
+            case "wither": return "Wither";
+            case "witch": return "Witch";
+            case "spider": return "Spider";
+            case "creeper": return "Creeper";
+            case "ghast": return "Ghast";
+            case "witherskeleton": return "Wither Skeleton";
+            default: return "Default";
+        }
+    }
+
     public static String toHumdanReadablePlural(ItemStack stack) {
         switch(getSubName(stack)) {
             case "zombie": return "Zombies";
@@ -67,6 +83,8 @@ public class ItemMobChip extends ItemBase {
             case "witch": return "Witches";
             case "spider": return "Spiders";
             case "creeper": return "Creepers";
+            case "ghast": return "Ghasts";
+            case "witherskeleton": return "Wither Skeletons";
             default: return "Default";
         }
     }
@@ -75,10 +93,10 @@ public class ItemMobChip extends ItemBase {
         // Todo CONFIGURABLE
         switch(getTier(stack)) {
             case 0: return 0;
-            case 1: return 10;
-            case 2: return 25;
-            case 3: return 45;
-            case 4: return 70;
+            case 1: return 20;
+            case 2: return 40;
+            case 3: return 65;
+            case 4: return 100;
             default: return 0;
         }
     }

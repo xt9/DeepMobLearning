@@ -15,26 +15,30 @@ import xt9.deepmoblearning.common.items.*;
 public class Registry {
     public static NonNullList<ItemBase> items = NonNullList.create();
     public static NonNullList<BlockBase> blocks = NonNullList.create();
+    public static ItemBlankSimulationSummary blankSimulationSummary;
+    public static ItemSimulationSummary simulationSummary;
+    public static ItemPolymerClay polymerClay;
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
-    public static ItemPolymerClay polymerClay;
-    public static ItemLivingClay livingClay;
 
     public static BlockSimulationChamber simulationChamber;
 
     public static void preInit() {
         // Create our Item instances
+        blankSimulationSummary = new ItemBlankSimulationSummary();
+        items.add(blankSimulationSummary);
+
+        simulationSummary = new ItemSimulationSummary();
+        items.add(simulationSummary);
+
+        polymerClay = new ItemPolymerClay();
+        items.add(polymerClay);
+
         deepLearner = new ItemDeepLearner();
         items.add(deepLearner);
 
         mobChip = new ItemMobChip();
         items.add(mobChip);
-
-        polymerClay = new ItemPolymerClay();
-        items.add(polymerClay);
-
-        livingClay = new ItemLivingClay();
-        items.add(livingClay);
 
         // Blocks
         simulationChamber = new BlockSimulationChamber();

@@ -22,8 +22,7 @@ public class ItemStackNBTHelper {
         return stack.getTagCompound();
     }
 
-    public static void removeTag(ItemStack stack, String key)
-    {
+    public static void removeTag(ItemStack stack, String key) {
         if(hasKey(stack, key)) {
             getTag(stack).removeTag(key);
             if(getTag(stack).hasNoTags()) {
@@ -32,13 +31,19 @@ public class ItemStackNBTHelper {
         }
     }
 
-    public static void setInt(ItemStack stack, String key, int val)
-    {
+    public static void setString(ItemStack stack, String key, String val) {
+        getTag(stack).setString(key, val);
+    }
+
+    public static String getString(ItemStack stack, String key, String defaultVal) {
+        return hasTag(stack) ? getTag(stack).getString(key) : defaultVal;
+    }
+
+    public static void setInt(ItemStack stack, String key, int val) {
         getTag(stack).setInteger(key, val);
     }
 
-    public static int getInt(ItemStack stack, String key, int defaultVal)
-    {
+    public static int getInt(ItemStack stack, String key, int defaultVal) {
         return hasTag(stack) ? getTag(stack).getInteger(key) : defaultVal;
     }
 }

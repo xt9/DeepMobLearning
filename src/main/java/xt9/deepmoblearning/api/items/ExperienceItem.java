@@ -7,8 +7,8 @@ import xt9.deepmoblearning.DeepConstants;
  */
 public class ExperienceItem {
     // Todo configurable exp
-    // Kills required per  tier 8, 16, 48, 256
-    public static final int[] maxExperience = {64, 256, 1056, 8192};
+    // Kills required per  tier 6, 12, 28, 70
+    public static final int[] maxExperience = {48, 192, 616, 2240};
     public static final int[] killMultiplier = {8, 16, 22, 32};
     // Simulations have no multipliers, they are always 1x
 

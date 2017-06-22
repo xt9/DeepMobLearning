@@ -3,14 +3,11 @@ package xt9.deepmoblearning.common.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
-import xt9.deepmoblearning.common.items.ItemLivingClay;
+import xt9.deepmoblearning.common.items.ItemBlankSimulationSummary;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.items.ItemPolymerClay;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +27,7 @@ public class SlotSimulationChamber extends SlotItemHandler {
             case DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT:
                 return !stack.isEmpty() && item instanceof ItemMobChip;
             case DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT:
-                return !stack.isEmpty() && item instanceof ItemPolymerClay;
+                return !stack.isEmpty() && item instanceof ItemBlankSimulationSummary;
             case DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT:
                 return false;
             default:

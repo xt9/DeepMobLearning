@@ -18,10 +18,10 @@ import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.Animation;
+import xt9.deepmoblearning.common.util.CraftingHelper;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -31,6 +31,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private SimulationChamberHandler inventory = new SimulationChamberHandler();
     // Attach a DeepEnergyStorage, don't let it extract energy (It's not a generator)
     private DeepEnergyStorage energyStorage = new DeepEnergyStorage(1000000, 1024 , 0, 0);
+    private CraftingHelper craftingHelper = new CraftingHelper();
 
     public HashMap<String, Animation> simulationAnimations = new HashMap<>();
     public HashMap<String, String> simulationText = new HashMap<>();
@@ -100,11 +101,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
             Random rand = new Random();
             int num = rand.nextInt(100);
-            if(num < ItemMobChip.getSuccessChance(this.inventory.getChip())) {
+            if(num <= ItemMobChip.getSuccessChance(this.inventory.getChip())) {
                 ItemStack oldInputStack = this.inventory.getInput();
                 ItemStack oldOutPutStack = this.inventory.getOutput();
-                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, new ItemStack(Registry.polymerClay, oldInputStack.getCount() - 1));
-                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, new ItemStack(Registry.livingClay, oldOutPutStack.getCount() + 1));
+
+                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, new ItemStack(Registry.blankSimulationSummary, oldInputStack.getCount() - 1));
+                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, this.craftingHelper.createSimulationManifestFromMobChip(this.inventory.getChip(), oldOutPutStack.getCount() + 1));
             }
 
         }
@@ -116,7 +118,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private boolean canContinueSimulation() {
         return this.inventory.hasChip() && ItemMobChip.getTier(this.inventory.getChip()) != 0
-                && this.inventory.hasPolymer();
+                && this.inventory.hasSimulationManifest();
     }
 
 
