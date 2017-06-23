@@ -9,8 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepMobLearning;
 
-import java.util.List;
-
 /**
  * Created by xt9 on 2017-06-08.
  */

@@ -36,10 +36,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public HashMap<String, Animation> simulationAnimations = new HashMap<>();
     public HashMap<String, String> simulationText = new HashMap<>();
     public boolean isCrafting = false;
+    public boolean craftSuccess = false;
     public int energy = 0;
     public int ticks = 0;
     public int craftingCost = 38400;
     public int percentDone = 0;
+    public String currentChipType = "";
 
     @Override
     public void update() {
@@ -49,9 +51,10 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
             this.resetAnimations();
             if(canStartSimulation()) {
                 this.isCrafting = true;
+                this.currentChipType = ItemMobChip.toHumdanReadable(this.inventory.getChip());
             }
         } else {
-            if(!canContinueSimulation()) {
+            if(!canContinueSimulation() || chipTypeChanged()) {
                 this.finishSimulation(true);
                 return;
             }
@@ -60,6 +63,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
             // Do these on server only
             if(!this.world.isRemote) {
+                if(this.percentDone == 0) {
+                    Random rand = new Random();
+                    int num = rand.nextInt(100);
+                    this.craftSuccess = num <= ItemMobChip.getSuccessChance(this.inventory.getChip());
+                }
+
                 // Todo get this value from a energy crafting helper
                 this.energyStorage.voidEnergy(128);
 
@@ -87,6 +96,10 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     }
 
+    private boolean chipTypeChanged() {
+        return !this.currentChipType.equals(ItemMobChip.toHumdanReadable(this.inventory.getChip()));
+    }
+
 
     private void finishSimulation(boolean abort) {
         this.resetAnimations();
@@ -94,14 +107,10 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         this.isCrafting = false;
         // Only decrease input and increase output if not aborted, and only if on the server's TE
         if(!abort && !this.world.isRemote) {
-            IBlockState state = this.world.getBlockState(this.getPos());
-            this.world.notifyBlockUpdate(this.getPos(), state, state, 3);
-
             ItemMobChip.increaseSimulationCount(this.inventory.getChip());
 
-            Random rand = new Random();
-            int num = rand.nextInt(100);
-            if(num <= ItemMobChip.getSuccessChance(this.inventory.getChip())) {
+            if(this.craftSuccess) {
+                this.craftSuccess = false;
                 ItemStack oldInputStack = this.inventory.getInput();
                 ItemStack oldOutPutStack = this.inventory.getOutput();
 
@@ -109,6 +118,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, this.craftingHelper.createSimulationManifestFromMobChip(this.inventory.getChip(), oldOutPutStack.getCount() + 1));
             }
 
+            IBlockState state = this.world.getBlockState(this.getPos());
+            this.world.notifyBlockUpdate(this.getPos(), state, state, 3);
         }
     }
 
@@ -129,33 +140,49 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private void updateSimulationText(ItemStack chip) {
         String[] lines = new String[] {
-                "Launching runtime v1.4.7",
-                "Iteration #" + (ItemMobChip.getTotalSimulationCount(chip) + 1) + " started",
-                "Loading model from chip memory",
-                "Assessing threat level",
-                "Engaged enemy",
-                "Enemy neutralized",
-                "Processing results",
+                "> Launching runtime",
+                "v1.4.7",
+                "> Iteration #" + (ItemMobChip.getTotalSimulationCount(chip) + 1) + " started",
+                "> Loading model from chip memory",
+                "> Assessing threat level",
+                "> Engaged enemy",
+                "> Simulation ",
+                this.craftSuccess ? "successful" : "failed",
+                "> Processing results",
                 "..."
         };
 
-        Animation a1 = this.getAnimation("simulationProgress1");
-        Animation a2 = this.getAnimation("simulationProgress2");
-        Animation a3 = this.getAnimation("simulationProgress3");
-        Animation a4 = this.getAnimation("simulationProgress4");
-        Animation a5 = this.getAnimation("simulationProgress5");
-        Animation a6 = this.getAnimation("simulationProgress6");
-        Animation a7 = this.getAnimation("simulationProgress7");
-        Animation a8 = this.getAnimation("blinkingDots1");
+        String resultPrefix = this.craftSuccess ? "§a" : "§c";
 
-        this.simulationText.put("simulationProgress1", this.animate(lines[0], a1, null, 1, false));
-        this.simulationText.put("simulationProgress2", this.animate(lines[1], a2, a1, 1, false));
-        this.simulationText.put("simulationProgress3", this.animate(lines[2], a3, a2, 2, false));
-        this.simulationText.put("simulationProgress4", this.animate(lines[3], a4, a3, 1, false));
-        this.simulationText.put("simulationProgress5", this.animate(lines[4], a5, a4, 2, false));
-        this.simulationText.put("simulationProgress6", this.animate(lines[5], a6, a5, 3, false));
-        this.simulationText.put("simulationProgress7", this.animate(lines[6], a7, a6, 1, false));
-        this.simulationText.put("blinkingDots1", this.animate(lines[7], a8, a7, 8, true));
+        Animation aLine1 = this.getAnimation("simulationProgressLine1");
+        Animation aLine1Version = this.getAnimation("simulationProgressLine1Version");
+
+        Animation aLine2 = this.getAnimation("simulationProgressLine2");
+
+        Animation aLine3 = this.getAnimation("simulationProgressLine3");
+        Animation aLine4 = this.getAnimation("simulationProgressLine4");
+        Animation aLine5 = this.getAnimation("simulationProgressLine5");
+
+        Animation aLine6 = this.getAnimation("simulationProgressLine6");
+        Animation aLine6Result = this.getAnimation("simulationProgressLine6Result");
+
+        Animation aLine7 = this.getAnimation("simulationProgressLine7");
+        Animation aLine8 = this.getAnimation("blinkingDots1");
+
+        this.simulationText.put("simulationProgressLine1", this.animate(lines[0], aLine1, null, 1, false));
+        this.simulationText.put("simulationProgressLine1Version", "§6" + this.animate(lines[1], aLine1Version, aLine1, 1, false) + "§r");
+
+        this.simulationText.put("simulationProgressLine2", this.animate(lines[2], aLine2, aLine1Version, 1, false));
+
+        this.simulationText.put("simulationProgressLine3", this.animate(lines[3], aLine3, aLine2, 2, false));
+        this.simulationText.put("simulationProgressLine4", this.animate(lines[4], aLine4, aLine3, 1, false));
+        this.simulationText.put("simulationProgressLine5", this.animate(lines[5], aLine5, aLine4, 2, false));
+
+        this.simulationText.put("simulationProgressLine6", this.animate(lines[6], aLine6, aLine5, 3, false));
+        this.simulationText.put("simulationProgressLine6Result", resultPrefix + this.animate(lines[7], aLine6Result, aLine6, 3, false) + "§r");
+
+        this.simulationText.put("simulationProgressLine7", this.animate(lines[8], aLine7, aLine6Result, 1, false));
+        this.simulationText.put("blinkingDots1", this.animate(lines[9], aLine8, aLine7, 8, true));
     }
 
     public void resetAnimations() {
@@ -201,6 +228,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private NBTTagCompound getNetworkTag(NBTTagCompound tag) {
         tag.setInteger("simulationProgress", this.percentDone);
         tag.setBoolean("isCrafting", this.isCrafting);
+        tag.setBoolean("craftSuccess", this.craftSuccess);
         return energyStorage.writeEnergy(tag);
     }
 
@@ -223,6 +251,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("simulationProgress", this.percentDone);
         compound.setBoolean("isCrafting", this.isCrafting);
+        compound.setBoolean("craftSuccess", this.craftSuccess);
         energyStorage.writeEnergy(compound);
         return super.writeToNBT(compound);
     }
@@ -233,6 +262,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         energyStorage.readEnergy(compound);
         this.percentDone = compound.hasKey("simulationProgress", Constants.NBT.TAG_INT) ? compound.getInteger("simulationProgress") : 0;
         this.isCrafting = compound.hasKey("isCrafting", Constants.NBT.TAG_BYTE) ? compound.getBoolean("isCrafting") : this.isCrafting;
+        this.craftSuccess = compound.hasKey("craftSuccess", Constants.NBT.TAG_BYTE) ? compound.getBoolean("craftSuccess") : this.isCrafting;
         super.readFromNBT(compound);
     }
 

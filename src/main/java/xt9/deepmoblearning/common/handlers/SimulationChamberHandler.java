@@ -6,6 +6,7 @@ import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.items.ItemBlankSimulationSummary;
 import xt9.deepmoblearning.common.items.ItemSimulationSummary;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.util.CraftingHelper;
 
 import javax.annotation.Nonnull;
 
@@ -95,7 +96,14 @@ public class SimulationChamberHandler extends ItemStackHandler {
     }
 
     public boolean outputIsFull() {
-        ItemStack stack = this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
-        return stack.getCount() == this.getSlotLimit(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
+        ItemStack stack = this.getOutput();
+        if(stack.isEmpty()) {
+            return false;
+        }
+
+        boolean stackLimitReached = stack.getCount() == this.getSlotLimit(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
+        boolean outputMatches = CraftingHelper.chipMatchesOutput(this.getChip(), this.getOutput());
+
+        return stackLimitReached || !outputMatches;
     }
 }

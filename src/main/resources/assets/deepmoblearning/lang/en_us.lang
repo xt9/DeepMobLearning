@@ -24,9 +24,9 @@ tile.deepmoblearning.simulation_chamber.name=Simulation Chamber
 
 # Strings
 deepmoblearning.mob_chip.tier=§rTier: %s§r
-deepmoblearning.mob_chip.killcount=§r%s defeated:§7 %s§r
-deepmoblearning.mob_chip.kills.to.next.tier=§rKills to next Tier: §7%s§r
-deepmoblearning.mob_chip.simulations.to.next.tier=§rSimulations to next Tier: §7%s§r
+deepmoblearning.mob_chip.data.collected=§rData collected: §7%s/%s§r
+
+
 
 deepmoblearning.holdshift=§7- hold §r§oSHIFT§r§7 for more info§r
 

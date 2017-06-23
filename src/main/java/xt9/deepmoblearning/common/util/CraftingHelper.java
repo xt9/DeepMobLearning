@@ -15,4 +15,10 @@ public class CraftingHelper {
         ItemSimulationSummary.setMobType(manifest, type);
         return manifest;
     }
+
+    public static boolean chipMatchesOutput(ItemStack chip, ItemStack stack) {
+        String chipType = ItemMobChip.toHumdanReadable(chip);
+        String type = ItemSimulationSummary.getMobType(stack);
+        return chipType.equals(type);
+    }
 }

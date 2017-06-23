@@ -1,16 +1,19 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-      "all": "deepmoblearning:blocks/simulation_chamber"
-    }
+    "model": "deepmoblearning:simulation_chamber",
+    "transform": "forge:default-block"
   },
   "variants": {
-    "normal": {
-      "model": "cube_all"
-    },
-    "inventory": {
-      "model": "cube_all"
+    "normal": [{}],
+    "inventory": [{}],
+    "facing": {
+      "down": { "x": 90 },
+      "up": { "x": 270 },
+      "north": { "y": 0 },
+      "south": { "y": 180 },
+      "west": { "y": 270 },
+      "east": { "y": 90 }
     }
   }
 }

@@ -18,7 +18,7 @@ public class Animation {
         } else {
             callsSinceRenderStart++;
             if(this.renderPos < this.renderStop) {
-                if(renderPos >= 0) {
+                if(this.renderPos >= 0) {
                     this.currentString = string.substring(0, this.renderPos);
                 }
                 this.renderPos = callsSinceRenderStart % frame == 0 ? this.renderPos + 1 : this.renderPos;

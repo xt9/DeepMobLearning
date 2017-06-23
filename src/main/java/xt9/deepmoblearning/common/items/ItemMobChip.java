@@ -31,6 +31,7 @@ public class ItemMobChip extends ItemBase {
                 list.add(I18n.format("deepmoblearning.holdshift"));
             } else {
                 list.add(I18n.format("deepmoblearning.mob_chip.tier", getTierName(stack, false)));
+                list.add(I18n.format("deepmoblearning.mob_chip.data.collected", getCurrentTierSimulationCountWithKills(stack), getTierRoof(stack)));
             }
         }
     }
@@ -93,9 +94,9 @@ public class ItemMobChip extends ItemBase {
         // Todo CONFIGURABLE
         switch(getTier(stack)) {
             case 0: return 0;
-            case 1: return 20;
-            case 2: return 40;
-            case 3: return 65;
+            case 1: return 10;
+            case 2: return 25;
+            case 3: return 50;
             case 4: return 100;
             default: return 0;
         }

@@ -183,7 +183,7 @@ public class SimulationChamberGui extends GuiContainer {
             this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
             this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
             this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else if(this.itemHandler.outputIsFull()) {
+        } else if(this.itemHandler.outputIsFull() ) {
             lines = new String[] {"Cannot begin simulation", "Output buffer is full", "_"};
             Animation a1 = this.getAnimation("outputSlotFilled1");
             Animation a2 = this.getAnimation("outputSlotFilled2");
@@ -195,14 +195,20 @@ public class SimulationChamberGui extends GuiContainer {
         } else if(this.tile.isCrafting) {
             drawString(renderer, this.tile.percentDone + "%", left + 176, top + 123, 6478079);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgress1"), left + 21, top + 51, 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress2"), left + 21, top + 51 + spacing, 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress3"), left + 21, top + 51 + (spacing * 2), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress4"), left + 21, top + 51 + (spacing * 3), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress5"), left + 21, top + 51 + (spacing * 4), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress6"), left + 21, top + 51 + (spacing * 5), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgress7"), left + 21, top + 51 + (spacing * 6), 16777215);
-            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 120, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine1Version"), left + 124, top + 51, 16777215);
+
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine2"), left + 21, top + 51 + spacing, 16777215);
+
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine3"), left + 21, top + 51 + (spacing * 2), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine4"), left + 21, top + 51 + (spacing * 3), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), 16777215);
+
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6Result"), left + 80, top + 51 + (spacing * 5), 16777215);
+
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), 16777215);
         } else {
             this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
         }

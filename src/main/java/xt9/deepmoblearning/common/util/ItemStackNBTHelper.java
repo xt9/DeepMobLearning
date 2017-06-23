@@ -3,6 +3,8 @@ package xt9.deepmoblearning.common.util;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by xt9 on 2017-06-12.
  */
@@ -35,7 +37,7 @@ public class ItemStackNBTHelper {
         getTag(stack).setString(key, val);
     }
 
-    public static String getString(ItemStack stack, String key, String defaultVal) {
+    public static @Nullable String getString(ItemStack stack, String key, String defaultVal) {
         return hasTag(stack) ? getTag(stack).getString(key) : defaultVal;
     }
 

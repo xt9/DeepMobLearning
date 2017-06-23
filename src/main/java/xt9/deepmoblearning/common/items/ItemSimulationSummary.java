@@ -16,11 +16,14 @@ public class ItemSimulationSummary extends ItemBase {
 
     @Override
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
-        list.add(getMobType(stack));
+        String type = getMobType(stack);
+        if(type.length() > 0) {
+            list.add(getMobType(stack));
+        }
     }
 
     public static String getMobType(ItemStack stack) {
-        return ItemStackNBTHelper.getString(stack, "mobType", "Empty summary");
+        return ItemStackNBTHelper.getString(stack, "mobType", "");
     }
 
     public static void setMobType(ItemStack stack, String type) {
