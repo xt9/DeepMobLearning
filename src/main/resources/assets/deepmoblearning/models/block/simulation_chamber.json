@@ -1,5 +1,4 @@
 {
-  "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
   "textures": {
     "0": "deepmoblearning:blocks/color_stripes",
     "1": "deepmoblearning:blocks/simulation_chamber_up",
