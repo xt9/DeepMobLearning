@@ -30,5 +30,8 @@ public class BlockBase extends Block {
         return this;
     }
 
+    public ItemBlock getItemBlock(Block block) {
+        return new ItemBlockBase(this.blockName, 64, block);
+    }
 
 }

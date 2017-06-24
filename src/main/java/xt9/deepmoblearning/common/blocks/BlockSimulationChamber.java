@@ -30,11 +30,6 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
     public boolean isFullCube(IBlockState state) {
         return false;
     }
