@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:stick", "data": 0 },
+    { "item": "deepmoblearning:living_matter", "data": 1 },
+    { "item": "deepmoblearning:living_matter", "data": 1 }
+  ],
+  "result": {
+    "item": "minecraft:blaze_rod",
+    "count": 1
+  }
+}

@@ -39,9 +39,15 @@ public class ChipExperienceGui extends GuiScreen {
     public ChipExperienceGui(Minecraft mc) {
         super();
         this.mc = mc;
-        this.renderer = this.mc.fontRendererObj;
+        this.renderer = this.mc.fontRenderer;
         this.itemRender = this.mc.getRenderItem();
         this.setGuiSize(89, 12);
+    }
+
+    /* Needed on 1.12 to render tooltips */
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
     @SubscribeEvent(priority=EventPriority.NORMAL)

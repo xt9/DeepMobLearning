@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:stick", "data": 0 },
+    { "item": "minecraft:flint", "data": 0 },
+    { "item": "deepmoblearning:living_matter", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:arrow",
+    "count": 12
+  }
+}

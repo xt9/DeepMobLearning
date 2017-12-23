@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " H ",
+    "HEH",
+    " H "
+  ],
+  "key": {
+    "H": {
+      "item": "deepmoblearning:living_matter",
+      "data": 1
+    },
+    "E": {
+      "item": "minecraft:end_stone"
+    }
+  },
+  "result": {
+    "item": "deepmoblearning:living_matter",
+    "data": 2
+  }
+}

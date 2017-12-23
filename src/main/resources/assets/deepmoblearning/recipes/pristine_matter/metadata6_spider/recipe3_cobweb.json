@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:pristine_matter", "data": 6 },
+    { "item": "deepmoblearning:pristine_matter", "data": 6 },
+    { "item": "deepmoblearning:pristine_matter", "data": 6 },
+    { "item": "deepmoblearning:pristine_matter", "data": 6 }
+  ],
+  "result": {
+    "item": "minecraft:web",
+    "count": 16
+  }
+}

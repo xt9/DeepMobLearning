@@ -67,8 +67,9 @@ public class ContainerSimulationChamber extends Container {
 
     private void addSlotsToHandler() {
         this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT, -13, 1));
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 174, 17));
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 198, 17));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 176, 7));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 196, 7));
+        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, 186, 27));
     }
 
     private void addInventorySlots() {

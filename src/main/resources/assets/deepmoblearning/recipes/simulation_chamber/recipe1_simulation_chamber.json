@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OOO",
+    "OPO",
+    "OPO"
+  ],
+  "key": {
+    "O": { "item": "minecraft:obsidian", "data": 0 },
+    "P": { "item": "minecraft:ender_pearl", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:simulation_chamber",
+    "count": 1
+  }
+}

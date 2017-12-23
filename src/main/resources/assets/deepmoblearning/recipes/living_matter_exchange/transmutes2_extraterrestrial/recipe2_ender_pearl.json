@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter", "data": 2 },
+    { "item": "minecraft:slime_ball", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:ender_pearl",
+    "count": 1
+  }
+}

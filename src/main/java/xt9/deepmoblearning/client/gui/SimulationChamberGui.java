@@ -50,12 +50,19 @@ public class SimulationChamberGui extends GuiContainer {
         this.itemHandler = (SimulationChamberHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY, null);
 
-        this.renderer = Minecraft.getMinecraft().fontRendererObj;
+        this.renderer = Minecraft.getMinecraft().fontRenderer;
         this.animationList = new HashMap<>();
         this.world = world;
         this.tile = te;
         xSize = WIDTH;
         ySize = HEIGHT;
+    }
+
+    /* Needed on 1.12 to render tooltips */
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -77,6 +84,7 @@ public class SimulationChamberGui extends GuiContainer {
                 drawHoveringText(tooltip, x + 2, y + 2);
             } else if(211 <= x && x < 220) {
                 tooltip.add(f.format(this.energyStorage.getEnergyStored()) + "/" + f.format(this.energyStorage.getMaxEnergyStored()) + " RF");
+                tooltip.add("Machine in use drains 128RF/t");
                 drawHoveringText(tooltip, x + 2, y + 2);
             }
         }
@@ -116,8 +124,8 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a1 = this.getAnimation("pleaseInsert1");
             Animation a2 = this.getAnimation("pleaseInsert2");
 
-            this.animateString(lines[0], a1, null, 20, false, left + 10, topStart + spacing, 16777215);
-            this.animateString(lines[1], a2, a1, 20, false, left + 10, topStart + (spacing * 2), 16777215);
+            this.animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, 16777215);
+            this.animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), 16777215);
 
         } else if(ItemMobChip.getTier(this.itemHandler.getChip()) == 0) {
 
@@ -127,9 +135,9 @@ public class SimulationChamberGui extends GuiContainer {
             Animation insufData2 = this.getAnimation("insufData2");
             Animation insufData3 = this.getAnimation("insufData3");
 
-            this.animateString(lines[0], insufData, null, 20, false, left + 10, topStart + spacing, 16777215);
-            this.animateString(lines[1], insufData2, insufData, 20, false,  left + 10, topStart + (spacing * 2), 16777215);
-            this.animateString(lines[2], insufData3, insufData2, 20, false,  left + 10, topStart + (spacing * 3), 16777215);
+            this.animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, 16777215);
+            this.animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), 16777215);
+            this.animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), 16777215);
 
         } else {
             // Draw current chip experience
@@ -146,7 +154,7 @@ public class SimulationChamberGui extends GuiContainer {
 
             drawString(renderer, "Tier: " + ItemMobChip.getTierName(this.itemHandler.getChip(), false), left + 10, topStart + spacing, 16777215);
             drawString(renderer, "Iterations: " + f.format(ItemMobChip.getTotalSimulationCount(this.itemHandler.getChip())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Success chance: " + ItemMobChip.getSuccessChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Pristine chance: " + ItemMobChip.getPristineChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
         }
 
         // Draw player inventory
@@ -161,18 +169,18 @@ public class SimulationChamberGui extends GuiContainer {
     private void drawConsoleText(int left, int top, int spacing) {
         String[] lines;
 
-        if(!this.itemHandler.hasChip()) {
-            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
+        if(!this.itemHandler.hasChip() || ItemMobChip.getTier(this.itemHandler.getChip()) == 0) {
+            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, 16777215);
 
-        } else if(!this.itemHandler.hasSimulationManifest()) {
-            lines = new String[] {"Cannot begin simulation", "Missing writable medium", "_"};
+        } else if(!this.itemHandler.hasPolymerClay()) {
+            lines = new String[] {"Cannot begin simulation", "Missing polymer medium", "_"};
             Animation a1 = this.getAnimation("inputSlotEmpty1");
             Animation a2 = this.getAnimation("inputSlotEmpty2");
             Animation a3 = this.getAnimation("blinkingUnderline1");
 
-            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
 
         } else if(!this.hasEnergy() && !this.tile.isCrafting) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
@@ -180,18 +188,18 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a2 = this.getAnimation("lowEnergy2");
             Animation a3 = this.getAnimation("blinkingUnderline2");
 
-            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else if(this.itemHandler.outputIsFull() ) {
-            lines = new String[] {"Cannot begin simulation", "Output buffer is full", "_"};
+            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+        } else if(this.itemHandler.outputIsFull() || this.itemHandler.pristineIsFull()) {
+            lines = new String[] {"Cannot begin simulation", "Output or pristine buffer is full", "_"};
             Animation a1 = this.getAnimation("outputSlotFilled1");
             Animation a2 = this.getAnimation("outputSlotFilled2");
             Animation a3 = this.getAnimation("blinkingUnderline3");
 
-            this.animateString(lines[0], a1, null, 20, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 20, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 250, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
         } else if(this.tile.isCrafting) {
             drawString(renderer, this.tile.percentDone + "%", left + 176, top + 123, 6478079);
 
@@ -205,7 +213,7 @@ public class SimulationChamberGui extends GuiContainer {
             drawString(renderer, this.tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), 16777215);
 
             drawString(renderer, this.tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6Result"), left + 80, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6Result"), left + 140, top + 51 + (spacing * 5), 16777215);
 
             drawString(renderer, this.tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), 16777215);
             drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), 16777215);

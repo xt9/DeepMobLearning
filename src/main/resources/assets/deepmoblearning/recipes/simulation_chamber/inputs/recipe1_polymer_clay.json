@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "RDR",
+    "GCI",
+    "RDR"
+  ],
+  "key": {
+    "R": { "item": "minecraft:redstone", "data": 0 },
+    "D": { "item": "minecraft:dye", "data": 6 },
+    "G": { "item": "minecraft:gold_ingot", "data": 0 },
+    "I": { "item": "minecraft:iron_ingot", "data": 0 },
+    "C": { "item": "minecraft:clay_ball", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:polymer_clay",
+    "count": 8,
+    "data": 0
+  }
+}

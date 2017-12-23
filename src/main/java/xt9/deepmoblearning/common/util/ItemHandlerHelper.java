@@ -8,7 +8,7 @@ import net.minecraftforge.items.IItemHandler;
  * Created by xt9 on 2017-06-14.
  */
 public class ItemHandlerHelper {
-    public static NonNullList<ItemStack> getItemStackHandlerList(IItemHandler handler) {
+    public static NonNullList<ItemStack> getItemStacksFromHandler(IItemHandler handler) {
         NonNullList<ItemStack> list = NonNullList.create();
         int numOfSlots  = handler.getSlots();
         for (int i = 0; i < numOfSlots; i++) {

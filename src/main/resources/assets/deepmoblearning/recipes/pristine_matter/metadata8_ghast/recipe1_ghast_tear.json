@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:pristine_matter", "data": 8 }
+  ],
+  "result": {
+    "item": "minecraft:ghast_tear",
+    "count": 6
+  }
+}

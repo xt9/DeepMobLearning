@@ -3,10 +3,11 @@ package xt9.deepmoblearning.common.handlers;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.items.ItemBlankSimulationSummary;
-import xt9.deepmoblearning.common.items.ItemSimulationSummary;
+import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.items.ItemLivingMatter;
+import xt9.deepmoblearning.common.items.ItemPolymerClay;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.util.CraftingHelper;
+import xt9.deepmoblearning.common.items.ItemPristineMatter;
 
 import javax.annotation.Nonnull;
 
@@ -57,9 +58,11 @@ public class SimulationChamberHandler extends ItemStackHandler {
             case DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT:
                 return type.equals("insert") && stack.getItem() instanceof ItemMobChip;
             case DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT:
-                return type.equals("insert") && stack.getItem() instanceof ItemBlankSimulationSummary;
+                return type.equals("insert") && stack.getItem() instanceof ItemPolymerClay;
             case DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT:
-                return type.equals("extract") && stack.getItem() instanceof ItemSimulationSummary;
+                return type.equals("extract") && stack.getItem() instanceof ItemLivingMatter;
+            case DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT:
+                return type.equals("extract") && stack.getItem() instanceof ItemPristineMatter;
             default:
                 return false;
         }
@@ -86,9 +89,13 @@ public class SimulationChamberHandler extends ItemStackHandler {
         return this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
     }
 
-    public boolean hasSimulationManifest() {
+    public ItemStack getPristine() {
+        return this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT);
+    }
+
+    public boolean hasPolymerClay() {
         ItemStack stack = this.getStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT);
-        return stack.getItem() instanceof ItemBlankSimulationSummary && stack.getCount() > 0;
+        return stack.getItem() instanceof ItemPolymerClay && stack.getCount() > 0;
     }
 
     public boolean hasChip() {
@@ -102,8 +109,37 @@ public class SimulationChamberHandler extends ItemStackHandler {
         }
 
         boolean stackLimitReached = stack.getCount() == this.getSlotLimit(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT);
-        boolean outputMatches = CraftingHelper.chipMatchesOutput(this.getChip(), this.getOutput());
+        boolean outputMatches = chipMatchesOutput(this.getChip(), this.getOutput());
 
         return stackLimitReached || !outputMatches;
+    }
+
+    public boolean pristineIsFull() {
+        ItemStack stack = this.getPristine();
+        if(stack.isEmpty()) {
+            return false;
+        }
+
+        boolean stackLimitReached = stack.getCount() == this.getSlotLimit(DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT);
+        boolean outputMatches = chipMatchesPristine(this.getChip(), this.getPristine());
+
+        return stackLimitReached || !outputMatches;
+    }
+
+    public ItemStack createMatterFromMobChip(ItemStack chip, int amount) {
+        ItemStack matter = new ItemStack(Registry.livingMatter, amount);
+        matter.setItemDamage(ItemMobChip.getMatterType(chip));
+        return matter;
+    }
+
+    public static boolean chipMatchesOutput(ItemStack chip, ItemStack stack) {
+        int chipMatterType = ItemMobChip.getMatterType(chip);
+        return chipMatterType == stack.getItemDamage();
+    }
+
+    public static boolean chipMatchesPristine(ItemStack chip, ItemStack stack) {
+        String chipType = ItemMobChip.getSubName(chip);
+        String pristineType = ItemPristineMatter.getSubName(stack);
+        return chipType.equals(pristineType);
     }
 }

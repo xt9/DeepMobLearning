@@ -1,72 +1,65 @@
 package xt9.deepmoblearning.common;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.common.blocks.BlockBase;
-import xt9.deepmoblearning.common.blocks.BlockPolymerPrinter;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
-import xt9.deepmoblearning.common.blocks.ItemBlockBase;
 import xt9.deepmoblearning.common.items.*;
 
 /**
  * Created by xt9 on 2017-06-08.
  */
 public class Registry {
-    public static NonNullList<BlockBase> blocks = NonNullList.create();
-    public static BlockSimulationChamber simulationChamber;
-    public static BlockPolymerPrinter polymerPrinter;
+    public static BlockSimulationChamber blockSimulationChamber;
 
     public static NonNullList<ItemBase> items = NonNullList.create();
-    public static ItemBlankSimulationSummary blankSimulationSummary;
-    public static ItemSimulationSummary simulationSummary;
     public static ItemPolymerClay polymerClay;
+    public static ItemLivingMatter livingMatter;
+    public static ItemPristineMatter pristineMatter;
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
+    public static Item simulationChamber;
 
+    public static void registerBlocks(IForgeRegistry registry) {
+        blockSimulationChamber = new BlockSimulationChamber();
 
-    public static void preInit() {
-        // Create our block instances
-        simulationChamber = new BlockSimulationChamber();
-        blocks.add(simulationChamber);
-        polymerPrinter = new BlockPolymerPrinter();
-        blocks.add(polymerPrinter);
+        // Register tile entities
+        GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepMobLearning.MODID + ":simulation_chamber");
 
+        // Register our sole block
+        registry.registerAll(blockSimulationChamber);
+    }
+
+    public static void registerItems(IForgeRegistry registry) {
         // Create our Item instances
-        blankSimulationSummary = new ItemBlankSimulationSummary();
-        items.add(blankSimulationSummary);
-        simulationSummary = new ItemSimulationSummary();
-        items.add(simulationSummary);
-        polymerClay = new ItemPolymerClay();
-        items.add(polymerClay);
+        simulationChamber = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
+        registry.register(simulationChamber);
+
         deepLearner = new ItemDeepLearner();
         items.add(deepLearner);
         mobChip = new ItemMobChip();
         items.add(mobChip);
+        polymerClay = new ItemPolymerClay();
+        items.add(polymerClay);
+        livingMatter = new ItemLivingMatter();
+        items.add(livingMatter);
+        pristineMatter = new ItemPristineMatter();
+        items.add(pristineMatter);
 
-
-        // TileEntities
-        GameRegistry.registerTileEntity(simulationChamber.getTileEntityClass(), DeepMobLearning.MODID + ":simulation_chamber");
-
-        registerBlocks();
-        registerItems();
-    }
-
-    private static void registerItems() {
-        for (ItemBase item : items) {
-            GameRegistry.register(item);
-            item.registerItemModel();
+        for (Item item : items) {
+            registry.register(item);
         }
     }
 
-    private static void registerBlocks() {
-        for(BlockBase block : blocks) {
-            ItemBlock itemBlock = block.getItemBlock(block);
-            GameRegistry.register(block);
-            GameRegistry.register(itemBlock);
-            block.registerItemModel(itemBlock);
+    public static void registerItemModels() {
+        blockSimulationChamber.registerItemModel(Item.getItemFromBlock(blockSimulationChamber));
 
+        for (ItemBase item : items) {
+            item.registerItemModel();
         }
     }
 }

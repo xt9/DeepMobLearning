@@ -13,11 +13,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.api.mobs.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
-import xt9.deepmoblearning.common.util.MetaUtil;
+import xt9.deepmoblearning.common.mobs.MobMetaData;
+import xt9.deepmoblearning.common.mobs.SpiderMeta;
+import xt9.deepmoblearning.common.mobs.ZombieMeta;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -42,10 +43,17 @@ public class DeepLearnerGui extends GuiContainer {
     public DeepLearnerGui(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
         super(new ContainerDeepLearner(inventory, world, slot, heldItem));
         this.world = world;
-        this.renderer = Minecraft.getMinecraft().fontRendererObj;
+        this.renderer = Minecraft.getMinecraft().fontRenderer;
         this.deepLearner = heldItem;
         xSize = WIDTH;
         ySize = HEIGHT;
+    }
+
+    /* Needed on 1.12 to render tooltips */
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -77,7 +85,7 @@ public class DeepLearnerGui extends GuiContainer {
 
         // If we have atleast 1 valid mob chip
         if(this.validModelChips.size() >= 1 && this.currentItem < this.validModelChips.size()) {
-            this.meta = MetaUtil.getMetaFromItemStack(this.validModelChips.get(this.currentItem));
+            this.meta = ItemMobChip.getMobMetaData(this.validModelChips.get(this.currentItem));
 
             this.renderMetaDataText(meta, left, top, this.validModelChips.get(this.currentItem));
             this.renderMobDisplayBox(left, top);
@@ -228,7 +236,7 @@ public class DeepLearnerGui extends GuiContainer {
         // Make sure the Z axis is high so it does not clip behind the backdrop or inventory
         GlStateManager.translate(0.2f, 0.0f + heightOffset, 15.0f);
         GlStateManager.rotate((this.world.getTotalWorldTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
-        Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
+        Minecraft.getMinecraft().getRenderManager().renderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
 
         GlStateManager.popMatrix();
         Minecraft.getMinecraft().entityRenderer.enableLightmap();

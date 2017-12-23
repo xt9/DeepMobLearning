@@ -1,6 +1,7 @@
 package xt9.deepmoblearning.common.items;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.*;
@@ -9,11 +10,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.api.items.ExperienceItem;
+import xt9.deepmoblearning.common.util.DataModelExperience;
+import xt9.deepmoblearning.common.mobs.*;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
 import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -21,17 +25,22 @@ import java.util.List;
  */
 public class ItemMobChip extends ItemBase {
     public ItemMobChip() {
-        super("mob_chip", 1, "default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper", "ghast", "witherskeleton");
+        super("mob_chip", 1, DeepConstants.ITEM_MOB_CHIP_KEYS);
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
         if(stack.getItemDamage() != 0) {
             if(!KeyboardHelper.isHoldingShift()) {
                 list.add(I18n.format("deepmoblearning.holdshift"));
             } else {
                 list.add(I18n.format("deepmoblearning.mob_chip.tier", getTierName(stack, false)));
-                list.add(I18n.format("deepmoblearning.mob_chip.data.collected", getCurrentTierSimulationCountWithKills(stack), getTierRoof(stack)));
+                int tier = ItemMobChip.getTier(stack);
+                if(tier != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+                    list.add(I18n.format("deepmoblearning.mob_chip.data.collected", getCurrentTierSimulationCountWithKills(stack), getTierRoof(stack)));
+                    list.add(I18n.format("deepmoblearning.mob_chip.data.killmultiplier", DataModelExperience.getKillMultiplier(ItemMobChip.getTier(stack))));
+                }
+                list.add(I18n.format("deepmoblearning.mob_chip.type", getMatterTypeName(stack)));
             }
         }
     }
@@ -90,14 +99,75 @@ public class ItemMobChip extends ItemBase {
         }
     }
 
-    public static int getSuccessChance(ItemStack stack) {
+    /* Returns metadata value to use for the living matter subnames */
+    public static String getMatterTypeName(ItemStack stack) {
+        switch(getSubName(stack)) {
+            case "zombie":
+            case "skeleton":
+            case "spider":
+            case "creeper":
+            case "witch": return "§aOverworldian§r";
+
+            case "blaze":
+            case "ghast":
+            case "witherskeleton": return "§cHellish§r";
+
+            case "enderman":
+            case "wither": return "§dExtraterrestrial§r";
+
+            default: return "Overworldian";
+        }
+    }
+
+    /* Returns metadata value to use for the living matter subnames */
+    public static int getMatterType(ItemStack stack) {
+        switch(getSubName(stack)) {
+            case "zombie":
+            case "skeleton":
+            case "spider":
+            case "creeper":
+            case "witch": return 0;
+
+            case "blaze":
+            case "ghast":
+            case "witherskeleton": return 1;
+
+            case "enderman":
+            case "wither": return 2;
+
+            default: return 0;
+        }
+    }
+
+    /* Get a mob meta instance */
+    public static MobMetaData getMobMetaData(ItemStack stack) {
+        MobMetaData meta;
+
+        switch(getSubName(stack)) {
+            case "zombie": meta = new ZombieMeta(); break;
+            case "skeleton": meta = new SkeletonMeta(); break;
+            case "blaze": meta = new BlazeMeta(); break;
+            case "enderman": meta = new EndermanMeta(); break;
+            case "wither": meta = new WitherMeta(); break;
+            case "witch": meta = new WitchMeta(); break;
+            case "spider": meta = new SpiderMeta(); break;
+            case "creeper": meta = new CreeperMeta(); break;
+            case "ghast": meta = new GhastMeta(); break;
+            case "witherskeleton": meta = new WitherSkeletonMeta(); break;
+            default: meta = new ZombieMeta(); break;
+        }
+
+        return meta;
+    }
+
+    public static int getPristineChance(ItemStack stack) {
         // Todo CONFIGURABLE
         switch(getTier(stack)) {
             case 0: return 0;
-            case 1: return 10;
-            case 2: return 25;
-            case 3: return 50;
-            case 4: return 100;
+            case 1: return 3;
+            case 2: return 8;
+            case 3: return 14;
+            case 4: return 33;
             default: return 0;
         }
     }
@@ -125,7 +195,7 @@ public class ItemMobChip extends ItemBase {
         // Update the totals
         setTotalKillCount(stack, getTotalKillCount(stack) + 1);
 
-        if(ExperienceItem.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
+        if(DataModelExperience.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
             player.sendMessage(new TextComponentString(stack.getDisplayName() + " reached the " + getTierName(stack, true) + " tier"));
 
             setCurrentTierKillCount(stack, 0);
@@ -144,7 +214,7 @@ public class ItemMobChip extends ItemBase {
         // Update the totals
         setTotalSimulationCount(stack, getTotalSimulationCount(stack) + 1);
 
-        if(ExperienceItem.shouldIncreaseTier(tier, getCurrentTierKillCount(stack), i)) {
+        if(DataModelExperience.shouldIncreaseTier(tier, getCurrentTierKillCount(stack), i)) {
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);
             setTier(stack, tier + 1);
@@ -199,34 +269,34 @@ public class ItemMobChip extends ItemBase {
      The functions below are not NBT getters/setters
     */
     public static double getCurrentTierKillCountWithSims(ItemStack stack) {
-        return ExperienceItem.getCurrentTierKillCountWithSims(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
+        return DataModelExperience.getCurrentTierKillCountWithSims(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 
     public static int getCurrentTierSimulationCountWithKills(ItemStack stack) {
-        return ExperienceItem.getCurrentTierSimulationCountWithKills(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
+        return DataModelExperience.getCurrentTierSimulationCountWithKills(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 
     /* This is not the same as getCurrentTierKillCount before kills to  */
     public static double getKillsToNextTier(ItemStack stack) {
-        return ExperienceItem.getKillsToNextTier(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
+        return DataModelExperience.getKillsToNextTier(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 
     public static int getSimulationsToNextTier(ItemStack stack) {
-        return ExperienceItem.getSimulationsToNextTier(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
+        return DataModelExperience.getSimulationsToNextTier(getTier(stack), getCurrentTierKillCount(stack), getCurrentTierSimulationCount(stack));
     }
 
     public static int getTierRoofAsKills(ItemStack stack) {
         if(getTier(stack) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
             return 0;
         }
-        return ExperienceItem.getTierRoof(getTier(stack), true);
+        return DataModelExperience.getTierRoof(getTier(stack), true);
     }
 
     public static int getTierRoof(ItemStack stack) {
         if(getTier(stack) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
             return 0;
         }
-        return ExperienceItem.getTierRoof(getTier(stack), false);
+        return DataModelExperience.getTierRoof(getTier(stack), false);
     }
 
 

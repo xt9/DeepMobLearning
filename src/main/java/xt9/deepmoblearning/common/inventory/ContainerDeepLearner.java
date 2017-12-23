@@ -125,7 +125,7 @@ public class ContainerDeepLearner extends Container {
     }
 
     private void updateInventories() {
-        ItemDeepLearner.setContainedItems(this.deepLearner, ItemHandlerHelper.getItemStackHandlerList(this.handler));
+        ItemDeepLearner.setContainedItems(this.deepLearner, ItemHandlerHelper.getItemStacksFromHandler(this.handler));
         ItemStack hand = player.getItemStackFromSlot(this.equipmentSlot);
         if(!hand.isEmpty() && !hand.equals(deepLearner))
             player.setItemStackToSlot(this.equipmentSlot, this.deepLearner);

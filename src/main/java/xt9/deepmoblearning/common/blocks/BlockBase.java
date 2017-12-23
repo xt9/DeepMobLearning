@@ -3,6 +3,7 @@ package xt9.deepmoblearning.common.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import xt9.deepmoblearning.DeepMobLearning;
 
@@ -20,7 +21,7 @@ public class BlockBase extends Block {
         this.setRegistryName(name);
     }
 
-    public void registerItemModel(ItemBlock itemBlock) {
+    public void registerItemModel(Item itemBlock) {
         DeepMobLearning.proxy.registerItemRenderer(itemBlock, 0, blockName);
     }
 

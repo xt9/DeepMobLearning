@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ODO",
+    "DPD",
+    "ODO"
+  ],
+  "key": {
+    "O": { "item": "minecraft:obsidian", "data": 0 },
+    "D": { "item": "minecraft:dye", "data": 6 },
+    "P": { "item": "minecraft:ender_pearl", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:deep_learner",
+    "count": 1
+  }
+}

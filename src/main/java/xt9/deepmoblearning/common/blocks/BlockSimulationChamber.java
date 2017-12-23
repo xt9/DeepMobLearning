@@ -45,7 +45,7 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntitySimulationChamber tile = getTileEntity(world, pos);
         IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        NonNullList<ItemStack> containedItems = ItemHandlerHelper.getItemStackHandlerList(itemHandler);
+        NonNullList<ItemStack> containedItems = ItemHandlerHelper.getItemStacksFromHandler(itemHandler);
 
         for (int i = 0; i < containedItems.size(); i++) {
             if (!containedItems.get(i).isEmpty()) {

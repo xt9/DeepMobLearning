@@ -1,6 +1,7 @@
 package xt9.deepmoblearning.common.items;
 
 import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -32,7 +33,7 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     }
 
     @Override
-    public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean adv) {
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
         NonNullList<ItemStack> internalChips = ItemMobChip.getValidFromList(getContainedItems(stack));
 
         if(internalChips.size() > 0) {

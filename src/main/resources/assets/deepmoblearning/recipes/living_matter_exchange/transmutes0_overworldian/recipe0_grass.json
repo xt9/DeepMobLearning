@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:dirt", "data": 0 },
+    { "item": "minecraft:leaves", "data": 0 },
+    { "item": "deepmoblearning:living_matter", "data": 0 }
+
+  ],
+  "result": {
+    "item": "minecraft:grass",
+    "count": 4
+  }
+}

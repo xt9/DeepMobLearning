@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "ONO",
+    " O "
+  ],
+  "key": {
+    "O": {
+      "item": "deepmoblearning:living_matter",
+      "data": 0
+    },
+    "N": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "deepmoblearning:living_matter",
+    "data": 1
+  }
+}

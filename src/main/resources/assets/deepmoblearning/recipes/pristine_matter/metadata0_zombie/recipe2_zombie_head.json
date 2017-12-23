@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:pristine_matter", "data": 0 },
+    { "item": "deepmoblearning:pristine_matter", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:skull",
+    "data": 2,
+    "count": 6
+  }
+}

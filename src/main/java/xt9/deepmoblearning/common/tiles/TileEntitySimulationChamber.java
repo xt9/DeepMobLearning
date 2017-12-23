@@ -18,7 +18,6 @@ import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.Animation;
-import xt9.deepmoblearning.common.util.CraftingHelper;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -31,12 +30,11 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private SimulationChamberHandler inventory = new SimulationChamberHandler();
     // Attach a DeepEnergyStorage, don't let it extract energy (It's not a generator)
     private DeepEnergyStorage energyStorage = new DeepEnergyStorage(1000000, 1024 , 0, 0);
-    private CraftingHelper craftingHelper = new CraftingHelper();
 
     public HashMap<String, Animation> simulationAnimations = new HashMap<>();
     public HashMap<String, String> simulationText = new HashMap<>();
     public boolean isCrafting = false;
-    public boolean craftSuccess = false;
+    public boolean byproductSuccess = false;
     public int energy = 0;
     public int ticks = 0;
     public int craftingCost = 38400;
@@ -66,10 +64,10 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 if(this.percentDone == 0) {
                     Random rand = new Random();
                     int num = rand.nextInt(100);
-                    this.craftSuccess = num <= ItemMobChip.getSuccessChance(this.inventory.getChip());
+                    this.byproductSuccess = num <= ItemMobChip.getPristineChance(this.inventory.getChip());
                 }
 
-                // Todo get this value from a energy crafting helper
+                // Todo get this value from the mob meta?
                 this.energyStorage.voidEnergy(128);
 
                 if(ticks % 3 == 0) {
@@ -109,13 +107,21 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         if(!abort && !this.world.isRemote) {
             ItemMobChip.increaseSimulationCount(this.inventory.getChip());
 
-            if(this.craftSuccess) {
-                this.craftSuccess = false;
-                ItemStack oldInputStack = this.inventory.getInput();
-                ItemStack oldOutPutStack = this.inventory.getOutput();
+            ItemStack oldInput = this.inventory.getInput();
+            ItemStack oldOutput = this.inventory.getOutput();
 
-                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, new ItemStack(Registry.blankSimulationSummary, oldInputStack.getCount() - 1));
-                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, this.craftingHelper.createSimulationManifestFromMobChip(this.inventory.getChip(), oldOutPutStack.getCount() + 1));
+            ItemStack newInput = new ItemStack(Registry.polymerClay, oldInput.getCount() - 1);
+            ItemStack newOutput = this.inventory.createMatterFromMobChip(this.inventory.getChip(), oldOutput.getCount() + 1);
+
+            this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, newInput);
+            this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, newOutput);
+
+            if(this.byproductSuccess) {
+                // If Byproduct roll was successful
+                this.byproductSuccess = false;
+                ItemStack oldPristine = this.inventory.getPristine();
+                ItemStack newPristine = ItemMobChip.getMobMetaData(this.inventory.getChip()).getPristineMatter(this.inventory.getChip(), oldPristine.getCount() + 1);
+                this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, newPristine);
             }
 
             IBlockState state = this.world.getBlockState(this.getPos());
@@ -124,17 +130,17 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     private boolean canStartSimulation() {
-        return this.hasEnergyForSimulation() && this.canContinueSimulation() && !this.inventory.outputIsFull();
+        return this.hasEnergyForSimulation() && this.canContinueSimulation() && !this.inventory.outputIsFull() && !this.inventory.pristineIsFull();
     }
 
     private boolean canContinueSimulation() {
         return this.inventory.hasChip() && ItemMobChip.getTier(this.inventory.getChip()) != 0
-                && this.inventory.hasSimulationManifest();
+                && this.inventory.hasPolymerClay();
     }
 
 
     public boolean hasEnergyForSimulation() {
-        // Todo move this to util classes and check the cost on each chip tier
+        // Todo move this to util classes and check the cost on each chip tier (Might have to increase energy buffer of machine if some data model is reall expensive
         return this.energyStorage.getEnergyStored() > this.craftingCost;
     }
 
@@ -146,13 +152,13 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 "> Loading model from chip memory",
                 "> Assessing threat level",
                 "> Engaged enemy",
-                "> Simulation ",
-                this.craftSuccess ? "successful" : "failed",
+                "> Pristine procurement",
+                this.byproductSuccess ? "succeeded" : "failed",
                 "> Processing results",
                 "..."
         };
 
-        String resultPrefix = this.craftSuccess ? "§a" : "§c";
+        String resultPrefix = this.byproductSuccess ? "§a" : "§c";
 
         Animation aLine1 = this.getAnimation("simulationProgressLine1");
         Animation aLine1Version = this.getAnimation("simulationProgressLine1Version");
@@ -228,7 +234,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private NBTTagCompound getNetworkTag(NBTTagCompound tag) {
         tag.setInteger("simulationProgress", this.percentDone);
         tag.setBoolean("isCrafting", this.isCrafting);
-        tag.setBoolean("craftSuccess", this.craftSuccess);
+        tag.setBoolean("craftSuccess", this.byproductSuccess);
         return energyStorage.writeEnergy(tag);
     }
 
@@ -251,7 +257,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         compound.setTag("inventory", inventory.serializeNBT());
         compound.setInteger("simulationProgress", this.percentDone);
         compound.setBoolean("isCrafting", this.isCrafting);
-        compound.setBoolean("craftSuccess", this.craftSuccess);
+        compound.setBoolean("craftSuccess", this.byproductSuccess);
         energyStorage.writeEnergy(compound);
         return super.writeToNBT(compound);
     }
@@ -262,7 +268,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         energyStorage.readEnergy(compound);
         this.percentDone = compound.hasKey("simulationProgress", Constants.NBT.TAG_INT) ? compound.getInteger("simulationProgress") : 0;
         this.isCrafting = compound.hasKey("isCrafting", Constants.NBT.TAG_BYTE) ? compound.getBoolean("isCrafting") : this.isCrafting;
-        this.craftSuccess = compound.hasKey("craftSuccess", Constants.NBT.TAG_BYTE) ? compound.getBoolean("craftSuccess") : this.isCrafting;
+        this.byproductSuccess = compound.hasKey("craftSuccess", Constants.NBT.TAG_BYTE) ? compound.getBoolean("craftSuccess") : this.isCrafting;
         super.readFromNBT(compound);
     }
 

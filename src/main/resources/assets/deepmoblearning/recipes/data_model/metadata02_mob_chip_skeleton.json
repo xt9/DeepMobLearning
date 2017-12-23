@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:mob_chip", "data": 0 },
+    { "item": "minecraft:skull", "data": 0 }
+  ],
+  "result": {
+    "item": "deepmoblearning:mob_chip",
+    "data": 2,
+    "count": 1
+  }
+}

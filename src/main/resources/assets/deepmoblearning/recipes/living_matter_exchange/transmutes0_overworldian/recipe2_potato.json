@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter", "data": 0 },
+    { "item": "minecraft:carrot", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:potato",
+    "count": 2
+  }
+}

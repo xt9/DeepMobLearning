@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
-import xt9.deepmoblearning.common.items.ItemBlankSimulationSummary;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.items.ItemPolymerClay;
 
 import javax.annotation.Nonnull;
 
@@ -27,8 +27,10 @@ public class SlotSimulationChamber extends SlotItemHandler {
             case DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT:
                 return !stack.isEmpty() && item instanceof ItemMobChip;
             case DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT:
-                return !stack.isEmpty() && item instanceof ItemBlankSimulationSummary;
+                return !stack.isEmpty() && item instanceof ItemPolymerClay;
             case DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT:
+                return false;
+            case DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT:
                 return false;
             default:
                 return false;

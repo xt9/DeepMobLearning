@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter", "data": 1 },
+    { "item": "minecraft:gunpowder", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:blaze_powder",
+    "count": 2
+  }
+}

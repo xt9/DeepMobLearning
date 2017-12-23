@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:sandstone", "data": 0 },
+    { "item": "minecraft:sandstone", "data": 0 },
+    { "item": "minecraft:ender_pearl", "data": 0 },
+    { "item": "deepmoblearning:living_matter", "data": 2 }
+  ],
+  "result": {
+    "item": "minecraft:end_stone",
+    "count": 8
+  }
+}

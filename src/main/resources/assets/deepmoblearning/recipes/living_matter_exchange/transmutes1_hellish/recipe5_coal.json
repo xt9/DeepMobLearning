@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:dye", "data": 0 },
+    { "item": "minecraft:bone", "data": 0 },
+    { "item": "deepmoblearning:living_matter", "data": 1 }
+  ],
+  "result": {
+    "item": "minecraft:coal",
+    "count": 16
+  }
+}
