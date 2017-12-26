@@ -28,7 +28,9 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand)
     {
-        CommonProxy.openItemGui(player, hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND);
+        if(!KeyboardHelper.isHoldingShift() && !KeyboardHelper.isHoldingCTRL()) {
+            CommonProxy.openItemGui(player, hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND);
+        }
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 

@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "RDR",
-    "GCI",
-    "RDR"
+    "GCR",
+    "CDC",
+    "RCI"
   ],
   "key": {
     "R": { "item": "deepmoblearning:charred_redstone", "data": 0 },

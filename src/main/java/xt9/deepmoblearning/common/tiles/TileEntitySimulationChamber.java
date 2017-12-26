@@ -29,7 +29,7 @@ import java.util.Random;
 public class TileEntitySimulationChamber extends TileEntity implements ITickable, IGuiTile {
     private SimulationChamberHandler inventory = new SimulationChamberHandler();
     // Attach a DeepEnergyStorage, don't let it extract energy (It's not a generator)
-    private DeepEnergyStorage energyStorage = new DeepEnergyStorage(1000000, 1024 , 0, 0);
+    private DeepEnergyStorage energyStorage = new DeepEnergyStorage(2000000, 25600 , 0, 0);
 
     public HashMap<String, Animation> simulationAnimations = new HashMap<>();
     public HashMap<String, String> simulationText = new HashMap<>();

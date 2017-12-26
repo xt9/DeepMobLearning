@@ -17,6 +17,7 @@ public class Registry {
     public static BlockSimulationChamber blockSimulationChamber;
 
     public static NonNullList<ItemBase> items = NonNullList.create();
+    public static Item simulationChamber;
     public static ItemPolymerClay polymerClay;
     public static ItemCharredRedstone charredRedstone;
     public static ItemCharredPlate charredPlate;
@@ -24,7 +25,7 @@ public class Registry {
     public static ItemPristineMatter pristineMatter;
     public static ItemDeepLearner deepLearner;
     public static ItemMobChip mobChip;
-    public static Item simulationChamber;
+    public static ItemCreativeModelLearner cml;
 
     public static void registerBlocks(IForgeRegistry registry) {
         blockSimulationChamber = new BlockSimulationChamber();
@@ -55,6 +56,8 @@ public class Registry {
         items.add(livingMatter);
         pristineMatter = new ItemPristineMatter();
         items.add(pristineMatter);
+        cml = new ItemCreativeModelLearner();
+        items.add(cml);
 
         for (Item item : items) {
             registry.register(item);

@@ -185,7 +185,7 @@ public class ItemMobChip extends ItemBase {
         }
     }
 
-    // Called by deep learners
+    // Called by Deep learners
     public static void increaseMobKillCount(ItemStack stack, EntityPlayer player) {
         // Get our current tier before increasing the kill count;
         int tier = getTier(stack);

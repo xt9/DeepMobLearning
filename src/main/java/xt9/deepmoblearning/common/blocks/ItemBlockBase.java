@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.common.items.ItemBase;
 
 /**
  * Created by xt9 on 2017-06-15.
