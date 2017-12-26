@@ -19,8 +19,6 @@ public class SkeletonMeta extends MobMetaData {
 
     public SkeletonMeta() {
         super();
-        this.entity = new EntitySkeleton(this.world);
-        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
     }
 
     public String getMobName() {
@@ -36,6 +34,8 @@ public class SkeletonMeta extends MobMetaData {
     }
 
     public EntitySkeleton getEntity() {
+        this.entity = new EntitySkeleton(this.world);
+        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.BOW));
         return this.entity;
     }
 
@@ -50,4 +50,6 @@ public class SkeletonMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 80; }
 }

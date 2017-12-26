@@ -68,7 +68,7 @@ public class ChipExperienceGui extends GuiScreen {
             this.chipStackList = ItemMobChip.getValidFromList(ItemDeepLearner.getContainedItems(this.deepLearner));
         }
 
-        // Todo Option for left/right gui or disable it entirely
+        // Todo [NOT Urgent] Option for left/right gui or disable it entirely
         int x = getRightCornerX();
         int y = 5;
 

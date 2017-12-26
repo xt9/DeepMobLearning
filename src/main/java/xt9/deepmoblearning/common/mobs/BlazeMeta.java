@@ -16,7 +16,6 @@ public class BlazeMeta extends MobMetaData {
 
     public BlazeMeta() {
         super();
-        this.entity = new EntityBlaze(this.world);
     }
 
     public String getMobName() {
@@ -32,6 +31,7 @@ public class BlazeMeta extends MobMetaData {
     }
 
     public EntityBlaze getEntity() {
+        this.entity = new EntityBlaze(this.world);
         return this.entity;
     }
 
@@ -46,4 +46,6 @@ public class BlazeMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 256; }
 }

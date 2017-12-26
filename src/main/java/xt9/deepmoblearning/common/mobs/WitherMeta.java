@@ -16,7 +16,6 @@ public class WitherMeta extends MobMetaData {
 
     public WitherMeta() {
         super();
-        this.entity = new EntityWither(this.world);
     }
 
     public String getMobName() {
@@ -32,6 +31,7 @@ public class WitherMeta extends MobMetaData {
     }
 
     public EntityWither getEntity() {
+        this.entity = new EntityWither(this.world);
         return this.entity;
     }
 
@@ -46,4 +46,6 @@ public class WitherMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 2048; }
 }

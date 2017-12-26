@@ -16,7 +16,6 @@ public class CreeperMeta extends MobMetaData {
 
     public CreeperMeta() {
         super();
-        this.entity = new EntityCreeper(this.world);
     }
 
     public String getMobName() {
@@ -32,6 +31,7 @@ public class CreeperMeta extends MobMetaData {
     }
 
     public EntityCreeper getEntity() {
+        this.entity = new EntityCreeper(this.world);
         return this.entity;
     }
 
@@ -46,4 +46,6 @@ public class CreeperMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 80; }
 }

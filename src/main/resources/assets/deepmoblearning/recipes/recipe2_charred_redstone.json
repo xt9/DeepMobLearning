@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:redstone", "data": 0 },
+    { "item": "minecraft:coal", "data": 0 }
+  ],
+  "result": {
+    "item": "deepmoblearning:charred_redstone",
+    "count": 1
+  }
+}

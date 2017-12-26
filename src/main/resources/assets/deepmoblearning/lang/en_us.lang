@@ -4,7 +4,8 @@ tile.deepmoblearning.polymer_printer.name=Polymer Printer
 
 # Items
 item.deepmoblearning.polymer_clay.name=Polymer Clay
-
+item.deepmoblearning.charred_redstone.name=Charred Redstone
+item.deepmoblearning.charred_plate.name=Charred Plate
 item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 
 item.deepmoblearning.mob_chip.default.name=Data Model Chip
@@ -39,12 +40,16 @@ deepmoblearning.mob_chip.type=§rType: %s§r
 deepmoblearning.mob_chip.tier=§rTier: %s§r
 deepmoblearning.mob_chip.data.collected=§rData collected: §7%s/%s§r
 deepmoblearning.mob_chip.data.killmultiplier=§rData per kill: §7%s§r
-
+deepmoblearning.mob_chip.rfcost=§rSimulation cost: §7%s RF/t§r
 
 # JEI
-deepmoblearning.jei.description.deep_learner=A scanning device that can record data from the demise of monsters. In order to collect data you must populate one of the 4 available slots in the deep learner with data models.\nThen you can defeat a monster of the same type and it will gather the data.
+deepmoblearning.jei.description.deep_learner=A scanning device that can record data from the demise of monsters. In order to collect data you must populate one of the 4 available slots in the deep learner with data models. Projectile kills will count.
 deepmoblearning.jei.description.simulation_chamber=Can use the data that you have gathered from your deep learner to generate matter.\nIn order for this machine to operate you must supply it with energy, a data model with a tier of basic or better and polymer clay. Each simulation grants 1 data to inserted the model.
 deepmoblearning.jei.description.mob_chip=Tiers & Fights to next tier\n§8§l§nFaulty:§r 6\n§a§l§nBasic:§r 12\n§9§l§nAdvanced:§r 30\n§d§l§nSuperior:§r 50\n§6§l§nSelf Aware:§r Maxed out\n\nHigher tiers get more data from defeating foes.
+deepmoblearning.jei.description.living_matter.overworldian=The main output from overworldian type data models in the simulation chamber.
+deepmoblearning.jei.description.living_matter.hellish=\nThe main output from hellish type data models in the simulation chamber.
+deepmoblearning.jei.description.living_matter.extraterrestrial=\nThe main output from extraterrestrial type data models in the simulation chamber.
+
 # GUI
 deepmoblearning.holdshift=§7- hold §r§oSHIFT§r§7 for more info§r
 

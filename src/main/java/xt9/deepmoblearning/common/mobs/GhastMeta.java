@@ -16,7 +16,6 @@ public class GhastMeta extends MobMetaData {
 
     public GhastMeta() {
         super();
-        this.entity = new EntityGhast(this.world);
     }
 
     public String getMobName() {
@@ -32,6 +31,7 @@ public class GhastMeta extends MobMetaData {
     }
 
     public EntityGhast getEntity() {
+        this.entity = new EntityGhast(this.world);
         return this.entity;
     }
 
@@ -46,4 +46,6 @@ public class GhastMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 420; }
 }

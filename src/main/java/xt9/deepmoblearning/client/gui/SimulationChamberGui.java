@@ -6,6 +6,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -77,15 +78,21 @@ public class SimulationChamberGui extends GuiContainer {
             if(13 <= x && x < 22) {
                 // Tooltip for Chip exp bar
                 if(this.itemHandler.hasChip()) {
-                    tooltip.add(ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip()) + "/" + ItemMobChip.getTierRoof(this.itemHandler.getChip()) + " Data collected");
+                    if(ItemMobChip.getTier(this.itemHandler.getChip()) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+                        tooltip.add(ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip()) + "/" + ItemMobChip.getTierRoof(this.itemHandler.getChip()) + " Data collected");
+                    } else {
+                        tooltip.add("This data model has reached the max tier.");
+                    }
                 } else {
                     tooltip.add("Machine is missing a data model");
                 }
                 drawHoveringText(tooltip, x + 2, y + 2);
             } else if(211 <= x && x < 220) {
                 tooltip.add(f.format(this.energyStorage.getEnergyStored()) + "/" + f.format(this.energyStorage.getMaxEnergyStored()) + " RF");
-                tooltip.add("Machine in use drains 128RF/t");
-                drawHoveringText(tooltip, x + 2, y + 2);
+                if(this.itemHandler.hasChip()) {
+                    tooltip.add("Simulations with current data model drains " + f.format(ItemMobChip.getMobMetaData(this.itemHandler.getChip()).getSimulationTickCost()) + "RF/t");
+                }
+                drawHoveringText(tooltip, x - 90, y - 16);
             }
         }
     }

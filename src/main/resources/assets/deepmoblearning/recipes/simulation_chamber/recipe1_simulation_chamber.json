@@ -1,13 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "OOO",
-    "OPO",
-    "OPO"
+    "ORO",
+    "PSP",
+    "OCO"
   ],
   "key": {
-    "O": { "item": "minecraft:obsidian", "data": 0 },
-    "P": { "item": "minecraft:ender_pearl", "data": 0 }
+    "O": { "item": "deepmoblearning:charred_plate", "data": 0 },
+    "P": { "item": "minecraft:ender_pearl", "data": 0 },
+    "S": { "item": "minecraft:stained_glass_pane", "data": 5 },
+    "R": { "item": "minecraft:repeater", "data": 0 },
+    "C": { "item": "minecraft:comparator", "data": 0 }
   },
   "result": {
     "item": "deepmoblearning:simulation_chamber",

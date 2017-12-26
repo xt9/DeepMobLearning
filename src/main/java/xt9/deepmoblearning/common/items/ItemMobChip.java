@@ -40,6 +40,7 @@ public class ItemMobChip extends ItemBase {
                     list.add(I18n.format("deepmoblearning.mob_chip.data.collected", getCurrentTierSimulationCountWithKills(stack), getTierRoof(stack)));
                     list.add(I18n.format("deepmoblearning.mob_chip.data.killmultiplier", DataModelExperience.getKillMultiplier(ItemMobChip.getTier(stack))));
                 }
+                list.add(I18n.format("deepmoblearning.mob_chip.rfcost", getMobMetaData(stack).getSimulationTickCost()));
                 list.add(I18n.format("deepmoblearning.mob_chip.type", getMatterTypeName(stack)));
             }
         }
@@ -161,7 +162,7 @@ public class ItemMobChip extends ItemBase {
     }
 
     public static int getPristineChance(ItemStack stack) {
-        // Todo CONFIGURABLE
+        // Todo [Before release] CONFIGURABLE
         switch(getTier(stack)) {
             case 0: return 0;
             case 1: return 3;

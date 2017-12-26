@@ -2,6 +2,8 @@ package xt9.deepmoblearning.common.items;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 
 /**
@@ -25,5 +27,10 @@ public class ItemPristineMatter extends ItemBase {
             }
         }
         return 0;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean hasEffect(ItemStack stack) {
+        return true;
     }
 }

@@ -6,7 +6,7 @@ import xt9.deepmoblearning.DeepConstants;
  * Created by xt9 on 2017-06-14.
  */
 public class DataModelExperience {
-    // Todo configurable exp
+    // Todo [Not urgent] configurable exp
     // Kills required per  tier 6, 12, 30, 50
     public static final int[] maxExperience = {48, 120, 420, 1100};
     public static final int[] killMultiplier = {8, 10, 14, 22, 22};

@@ -19,8 +19,6 @@ public class WitherSkeletonMeta extends MobMetaData {
 
     public WitherSkeletonMeta() {
         super();
-        this.entity = new EntityWitherSkeleton(this.world);
-        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
     }
 
     public String getMobName() {
@@ -36,6 +34,8 @@ public class WitherSkeletonMeta extends MobMetaData {
     }
 
     public EntityWitherSkeleton getEntity() {
+        this.entity = new EntityWitherSkeleton(this.world);
+        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
         return this.entity;
     }
 
@@ -50,4 +50,6 @@ public class WitherSkeletonMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 750; }
 }

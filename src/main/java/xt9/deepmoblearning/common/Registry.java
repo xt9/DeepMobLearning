@@ -18,6 +18,8 @@ public class Registry {
 
     public static NonNullList<ItemBase> items = NonNullList.create();
     public static ItemPolymerClay polymerClay;
+    public static ItemCharredRedstone charredRedstone;
+    public static ItemCharredPlate charredPlate;
     public static ItemLivingMatter livingMatter;
     public static ItemPristineMatter pristineMatter;
     public static ItemDeepLearner deepLearner;
@@ -39,12 +41,16 @@ public class Registry {
         simulationChamber = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
         registry.register(simulationChamber);
 
+        charredRedstone = new ItemCharredRedstone();
+        items.add(charredRedstone);
+        charredPlate = new ItemCharredPlate();
+        items.add(charredPlate);
+        polymerClay = new ItemPolymerClay();
+        items.add(polymerClay);
         deepLearner = new ItemDeepLearner();
         items.add(deepLearner);
         mobChip = new ItemMobChip();
         items.add(mobChip);
-        polymerClay = new ItemPolymerClay();
-        items.add(polymerClay);
         livingMatter = new ItemLivingMatter();
         items.add(livingMatter);
         pristineMatter = new ItemPristineMatter();

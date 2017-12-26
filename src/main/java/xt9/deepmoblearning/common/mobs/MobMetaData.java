@@ -43,4 +43,6 @@ public abstract class MobMetaData {
         matter.setItemDamage(ItemPristineMatter.getMetaFromKey(chipSubName));
         return matter;
     }
+
+    public int getSimulationTickCost() { return 0; }
 }

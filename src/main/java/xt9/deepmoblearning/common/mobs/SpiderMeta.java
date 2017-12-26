@@ -20,8 +20,6 @@ public class SpiderMeta extends MobMetaData {
 
     public SpiderMeta() {
         super();
-        this.entity = new EntitySpider(this.world);
-        this.caveSpiderEntity = new EntityCaveSpider(this.world);
     }
 
     public String getMobName() {
@@ -37,10 +35,12 @@ public class SpiderMeta extends MobMetaData {
     }
 
     public EntitySpider getEntity() {
+        this.entity = new EntitySpider(this.world);
         return this.entity;
     }
 
     public EntitySpider getExtraEntity() {
+        this.caveSpiderEntity = new EntityCaveSpider(this.world);
         return this.caveSpiderEntity;
     }
 
@@ -63,4 +63,6 @@ public class SpiderMeta extends MobMetaData {
     public int getExtraInterfaceOffsetY() {
         return this.caveSpiderOffsetY;
     }
+
+    public int getSimulationTickCost() { return 80; }
 }

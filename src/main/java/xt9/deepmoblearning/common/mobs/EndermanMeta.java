@@ -16,7 +16,6 @@ public class EndermanMeta extends MobMetaData {
 
     public EndermanMeta() {
         super();
-        this.entity = new EntityEnderman(this.world);
     }
 
     public String getMobName() {
@@ -32,6 +31,7 @@ public class EndermanMeta extends MobMetaData {
     }
 
     public EntityEnderman getEntity() {
+        this.entity = new EntityEnderman(this.world);
         return this.entity;
     }
 
@@ -46,4 +46,6 @@ public class EndermanMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 512; }
 }

@@ -37,7 +37,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public boolean byproductSuccess = false;
     public int energy = 0;
     public int ticks = 0;
-    public int craftingCost = 38400;
+    public int ticksPerSimulation= 300;
     public int percentDone = 0;
     public String currentChipType = "";
 
@@ -67,8 +67,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                     this.byproductSuccess = num <= ItemMobChip.getPristineChance(this.inventory.getChip());
                 }
 
-                // Todo get this value from the mob meta?
-                this.energyStorage.voidEnergy(128);
+                int rfTickCost = ItemMobChip.getMobMetaData(this.inventory.getChip()).getSimulationTickCost();
+                this.energyStorage.voidEnergy(rfTickCost);
 
                 if(ticks % 3 == 0) {
                     // This process takes 300 ticks, which is 15seconds
@@ -140,8 +140,11 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
 
     public boolean hasEnergyForSimulation() {
-        // Todo move this to util classes and check the cost on each chip tier (Might have to increase energy buffer of machine if some data model is reall expensive
-        return this.energyStorage.getEnergyStored() > this.craftingCost;
+        if(this.inventory.hasChip()) {
+            return this.energyStorage.getEnergyStored() > this.ticksPerSimulation * ItemMobChip.getMobMetaData(this.inventory.getChip()).getSimulationTickCost();
+        } else {
+            return false;
+        }
     }
 
     private void updateSimulationText(ItemStack chip) {
@@ -184,8 +187,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         this.simulationText.put("simulationProgressLine4", this.animate(lines[4], aLine4, aLine3, 1, false));
         this.simulationText.put("simulationProgressLine5", this.animate(lines[5], aLine5, aLine4, 2, false));
 
-        this.simulationText.put("simulationProgressLine6", this.animate(lines[6], aLine6, aLine5, 3, false));
-        this.simulationText.put("simulationProgressLine6Result", resultPrefix + this.animate(lines[7], aLine6Result, aLine6, 3, false) + "§r");
+        this.simulationText.put("simulationProgressLine6", this.animate(lines[6], aLine6, aLine5, 2, false));
+        this.simulationText.put("simulationProgressLine6Result", resultPrefix + this.animate(lines[7], aLine6Result, aLine6, 2, false) + "§r");
 
         this.simulationText.put("simulationProgressLine7", this.animate(lines[8], aLine7, aLine6Result, 1, false));
         this.simulationText.put("blinkingDots1", this.animate(lines[9], aLine8, aLine7, 8, true));

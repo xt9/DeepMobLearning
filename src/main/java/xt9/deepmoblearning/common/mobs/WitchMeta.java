@@ -19,8 +19,6 @@ public class WitchMeta extends MobMetaData {
 
     public WitchMeta() {
         super();
-        this.entity = new EntityWitch(this.world);
-        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.POTIONITEM));
     }
 
     public String getMobName() {
@@ -36,6 +34,8 @@ public class WitchMeta extends MobMetaData {
     }
 
     public EntityWitch getEntity() {
+        this.entity = new EntityWitch(this.world);
+        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.POTIONITEM));
         return this.entity;
     }
 
@@ -50,4 +50,6 @@ public class WitchMeta extends MobMetaData {
     public int getInterfaceOffsetY() {
         return this.interfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 128; }
 }

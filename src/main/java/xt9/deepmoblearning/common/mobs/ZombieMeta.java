@@ -19,12 +19,6 @@ public class ZombieMeta extends MobMetaData {
 
     public ZombieMeta() {
         super();
-        this.entity = new EntityZombie(this.world);
-
-        EntityZombie childEntity = new EntityZombie(this.world);
-        childEntity.setChild(true);
-
-        this.childEntity = childEntity;
     }
 
     public String getMobName() {
@@ -40,6 +34,7 @@ public class ZombieMeta extends MobMetaData {
     }
 
     public EntityZombie getEntity() {
+        this.entity = new EntityZombie(this.world);
         return this.entity;
     }
 
@@ -56,6 +51,10 @@ public class ZombieMeta extends MobMetaData {
     }
 
     public EntityZombie getExtraEntity() {
+        EntityZombie childEntity = new EntityZombie(this.world);
+        childEntity.setChild(true);
+
+        this.childEntity = childEntity;
         return this.childEntity;
     }
 
@@ -66,4 +65,6 @@ public class ZombieMeta extends MobMetaData {
     public int getExtraInterfaceOffsetY() {
         return this.childInterfaceOffsetY;
     }
+
+    public int getSimulationTickCost() { return 80; }
 }
