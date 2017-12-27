@@ -1,8 +1,18 @@
 # Deep Mob Learning
+A server friendly mod for mob loot acquisition. It's inspired by the Soul shards mod where you could "collect" mob kills to later
+reuse them for mob spawners.
+
+This mod however uses "Data models" that you train by defeating monsters both by hand or by
+simulation(In the simulation chamber). To get started you will need a Deep Learner, which will house the data models, and
+some type of mob data model.
+
+Once your data models have reached higher tiers you can use them in the simulation chamber to get loot.
 
 ## Beta guidelines
 Grab the latest release and drop the jar in your mods folder, make sure you use some other mod for RF generation.
 Streaming testing of the mod is fine but please refrain from making any youtube content just yet.
+
+Use the Creative Model Learner if you want to level models quickly.
 
 ##### Feedback suggestions
 
