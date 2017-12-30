@@ -9,47 +9,18 @@ import net.minecraft.util.EnumHand;
  * Created by xt9 on 2017-06-15.
  */
 public class WitherSkeletonMeta extends MobMetaData {
-    private EntityWitherSkeleton entity;
-    private int interfaceScale = 33;
-    private int interfaceOffsetX = 5;
-    private int interfaceOffsetY = 10;
-    private int numberOfHearts = 10;
-    private String mobName = "The Wither Skeleton";
     private String[] mobTrivia = {"Inflicts the wither effect", "Bring milk"};
 
-    public WitherSkeletonMeta() {
-        super();
+    WitherSkeletonMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, int matterType) {
+        super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, matterType);
     }
-
-    public String getMobName() {
-        return this.mobName;
-    }
-
     public String[] getMobTrivia() {
         return this.mobTrivia;
     }
 
-    public int getNumberOfHearts() {
-        return this.numberOfHearts;
-    }
-
     public EntityWitherSkeleton getEntity() {
-        this.entity = new EntityWitherSkeleton(this.world);
-        this.entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
-        return this.entity;
+        EntityWitherSkeleton entity = new EntityWitherSkeleton(this.world);
+        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
+        return entity;
     }
-
-    public int getInterfaceScale() {
-        return this.interfaceScale;
-    }
-
-    public int getInterfaceOffsetX() {
-        return this.interfaceOffsetX;
-    }
-
-    public int getInterfaceOffsetY() {
-        return this.interfaceOffsetY;
-    }
-
-    public int getSimulationTickCost() { return 750; }
 }

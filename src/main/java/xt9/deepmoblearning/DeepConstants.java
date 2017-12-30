@@ -4,6 +4,10 @@ package xt9.deepmoblearning;
  * Created by xt9 on 2017-06-08.
  */
 public class DeepConstants {
+    // Mod
+    public static final String MODID = "deepmoblearning";
+    public static final String VERSION = "@VERSION@";
+
     // GUI ids
     public static final int ITEM_DEEP_LEARNER_GUI_ID = 1;
     public static final int TILE_SIMULATION_CHAMBER_GUI_ID = 2;
@@ -21,7 +25,11 @@ public class DeepConstants {
     // Mob chip max tier
     public static final int MOB_CHIP_MAXIMUM_TIER = 4;
 
-    public static final String[] ITEM_MOB_CHIP_KEYS = {"default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper", "ghast", "witherskeleton"};
+    // Config restraints
+    public static final int MAX_DATA_MODEL_COST = 6666;
+
+    public static final String[] MOBS = {"zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper", "ghast", "witherskeleton", "slime", "dragon"};
+    public static final String[] ITEM_MOB_CHIP_KEYS = {"default", "zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper", "ghast", "witherskeleton", "slime", "dragon"};
     public static final String[] ITEM_LIVING_MATTER_KEYS = {"overworldian", "hellish", "extraterrestrial"};
-    public static final String[] ITEM_PRISTINE_MATTER_KEYS = {"zombie", "skeleton", "blaze", "enderman", "wither", "witch", "spider", "creeper", "ghast", "witherskeleton"};
+    public static final String[] ITEM_PRISTINE_MATTER_KEYS = MOBS;
 }

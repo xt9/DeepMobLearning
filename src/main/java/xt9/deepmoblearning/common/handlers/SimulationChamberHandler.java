@@ -128,12 +128,12 @@ public class SimulationChamberHandler extends ItemStackHandler {
 
     public ItemStack createMatterFromMobChip(ItemStack chip, int amount) {
         ItemStack matter = new ItemStack(Registry.livingMatter, amount);
-        matter.setItemDamage(ItemMobChip.getMatterType(chip));
+        matter.setItemDamage(ItemMobChip.getMobMetaData(chip).getMatterType());
         return matter;
     }
 
     public static boolean chipMatchesOutput(ItemStack chip, ItemStack stack) {
-        int chipMatterType = ItemMobChip.getMatterType(chip);
+        int chipMatterType = ItemMobChip.getMobMetaData(chip).getMatterType();
         return chipMatterType == stack.getItemDamage();
     }
 

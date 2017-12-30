@@ -8,7 +8,9 @@ import mezz.jei.api.ingredients.IModIngredientRegistration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.config.Config;
 
 @JEIPlugin
 public class Plugin implements IModPlugin {
@@ -37,10 +39,16 @@ public class Plugin implements IModPlugin {
         registry.addIngredientInfo(lmOverworldian, ItemStack.class, "deepmoblearning.jei.description.living_matter.overworldian");
         registry.addIngredientInfo(lmHellish, ItemStack.class, "deepmoblearning.jei.description.living_matter.hellish");
         registry.addIngredientInfo(lmExtraterrestrial, ItemStack.class, "deepmoblearning.jei.description.living_matter.extraterrestrial");
-
-        registry.addIngredientInfo(dataModels, ItemStack.class, "deepmoblearning.jei.description.mob_chip");
         registry.addIngredientInfo(new ItemStack(Registry.simulationChamber), ItemStack.class, "deepmoblearning.jei.description.simulation_chamber");
         registry.addIngredientInfo(new ItemStack(Registry.deepLearner), ItemStack.class, "deepmoblearning.jei.description.deep_learner");
+
+        registry.addIngredientInfo(dataModels, ItemStack.class, "# of monsters defeated to reach the next tier",
+                Config.modelExperience.get("killsToTier1").getInt() + " <- §3§oFaulty to Basic§r",
+                Config.modelExperience.get("killsToTier2").getInt() + " <- §3§oBasic to Advanced§r",
+                Config.modelExperience.get("killsToTier3").getInt() + " <- §3§oAdvanced to Superior§r",
+                Config.modelExperience.get("killsToTier4").getInt() + " <- §3§oSuperior to Self Aware§r",
+                "\nHigher tiers get more data from defeating foes."
+        );
 
     }
 }

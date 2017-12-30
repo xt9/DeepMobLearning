@@ -17,6 +17,7 @@ import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.mobs.MobMetaData;
+import xt9.deepmoblearning.common.mobs.MobMetaFactory;
 import xt9.deepmoblearning.common.mobs.SpiderMeta;
 import xt9.deepmoblearning.common.mobs.ZombieMeta;
 
@@ -36,9 +37,9 @@ public class DeepLearnerGui extends GuiContainer {
     private NonNullList<ItemStack> validModelChips;
     private int currentItem = 0;
 
-    private static final ResourceLocation base = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/deeplearner_base.png");
-    private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/deeplearner_extras.png");
-    private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/default_gui.png");
+    private static final ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/deeplearner_base.png");
+    private static final ResourceLocation extras = new ResourceLocation(DeepConstants.MODID, "textures/gui/deeplearner_extras.png");
+    private static final ResourceLocation defaultGui = new ResourceLocation(DeepConstants.MODID, "textures/gui/default_gui.png");
 
     public DeepLearnerGui(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
         super(new ContainerDeepLearner(inventory, world, slot, heldItem));
@@ -70,7 +71,7 @@ public class DeepLearnerGui extends GuiContainer {
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 81, top + 145, 0, 0, 176, 90);
 
-        // Get the meta for the first mobchip in this deeplearner
+        // Get the meta for the first ItemMobChip in this deeplearner
         NonNullList<ItemStack> list = ItemDeepLearner.getContainedItems(this.deepLearner);
         this.validModelChips = ItemMobChip.getValidFromList(list);
 
@@ -83,9 +84,9 @@ public class DeepLearnerGui extends GuiContainer {
             this.currentItem = this.previousItemIndex();
         }
 
-        // If we have atleast 1 valid mob chip
+        // If we have at least 1 valid mob chip
         if(this.validModelChips.size() >= 1 && this.currentItem < this.validModelChips.size()) {
-            this.meta = ItemMobChip.getMobMetaData(this.validModelChips.get(this.currentItem));
+            this.meta = MobMetaFactory.createMobMetaData(ItemMobChip.getSubName(this.validModelChips.get(this.currentItem)));
 
             this.renderMetaDataText(meta, left, top, this.validModelChips.get(this.currentItem));
             this.renderMobDisplayBox(left, top);
@@ -183,7 +184,7 @@ public class DeepLearnerGui extends GuiContainer {
         int spacing = 12;
 
         drawString(this.renderer, "Name", leftStart, topStart + spacing, 6478079);
-        drawString(this.renderer,  meta.getMobName(), leftStart, topStart + (spacing *  2), 16777215);
+        drawString(this.renderer,  "The " + meta.getName(), leftStart, topStart + (spacing *  2), 16777215);
 
         drawString(this.renderer, "Information", leftStart, topStart + (spacing *  3), 6478079);
         String mobTrivia[] = meta.getMobTrivia();
@@ -193,7 +194,8 @@ public class DeepLearnerGui extends GuiContainer {
 
         String chipTier = ItemMobChip.getTierName(stack, false);
         String nextTier = ItemMobChip.getTierName(stack, true);
-        String pluralMobName = ItemMobChip.toHumdanReadablePlural(stack);
+        String pluralMobName = ItemMobChip.getMobMetaData(stack).getPluralName();
+
         int totalKills = ItemMobChip.getTotalKillCount(stack);
         double killsToNextTier = ItemMobChip.getKillsToNextTier(stack);
 

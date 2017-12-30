@@ -17,6 +17,8 @@ import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.mobs.MobMetaData;
+import xt9.deepmoblearning.common.mobs.MobMetaFactory;
 import xt9.deepmoblearning.common.util.Animation;
 
 import javax.annotation.Nullable;
@@ -40,6 +42,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public int ticksPerSimulation= 300;
     public int percentDone = 0;
     public String currentChipType = "";
+    public MobMetaData mobMetaData;
 
     @Override
     public void update() {
@@ -49,7 +52,9 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
             this.resetAnimations();
             if(canStartSimulation()) {
                 this.isCrafting = true;
-                this.currentChipType = ItemMobChip.toHumdanReadable(this.inventory.getChip());
+                this.currentChipType = ItemMobChip.getMobMetaData(this.inventory.getChip()).getKey();
+                this.mobMetaData = MobMetaFactory.createMobMetaData(ItemMobChip.getSubName(this.inventory.getChip()));
+
             }
         } else {
             if(!canContinueSimulation() || chipTypeChanged()) {
@@ -67,7 +72,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                     this.byproductSuccess = num <= ItemMobChip.getPristineChance(this.inventory.getChip());
                 }
 
-                int rfTickCost = ItemMobChip.getMobMetaData(this.inventory.getChip()).getSimulationTickCost();
+                int rfTickCost = this.mobMetaData.getSimulationTickCost();
                 this.energyStorage.voidEnergy(rfTickCost);
 
                 if(ticks % 3 == 0) {
@@ -95,7 +100,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     private boolean chipTypeChanged() {
-        return !this.currentChipType.equals(ItemMobChip.toHumdanReadable(this.inventory.getChip()));
+        return !this.currentChipType.equals(ItemMobChip.getMobMetaData(this.inventory.getChip()).getKey());
     }
 
 
@@ -120,7 +125,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 // If Byproduct roll was successful
                 this.byproductSuccess = false;
                 ItemStack oldPristine = this.inventory.getPristine();
-                ItemStack newPristine = ItemMobChip.getMobMetaData(this.inventory.getChip()).getPristineMatter(this.inventory.getChip(), oldPristine.getCount() + 1);
+                ItemStack newPristine = mobMetaData.getPristineMatter(oldPristine.getCount() + 1);
                 this.inventory.setStackInSlot(DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, newPristine);
             }
 
@@ -141,7 +146,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     public boolean hasEnergyForSimulation() {
         if(this.inventory.hasChip()) {
-            return this.energyStorage.getEnergyStored() > this.ticksPerSimulation * ItemMobChip.getMobMetaData(this.inventory.getChip()).getSimulationTickCost();
+            return this.energyStorage.getEnergyStored() > (this.ticksPerSimulation * ItemMobChip.getSimulationTickCost(this.inventory.getChip()));
         } else {
             return false;
         }

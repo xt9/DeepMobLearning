@@ -1,18 +1,30 @@
 package xt9.deepmoblearning.common.util;
 
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.config.Config;
 
 /**
  * Created by xt9 on 2017-06-14.
  */
 public class DataModelExperience {
-    // Todo [Not urgent] configurable exp
-    // Kills required per  tier 6, 12, 30, 50
-    public static final int[] maxExperience = {48, 120, 420, 1100};
-    public static final int[] killMultiplier = {8, 10, 14, 22, 22};
     // Simulations have no multipliers, they are always 1x
+    private static final int[] killMultiplier = {
+            Config.modelExperience.get("killMultiplierTier0").getInt(),
+            Config.modelExperience.get("killMultiplierTier1").getInt(),
+            Config.modelExperience.get("killMultiplierTier2").getInt(),
+            Config.modelExperience.get("killMultiplierTier3").getInt(),
+            0 // Max tier, no kill multiplier
+    };
 
-    /* tier is CURRENT tier, kc is killcount for CURRENT tier, sc is simulationcount for CURRENT  tier */
+    private static final int[] maxExperience = {
+            Config.modelExperience.get("killsToTier1").getInt() * killMultiplier[0],
+            Config.modelExperience.get("killsToTier2").getInt() * killMultiplier[1],
+            Config.modelExperience.get("killsToTier3").getInt() * killMultiplier[2],
+            Config.modelExperience.get("killsToTier4").getInt() * killMultiplier[3]
+    };
+
+    /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */
     public static boolean shouldIncreaseTier(int tier, int kc, int sc) {
         if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
             return false;

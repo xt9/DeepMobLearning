@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
 import xt9.deepmoblearning.common.items.*;
@@ -31,7 +32,7 @@ public class Registry {
         blockSimulationChamber = new BlockSimulationChamber();
 
         // Register tile entities
-        GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepMobLearning.MODID + ":simulation_chamber");
+        GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepConstants.MODID + ":simulation_chamber");
 
         // Register our sole block
         registry.registerAll(blockSimulationChamber);

@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
 /**
@@ -17,7 +18,7 @@ public class BlockBase extends Block {
         super(material);
 
         this.blockName = name;
-        this.setUnlocalizedName(DeepMobLearning.MODID + "." + name);
+        this.setUnlocalizedName(DeepConstants.MODID + "." + name);
         this.setRegistryName(name);
     }
 

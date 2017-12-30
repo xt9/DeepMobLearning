@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.util.PlayerHelper;
@@ -34,7 +35,7 @@ public class ChipExperienceGui extends GuiScreen {
     private NonNullList<ItemStack> chipStackList;
     private PlayerHelper playerH;
 
-    private static final ResourceLocation experienceBar = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/experience_gui.png");
+    private static final ResourceLocation experienceBar = new ResourceLocation(DeepConstants.MODID, "textures/gui/experience_gui.png");
 
     public ChipExperienceGui(Minecraft mc) {
         super();
@@ -68,8 +69,11 @@ public class ChipExperienceGui extends GuiScreen {
             this.chipStackList = ItemMobChip.getValidFromList(ItemDeepLearner.getContainedItems(this.deepLearner));
         }
 
-        // Todo [NOT Urgent] Option for left/right gui or disable it entirely
-        int x = getRightCornerX();
+
+        int x = getLeftCornerX() + 18;
+        if(Config.guiOverlaySide.getString().equals("right")) {
+            x = getRightCornerX();
+        }
         int y = 5;
 
         for (int i = 0; i < this.chipStackList.size(); i++) {

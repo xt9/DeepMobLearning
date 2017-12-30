@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
 /**
@@ -19,7 +20,7 @@ public class ItemBase extends Item {
     public ItemBase(String name, int stackSize, String... subNames) {
         boolean hasSubItems = subNames != null && subNames.length > 0;
 
-        this.setUnlocalizedName(DeepMobLearning.MODID + "." + name);
+        this.setUnlocalizedName(DeepConstants.MODID + "." + name);
         this.setRegistryName(name);
         this.setMaxStackSize(stackSize);
         this.itemName = name;

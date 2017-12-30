@@ -3,6 +3,7 @@ package xt9.deepmoblearning.common.items;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,6 +13,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.util.DataModelExperience;
 import xt9.deepmoblearning.common.mobs.*;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
@@ -40,7 +43,7 @@ public class ItemMobChip extends ItemBase {
                     list.add(I18n.format("deepmoblearning.mob_chip.data.collected", getCurrentTierSimulationCountWithKills(stack), getTierRoof(stack)));
                     list.add(I18n.format("deepmoblearning.mob_chip.data.killmultiplier", DataModelExperience.getKillMultiplier(ItemMobChip.getTier(stack))));
                 }
-                list.add(I18n.format("deepmoblearning.mob_chip.rfcost", getMobMetaData(stack).getSimulationTickCost()));
+                list.add(I18n.format("deepmoblearning.mob_chip.rfcost", getSimulationTickCost(stack)));
                 list.add(I18n.format("deepmoblearning.mob_chip.type", getMatterTypeName(stack)));
             }
         }
@@ -68,107 +71,25 @@ public class ItemMobChip extends ItemBase {
         return filteredList;
     }
 
-    public static String toHumdanReadable(ItemStack stack) {
-        switch(getSubName(stack)) {
-            case "zombie": return "Zombie";
-            case "skeleton": return "Skeleton";
-            case "blaze": return "Blaze";
-            case "enderman": return "Enderman";
-            case "wither": return "Wither";
-            case "witch": return "Witch";
-            case "spider": return "Spider";
-            case "creeper": return "Creeper";
-            case "ghast": return "Ghast";
-            case "witherskeleton": return "Wither Skeleton";
-            default: return "Default";
-        }
-    }
-
-    public static String toHumdanReadablePlural(ItemStack stack) {
-        switch(getSubName(stack)) {
-            case "zombie": return "Zombies";
-            case "skeleton": return "Skeletons";
-            case "blaze": return "Blazes";
-            case "enderman": return "Endermen";
-            case "wither": return "Withers";
-            case "witch": return "Witches";
-            case "spider": return "Spiders";
-            case "creeper": return "Creepers";
-            case "ghast": return "Ghasts";
-            case "witherskeleton": return "Wither Skeletons";
-            default: return "Default";
-        }
-    }
-
-    /* Returns metadata value to use for the living matter subnames */
     public static String getMatterTypeName(ItemStack stack) {
-        switch(getSubName(stack)) {
-            case "zombie":
-            case "skeleton":
-            case "spider":
-            case "creeper":
-            case "witch": return "§aOverworldian§r";
-
-            case "blaze":
-            case "ghast":
-            case "witherskeleton": return "§cHellish§r";
-
-            case "enderman":
-            case "wither": return "§dExtraterrestrial§r";
-
-            default: return "Overworldian";
-        }
+        return getMobMetaData(stack).getMatterTypeName();
     }
 
-    /* Returns metadata value to use for the living matter subnames */
-    public static int getMatterType(ItemStack stack) {
-        switch(getSubName(stack)) {
-            case "zombie":
-            case "skeleton":
-            case "spider":
-            case "creeper":
-            case "witch": return 0;
-
-            case "blaze":
-            case "ghast":
-            case "witherskeleton": return 1;
-
-            case "enderman":
-            case "wither": return 2;
-
-            default: return 0;
-        }
+    public static int getSimulationTickCost(ItemStack stack) {
+        return getMobMetaData(stack).getSimulationTickCost();
     }
 
-    /* Get a mob meta instance */
     public static MobMetaData getMobMetaData(ItemStack stack) {
-        MobMetaData meta;
-
-        switch(getSubName(stack)) {
-            case "zombie": meta = new ZombieMeta(); break;
-            case "skeleton": meta = new SkeletonMeta(); break;
-            case "blaze": meta = new BlazeMeta(); break;
-            case "enderman": meta = new EndermanMeta(); break;
-            case "wither": meta = new WitherMeta(); break;
-            case "witch": meta = new WitchMeta(); break;
-            case "spider": meta = new SpiderMeta(); break;
-            case "creeper": meta = new CreeperMeta(); break;
-            case "ghast": meta = new GhastMeta(); break;
-            case "witherskeleton": meta = new WitherSkeletonMeta(); break;
-            default: meta = new ZombieMeta(); break;
-        }
-
-        return meta;
+        return MobMetaFactory.createMobMetaData(getSubName(stack));
     }
 
     public static int getPristineChance(ItemStack stack) {
-        // Todo [Before release] CONFIGURABLE
         switch(getTier(stack)) {
             case 0: return 0;
-            case 1: return 3;
-            case 2: return 8;
-            case 3: return 14;
-            case 4: return 33;
+            case 1: return Config.pristineChance.get("tier1").getInt();
+            case 2: return Config.pristineChance.get("tier2").getInt();
+            case 3: return Config.pristineChance.get("tier3").getInt();
+            case 4: return Config.pristineChance.get("tier4").getInt();
             default: return 0;
         }
     }
@@ -221,7 +142,6 @@ public class ItemMobChip extends ItemBase {
             setTier(stack, tier + 1);
         }
     }
-
 
 
 
@@ -313,7 +233,9 @@ public class ItemMobChip extends ItemBase {
                 (entityLiving instanceof EntitySpider && subName.equals("spider")) ||
                 (entityLiving instanceof EntityCreeper && subName.equals("creeper")) ||
                 (entityLiving instanceof EntityGhast && subName.equals("ghast")) ||
-                (entityLiving instanceof EntityWitherSkeleton && subName.equals("witherskeleton"));
+                (entityLiving instanceof EntityWitherSkeleton && subName.equals("witherskeleton")) ||
+                (entityLiving instanceof EntitySlime && subName.equals("slime")) ||
+                (entityLiving instanceof EntityDragon && subName.equals("dragon"));
     }
 
 }

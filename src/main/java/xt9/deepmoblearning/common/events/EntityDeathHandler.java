@@ -17,9 +17,9 @@ public class EntityDeathHandler {
 
     @SubscribeEvent
     public static void entityDeath(LivingDeathEvent event) {
+
         if(event.getSource().getTrueSource() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
-
             // Update the chips in the players deep learner(s)
             updateDeepLearnerOnEntityDeath(player.inventory.mainInventory, event, player);
             updateDeepLearnerOnEntityDeath(player.inventory.offHandInventory, event, player);

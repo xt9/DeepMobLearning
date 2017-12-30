@@ -17,6 +17,8 @@ import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.mobs.MobMetaData;
+import xt9.deepmoblearning.common.mobs.MobMetaFactory;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
 import java.text.DecimalFormat;
@@ -41,8 +43,8 @@ public class SimulationChamberGui extends GuiContainer {
     private FontRenderer renderer;
     private World world;
 
-    private static final ResourceLocation base = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/simulation_chamber_base.png");
-    private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MODID, "textures/gui/default_gui.png");
+    private static final ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/simulation_chamber_base.png");
+    private static final ResourceLocation defaultGui = new ResourceLocation(DeepConstants.MODID, "textures/gui/default_gui.png");
 
     public SimulationChamberGui(TileEntitySimulationChamber te, InventoryPlayer inventory, World world) {
         super(new ContainerSimulationChamber(te, inventory, world));
@@ -89,7 +91,8 @@ public class SimulationChamberGui extends GuiContainer {
             } else if(211 <= x && x < 220) {
                 tooltip.add(f.format(this.energyStorage.getEnergyStored()) + "/" + f.format(this.energyStorage.getMaxEnergyStored()) + " RF");
                 if(this.itemHandler.hasChip()) {
-                    tooltip.add("Simulations with current data model drains " + f.format(ItemMobChip.getMobMetaData(this.itemHandler.getChip()).getSimulationTickCost()) + "RF/t");
+                    MobMetaData data = MobMetaFactory.createMobMetaData(ItemMobChip.getSubName(this.itemHandler.getChip()));
+                    tooltip.add("Simulations with current data model drains " + f.format(data.getSimulationTickCost()) + "RF/t");
                 }
                 drawHoveringText(tooltip, x - 90, y - 16);
             }

@@ -19,7 +19,7 @@ public class ItemPristineMatter extends ItemBase {
         return ((ItemPristineMatter) item).getSubNames()[stack.getItemDamage()];
     }
 
-    public static int getMetaFromKey(String key) {
+    public static int getItemDamageFromKey(String key) {
         String[] subNames = DeepConstants.ITEM_PRISTINE_MATTER_KEYS;
         for (int i = 0; i < subNames.length; i++) {
             if(key == subNames[i]) {

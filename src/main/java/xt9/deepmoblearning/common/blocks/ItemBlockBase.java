@@ -3,6 +3,7 @@ package xt9.deepmoblearning.common.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
 /**
@@ -13,7 +14,7 @@ public class ItemBlockBase extends ItemBlock {
 
     public ItemBlockBase(String name, int stackSize, Block block) {
         super(block);
-        this.setUnlocalizedName(DeepMobLearning.MODID + "." + name);
+        this.setUnlocalizedName(DeepConstants.MODID + "." + name);
         this.setRegistryName(name);
         this.setMaxStackSize(stackSize);
         this.itemName = name;

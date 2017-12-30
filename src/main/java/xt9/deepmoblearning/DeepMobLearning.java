@@ -3,7 +3,6 @@ package xt9.deepmoblearning;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -14,28 +13,25 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.config.Config;
 
-@Mod(modid = DeepMobLearning.MODID, version = DeepMobLearning.VERSION)
+@Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
-    public static final String MODID = "deepmoblearning";
-    public static final String VERSION = "${version}";
 
-    @Mod.Instance(MODID)
+    @Mod.Instance(DeepConstants.MODID)
     public static DeepMobLearning instance;
 
     @SidedProxy(clientSide="xt9.deepmoblearning.client.ClientProxy", serverSide="xt9.deepmoblearning.common.CommonProxy")
     public static CommonProxy proxy;
 
-    public static Configuration config;
-
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
+        Config.load();
+        Config.initConfigValues();
+
         proxy.preInit();
     }
-
-
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
@@ -55,8 +51,7 @@ public class DeepMobLearning {
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         // Register GUI handler
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
 

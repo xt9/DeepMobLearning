@@ -31,13 +31,13 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {
-        ResourceLocation location = new ResourceLocation(DeepMobLearning.MODID, id);
+        ResourceLocation location = new ResourceLocation(DeepConstants.MODID, id);
 
         if(item instanceof ItemBase) {
             ItemBase itemBase = (ItemBase) item;
 
             if(itemBase.hasSubTypes()) {
-                location = new ResourceLocation(DeepMobLearning.MODID, id + "/" + itemBase.getSubNames()[meta]);
+                location = new ResourceLocation(DeepConstants.MODID, id + "/" + itemBase.getSubNames()[meta]);
             }
         }
 

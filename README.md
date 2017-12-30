@@ -18,11 +18,13 @@ Use the Creative Model Learner if you want to level models quickly.
 
 First impressions of the mod.
 
+Did you encounter any wierd cross mod interactions during testing?
+
 Is the entry level requirements for the data models too steep? (specifically skeleton/zombie/creeper /w the heads)
 
 Is the entry level requirements for the deep learner or the simulation chamber too steep?  (The simulation chamber is gated behind comparators, e.g the nether)
 
-The pristine chance values will be configurable, but do you have any thoughts on the default values? ( 3%/8%/14%/33% )
+The pristine chance values will be configurable, but do you have any thoughts on the default values? ( 5%/11%/24%/42% )
 
 Is there any living matter recipes that should be added? (transmutational recipes, like dirt + leaves + living matter = grass)
 
