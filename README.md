@@ -10,8 +10,6 @@ Once your data models have reached higher tiers you can use them in the simulati
 
 ## Beta guidelines
 Grab the latest release and drop the jar in your mods folder, make sure you use some other mod for RF generation.
-Streaming testing of the mod is fine but please refrain from making any youtube content just yet.
-
 Use the Creative Model Learner if you want to level models quickly.
 
 ##### Feedback suggestions
