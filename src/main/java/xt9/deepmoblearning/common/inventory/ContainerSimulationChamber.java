@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.inventory;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ClickType;
@@ -8,76 +7,54 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.SlotItemHandler;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.Registry;
-import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
-import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 /**
  * Created by xt9 on 2017-06-17.
  */
 public class ContainerSimulationChamber extends Container {
-    public DeepEnergyStorage energyStorage;
-    public SimulationChamberHandler handler;
-    public TileEntitySimulationChamber tile;
-    public EntityPlayer player;
-    public World world;
+    private IItemHandler inventory;
+    private TileEntitySimulationChamber tile;
+    private EntityPlayer player;
+    private World world;
 
     public ContainerSimulationChamber(TileEntitySimulationChamber te, InventoryPlayer inventory, World world) {
         this.player = inventory.player;
         this.world = world;
         this.tile = te;
 
-        this.handler = (SimulationChamberHandler) this.tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-        this.energyStorage = (DeepEnergyStorage) this.tile.getCapability(CapabilityEnergy.ENERGY, null);
+        this.inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        this.addSlotsToHandler();
-        this.addInventorySlots();
+        addSlotsToHandler();
+        addInventorySlots();
     }
 
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
-        if(!this.world.isRemote) {
-            // Update the tile every other tick while container is open
-            this.intervalUpdate(2);
-        }
-    }
-
-    private void intervalUpdate(int divisor) {
-        if(this.tile.ticks % divisor == 0) {
-            IBlockState state = this.world.getBlockState(this.tile.getPos());
-
-            if(this.tile.energy != this.energyStorage.getEnergyStored()) {
-                this.tile.energy = this.energyStorage.getEnergyStored();
-                this.world.notifyBlockUpdate(this.tile.getPos(), state, state, 3);
-            } else if(this.tile.isCrafting) {
-                this.world.notifyBlockUpdate(this.tile.getPos(), state, state, 3);
-            }
+        if(!world.isRemote) {
+            // Update the tile every tick while container is open
+            tile.updateState();
         }
     }
 
     private void addSlotsToHandler() {
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT, -13, 1));
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 176, 7));
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 196, 7));
-        this.addSlotToContainer(new SlotSimulationChamber(this.handler, DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, 186, 27));
+        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_DATA_MODEL_SLOT, -13, 1));
+        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 176, 7));
+        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 196, 7));
+        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, 186, 27));
     }
 
     private void addInventorySlots() {
         // Bind actionbar
         for (int row = 0; row < 9; row++) {
             int index = row;
-            Slot slot = new Slot(this.player.inventory, index, 36 + row * 18, 211);
-            this.addSlotToContainer(slot);
+            Slot slot = new Slot(player.inventory, index, 36 + row * 18, 211);
+            addSlotToContainer(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -86,8 +63,8 @@ public class ContainerSimulationChamber extends Container {
                 int x = 36 + column * 18;
                 int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
-                Slot slot = new Slot(this.player.inventory, index, x, y);
-                this.addSlotToContainer(slot);
+                Slot slot = new Slot(player.inventory, index, x, y);
+                addSlotToContainer(slot);
             }
         }
     }
@@ -104,10 +81,10 @@ public class ContainerSimulationChamber extends Container {
             int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 
             if (index < containerSlots) {
-                if (!this.mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
+                if (!mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
+            } else if (!mergeItemStack(itemstack1, 0, containerSlots, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -124,7 +101,7 @@ public class ContainerSimulationChamber extends Container {
             slot.onTake(player, itemstack1);
         }
 
-        this.tile.markDirty();
+        tile.markDirty();
         this.player.inventory.markDirty();
         return itemstack;
     }
@@ -134,8 +111,8 @@ public class ContainerSimulationChamber extends Container {
         ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
 
         // Crafting will be interrupted if the slot clicked is the chip/input slot, so reset the animations
-        if(slotId == DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT || slotId == DeepConstants.SIMULATION_CHAMBER_CHIP_SLOT) {
-            this.tile.resetAnimations();
+        if(slotId == DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT || slotId == DeepConstants.SIMULATION_CHAMBER_DATA_MODEL_SLOT) {
+            tile.resetAnimations();
         }
 
         return stack;
@@ -143,6 +120,6 @@ public class ContainerSimulationChamber extends Container {
 
     @Override
     public boolean canInteractWith(EntityPlayer entityplayer) {
-        return !this.player.isSpectator();
+        return !entityplayer.isSpectator();
     }
 }

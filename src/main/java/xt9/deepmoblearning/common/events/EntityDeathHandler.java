@@ -6,8 +6,10 @@ import net.minecraft.util.NonNullList;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import xt9.deepmoblearning.common.items.ItemDataModel;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.items.ItemMobChip;
+import xt9.deepmoblearning.common.mobs.MobMetaData;
+import xt9.deepmoblearning.common.util.DataModel;
 
 /**
  * Created by xt9 on 2017-06-11.
@@ -31,9 +33,11 @@ public class EntityDeathHandler {
             if (inventoryStack.getItem() instanceof ItemDeepLearner) {
                 NonNullList<ItemStack> deepLearnerInternalInv = ItemDeepLearner.getContainedItems(inventoryStack);
                 for (ItemStack stack : deepLearnerInternalInv) {
-                    if (stack.getItem() instanceof ItemMobChip) {
-                        if (ItemMobChip.entityLivingMatchesType(event.getEntityLiving(), stack)) {
-                            ItemMobChip.increaseMobKillCount(stack, player);
+                    if (stack.getItem() instanceof ItemDataModel) {
+                        MobMetaData meta = DataModel.getMobMetaData(stack);
+
+                        if (meta.entityLivingMatchesMob(event.getEntityLiving())) {
+                            DataModel.increaseMobKillCount(stack, player);
                         }
                     }
                     ItemDeepLearner.setContainedItems(inventoryStack, deepLearnerInternalInv);

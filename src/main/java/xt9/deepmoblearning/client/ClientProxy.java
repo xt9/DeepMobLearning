@@ -12,22 +12,22 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.client.gui.ChipExperienceGui;
+import xt9.deepmoblearning.client.gui.DataModelExperienceGui;
 import xt9.deepmoblearning.client.gui.DeepLearnerGui;
+import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
 import xt9.deepmoblearning.client.gui.SimulationChamberGui;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.items.ItemBase;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 /**
  * Created by xt9 on 2017-06-08.
  */
 public class ClientProxy extends CommonProxy {
-    @Override
     public void registerRenderers() {
-        MinecraftForge.EVENT_BUS.register(new ChipExperienceGui(Minecraft.getMinecraft()));
+        MinecraftForge.EVENT_BUS.register(new DataModelExperienceGui(Minecraft.getMinecraft()));
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {
@@ -35,10 +35,6 @@ public class ClientProxy extends CommonProxy {
 
         if(item instanceof ItemBase) {
             ItemBase itemBase = (ItemBase) item;
-
-            if(itemBase.hasSubTypes()) {
-                location = new ResourceLocation(DeepConstants.MODID, id + "/" + itemBase.getSubNames()[meta]);
-            }
         }
 
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
@@ -55,6 +51,8 @@ public class ClientProxy extends CommonProxy {
             switch (ID) {
                 case DeepConstants.TILE_SIMULATION_CHAMBER_GUI_ID:
                     return new SimulationChamberGui((TileEntitySimulationChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
+                case DeepConstants.TILE_EXTRACTION_CHAMBER_GUI_ID:
+                    return new ExtractionChamberGui((TileEntityExtractionChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 default:
                     return null;
             }

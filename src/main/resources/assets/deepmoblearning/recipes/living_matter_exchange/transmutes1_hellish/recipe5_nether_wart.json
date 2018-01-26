@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_hellish", "data": 0 },
+    { "item": "minecraft:red_mushroom", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:nether_wart",
+    "count": 4
+  }
+}

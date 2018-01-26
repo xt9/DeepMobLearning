@@ -10,17 +10,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.items.CapabilityItemHandler;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
-import xt9.deepmoblearning.common.handlers.SimulationChamberHandler;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
-import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.mobs.MobMetaData;
 import xt9.deepmoblearning.common.mobs.MobMetaFactory;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
+import xt9.deepmoblearning.common.util.DataModel;
+import xt9.deepmoblearning.common.util.MathHelper;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class SimulationChamberGui extends GuiContainer {
     private HashMap<String, Animation> animationList;
     private ItemStack currentChip = ItemStack.EMPTY;
     private TileEntitySimulationChamber tile;
-    private SimulationChamberHandler itemHandler;
     private DeepEnergyStorage energyStorage;
     private FontRenderer renderer;
     private World world;
@@ -49,7 +47,6 @@ public class SimulationChamberGui extends GuiContainer {
     public SimulationChamberGui(TileEntitySimulationChamber te, InventoryPlayer inventory, World world) {
         super(new ContainerSimulationChamber(te, inventory, world));
 
-        this.itemHandler = (SimulationChamberHandler) te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
         this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY, null);
 
         this.renderer = Minecraft.getMinecraft().fontRenderer;
@@ -62,9 +59,9 @@ public class SimulationChamberGui extends GuiContainer {
 
     /* Needed on 1.12 to render tooltips */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+        renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -78,9 +75,9 @@ public class SimulationChamberGui extends GuiContainer {
         if(47 <= y && y < 135) {
             if(13 <= x && x < 22) {
                 // Tooltip for Chip exp bar
-                if(this.itemHandler.hasChip()) {
-                    if(ItemMobChip.getTier(this.itemHandler.getChip()) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-                        tooltip.add(ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip()) + "/" + ItemMobChip.getTierRoof(this.itemHandler.getChip()) + " Data collected");
+                if(tile.hasChip()) {
+                    if(DataModel.getTier(tile.getChip()) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+                        tooltip.add(DataModel.getCurrentTierSimulationCountWithKills(tile.getChip()) + "/" + DataModel.getTierRoof(tile.getChip()) + " Data collected");
                     } else {
                         tooltip.add("This data model has reached the max tier.");
                     }
@@ -89,9 +86,10 @@ public class SimulationChamberGui extends GuiContainer {
                 }
                 drawHoveringText(tooltip, x + 2, y + 2);
             } else if(211 <= x && x < 220) {
-                tooltip.add(f.format(this.energyStorage.getEnergyStored()) + "/" + f.format(this.energyStorage.getMaxEnergyStored()) + " RF");
-                if(this.itemHandler.hasChip()) {
-                    MobMetaData data = MobMetaFactory.createMobMetaData(ItemMobChip.getSubName(this.itemHandler.getChip()));
+                // Tooltip for energy
+                tooltip.add(f.format(energyStorage.getEnergyStored()) + "/" + f.format(energyStorage.getMaxEnergyStored()) + " RF");
+                if(tile.hasChip()) {
+                    MobMetaData data = MobMetaFactory.createMobMetaData(tile.getChip());
                     tooltip.add("Simulations with current data model drains " + f.format(data.getSimulationTickCost()) + "RF/t");
                 }
                 drawHoveringText(tooltip, x - 90, y - 16);
@@ -106,9 +104,10 @@ public class SimulationChamberGui extends GuiContainer {
         int top = getGuiTop();
         int spacing = 12;
         int topStart = top - 3;
+        MobMetaData data = MobMetaFactory.createMobMetaData(tile.getChip());
 
-        if(this.chipChanged()) {
-            this.resetAnimations();
+        if(chipChanged()) {
+            resetAnimations();
         }
 
         // Draw the main GUI
@@ -120,50 +119,50 @@ public class SimulationChamberGui extends GuiContainer {
         drawTexturedModalRect(left - 22, top, 0, 141, 18, 18);
 
         // Draw current energy
-        int energyBarHeight = (int) (((float) this.energyStorage.getEnergyStored() / this.energyStorage.getMaxEnergyStored() * 87));
+        int energyBarHeight = MathHelper.ensureRange((int) ((float) energyStorage.getEnergyStored() / (energyStorage.getMaxEnergyStored() - data.getSimulationTickCost()) * 87), 0, 87);
         int energyBarOffset = 87 - energyBarHeight;
         drawTexturedModalRect(left + 203,  top + 48 + energyBarOffset, 25, 141, 7, energyBarHeight);
 
 
         String[] lines;
 
-        if(!this.itemHandler.hasChip()) {
+        if(!tile.hasChip()) {
             lines = new String[] {"Please insert a data model", "to begin the simulation"};
 
-            Animation a1 = this.getAnimation("pleaseInsert1");
-            Animation a2 = this.getAnimation("pleaseInsert2");
+            Animation a1 = getAnimation("pleaseInsert1");
+            Animation a2 = getAnimation("pleaseInsert2");
 
-            this.animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, 16777215);
-            this.animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, 16777215);
+            animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), 16777215);
 
-        } else if(ItemMobChip.getTier(this.itemHandler.getChip()) == 0) {
+        } else if(DataModel.getTier(tile.getChip()) == 0) {
 
             lines = new String[] {"Insufficient data in model", "please insert a basic model", "or better "};
 
-            Animation insufData = this.getAnimation("insufData1");
-            Animation insufData2 = this.getAnimation("insufData2");
-            Animation insufData3 = this.getAnimation("insufData3");
+            Animation insufData = getAnimation("insufData1");
+            Animation insufData2 = getAnimation("insufData2");
+            Animation insufData3 = getAnimation("insufData3");
 
-            this.animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, 16777215);
-            this.animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), 16777215);
-            this.animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), 16777215);
+            animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, 16777215);
+            animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), 16777215);
+            animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), 16777215);
 
         } else {
             // Draw current chip experience
-            if(ItemMobChip.getTier(this.itemHandler.getChip()) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            if(DataModel.getTier(tile.getChip()) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
                 drawTexturedModalRect(left + 6,  top + 48, 18, 141, 7, 87);
             } else {
-                int collectedData = ItemMobChip.getCurrentTierSimulationCountWithKills(this.itemHandler.getChip());
-                int tierRoof = ItemMobChip.getTierRoof(this.itemHandler.getChip());
+                int collectedData = DataModel.getCurrentTierSimulationCountWithKills(tile.getChip());
+                int tierRoof = DataModel.getTierRoof(tile.getChip());
 
                 int experienceBarHeight = (int) (((float) collectedData / tierRoof * 87));
                 int experienceBarOffset = 87 - experienceBarHeight;
                 drawTexturedModalRect(left + 6,  top + 48 + experienceBarOffset, 18, 141, 7, experienceBarHeight);
             }
 
-            drawString(renderer, "Tier: " + ItemMobChip.getTierName(this.itemHandler.getChip(), false), left + 10, topStart + spacing, 16777215);
-            drawString(renderer, "Iterations: " + f.format(ItemMobChip.getTotalSimulationCount(this.itemHandler.getChip())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Pristine chance: " + ItemMobChip.getPristineChance(this.itemHandler.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Tier: " + DataModel.getTierName(tile.getChip(), false), left + 10, topStart + spacing, 16777215);
+            drawString(renderer, "Iterations: " + f.format(DataModel.getTotalSimulationCount(tile.getChip())), left + 10, topStart + spacing * 2, 16777215);
+            drawString(renderer, "Pristine chance: " + DataModel.getPristineChance(tile.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
         }
 
         // Draw player inventory
@@ -171,75 +170,75 @@ public class SimulationChamberGui extends GuiContainer {
         drawTexturedModalRect(left + 20, top + 145, 0, 0, 176, 90);
 
 
-        this.drawConsoleText(left, top, spacing);
+        drawConsoleText(left, top, spacing);
     }
 
 
     private void drawConsoleText(int left, int top, int spacing) {
         String[] lines;
 
-        if(!this.itemHandler.hasChip() || ItemMobChip.getTier(this.itemHandler.getChip()) == 0) {
-            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, 16777215);
+        if(!tile.hasChip() || DataModel.getTier(tile.getChip()) == 0) {
+            animateString("_", getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, 16777215);
 
-        } else if(!this.itemHandler.hasPolymerClay()) {
+        } else if(!tile.hasPolymerClay()) {
             lines = new String[] {"Cannot begin simulation", "Missing polymer medium", "_"};
-            Animation a1 = this.getAnimation("inputSlotEmpty1");
-            Animation a2 = this.getAnimation("inputSlotEmpty2");
-            Animation a3 = this.getAnimation("blinkingUnderline1");
+            Animation a1 = getAnimation("inputSlotEmpty1");
+            Animation a2 = getAnimation("inputSlotEmpty2");
+            Animation a3 = getAnimation("blinkingUnderline1");
 
-            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
 
-        } else if(!this.hasEnergy() && !this.tile.isCrafting) {
+        } else if(!hasEnergy() && !tile.isCrafting) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
-            Animation a1 = this.getAnimation("lowEnergy1");
-            Animation a2 = this.getAnimation("lowEnergy2");
-            Animation a3 = this.getAnimation("blinkingUnderline2");
+            Animation a1 = getAnimation("lowEnergy1");
+            Animation a2 = getAnimation("lowEnergy2");
+            Animation a3 = getAnimation("blinkingUnderline2");
 
-            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else if(this.itemHandler.outputIsFull() || this.itemHandler.pristineIsFull()) {
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+        } else if(tile.outputIsFull() || tile.pristineIsFull()) {
             lines = new String[] {"Cannot begin simulation", "Output or pristine buffer is full", "_"};
-            Animation a1 = this.getAnimation("outputSlotFilled1");
-            Animation a2 = this.getAnimation("outputSlotFilled2");
-            Animation a3 = this.getAnimation("blinkingUnderline3");
+            Animation a1 = getAnimation("outputSlotFilled1");
+            Animation a2 = getAnimation("outputSlotFilled2");
+            Animation a3 = getAnimation("blinkingUnderline3");
 
-            this.animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            this.animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            this.animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else if(this.tile.isCrafting) {
-            drawString(renderer, this.tile.percentDone + "%", left + 176, top + 123, 6478079);
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+        } else if(tile.isCrafting) {
+            drawString(renderer, tile.percentDone + "%", left + 176, top + 123, 6478079);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine1Version"), left + 124, top + 51, 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine1Version"), left + 124, top + 51, 16777215);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine2"), left + 21, top + 51 + spacing, 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine2"), left + 21, top + 51 + spacing, 16777215);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine3"), left + 21, top + 51 + (spacing * 2), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine4"), left + 21, top + 51 + (spacing * 3), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine3"), left + 21, top + 51 + (spacing * 2), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine4"), left + 21, top + 51 + (spacing * 3), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), 16777215);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), 16777215);
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine6Result"), left + 140, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine6Result"), left + 140, top + 51 + (spacing * 5), 16777215);
 
-            drawString(renderer, this.tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), 16777215);
-            drawString(renderer, this.tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), 16777215);
         } else {
-            this.animateString("_", this.getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
+            animateString("_", getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
         }
     }
 
     private boolean hasEnergy() {
-        return this.tile.hasEnergyForSimulation();
+        return tile.hasEnergyForSimulation();
     }
 
     private boolean chipChanged() {
-        if(ItemStack.areItemStacksEqual(this.currentChip, this.itemHandler.getChip())) {
+        if(ItemStack.areItemStacksEqual(currentChip, tile.getChip())) {
             return false;
         } else {
-            this.currentChip = this.itemHandler.getChip();
+            this.currentChip = tile.getChip();
             return true;
         }
     }
@@ -249,11 +248,11 @@ public class SimulationChamberGui extends GuiContainer {
     }
 
     private Animation getAnimation(String key) {
-        if(this.animationList.containsKey(key)) {
-            return this.animationList.get(key);
+        if(animationList.containsKey(key)) {
+            return animationList.get(key);
         } else {
-            this.animationList.put(key, new Animation());
-            return this.animationList.get(key);
+            animationList.put(key, new Animation());
+            return animationList.get(key);
         }
     }
 

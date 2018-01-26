@@ -5,6 +5,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
@@ -18,22 +22,24 @@ public class BlockBase extends Block {
         super(material);
 
         this.blockName = name;
-        this.setUnlocalizedName(DeepConstants.MODID + "." + name);
-        this.setRegistryName(name);
+        setUnlocalizedName(DeepConstants.MODID + "." + name);
+        setCreativeTab(DeepMobLearning.creativeTab);
+        setRegistryName(name);
     }
 
     public void registerItemModel(Item itemBlock) {
         DeepMobLearning.proxy.registerItemRenderer(itemBlock, 0, blockName);
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
-    public BlockBase setCreativeTab(CreativeTabs tab) {
-        super.setCreativeTab(tab);
-        return this;
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
+    {
+        list.add(new ItemStack(this, 1));
     }
 
     public ItemBlock getItemBlock(Block block) {
-        return new ItemBlockBase(this.blockName, 64, block);
+        return new ItemBlockBase(blockName, 64, block);
     }
 
 }

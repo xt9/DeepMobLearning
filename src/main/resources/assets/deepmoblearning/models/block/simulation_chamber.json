@@ -2,9 +2,9 @@
   "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
   "textures": {
     "0": "deepmoblearning:blocks/color_stripes",
-    "1": "deepmoblearning:blocks/simulation_chamber_up",
+    "1": "deepmoblearning:blocks/machine_base_up",
     "2": "deepmoblearning:blocks/simulation_chamber_north",
-    "3": "deepmoblearning:blocks/simulation_chamber"
+    "3": "deepmoblearning:blocks/machine_base"
   },
   "elements": [
     {

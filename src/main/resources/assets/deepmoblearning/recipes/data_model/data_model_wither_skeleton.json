@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank", "data": 0 },
+    { "item": "minecraft:skull", "data": 1 }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_wither_skeleton",
+    "count": 1
+  }
+}

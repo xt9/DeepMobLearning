@@ -7,15 +7,15 @@
   ],
   "key": {
     "H": {
-      "item": "deepmoblearning:living_matter",
-      "data": 1
+      "item": "deepmoblearning:living_matter_hellish",
+      "data": 0
     },
     "E": {
       "item": "minecraft:end_stone"
     }
   },
   "result": {
-    "item": "deepmoblearning:living_matter",
-    "data": 2
+    "item": "deepmoblearning:living_matter_extraterrestrial",
+    "data": 0
   }
 }

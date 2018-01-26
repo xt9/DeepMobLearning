@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank", "data": 0 },
+    { "item": "minecraft:slime_ball", "data": 0 }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_slime",
+    "count": 1
+  }
+}

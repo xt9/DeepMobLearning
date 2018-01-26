@@ -12,10 +12,12 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
+import xt9.deepmoblearning.common.inventory.ContainerExtractionChamber;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.IGuiItem;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.tiles.IGuiTile;
+import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 
@@ -64,6 +66,8 @@ public class CommonProxy implements IGuiHandler {
             switch (ID) {
                 case DeepConstants.TILE_SIMULATION_CHAMBER_GUI_ID:
                     return new ContainerSimulationChamber((TileEntitySimulationChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
+                case DeepConstants.TILE_EXTRACTION_CHAMBER_GUI_ID:
+                    return new ContainerExtractionChamber((TileEntityExtractionChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 default:
                     return null;
             }
@@ -75,7 +79,8 @@ public class CommonProxy implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         return null;
     }
-    public void registerItemRenderer(Item item, int meta, String id) {}
-    public void registerRenderers() {}
 
+    public void registerItemRenderer(Item item, int meta, String id) {}
+
+    public void registerRenderers() { }
 }

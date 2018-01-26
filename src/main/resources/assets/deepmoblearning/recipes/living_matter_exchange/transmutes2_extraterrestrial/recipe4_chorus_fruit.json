@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_extraterrestrial", "data": 0 },
+    { "item": "minecraft:apple", "data": 0 }
+  ],
+  "result": {
+    "item": "minecraft:chorus_fruit",
+    "count": 1
+  }
+}

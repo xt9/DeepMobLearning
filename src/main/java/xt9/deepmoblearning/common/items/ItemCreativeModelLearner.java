@@ -7,9 +7,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import xt9.deepmoblearning.DeepConstants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.network.LevelUpModelMessage;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
 
 import javax.annotation.Nullable;
@@ -22,16 +24,11 @@ public class ItemCreativeModelLearner extends ItemBase {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand) {
-        NonNullList<ItemStack> inv1 = player.inventory.mainInventory;
-        NonNullList<ItemStack> inv2 = player.inventory.offHandInventory;
-
-        if(!player.world.isRemote) {
+        if(player.world.isRemote) {
             if(KeyboardHelper.isHoldingShift()) {
-                findAndLevelUpModels(inv1, player, true);
-                findAndLevelUpModels(inv2, player, true);
+                DeepMobLearning.network.sendToServer(new LevelUpModelMessage(0));
             } else if(KeyboardHelper.isHoldingCTRL()) {
-                findAndLevelUpModels(inv1, player, false);
-                findAndLevelUpModels(inv2, player, false);
+                DeepMobLearning.network.sendToServer(new LevelUpModelMessage(1));
             }
         }
 
@@ -39,29 +36,8 @@ public class ItemCreativeModelLearner extends ItemBase {
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 
-    public void findAndLevelUpModels(NonNullList<ItemStack> inventory, EntityPlayer player, boolean increaseWholeTier) {
-        for(ItemStack inventoryStack : inventory) {
-            if (inventoryStack.getItem() instanceof ItemDeepLearner) {
-                NonNullList<ItemStack> deepLearnerInternalInv = ItemDeepLearner.getContainedItems(inventoryStack);
-                for (ItemStack stack : deepLearnerInternalInv) {
-                    if (stack.getItem() instanceof ItemMobChip) {
-                        int tier = ItemMobChip.getTier(stack);
-                        if(tier != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-                            if(increaseWholeTier) {
-                                ItemMobChip.setTier(stack, (tier + 1));
-                            } else {
-                                ItemMobChip.increaseMobKillCount(stack, player);
-                            }
-                        }
 
-                    }
-                    ItemDeepLearner.setContainedItems(inventoryStack, deepLearnerInternalInv);
-                }
-            }
-        }
-    }
-
-    @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
         if(!KeyboardHelper.isHoldingShift()) {
             list.add(I18n.format("deepmoblearning.holdshift"));

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank", "data": 0 },
+    { "item": "twilightforest:twilight_log", "data": 3 }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_twilight_darkwood",
+    "count": 1
+  }
+}

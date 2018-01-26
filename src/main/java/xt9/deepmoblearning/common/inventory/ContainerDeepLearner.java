@@ -9,16 +9,15 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.items.ItemStackHandler;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.util.ItemHandlerHelper;
 
 /**
  * Created by xt9 on 2017-06-10.
  */
 public class ContainerDeepLearner extends Container {
-    protected ItemStackHandler handler;
+    protected BaseItemHandler handler;
     protected EntityEquipmentSlot equipmentSlot;
     protected World world;
     protected EntityPlayer player;
@@ -28,29 +27,31 @@ public class ContainerDeepLearner extends Container {
 
     public ContainerDeepLearner(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
         this.internalSlots = DeepConstants.DEEP_LEARNER_INTERNAL_SLOTS_SIZE;
-        this.handler = new ItemStackHandler(ItemDeepLearner.getContainedItems(heldItem));
+        // this.handler = new ItemStackHandler(ItemDeepLearner.getContainedItems(heldItem));
+
+        this.handler = new BaseItemHandler(ItemDeepLearner.getContainedItems(heldItem));
         this.deepLearnerSlot = inventory.currentItem + internalSlots;
         this.deepLearner = heldItem;
         this.world = world;
         this.player = inventory.player;
         this.equipmentSlot = slot;
-        this.addChipSlots();
-        this.addInventorySlots();
+        addChipSlots();
+        addInventorySlots();
     }
 
     private void addChipSlots() {
-        this.addSlotToContainer(new SlotDeepLearner(this.handler, 0, 257, 100));
-        this.addSlotToContainer(new SlotDeepLearner(this.handler, 1, 275, 100));
-        this.addSlotToContainer(new SlotDeepLearner(this.handler, 2, 257, 118));
-        this.addSlotToContainer(new SlotDeepLearner(this.handler, 3, 275, 118));
+        addSlotToContainer(new SlotDeepLearner(handler, 0, 257, 100));
+        addSlotToContainer(new SlotDeepLearner(handler, 1, 275, 100));
+        addSlotToContainer(new SlotDeepLearner(handler, 2, 257, 118));
+        addSlotToContainer(new SlotDeepLearner(handler, 3, 275, 118));
     }
 
     private void addInventorySlots() {
         // Bind actionbar
         for (int row = 0; row < 9; row++) {
             int index = row;
-            Slot slot = new Slot(this.player.inventory, index, 89 + row * 18, 211);
-            this.addSlotToContainer(slot);
+            Slot slot = new Slot(player.inventory, index, 89 + row * 18, 211);
+            addSlotToContainer(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -59,8 +60,8 @@ public class ContainerDeepLearner extends Container {
                 int x = 89 + column * 18;
                 int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
-                Slot slot = new Slot(this.player.inventory, index, x, y);
-                this.addSlotToContainer(slot);
+                Slot slot = new Slot(player.inventory, index, x, y);
+                addSlotToContainer(slot);
             }
         }
     }
@@ -77,10 +78,10 @@ public class ContainerDeepLearner extends Container {
             int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 
             if (index < containerSlots) {
-                if (!this.mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
+                if (!mergeItemStack(itemstack1, containerSlots, inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 0, containerSlots, false)) {
+            } else if (!mergeItemStack(itemstack1, 0, containerSlots, false)) {
                 return ItemStack.EMPTY;
             }
 
@@ -103,7 +104,7 @@ public class ContainerDeepLearner extends Container {
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 
-        if(slotId == this.deepLearnerSlot && !this.equipmentSlot.getName().equals("offhand") || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
+        if(slotId == deepLearnerSlot && !equipmentSlot.getName().equals("offhand") || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
             return ItemStack.EMPTY;
         }
 
@@ -113,22 +114,22 @@ public class ContainerDeepLearner extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player)
-    {
+    public void onContainerClosed(EntityPlayer player) {
         super.onContainerClosed(player);
         updateInventories();
     }
 
     @Override
     public boolean canInteractWith(EntityPlayer entityplayer) {
-        return !this.player.isSpectator();
+        return !player.isSpectator();
     }
 
     private void updateInventories() {
-        ItemDeepLearner.setContainedItems(this.deepLearner, ItemHandlerHelper.getItemStacksFromHandler(this.handler));
-        ItemStack hand = player.getItemStackFromSlot(this.equipmentSlot);
-        if(!hand.isEmpty() && !hand.equals(deepLearner))
-            player.setItemStackToSlot(this.equipmentSlot, this.deepLearner);
+        ItemDeepLearner.setContainedItems(deepLearner, handler.getItemStacks());
+        ItemStack hand = player.getItemStackFromSlot(equipmentSlot);
+        if(!hand.isEmpty() && !hand.equals(deepLearner)) {
+            player.setItemStackToSlot(equipmentSlot, deepLearner);
+        }
         player.inventory.markDirty();
     }
 }

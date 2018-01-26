@@ -6,7 +6,7 @@
     "DLE"
   ],
   "key": {
-    "L": { "item": "deepmoblearning:living_matter", "data": 2 },
+    "L": { "item": "deepmoblearning:living_matter_extraterrestrial", "data": 0 },
     "D": { "item": "minecraft:diamond", "data": 0 },
     "E": { "item": "minecraft:emerald", "data": 0 }
   },

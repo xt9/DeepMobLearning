@@ -1,12 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "GCR",
+    "GC ",
     "CDC",
-    "RCI"
+    " CI"
   ],
   "key": {
-    "R": { "item": "deepmoblearning:charred_redstone", "data": 0 },
     "D": { "item": "minecraft:dye", "data": 6 },
     "G": { "item": "minecraft:gold_ingot", "data": 0 },
     "I": { "item": "minecraft:iron_ingot", "data": 0 },

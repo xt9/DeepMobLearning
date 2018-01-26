@@ -1,7 +1,6 @@
 package xt9.deepmoblearning.common.util;
 
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.config.Config;
 
 /**
@@ -10,18 +9,18 @@ import xt9.deepmoblearning.common.config.Config;
 public class DataModelExperience {
     // Simulations have no multipliers, they are always 1x
     private static final int[] killMultiplier = {
-            Config.modelExperience.get("killMultiplierTier0").getInt(),
-            Config.modelExperience.get("killMultiplierTier1").getInt(),
-            Config.modelExperience.get("killMultiplierTier2").getInt(),
-            Config.modelExperience.get("killMultiplierTier3").getInt(),
-            0 // Max tier, no kill multiplier
+        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier0").getInt(), 1, 100),
+        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier1").getInt(), 1, 100),
+        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier2").getInt(), 1, 100),
+        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier3").getInt(), 1, 100),
+        0 // Max tier, no kill multiplier
     };
 
     private static final int[] maxExperience = {
-            Config.modelExperience.get("killsToTier1").getInt() * killMultiplier[0],
-            Config.modelExperience.get("killsToTier2").getInt() * killMultiplier[1],
-            Config.modelExperience.get("killsToTier3").getInt() * killMultiplier[2],
-            Config.modelExperience.get("killsToTier4").getInt() * killMultiplier[3]
+        MathHelper.ensureRange(Config.modelExperience.get("killsToTier1").getInt(), 1, 500) * killMultiplier[0],
+        MathHelper.ensureRange(Config.modelExperience.get("killsToTier2").getInt(), 1, 500) * killMultiplier[1],
+        MathHelper.ensureRange(Config.modelExperience.get("killsToTier3").getInt(), 1, 500) * killMultiplier[2],
+        MathHelper.ensureRange(Config.modelExperience.get("killsToTier4").getInt(), 1, 500) * killMultiplier[3],
     };
 
     /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */

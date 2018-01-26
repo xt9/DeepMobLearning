@@ -4,6 +4,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemAir;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -13,9 +15,12 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
+import xt9.deepmoblearning.common.util.DataModel;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,27 +31,28 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand)
-    {
-        if(!KeyboardHelper.isHoldingShift() && !KeyboardHelper.isHoldingCTRL()) {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand) {
+        Item mainHand = player.getHeldItemMainhand().getItem();
+        Item offHand = player.getHeldItemOffhand().getItem();
+
+        if(mainHand instanceof ItemDeepLearner || offHand instanceof ItemDeepLearner && mainHand instanceof ItemAir) {
             CommonProxy.openItemGui(player, hand == EnumHand.MAIN_HAND ? EntityEquipmentSlot.MAINHAND : EntityEquipmentSlot.OFFHAND);
         }
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
     }
 
-    @Override
+    @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        NonNullList<ItemStack> internalChips = ItemMobChip.getValidFromList(getContainedItems(stack));
+        NonNullList<ItemStack> internalChips = DataModel.getValidFromList(getContainedItems(stack));
 
         if(internalChips.size() > 0) {
             if(!KeyboardHelper.isHoldingShift()) {
                 list.add(I18n.format("deepmoblearning.holdshift"));
             } else {
                 list.add("Contains the following models");
-                for(int i = 0; i < internalChips.size(); i++) {
-                    ItemStack chip = internalChips.get(i);
-                    if(chip.getItemDamage() != 0) {
-                        list.add(ItemMobChip.getTierName(chip, false) + " " + chip.getDisplayName());
+                for (ItemStack chip : internalChips) {
+                    if (chip.getItem() instanceof ItemDataModel.TE) {
+                        list.add(DataModel.getTierName(chip, false) + " " + chip.getDisplayName());
                     }
                 }
             }
@@ -72,9 +78,9 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     public static void setContainedItems(ItemStack deepLearner, NonNullList<ItemStack> list) {
         NBTTagList inventory = new NBTTagList();
 
-        for(int i = 0; i < list.size(); i++) {
+        for (ItemStack aList : list) {
             NBTTagCompound tag = new NBTTagCompound();
-            list.get(i).writeToNBT(tag);
+            aList.writeToNBT(tag);
             inventory.appendTag(tag);
         }
         deepLearner.setTagCompound(new NBTTagCompound());

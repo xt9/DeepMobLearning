@@ -1,23 +1,27 @@
 package xt9.deepmoblearning.common.mobs;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
+import net.minecraft.item.Item;
+import net.minecraft.world.World;
 
 /**
  * Created by xt9 on 2017-06-09.
  */
 public class BlazeMeta extends MobMetaData {
-    private String[] mobTrivia = {"Bring buckets, and watch in despair", "as it evaporates, and everything is on fire", "You are on fire"};
+    static String[] mobTrivia = {"Bring buckets, and watch in despair", "as it evaporates, and everything is on fire", "You are on fire"};
 
-    BlazeMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, int matterType) {
-        super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, matterType);
+    BlazeMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
+        super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public String[] getMobTrivia() {
-        return this.mobTrivia;
+    @Override
+    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
+        return entityLiving instanceof EntityBlaze;
     }
 
-    public EntityBlaze getEntity() {
-        return new EntityBlaze(this.world);
+    public EntityBlaze getEntity(World world) {
+        return new EntityBlaze(world);
     }
 
 }

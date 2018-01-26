@@ -1,7 +1,10 @@
 package xt9.deepmoblearning.common.mobs;
 
+import net.minecraft.world.World;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityWitherSkeleton;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 
@@ -9,17 +12,19 @@ import net.minecraft.util.EnumHand;
  * Created by xt9 on 2017-06-15.
  */
 public class WitherSkeletonMeta extends MobMetaData {
-    private String[] mobTrivia = {"Inflicts the wither effect", "Bring milk"};
+    static String[] mobTrivia = {"Inflicts the wither effect", "Bring milk"};
 
-    WitherSkeletonMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, int matterType) {
-        super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, matterType);
-    }
-    public String[] getMobTrivia() {
-        return this.mobTrivia;
+    WitherSkeletonMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
+        super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityWitherSkeleton getEntity() {
-        EntityWitherSkeleton entity = new EntityWitherSkeleton(this.world);
+    @Override
+    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
+        return entityLiving instanceof EntityWitherSkeleton;
+    }
+
+    public EntityWitherSkeleton getEntity(World world) {
+        EntityWitherSkeleton entity = new EntityWitherSkeleton(world);
         entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
         return entity;
     }

@@ -8,7 +8,7 @@
   "key": {
     "O": { "item": "deepmoblearning:charred_plate", "data": 0 },
     "P": { "item": "minecraft:ender_pearl", "data": 0 },
-    "S": { "item": "minecraft:stained_glass_pane", "data": 5 },
+    "S": { "item": "minecraft:glass_pane", "data": 0 },
     "R": { "item": "minecraft:repeater", "data": 0 },
     "C": { "item": "minecraft:comparator", "data": 0 }
   },

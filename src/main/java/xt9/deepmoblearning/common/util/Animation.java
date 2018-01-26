@@ -11,17 +11,17 @@ public class Animation {
     private String currentString = "";
 
     public String animate(String string, int frame, boolean loop) {
-        if(!this.hasStarted) {
+        if(!hasStarted) {
             this.hasStarted = true;
             this.renderPos = 0;
             this.renderStop = string.length();
         } else {
             callsSinceRenderStart++;
-            if(this.renderPos < this.renderStop) {
-                if(this.renderPos >= 0) {
-                    this.currentString = string.substring(0, this.renderPos);
+            if(renderPos < renderStop) {
+                if(renderPos >= 0) {
+                    this.currentString = string.substring(0, renderPos);
                 }
-                this.renderPos = callsSinceRenderStart % frame == 0 ? this.renderPos + 1 : this.renderPos;
+                this.renderPos = callsSinceRenderStart % frame == 0 ? renderPos + 1 : renderPos;
             } else {
                 if(loop) {
                     this.hasStarted = callsSinceRenderStart % frame != 0;
@@ -30,15 +30,15 @@ public class Animation {
             }
         }
 
-        return this.currentString;
+        return currentString;
     }
 
     public String getCurrentString() {
-        return this.currentString;
+        return currentString;
     }
 
     public boolean hasFinished() {
-        return this.renderPos == this.renderStop && this.renderStop != 0;
+        return renderPos == renderStop && renderStop != 0;
     }
 
     public void clear() {

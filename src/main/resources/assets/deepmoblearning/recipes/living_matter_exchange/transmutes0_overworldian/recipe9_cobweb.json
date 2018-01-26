@@ -3,8 +3,8 @@
   "ingredients": [
     { "item": "minecraft:string", "data": 0 },
     { "item": "minecraft:slime_ball", "data": 0 },
-    { "item": "deepmoblearning:living_matter", "data": 0 },
-    { "item": "deepmoblearning:living_matter", "data": 0 }
+    { "item": "deepmoblearning:living_matter_overworldian", "data": 0 },
+    { "item": "deepmoblearning:living_matter_overworldian", "data": 0 }
   ],
   "result": {
     "item": "minecraft:web",

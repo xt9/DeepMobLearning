@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_twilight", "data": 0 },
+    { "item": "minecraft:beef", "data": 0 }
+  ],
+  "result": {
+    "item": "twilightforest:raw_venison",
+    "count": 8
+  }
+}

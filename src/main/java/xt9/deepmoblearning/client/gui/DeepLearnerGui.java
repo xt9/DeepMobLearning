@@ -12,14 +12,13 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.items.ItemMobChip;
 import xt9.deepmoblearning.common.mobs.MobMetaData;
 import xt9.deepmoblearning.common.mobs.MobMetaFactory;
 import xt9.deepmoblearning.common.mobs.SpiderMeta;
 import xt9.deepmoblearning.common.mobs.ZombieMeta;
+import xt9.deepmoblearning.common.util.DataModel;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -52,9 +51,9 @@ public class DeepLearnerGui extends GuiContainer {
 
     /* Needed on 1.12 to render tooltips */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        this.drawDefaultBackground();
+        drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+        renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -71,31 +70,31 @@ public class DeepLearnerGui extends GuiContainer {
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 81, top + 145, 0, 0, 176, 90);
 
-        // Get the meta for the first ItemMobChip in this deeplearner
-        NonNullList<ItemStack> list = ItemDeepLearner.getContainedItems(this.deepLearner);
-        this.validModelChips = ItemMobChip.getValidFromList(list);
+        // Get the meta for the first ItemDataModel in this deeplearner
+        NonNullList<ItemStack> list = ItemDeepLearner.getContainedItems(deepLearner);
+        this.validModelChips = DataModel.getValidFromList(list);
 
         // Render cycle buttons if we have multiple models (atleast 2).
-        if(this.validModelChips.size() > 1) {
-            this.renderCycleButtons(left, top, mouseX, mouseY);
+        if(validModelChips.size() > 1) {
+            renderCycleButtons(left, top, mouseX, mouseY);
         }
 
-        if(this.currentItem >= this.validModelChips.size()) {
-            this.currentItem = this.previousItemIndex();
+        if(currentItem >= validModelChips.size()) {
+            this.currentItem = previousItemIndex();
         }
 
         // If we have at least 1 valid mob chip
-        if(this.validModelChips.size() >= 1 && this.currentItem < this.validModelChips.size()) {
-            this.meta = MobMetaFactory.createMobMetaData(ItemMobChip.getSubName(this.validModelChips.get(this.currentItem)));
+        if(validModelChips.size() >= 1 && currentItem < validModelChips.size()) {
+            this.meta = MobMetaFactory.createMobMetaData(validModelChips.get(currentItem));
 
-            this.renderMetaDataText(meta, left, top, this.validModelChips.get(this.currentItem));
-            this.renderMobDisplayBox(left, top);
-            this.renderEntity(meta.getEntity(), meta.getInterfaceScale(), left + meta.getInterfaceOffsetX(), top + 80 + meta.getInterfaceOffsetY(), partialTicks);
+            renderMetaDataText(meta, left, top, validModelChips.get(currentItem));
+            renderMobDisplayBox(left, top);
+            renderEntity(meta.getEntity(world), meta.getInterfaceScale(), left + meta.getInterfaceOffsetX(), top + 80 + meta.getInterfaceOffsetY(), partialTicks);
             if(meta instanceof ZombieMeta || meta instanceof SpiderMeta) {
-                this.renderEntity(meta.getExtraEntity(), meta.getInterfaceScale(), left + meta.getExtraInterfaceOffsetX(), top + 80 + meta.getExtraInterfaceOffsetY(), partialTicks);
+                renderEntity(meta.getExtraEntity(world), meta.getInterfaceScale(), left + meta.getExtraInterfaceOffsetX(), top + 80 + meta.getExtraInterfaceOffsetY(), partialTicks);
             }
         } else {
-            this.renderDefaultScreen(left, top);
+            renderDefaultScreen(left, top);
         }
 
     }
@@ -104,10 +103,10 @@ public class DeepLearnerGui extends GuiContainer {
         int result;
 
         // If last in list go back to start of list
-        if(this.currentItem == this.validModelChips.size() - 1) {
+        if(currentItem == validModelChips.size() - 1) {
             result = 0;
         } else {
-            result = this.currentItem + 1;
+            result = currentItem + 1;
         }
 
         return result;
@@ -116,14 +115,14 @@ public class DeepLearnerGui extends GuiContainer {
     private int previousItemIndex() {
         int result;
         // If first in list
-        if(this.currentItem == 0) {
-            if(this.validModelChips.size() > 1) {
-                result = this.validModelChips.size() - 1;
+        if(currentItem == 0) {
+            if(validModelChips.size() > 1) {
+                result = validModelChips.size() - 1;
             } else {
                 result = 0;
             }
         } else {
-            result = this.currentItem - 1;
+            result = currentItem - 1;
         }
 
         return result;
@@ -151,13 +150,13 @@ public class DeepLearnerGui extends GuiContainer {
         int x = mX - guiLeft;
         int y = mY - guiTop;
 
-        if(this.validModelChips.size() > 1) {
+        if(validModelChips.size() > 1) {
             if (x >= -27 && x < 23 && 105 <= y && y < 129) {
 
                 if (-27 <= x && x < -3) {
-                    this.currentItem = this.previousItemIndex();
+                    this.currentItem = previousItemIndex();
                 } else if (-2 <= x && x < 23) {
-                    this.currentItem = this.nextItemIndex();
+                    this.currentItem = nextItemIndex();
                 }
             }
         }
@@ -168,13 +167,13 @@ public class DeepLearnerGui extends GuiContainer {
         int leftStart = left + 49;
         int spacing = 12;
 
-        drawString(this.renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
-        drawString(this.renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
-        drawString(this.renderer,  "Your data models will collect data", leftStart, top + (spacing * 3), 16777215);
-        drawString(this.renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
+        drawString(renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
+        drawString(renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
+        drawString(renderer,  "Your data models will collect data", leftStart, top + (spacing * 3), 16777215);
+        drawString(renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
 
-        drawString(this.renderer,  "In order to collect data, you must", leftStart, top + (spacing * 6), 16777215);
-        drawString(this.renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), 16777215);
+        drawString(renderer,  "In order to collect data, you must", leftStart, top + (spacing * 6), 16777215);
+        drawString(renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), 16777215);
     }
 
     private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack) {
@@ -183,30 +182,30 @@ public class DeepLearnerGui extends GuiContainer {
         int topStart = top - 4;
         int spacing = 12;
 
-        drawString(this.renderer, "Name", leftStart, topStart + spacing, 6478079);
-        drawString(this.renderer,  "The " + meta.getName(), leftStart, topStart + (spacing *  2), 16777215);
+        drawString(renderer, "Name", leftStart, topStart + spacing, 6478079);
+        drawString(renderer,  "The " + meta.getName(), leftStart, topStart + (spacing *  2), 16777215);
 
-        drawString(this.renderer, "Information", leftStart, topStart + (spacing *  3), 6478079);
+        drawString(renderer, "Information", leftStart, topStart + (spacing *  3), 6478079);
         String mobTrivia[] = meta.getMobTrivia();
         for (int i = 0; i < mobTrivia.length; i++) {
-            drawString(this.renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
+            drawString(renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
         }
 
-        String chipTier = ItemMobChip.getTierName(stack, false);
-        String nextTier = ItemMobChip.getTierName(stack, true);
-        String pluralMobName = ItemMobChip.getMobMetaData(stack).getPluralName();
+        String chipTier = DataModel.getTierName(stack, false);
+        String nextTier = DataModel.getTierName(stack, true);
+        String pluralMobName = DataModel.getMobMetaData(stack).getPluralName();
 
-        int totalKills = ItemMobChip.getTotalKillCount(stack);
-        double killsToNextTier = ItemMobChip.getKillsToNextTier(stack);
+        int totalKills = DataModel.getTotalKillCount(stack);
+        double killsToNextTier = DataModel.getKillsToNextTier(stack);
 
-        drawString(this.renderer, "Model Tier: " + chipTier, leftStart, topStart + (spacing * 8), 16777215);
-        drawString(this.renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 16777215);
+        drawString(renderer, "Model Tier: " + chipTier, leftStart, topStart + (spacing * 8), 16777215);
+        drawString(renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 16777215);
 
 
-        if(ItemMobChip.getTier(stack) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-            drawString(this.renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), 16777215);
+        if(DataModel.getTier(stack) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            drawString(renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), 16777215);
         } else {
-            drawString(this.renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 16777215);
+            drawString(renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 16777215);
         }
 
 
@@ -215,7 +214,14 @@ public class DeepLearnerGui extends GuiContainer {
         drawTexturedModalRect(left + 235, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
 
         drawString(renderer, "Life points", left + 235, topStart + spacing, 6478079);
-        drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, 16777215);
+
+        int numOfHearts = meta.getNumberOfHearts();
+        if(numOfHearts == 0) {
+            // Obfuscate if hears is 0, use for models with multiple mobs
+            drawString(renderer, "§k10§r", left + 246, topStart + (spacing * 2) - 1, 16777215);
+        } else {
+            drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, 16777215);
+        }
     }
 
     private void renderMobDisplayBox(int left, int top) {
@@ -233,11 +239,11 @@ public class DeepLearnerGui extends GuiContainer {
         GlStateManager.translate(x, y, 0.0f);
         GlStateManager.scale(scale, scale, scale);
         GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-        double heightOffset = Math.sin((this.world.getTotalWorldTime() + partialTicks) / 16.0) / 8.0;
+        double heightOffset = Math.sin((world.getTotalWorldTime() + partialTicks) / 16.0) / 8.0;
 
         // Make sure the Z axis is high so it does not clip behind the backdrop or inventory
         GlStateManager.translate(0.2f, 0.0f + heightOffset, 15.0f);
-        GlStateManager.rotate((this.world.getTotalWorldTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
+        GlStateManager.rotate((world.getTotalWorldTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
         Minecraft.getMinecraft().getRenderManager().renderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
 
         GlStateManager.popMatrix();

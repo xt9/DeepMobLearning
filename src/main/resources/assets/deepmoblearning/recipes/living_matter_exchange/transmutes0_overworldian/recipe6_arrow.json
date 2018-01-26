@@ -3,7 +3,7 @@
   "ingredients": [
     { "item": "minecraft:stick", "data": 0 },
     { "item": "minecraft:flint", "data": 0 },
-    { "item": "deepmoblearning:living_matter", "data": 0 }
+    { "item": "deepmoblearning:living_matter_overworldian", "data": 0 }
   ],
   "result": {
     "item": "minecraft:arrow",

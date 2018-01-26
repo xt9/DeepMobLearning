@@ -17,7 +17,6 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
-import xt9.deepmoblearning.common.util.ItemHandlerHelper;
 
 /**
  * Created by xt9 on 2017-06-15.
@@ -36,7 +35,7 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntitySimulationChamber tile = this.getTileEntity(world, pos);
+        TileEntitySimulationChamber tile = getTileEntity(world, pos);
         CommonProxy.openTileEntityGui(world, player, tile, pos);
         return true;
     }
@@ -44,14 +43,13 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntitySimulationChamber tile = getTileEntity(world, pos);
-        IItemHandler itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.NORTH);
-        NonNullList<ItemStack> containedItems = ItemHandlerHelper.getItemStacksFromHandler(itemHandler);
+        IItemHandler inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
-        for (int i = 0; i < containedItems.size(); i++) {
-            if (!containedItems.get(i).isEmpty()) {
-                EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), containedItems.get(i));
-                world.spawnEntity(item);
-            }
+        for (int i = 0; i < inventory.getSlots(); i++) {
+            ItemStack stack = inventory.getStackInSlot(i);
+            EntityItem item = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+            item.setDefaultPickupDelay();
+            world.spawnEntity(item);
         }
         super.breakBlock(world, pos, state);
     }
@@ -59,13 +57,14 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
         int rotation = EnumFacing.getDirectionFromEntityLiving(pos, player).ordinal();
-        world.setBlockState(pos, this.getStateFromMeta(rotation), 2);
+        world.setBlockState(pos, getStateFromMeta(rotation), 2);
 
         super.onBlockPlacedBy(world, pos, state, player, stack);
     }
+
     @Override
     public IBlockState getStateFromMeta(int meta){
-        return this.getDefaultState().withProperty(BlockDirectional.FACING, EnumFacing.getFront(meta));
+        return getDefaultState().withProperty(BlockDirectional.FACING, EnumFacing.getFront(meta));
     }
 
     @Override
@@ -85,7 +84,7 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
 
     @Override
     public IBlockState withMirror(IBlockState state, Mirror mirror){
-        return this.withRotation(state, mirror.toRotation(state.getValue(BlockDirectional.FACING)));
+        return withRotation(state, mirror.toRotation(state.getValue(BlockDirectional.FACING)));
     }
 
     public Class<TileEntitySimulationChamber> getTileEntityClass() {

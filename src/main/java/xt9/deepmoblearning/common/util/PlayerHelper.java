@@ -32,11 +32,11 @@ public class PlayerHelper {
     }
 
     public boolean isHoldingDeepLearner() {
-        return this.isHoldingDeepLearner;
+        return isHoldingDeepLearner;
     }
 
     // Check if isHoldingDeepLearner first if you can't accept an Empty itemstack
     public ItemStack getHeldDeepLearner() {
-        return this.stack;
+        return stack;
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
 
 /**
  * Created by xt9 on 2017-06-15.
@@ -14,14 +13,14 @@ public class ItemBlockBase extends ItemBlock {
 
     public ItemBlockBase(String name, int stackSize, Block block) {
         super(block);
-        this.setUnlocalizedName(DeepConstants.MODID + "." + name);
-        this.setRegistryName(name);
-        this.setMaxStackSize(stackSize);
+        setUnlocalizedName(DeepConstants.MODID + "." + name);
+        setRegistryName(name);
+        setMaxStackSize(stackSize);
         this.itemName = name;
     }
 
     @Override
     public String getUnlocalizedName(ItemStack stack) {
-        return this.getUnlocalizedName();
+        return getUnlocalizedName();
     }
 }

@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "deepmoblearning:living_matter", "data": 2 },
+    { "item": "deepmoblearning:living_matter_extraterrestrial", "data": 0 },
     { "item": "minecraft:slime_ball", "data": 0 }
   ],
   "result": {

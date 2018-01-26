@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OGO",
+    "DSD",
+    "OCO"
+  ],
+  "key": {
+    "O": { "item": "deepmoblearning:charred_plate", "data": 0 },
+    "G": { "item": "minecraft:gold_ingot", "data": 0 },
+    "D": { "item": "minecraft:diamond", "data": 0 },
+    "S": { "item": "minecraft:glass_pane", "data": 0 },
+    "C": { "item": "minecraft:comparator", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:extraction_chamber",
+    "count": 1
+  }
+}

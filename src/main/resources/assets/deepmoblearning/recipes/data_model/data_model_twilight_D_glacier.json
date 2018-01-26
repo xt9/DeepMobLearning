@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank", "data": 0 },
+    { "item": "twilightforest:arctic_fur", "data": 0 }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_twilight_glacier",
+    "count": 1
+  }
+}
