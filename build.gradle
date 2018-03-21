@@ -66,6 +66,7 @@ dependencies {
 
     compile files("deps/ThermalFoundation-1.12.2-2.3.7.18-universal.jar")
     compile files("deps/twilightforest-1.12.2-3.5.263-universal.jar")
+    compile files("deps/TConstruct-1.12-2.8.1.49.jar")
 }
 
 processResources {

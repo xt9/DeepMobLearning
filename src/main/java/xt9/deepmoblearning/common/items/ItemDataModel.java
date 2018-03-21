@@ -229,4 +229,15 @@ public class ItemDataModel extends ItemBase {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
+
+    public static class TinkerSlime extends ItemDataModel {
+        public TinkerSlime() {
+            super("data_model_tinker_slime");
+        }
+
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+            super.addInformation(stack, worldIn, list, flagIn);
+        }
+    }
 }

@@ -8,6 +8,11 @@ some type of mob data model.
 
 Once your data models have reached higher tiers you can use them in the simulation chamber to get loot.
 
+## Current mod support
+- Thermal Foundation
+- Twilight Forest
+- Tinker's Construct
+
 ## Beta guidelines
 Grab the latest release and drop the jar in your mods folder, make sure you use some other mod for RF generation.
 Use the Creative Model Learner if you want to level models quickly.

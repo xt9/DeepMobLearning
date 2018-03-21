@@ -164,6 +164,10 @@ public class MobMetaFactory {
             meta = new ThermalElementalMeta("thermalelemental", "Thermal Elementals", "Elementals", 10, 48, 10, 20, Registry.livingMatterOverworldian, Registry.pristineMatterTE);
         }
 
+        if(DeepConstants.MOD_TCON_LOADED && stack.getItem() instanceof ItemDataModel.TinkerSlime) {
+            meta = new TinkerSlimeMeta("tinkerslime", "Blue slime", "Blue slimes", 8, 60, 10, -16, Registry.livingMatterOverworldian, Registry.pristineMatterTinkerSlime);
+        }
+
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
             if(stack.getItem() instanceof ItemDataModel.TwilightForest) {
                 meta = new TwilightForestMeta(

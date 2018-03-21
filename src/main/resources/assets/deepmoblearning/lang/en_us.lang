@@ -34,6 +34,7 @@ item.deepmoblearning.data_model_twilight_forest.name=§bTwilight Forest Data Mod
 item.deepmoblearning.data_model_twilight_swamp.name=§bTwilight Swamp Data Model§r
 item.deepmoblearning.data_model_twilight_darkwood.name=§bTwilight Darkwood Data Model§r
 item.deepmoblearning.data_model_twilight_glacier.name=§bTwilight Glacier Data Model§r
+item.deepmoblearning.data_model_tinker_slime.name=§bBlue Slime Data Model§r
 
 #
 # Living matter
@@ -63,6 +64,7 @@ item.deepmoblearning.pristine_matter_twilight_forest.name=Pristine Twilight Fore
 item.deepmoblearning.pristine_matter_twilight_swamp.name=Pristine Twilight Swamp Matter
 item.deepmoblearning.pristine_matter_twilight_darkwood.name=Pristine Twilight Darkwood Matter
 item.deepmoblearning.pristine_matter_twilight_glacier.name=Pristine Twilight Glacier Matter
+item.deepmoblearning.pristine_matter_tinker_slime.name=Pristine Blue Slime Matter
 
 #
 # Creative tab

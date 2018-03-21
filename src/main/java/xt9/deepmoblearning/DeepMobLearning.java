@@ -25,7 +25,7 @@ import xt9.deepmoblearning.common.network.ExtractorSetSelectedItemMessage;
 import xt9.deepmoblearning.common.network.LevelUpModelMessage;
 
 @Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory",
-    dependencies = "after:jei;after:thermalfoundation;after:twilightforest", acceptedMinecraftVersions = "[1.12,1.12.2]")
+    dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct", acceptedMinecraftVersions = "[1.12,1.12.2]")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
 

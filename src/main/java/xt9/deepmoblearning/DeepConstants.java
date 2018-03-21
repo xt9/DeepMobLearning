@@ -35,6 +35,7 @@ public class DeepConstants {
     // Loaded mod booleans
     public static final boolean MOD_TE_LOADED = Loader.isModLoaded("thermalfoundation");
     public static final boolean MOD_TWILIGHT_LOADED = Loader.isModLoaded("twilightforest");
+    public static final boolean MOD_TCON_LOADED = Loader.isModLoaded("tconstruct");
 
     public static final class LOOT {
         public static final String[] CREEPER = {
@@ -86,6 +87,15 @@ public class DeepConstants {
             "thermalfoundation:material,8,2050",
             "thermalfoundation:material,8,2052",
             "thermalfoundation:material,8,2048"
+        };
+
+        public static final String[] TINKERSLIME = {
+            "tconstruct:edible,18,1",
+            "tconstruct:edible,18,2",
+            "tconstruct:edible,18,4",
+            "tconstruct:slime_sapling,4,0",
+            "tconstruct:slime_sapling,4,1",
+            "tconstruct:slime_sapling,4,2",
         };
 
         public static final String[] TWILIGHTFOREST = {

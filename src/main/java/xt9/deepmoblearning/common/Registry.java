@@ -50,11 +50,12 @@ public class Registry {
     public static ItemDataModel.TwilightSwamp dataModelTwilightSwamp = new ItemDataModel.TwilightSwamp();
     public static ItemDataModel.TwilightDarkwood dataModelTwilightDarkwood = new ItemDataModel.TwilightDarkwood();
     public static ItemDataModel.TwilightGlacier dataModelTwilightGlacier = new ItemDataModel.TwilightGlacier();
+    public static ItemDataModel.TinkerSlime dataModelTinkerSlime = new ItemDataModel.TinkerSlime();
+
     // Living matter
     public static ItemLivingMatter.Overworldian livingMatterOverworldian = new ItemLivingMatter.Overworldian();
     public static ItemLivingMatter.Hellish livingMatterHellish = new ItemLivingMatter.Hellish();
     public static ItemLivingMatter.Extraterrestrial livingMatterExtraterrestrial = new ItemLivingMatter.Extraterrestrial();
-
     public static ItemLivingMatter.Twilight livingMatterTwilight = new ItemLivingMatter.Twilight();
 
     // Pristine matter
@@ -75,6 +76,7 @@ public class Registry {
     public static ItemPristineMatter.TwilightSwamp pristineMatterTwilightSwamp = new ItemPristineMatter.TwilightSwamp();
     public static ItemPristineMatter.TwilightDarkwood pristineMatterTwilightDarkwood = new ItemPristineMatter.TwilightDarkwood();
     public static ItemPristineMatter.TwilightGlacier pristineMatterTwilightGlacier = new ItemPristineMatter.TwilightGlacier();
+    public static ItemPristineMatter.TinkerSlime pristineMatterTinkerSlime = new ItemPristineMatter.TinkerSlime();
 
     /* Init the list of data models */
     private static void populateDataModelList() {
@@ -101,6 +103,10 @@ public class Registry {
             dataModels.add(dataModelTwilightDarkwood);
             dataModels.add(dataModelTwilightGlacier);
 
+        }
+
+        if(DeepConstants.MOD_TCON_LOADED) {
+            dataModels.add(dataModelTinkerSlime);
         }
     }
 
@@ -131,7 +137,9 @@ public class Registry {
         if(DeepConstants.MOD_TE_LOADED) {
             pristineMatter.add(pristineMatterTE);
         }
-
+        if(DeepConstants.MOD_TCON_LOADED) {
+            pristineMatter.add(pristineMatterTinkerSlime);
+        }
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
             pristineMatter.add(pristineMatterTwilightForest);
             pristineMatter.add(pristineMatterTwilightSwamp);

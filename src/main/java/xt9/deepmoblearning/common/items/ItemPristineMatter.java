@@ -131,4 +131,10 @@ public class ItemPristineMatter extends ItemBase {
             super("pristine_matter_twilight_glacier", "twilightglacier");
         }
     }
+
+    public static class TinkerSlime extends ItemPristineMatter {
+        public TinkerSlime() {
+            super("pristine_matter_tinker_slime", "tinkerslime");
+        }
+    }
 }

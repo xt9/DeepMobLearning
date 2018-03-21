@@ -6,11 +6,9 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 
 /**

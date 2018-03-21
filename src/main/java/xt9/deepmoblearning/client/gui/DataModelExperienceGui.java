@@ -31,6 +31,8 @@ public class DataModelExperienceGui extends GuiScreen {
     private ItemStack deepLearner;
     private NonNullList<ItemStack> chipStackList;
     private PlayerHelper playerH;
+    private int componentHeight = 26;
+    private int barSpacing = 12;
 
     private static final ResourceLocation experienceBar = new ResourceLocation(DeepConstants.MODID, "textures/gui/experience_gui.png");
 
@@ -67,11 +69,31 @@ public class DataModelExperienceGui extends GuiScreen {
         }
 
 
-        int x = getLeftCornerX() + 18;
-        if(Config.guiOverlaySide.getString().equals("right")) {
-            x = getRightCornerX();
+        int x;
+        int y;
+        String position = Config.guiOverlaySide.getString();
+        switch (position) {
+            case "topleft":
+                x = getLeftCornerX() + 18;
+                y = 5;
+                break;
+            case "topright":
+                x = getRightCornerX();
+                y = 5;
+                break;
+            case "bottomleft":
+                x = getLeftCornerX() + 18;
+                y = getBottomY(chipStackList.size()) - 5;
+                break;
+            case "bottomright":
+                x = getRightCornerX();
+                y = getBottomY(chipStackList.size()) - 5;
+                break;
+            default:
+                x = getLeftCornerX() + 18;
+                y = 5;
+                break;
         }
-        int y = 5;
 
         for (int i = 0; i < chipStackList.size(); i++) {
             ItemStack stack = chipStackList.get(i);
@@ -85,23 +107,21 @@ public class DataModelExperienceGui extends GuiScreen {
     }
 
     private void drawExperienceBar(int x, int y, int index, String tierName, int tier, double killsToNextTier, double currenKillCount, int tierRoof, ItemStack stack) {
-        int componentHeight = 26;
-        int spacing = 12;
         DecimalFormat f = new DecimalFormat("0.#");
 
-        drawItemStack(x - 18, y - 2 + spacing + (index * componentHeight), stack);
+        drawItemStack(x - 18, y - 2 + barSpacing + (index * componentHeight), stack);
         drawString(renderer, tierName + " Model", x - 14, y + (index * componentHeight) + 2, 16777215);
 
         // Draw the bar
         mc.getTextureManager().bindTexture(experienceBar);
-        drawTexturedModalRect(x, y + spacing + (index * componentHeight), 0, 0, 89, 12);
+        drawTexturedModalRect(x, y + barSpacing + (index * componentHeight), 0, 0, 89, 12);
 
         if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-            drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12, 89, 11);
+            drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12, 89, 11);
         } else {
-            drawTexturedModalRect(x + 1,  y + 1 + spacing + (index * componentHeight), 0, 12,
+            drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12,
                     (int) (((float) currenKillCount / tierRoof * 89)), 11);
-            drawString(renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + spacing + (index * componentHeight), 16777215);
+            drawString(renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + barSpacing + (index * componentHeight), 16777215);
         }
     }
 
@@ -112,6 +132,11 @@ public class DataModelExperienceGui extends GuiScreen {
     private int getRightCornerX() {
         ScaledResolution scaledResolution = new ScaledResolution(mc);
         return scaledResolution.getScaledWidth() - width - 5;
+    }
+
+    private int getBottomY(int numberOfBars) {
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+        return scaledResolution.getScaledHeight() - (numberOfBars * componentHeight);
     }
 
     private void drawItemStack(int x, int y, ItemStack stack)

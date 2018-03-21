@@ -40,7 +40,7 @@ public class Config {
         initPristineOutputs();
 
         rfCostExtractionChamber = config.get(Configuration.CATEGORY_GENERAL, "rfCostLootFabricator", 256, "RF/t cost for the Loot Fabricator, roof is 18k RF/t");
-        guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "left", "Which side of the screen the Deep learner gui will appear on. [values: left/right]");
+        guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
 
         config.save();
     }
@@ -74,9 +74,13 @@ public class Config {
         dataModel.put("witherskeleton", config.get(dataModel.getName(), "witherskeleton", 880,null, 1, 6666));
         dataModel.put("slime", config.get(dataModel.getName(), "slime", 180, null, 1, 6666));
         dataModel.put("dragon", config.get(dataModel.getName(), "dragon", 2560, null, 1, 6666));
+
         /* Extension models */
         if(DeepConstants.MOD_TE_LOADED) {
             dataModel.put("thermalelemental", config.get(dataModel.getName(), "thermalelemental", 256,null, 1, 6666));
+        }
+        if(DeepConstants.MOD_TCON_LOADED) {
+            dataModel.put("tinkerslime", config.get(dataModel.getName(), "tinkerslime", 256,null, 1, 6666));
         }
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
             dataModel.put("twilightforest", config.get(dataModel.getName(), "twilightforest", 256,null, 1, 6666));
@@ -130,6 +134,10 @@ public class Config {
 
         if(DeepConstants.MOD_TE_LOADED) {
             pristineOutputs.put("thermalelemental", new Property("thermalelemental", config.getStringList("thermalelemental", pristineOutputs.getName(), DeepConstants.LOOT.THERMALELEMENTAL, "Thermal Elemental"), Property.Type.STRING));
+        }
+
+        if(DeepConstants.MOD_TCON_LOADED) {
+            pristineOutputs.put("tinkerslime", new Property("tinkerslime", config.getStringList("tinkerslime", pristineOutputs.getName(), DeepConstants.LOOT.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
         }
 
         if(DeepConstants.MOD_TWILIGHT_LOADED) {

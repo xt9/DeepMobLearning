@@ -1,5 +1,9 @@
 # 1.12.2
 
+### 1.2
+- Added more configurable positions for the Experience gui (The bars that show up when holding the deep learner)
+- Added support for the Tinker's construct blue slime.
+
 ### 1.1
 - Flattened item structure before the 1.13 removal of metadata (Breaking change)
 - New machine, The Loot Fabricator. All the existing pristine -> item recipes was moved to this machine
