@@ -1,14 +1,11 @@
-package xt9.deepmoblearning.common.renders;
+package xt9.deepmoblearning.client.renders;
 
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
-import xt9.deepmoblearning.common.model.ModelGlitch;
+import xt9.deepmoblearning.client.model.ModelGlitch;
 
 import javax.annotation.Nullable;
 
@@ -17,11 +14,9 @@ import javax.annotation.Nullable;
  */
 public class RenderEntityGlitch extends RenderLiving<EntityGlitch> {
     private ResourceLocation texture = new ResourceLocation(DeepConstants.MODID + ":textures/entity/glitch.png");
-    public static final Factory FACTORY = new Factory();
 
-
-    public RenderEntityGlitch(RenderManager rendermanagerIn) {
-        super(rendermanagerIn, new ModelGlitch(), 0.5F);
+    public RenderEntityGlitch(RenderManager manager) {
+        super(manager, new ModelGlitch(), 0.5F);
     }
 
     @Nullable
@@ -30,11 +25,9 @@ public class RenderEntityGlitch extends RenderLiving<EntityGlitch> {
         return texture;
     }
 
-    public static class Factory implements IRenderFactory<EntityGlitch> {
-        @Override
-        public Render<? super EntityGlitch> createRenderFor(RenderManager manager) {
-            return new RenderEntityGlitch(manager);
-        }
+    @Override
+    public void doRender(EntityGlitch entity, double x, double y, double z, float entityYaw, float partialTicks) {
 
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 }

@@ -18,11 +18,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.config.Config;
-import xt9.deepmoblearning.common.network.ConsumeLivingMatterMessage;
-import xt9.deepmoblearning.common.network.ExtractionChamberChangePageMessage;
-import xt9.deepmoblearning.common.network.ExtractorSetSelectedItemMessage;
-import xt9.deepmoblearning.common.network.LevelUpModelMessage;
+import xt9.deepmoblearning.common.network.*;
 
 @Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory",
     dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct", acceptedMinecraftVersions = "[1.12,1.12.2]")
@@ -42,11 +40,24 @@ public class DeepMobLearning {
         Config.load();
         Config.initConfigValues();
 
+        // Init network messages
         network = NetworkRegistry.INSTANCE.newSimpleChannel(DeepConstants.MODID);
         network.registerMessage(ExtractorSetSelectedItemMessage.Handler.class, ExtractorSetSelectedItemMessage.class, 0, Side.SERVER);
         network.registerMessage(ExtractionChamberChangePageMessage.Handler.class, ExtractionChamberChangePageMessage.class, 1, Side.SERVER);
         network.registerMessage(LevelUpModelMessage.Handler.class, LevelUpModelMessage.class, 2, Side.SERVER);
         network.registerMessage(ConsumeLivingMatterMessage.Handler.class, ConsumeLivingMatterMessage.class, 3, Side.SERVER);
+
+        network.registerMessage(TrialStartMessage.Handler.class, TrialStartMessage.class, 4, Side.SERVER);
+
+        network.registerMessage(UpdateKeystoneItemMessage.Handler.class, UpdateKeystoneItemMessage.class, 5, Side.CLIENT);
+        network.registerMessage(RequestKeystoneItemMessage.Handler.class, RequestKeystoneItemMessage.class, 6, Side.SERVER);
+
+        network.registerMessage(UpdatePlayerTrialCapabilityMessage.Handler.class, UpdatePlayerTrialCapabilityMessage.class, 7, Side.CLIENT);
+        network.registerMessage(UpdateTrialOverlayMessage.Handler.class, UpdateTrialOverlayMessage.class, 8, Side.CLIENT);
+
+        // Init capabilities
+        PlayerTrial.init();
+
         proxy.preInit();
     }
 
@@ -77,9 +88,9 @@ public class DeepMobLearning {
 
     @Mod.EventHandler
     public void load(FMLInitializationEvent event) {
-        // Register block, item, and entity renderers after they have been initialized and
+        // Register block, item, and particle renders after they have been initialized and
         // registered in pre-init; however, Minecraft's RenderItem and ModelMesher instances
-        // must also be ready, so we have to register renderers during init, not earlier
+        // must also be ready, so we have to register renders during init, not earlier
         proxy.registerRenderers();
     }
 

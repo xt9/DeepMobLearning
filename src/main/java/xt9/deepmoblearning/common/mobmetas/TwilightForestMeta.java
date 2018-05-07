@@ -1,9 +1,5 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -24,13 +20,6 @@ public class TwilightForestMeta extends MobMetaData {
     }
 
     @Override
-    public EntityZombie getCombatEntity(World world) {
-        EntityZombie entity = new EntityZombie(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        return entity;
-    }
-
-    @Override
     public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
         return entityLiving instanceof EntityTFNaga ||
             entityLiving instanceof EntityTFLichMinion ||
@@ -45,6 +34,6 @@ public class TwilightForestMeta extends MobMetaData {
 
     @Override
     public String getExtraTooltip() {
-        return "Gain data by defeating non-vanilla mobs in the Naga courtyard & Lich tower";
+        return "Gain data by defeating non-vanilla mobmetas in the Naga courtyard & Lich tower";
     }
 }

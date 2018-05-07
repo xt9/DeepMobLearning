@@ -15,6 +15,8 @@ import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
  * Created by xt9 on 2018-01-07.
  */
 public class ContainerExtractionChamber extends Container {
+    public static final int INPUT_SLOT = 0;
+
     private IItemHandler inventory;
     private ItemStack currentPristine;
     public TileEntityExtractionChamber tile;
@@ -59,7 +61,7 @@ public class ContainerExtractionChamber extends Container {
     }
 
     private void addSlotsToHandler() {
-        addSlotToContainer(new SlotExtractionChamber(inventory, DeepConstants.EXTRACTION_CHAMBER_INPUT_SLOT, 79, 62));
+        addSlotToContainer(new SlotExtractionChamber(inventory, INPUT_SLOT, 79, 62));
 
         // Output inventory x16 slots
          // Row 1
@@ -142,7 +144,7 @@ public class ContainerExtractionChamber extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer entityplayer) {
+    public boolean canInteractWith(EntityPlayer player) {
         return !player.isSpectator();
     }
 }

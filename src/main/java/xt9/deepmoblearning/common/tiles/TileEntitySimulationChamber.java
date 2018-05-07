@@ -4,6 +4,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -23,8 +24,8 @@ import xt9.deepmoblearning.common.handlers.OutputHandler;
 import xt9.deepmoblearning.common.handlers.PolymerHandler;
 import xt9.deepmoblearning.common.items.ItemDataModel;
 import xt9.deepmoblearning.common.items.ItemPolymerClay;
-import xt9.deepmoblearning.common.mobs.MobMetaData;
-import xt9.deepmoblearning.common.mobs.MobMetaFactory;
+import xt9.deepmoblearning.common.mobmetas.MobMetaData;
+import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
 import xt9.deepmoblearning.common.util.Animation;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.MathHelper;
@@ -46,7 +47,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private HashMap<String, Animation> simulationAnimations = new HashMap<>();
     private HashMap<String, String> simulationText = new HashMap<>();
-    public boolean isCrafting = false;
+
+    private boolean isCrafting = false;
     private boolean byproductSuccess = false;
     public int energy = 0;
     public int ticks = 0;
@@ -58,25 +60,20 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public void update() {
         ticks++;
 
-        if(!isCrafting) {
-            resetAnimations();
-            if(canStartSimulation()) {
-                isCrafting = true;
-                currentChipType = DataModel.getMobMetaData(getChip()).getKey();
-                mobMetaData = MobMetaFactory.createMobMetaData(getChip());
+        if(!world.isRemote) {
+            if(!isCrafting()) {
+                if(canStartSimulation()) {
+                    startSimulation();
+                }
+            } else {
+                if (!canContinueSimulation() || chipTypeChanged()) {
+                    finishSimulation(true);
+                    return;
+                }
 
-            }
-        } else {
-            if(!canContinueSimulation() || chipTypeChanged()) {
-                finishSimulation(true);
-                return;
-            }
+                updateSimulationText(getChip());
 
-            updateSimulationText(getChip());
-
-            // Do these on server only
-            if(!world.isRemote) {
-                if(percentDone == 0) {
+                if (percentDone == 0) {
                     Random rand = new Random();
                     int num = rand.nextInt(100);
                     int chance = DataModel.getPristineChance(getChip());
@@ -86,13 +83,13 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 int rfTickCost = mobMetaData.getSimulationTickCost();
                 energyStorage.voidEnergy(rfTickCost);
 
-                if(ticks % 3 == 0) {
+                if (ticks % ((DeepConstants.TICKS_TO_SECOND * 15) / 100) == 0) {
                     // This process takes 300 ticks, which is 15seconds
                     percentDone++;
                 }
 
                 // Notify while crafting every other second, this is done more frequently when the container is open
-                if(ticks % 40 ==  0) {
+                if (ticks % (DeepConstants.TICKS_TO_SECOND * 2) == 0) {
                     updateState();
                 }
             }
@@ -101,12 +98,16 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 finishSimulation(false);
                 return;
             }
-        }
 
-        if(!world.isRemote) {
             doStaggeredDiskSave(100);
         }
+    }
 
+    private void startSimulation() {
+        isCrafting = true;
+        currentChipType = DataModel.getMobMetaData(getChip()).getKey();
+        mobMetaData = MobMetaFactory.createMobMetaData(currentChipType);
+        resetAnimations();
     }
 
     private void finishSimulation(boolean abort) {
@@ -201,6 +202,10 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         boolean outputMatches = chipMatchesOutput(getChip(), getLiving());
 
         return stackLimitReached || !outputMatches;
+    }
+
+    public boolean isCrafting() {
+        return isCrafting;
     }
 
     public boolean pristineIsFull() {
@@ -307,8 +312,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     @Override
-    public final NBTTagCompound getUpdateTag()
-    {
+    public final NBTTagCompound getUpdateTag() {
         return getNetworkTag(super.getUpdateTag());
     }
 
@@ -316,6 +320,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         tag.setInteger("simulationProgress", percentDone);
         tag.setBoolean("isCrafting", isCrafting);
         tag.setBoolean("craftSuccess", byproductSuccess);
+        tag.setTag("simulationText", getNBTForSimulationText());
         return energyStorage.writeEnergy(tag);
     }
 
@@ -328,35 +333,51 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        // Here we get the packet from the server and read it into our client side tile entity
+        // Here we get the packet from the server and read it into our client side tile particle
         super.onDataPacket(net, packet);
         readFromNBT(packet.getNbtCompound());
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setTag("dataModel", dataModel.serializeNBT());
-        compound.setTag("polymer", polymer.serializeNBT());
-        compound.setTag("lOutput", lOutput.serializeNBT());
-        compound.setTag("dataModel", dataModel.serializeNBT());
         compound.setInteger("simulationProgress", percentDone);
         compound.setBoolean("isCrafting", isCrafting);
         compound.setBoolean("craftSuccess", byproductSuccess);
+        compound.setTag("dataModel", dataModel.serializeNBT());
+        compound.setTag("polymer", polymer.serializeNBT());
+        compound.setTag("lOutput", lOutput.serializeNBT());
+        compound.setTag("pOutput", pOutput.serializeNBT());
+        compound.setTag("dataModel", dataModel.serializeNBT());
+        compound.setTag("simulationText", getNBTForSimulationText());
         energyStorage.writeEnergy(compound);
         return super.writeToNBT(compound);
     }
+
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         dataModel.deserializeNBT(compound.getCompoundTag("dataModel"));
         polymer.deserializeNBT(compound.getCompoundTag("polymer"));
         lOutput.deserializeNBT(compound.getCompoundTag("lOutput"));
+        pOutput.deserializeNBT(compound.getCompoundTag("pOutput"));
         dataModel.deserializeNBT(compound.getCompoundTag("dataModel"));
+        setSimulationTextFromNBT(compound.getCompoundTag("simulationText"));
         energyStorage.readEnergy(compound);
         percentDone = compound.hasKey("simulationProgress", Constants.NBT.TAG_INT) ? compound.getInteger("simulationProgress") : 0;
         isCrafting = compound.hasKey("isCrafting", Constants.NBT.TAG_BYTE) ? compound.getBoolean("isCrafting") : isCrafting;
         byproductSuccess = compound.hasKey("craftSuccess", Constants.NBT.TAG_BYTE) ? compound.getBoolean("craftSuccess") : isCrafting;
         super.readFromNBT(compound);
+    }
+
+    private NBTTagCompound getNBTForSimulationText() {
+        NBTTagCompound tag = new NBTTagCompound();
+        simulationText.forEach(tag::setString);
+        return tag;
+    }
+
+    private void setSimulationTextFromNBT(NBTTagCompound tag) {
+        simulationText.forEach((key, text) -> simulationText.put(key, tag.getString(key)));
+
     }
 
     private void doStaggeredDiskSave(int divisor) {
@@ -381,16 +402,16 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if(facing == null) {
-                return (T) new CombinedInvWrapper(dataModel, polymer, lOutput, pOutput);
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(dataModel, polymer, lOutput, pOutput));
             } else if(facing == EnumFacing.UP) {
                 // Input/Extract for Data models and Polymer from the top
-                return (T) new CombinedInvWrapper(dataModel, polymer);
-            } else if(facing != null && facing != EnumFacing.UP) {
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(dataModel, polymer));
+            } else {
                 // Output for all other sides
-                return (T) new CombinedInvWrapper(lOutput, pOutput);
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(lOutput, pOutput));
             }
         } else if(capability == CapabilityEnergy.ENERGY) {
-            return (T) energyStorage;
+            return CapabilityEnergy.ENERGY.cast(energyStorage);
         }
 
         return super.getCapability(capability, facing);

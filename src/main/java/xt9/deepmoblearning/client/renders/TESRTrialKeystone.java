@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.common.renders;
+package xt9.deepmoblearning.client.renders;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

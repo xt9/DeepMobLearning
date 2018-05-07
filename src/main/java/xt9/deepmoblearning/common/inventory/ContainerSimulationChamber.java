@@ -16,6 +16,11 @@ import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
  * Created by xt9 on 2017-06-17.
  */
 public class ContainerSimulationChamber extends Container {
+    public static final int DATA_MODEL_SLOT = 0;
+    public static final int INPUT_SLOT = 1;
+    public static final int OUTPUT_SLOT = 2;
+    public static final int PRISTINE_SLOT = 3;
+
     private IItemHandler inventory;
     private TileEntitySimulationChamber tile;
     private EntityPlayer player;
@@ -43,10 +48,10 @@ public class ContainerSimulationChamber extends Container {
     }
 
     private void addSlotsToHandler() {
-        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_DATA_MODEL_SLOT, -13, 1));
-        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT, 176, 7));
-        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT, 196, 7));
-        addSlotToContainer(new SlotSimulationChamber(inventory, DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT, 186, 27));
+        addSlotToContainer(new SlotSimulationChamber(inventory, DATA_MODEL_SLOT, -13, 1));
+        addSlotToContainer(new SlotSimulationChamber(inventory, INPUT_SLOT, 176, 7));
+        addSlotToContainer(new SlotSimulationChamber(inventory, OUTPUT_SLOT, 196, 7));
+        addSlotToContainer(new SlotSimulationChamber(inventory, PRISTINE_SLOT, 186, 27));
     }
 
     private void addInventorySlots() {
@@ -111,7 +116,7 @@ public class ContainerSimulationChamber extends Container {
         ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
 
         // Crafting will be interrupted if the slot clicked is the chip/input slot, so reset the animations
-        if(slotId == DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT || slotId == DeepConstants.SIMULATION_CHAMBER_DATA_MODEL_SLOT) {
+        if(slotId == INPUT_SLOT|| slotId == DATA_MODEL_SLOT) {
             tile.resetAnimations();
         }
 

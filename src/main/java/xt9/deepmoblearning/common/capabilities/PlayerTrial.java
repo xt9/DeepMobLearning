@@ -1,45 +1,47 @@
 package xt9.deepmoblearning.common.capabilities;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.fml.common.Mod;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.network.UpdatePlayerTrialCapabilityMessage;
 
 import javax.annotation.Nullable;
 
 /**
  * Created by xt9 on 2018-04-07.
  */
-public class PlayerTrialHandler implements IPlayerTrial, Capability.IStorage<PlayerTrialHandler> {
-    private int currentWave;
-    private int lastWave;
-    private int mobsDefeated;
-    private int waveMobTotal;
+@Mod.EventBusSubscriber
+public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTrial> {
+    private int currentWave = 0;
+    private int lastWave = 0;
+    private int mobsDefeated = 0;
+    private int waveMobTotal = 0;
 
-    public static Capability.IStorage<PlayerTrialHandler> handler = new Capability.IStorage<PlayerTrialHandler>() {
-        @Nullable
-        @Override
-        public NBTBase writeNBT(Capability<PlayerTrialHandler> capability, PlayerTrialHandler instance, EnumFacing enumFacing) {
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setInteger("currentWave", instance.getCurrentWave());
-            compound.setInteger("lastWave", instance.getLastWave());
-            compound.setInteger("mobsDefeated", instance.getDefated());
-            compound.setInteger("waveMobTotal", instance.getWaveMobTotal());
-            return compound;
-        }
+    public static void init() {
+        // Enable field injection for capabilities
+        CapabilityManager.INSTANCE.register(IPlayerTrial.class, new PlayerTrial(), PlayerTrial::new);
+    }
 
-        @Override
-        public void readNBT(Capability<PlayerTrialHandler> capability, PlayerTrialHandler instance, EnumFacing enumFacing, NBTBase nbt) {
-            instance.setCurrentWave(((NBTTagCompound) nbt).getInteger("currentWave"));
-            instance.setLastWave(((NBTTagCompound) nbt).getInteger("lastWave"));
-            instance.setDefeated(((NBTTagCompound) nbt).getInteger("mobsDefeated"));
-            instance.setWaveMobTotal(((NBTTagCompound) nbt).getInteger("waveMobTotal"));
-        }
-    };
+    public PlayerTrial() {
+
+    }
+
+    public PlayerTrial(int currentWave, int lastWave, int mobsDefeated, int waveMobTotal) {
+        this.currentWave = currentWave;
+        this.lastWave = lastWave;
+        this.mobsDefeated = mobsDefeated;
+        this.waveMobTotal = waveMobTotal;
+    }
+
 
     @Nullable
     @Override
-    public NBTBase writeNBT(Capability<PlayerTrialHandler> capability, PlayerTrialHandler instance, EnumFacing enumFacing) {
+    public NBTTagCompound writeNBT(Capability<IPlayerTrial> capability, IPlayerTrial instance, EnumFacing enumFacing) {
         NBTTagCompound compound = new NBTTagCompound();
         compound.setInteger("currentWave", instance.getCurrentWave());
         compound.setInteger("lastWave", instance.getLastWave());
@@ -49,11 +51,25 @@ public class PlayerTrialHandler implements IPlayerTrial, Capability.IStorage<Pla
     }
 
     @Override
-    public void readNBT(Capability<PlayerTrialHandler> capability, PlayerTrialHandler instance, EnumFacing enumFacing, NBTBase nbt) {
+    public void readNBT(Capability<IPlayerTrial> capability, IPlayerTrial instance, EnumFacing enumFacing, NBTBase nbt) {
         instance.setCurrentWave(((NBTTagCompound) nbt).getInteger("currentWave"));
         instance.setLastWave(((NBTTagCompound) nbt).getInteger("lastWave"));
         instance.setDefeated(((NBTTagCompound) nbt).getInteger("mobsDefeated"));
         instance.setWaveMobTotal(((NBTTagCompound) nbt).getInteger("waveMobTotal"));
+    }
+
+    @Override
+    public void sync(EntityPlayerMP player) {
+        //noinspection ConstantConditions
+        DeepMobLearning.network.sendTo(new UpdatePlayerTrialCapabilityMessage((PlayerTrial)player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null)), player);
+    }
+
+    @Override
+    public void reset() {
+        currentWave = 0;
+        lastWave = 0;
+        mobsDefeated = 0;
+        waveMobTotal = 0;
     }
 
     @Override

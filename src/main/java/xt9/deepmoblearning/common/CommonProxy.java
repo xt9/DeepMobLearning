@@ -6,19 +6,26 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.common.entity.*;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.inventory.ContainerExtractionChamber;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
+import xt9.deepmoblearning.common.inventory.ContainerTrialKeystone;
 import xt9.deepmoblearning.common.items.IGuiItem;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.tiles.IGuiTile;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
+import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
 
 
 /**
@@ -32,7 +39,7 @@ public class CommonProxy implements IGuiHandler {
         if(stack.isEmpty() || !(stack.getItem() instanceof IGuiItem)) {
             return false;
         }
-        int slotID = slot.getName() == "mainhand" ? 0 : 1;
+        int slotID = slot.getName().equals("mainhand") ? 0 : 1;
 
         player.openGui(DeepMobLearning.instance, 100 * slotID + item.getGuiID(), player.world, (int)player.posX, (int)player.posY, (int)player.posZ);
         return true;
@@ -46,11 +53,17 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void preInit() {
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch"), EntityGlitch.class, DeepConstants.MODID + ".glitch", 0, DeepMobLearning.instance, 64, 1, true, 0, 0);
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch_orb"), EntityGlitchOrb.class, DeepConstants.MODID + ".glitch_orb", 1, DeepMobLearning.instance, 64, 1, true);
 
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_enderman"), EntityTrialEnderman.class, DeepConstants.MODID + ".trial_enderman", 2, DeepMobLearning.instance, 64, 1, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_spider"), EntityTrialSpider.class, DeepConstants.MODID + ".trial_spider", 3, DeepMobLearning.instance, 64, 1, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_cave_spider"), EntityTrialCaveSpider.class, DeepConstants.MODID + ".trial_cave_spider", 4, DeepMobLearning.instance, 64, 1, true);
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_slime"), EntityTrialSlime.class, DeepConstants.MODID + ".trial_slime", 5, DeepMobLearning.instance, 64, 1, true);
     }
 
     public void init() {
-
+        LootTableList.register(new ResourceLocation(DeepConstants.MODID, "loot_hoarder"));
     }
 
     @Override
@@ -68,6 +81,8 @@ public class CommonProxy implements IGuiHandler {
                     return new ContainerSimulationChamber((TileEntitySimulationChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 case DeepConstants.TILE_EXTRACTION_CHAMBER_GUI_ID:
                     return new ContainerExtractionChamber((TileEntityExtractionChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
+                case DeepConstants.TILE_TRIAL_KEYSTONE_GUI_ID:
+                    return new ContainerTrialKeystone((TileEntityTrialKeystone) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 default:
                     return null;
             }
@@ -79,7 +94,12 @@ public class CommonProxy implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
         return null;
     }
+    public IPlayerTrial getClientPlayerTrialCapability() {
+        return null;
+    }
 
+    public void spawnGlitchParticle(World world, double x, double y, double z, double mx, double my, double mz) {}
+    public void spawnGlitchOrbParticle(World world, double x, double y, double z, double mx, double my, double mz) {}
     public void registerItemRenderer(Item item, int meta, String id) {}
 
     public void registerRenderers() { }

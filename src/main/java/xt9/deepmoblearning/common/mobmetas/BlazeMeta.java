@@ -1,12 +1,8 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 /**
@@ -17,11 +13,6 @@ public class BlazeMeta extends MobMetaData {
 
     BlazeMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public EntityBlaze getCombatEntity(World world) {
-        return new EntityBlaze(world);
     }
 
     @Override

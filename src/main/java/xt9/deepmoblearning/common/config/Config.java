@@ -10,6 +10,7 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.mobmetas.MobKey;
 
 import java.io.File;
 
@@ -24,6 +25,7 @@ public class Config {
     public static ConfigCategory modelExperience = new ConfigCategory("model experience tweaks");
     public static ConfigCategory pristineOutputs = new ConfigCategory("pristine output items");
     public static ConfigCategory livingMatterEXP = new ConfigCategory("matter experience");
+    public static ConfigCategory trialRewards = new ConfigCategory("trial max tier rewards");
 
     public static Property rfCostExtractionChamber;
     public static Property guiOverlaySide;
@@ -38,6 +40,7 @@ public class Config {
         initPristineChance();
         initModelExperience();
         initPristineOutputs();
+        initTrialRewards();
 
         rfCostExtractionChamber = config.get(Configuration.CATEGORY_GENERAL, "rfCostLootFabricator", 256, "RF/t cost for the Loot Fabricator, roof is 18k RF/t");
         guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
@@ -62,31 +65,33 @@ public class Config {
         dataModel.setComment("Simulation costs for all the data models (in RF/t)\nCost should not exceed a full machine buffer (Max 6666 RF/t)\nValues over the max will be set to the max");
         config.setCategoryComment(dataModel.getName(), dataModel.getComment());
 
-        dataModel.put("zombie", config.get(dataModel.getName(), "zombie", 80, null, 1, 6666));
-        dataModel.put("skeleton", config.get(dataModel.getName(), "skeleton", 80, null, 1, 6666));
-        dataModel.put("blaze", config.get(dataModel.getName(), "blaze", 256, null, 1, 6666));
-        dataModel.put("enderman", config.get(dataModel.getName(), "enderman", 512, null, 1, 6666));
-        dataModel.put("wither", config.get(dataModel.getName(), "wither", 2048, null, 1, 6666));
-        dataModel.put("witch", config.get(dataModel.getName(), "witch", 120, null, 1, 6666));
-        dataModel.put("spider", config.get(dataModel.getName(), "spider", 80, null, 1, 6666));
-        dataModel.put("creeper", config.get(dataModel.getName(), "creeper", 80, null, 1, 6666));
-        dataModel.put("ghast", config.get(dataModel.getName(), "ghast", 372, null, 1, 6666));
-        dataModel.put("witherskeleton", config.get(dataModel.getName(), "witherskeleton", 880,null, 1, 6666));
-        dataModel.put("slime", config.get(dataModel.getName(), "slime", 180, null, 1, 6666));
-        dataModel.put("dragon", config.get(dataModel.getName(), "dragon", 2560, null, 1, 6666));
+        dataModel.put(MobKey.ZOMBIE, config.get(dataModel.getName(), MobKey.ZOMBIE, 80, null, 1, 6666));
+        dataModel.put(MobKey.SKELETON, config.get(dataModel.getName(), MobKey.SKELETON, 80, null, 1, 6666));
+        dataModel.put(MobKey.BLAZE, config.get(dataModel.getName(), MobKey.BLAZE, 256, null, 1, 6666));
+        dataModel.put(MobKey.ENDERMAN, config.get(dataModel.getName(), MobKey.ENDERMAN, 512, null, 1, 6666));
+        dataModel.put(MobKey.WITHER, config.get(dataModel.getName(), MobKey.WITHER, 2048, null, 1, 6666));
+        dataModel.put(MobKey.WITCH, config.get(dataModel.getName(), MobKey.WITCH, 120, null, 1, 6666));
+        dataModel.put(MobKey.SPIDER, config.get(dataModel.getName(), MobKey.SPIDER, 80, null, 1, 6666));
+        dataModel.put(MobKey.CREEPER, config.get(dataModel.getName(), MobKey.CREEPER, 80, null, 1, 6666));
+        dataModel.put(MobKey.GHAST, config.get(dataModel.getName(), MobKey.GHAST, 372, null, 1, 6666));
+        dataModel.put(MobKey.SLIME, config.get(dataModel.getName(), MobKey.SLIME, 150, null, 1, 6666));
+        dataModel.put(MobKey.DRAGON, config.get(dataModel.getName(), MobKey.DRAGON, 2560, null, 1, 6666));
+        dataModel.put(MobKey.SHULKER, config.get(dataModel.getName(), MobKey.SHULKER, 256, null, 1, 6666));
+        dataModel.put(MobKey.GUARDIAN, config.get(dataModel.getName(), MobKey.GUARDIAN, 340,null, 1, 6666));
+        dataModel.put(MobKey.WITHERSKELETON, config.get(dataModel.getName(), MobKey.WITHERSKELETON, 880,null, 1, 6666));
 
         /* Extension models */
         if(DeepConstants.MOD_TE_LOADED) {
-            dataModel.put("thermalelemental", config.get(dataModel.getName(), "thermalelemental", 256,null, 1, 6666));
-        }
-        if(DeepConstants.MOD_TCON_LOADED) {
-            dataModel.put("tinkerslime", config.get(dataModel.getName(), "tinkerslime", 256,null, 1, 6666));
+            dataModel.put(MobKey.TE, config.get(dataModel.getName(), MobKey.TE, 256,null, 1, 6666));
         }
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
-            dataModel.put("twilightforest", config.get(dataModel.getName(), "twilightforest", 256,null, 1, 6666));
-            dataModel.put("twilightswamp", config.get(dataModel.getName(), "twilightswamp", 256,null, 1, 6666));
-            dataModel.put("twilightdarkwood", config.get(dataModel.getName(), "twilightdarkwood", 256,null, 1, 6666));
-            dataModel.put("twilightglacier", config.get(dataModel.getName(), "twilightglacier", 256,null, 1, 6666));
+            dataModel.put(MobKey.TWILIGHTFOREST, config.get(dataModel.getName(), MobKey.TWILIGHTFOREST, 256,null, 1, 6666));
+            dataModel.put(MobKey.TWILIGHTSWAMP, config.get(dataModel.getName(), MobKey.TWILIGHTSWAMP, 256,null, 1, 6666));
+            dataModel.put(MobKey.TWILIGHTDARKWOOD, config.get(dataModel.getName(), MobKey.TWILIGHTDARKWOOD, 256,null, 1, 6666));
+            dataModel.put(MobKey.TWILIGHTGLACIER, config.get(dataModel.getName(), MobKey.TWILIGHTGLACIER, 256,null, 1, 6666));
+        }
+        if(DeepConstants.MOD_TCON_LOADED) {
+            dataModel.put(MobKey.TINKERSLIME, config.get(dataModel.getName(), MobKey.TINKERSLIME, 256,null, 1, 6666));
         }
     }
 
@@ -119,33 +124,49 @@ public class Config {
         pristineOutputs.setComment("Entries for Loot fabricator outputs from the different pristine items.\nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
         config.setCategoryComment(pristineOutputs.getName(), pristineOutputs.getComment());
 
-        pristineOutputs.put("blaze", new Property("blaze", config.getStringList("blaze", pristineOutputs.getName(), DeepConstants.LOOT.BLAZE, "Blaze"), Property.Type.STRING));
-        pristineOutputs.put("creeper", new Property("creeper", config.getStringList("creeper", pristineOutputs.getName(), DeepConstants.LOOT.CREEPER, "Creeper"), Property.Type.STRING));
-        pristineOutputs.put("dragon", new Property("dragon", config.getStringList("dragon", pristineOutputs.getName(), DeepConstants.LOOT.DRAGON, "Dragon"), Property.Type.STRING));
-        pristineOutputs.put("enderman", new Property("enderman", config.getStringList("enderman", pristineOutputs.getName(), DeepConstants.LOOT.ENDERMAN, "Enderman"), Property.Type.STRING));
-        pristineOutputs.put("ghast", new Property("ghast", config.getStringList("ghast", pristineOutputs.getName(), DeepConstants.LOOT.GHAST, "Ghast"), Property.Type.STRING));
-        pristineOutputs.put("skeleton", new Property("skeleton", config.getStringList("skeleton", pristineOutputs.getName(), DeepConstants.LOOT.SKELETON, "Skeleton"), Property.Type.STRING));
-        pristineOutputs.put("slime", new Property("slime", config.getStringList("slime", pristineOutputs.getName(), DeepConstants.LOOT.SLIME, "Slime"), Property.Type.STRING));
-        pristineOutputs.put("spider", new Property("spider", config.getStringList("spider", pristineOutputs.getName(), DeepConstants.LOOT.SPIDER, "Spider"), Property.Type.STRING));
-        pristineOutputs.put("witch", new Property("witch", config.getStringList("witch", pristineOutputs.getName(), DeepConstants.LOOT.WITCH, "Witch"), Property.Type.STRING));
-        pristineOutputs.put("witherskeleton", new Property("witherskeleton", config.getStringList("witherskeleton", pristineOutputs.getName(), DeepConstants.LOOT.WITHERSKELETON, "Wither Skeleton"), Property.Type.STRING));
-        pristineOutputs.put("wither", new Property("wither", config.getStringList("wither", pristineOutputs.getName(), DeepConstants.LOOT.WITHER, "Wither"), Property.Type.STRING));
-        pristineOutputs.put("zombie", new Property("zombie", config.getStringList("zombie", pristineOutputs.getName(), DeepConstants.LOOT.ZOMBIE, "Zombie"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.BLAZE, new Property(MobKey.BLAZE, config.getStringList(MobKey.BLAZE, pristineOutputs.getName(), DeepConstants.LOOT.BLAZE, "Blaze"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.CREEPER, new Property(MobKey.CREEPER, config.getStringList(MobKey.CREEPER, pristineOutputs.getName(), DeepConstants.LOOT.CREEPER, "Creeper"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.DRAGON, new Property(MobKey.DRAGON, config.getStringList(MobKey.DRAGON, pristineOutputs.getName(), DeepConstants.LOOT.DRAGON, "Dragon"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.ENDERMAN, new Property(MobKey.ENDERMAN, config.getStringList(MobKey.ENDERMAN, pristineOutputs.getName(), DeepConstants.LOOT.ENDERMAN, "Enderman"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.GHAST, new Property(MobKey.GHAST, config.getStringList(MobKey.GHAST, pristineOutputs.getName(), DeepConstants.LOOT.GHAST, "Ghast"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.SKELETON, new Property(MobKey.SKELETON, config.getStringList(MobKey.SKELETON, pristineOutputs.getName(), DeepConstants.LOOT.SKELETON, "Skeleton"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.SLIME, new Property(MobKey.SLIME, config.getStringList(MobKey.SLIME, pristineOutputs.getName(), DeepConstants.LOOT.SLIME, "Slime"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.SPIDER, new Property(MobKey.SPIDER, config.getStringList(MobKey.SPIDER, pristineOutputs.getName(), DeepConstants.LOOT.SPIDER, "Spider"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.WITCH, new Property(MobKey.WITCH, config.getStringList(MobKey.WITCH, pristineOutputs.getName(), DeepConstants.LOOT.WITCH, "Witch"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, pristineOutputs.getName(), DeepConstants.LOOT.WITHERSKELETON, "Wither Skeleton"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.WITHER, new Property(MobKey.WITHER, config.getStringList(MobKey.WITHER, pristineOutputs.getName(), DeepConstants.LOOT.WITHER, "Wither"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, pristineOutputs.getName(), DeepConstants.LOOT.ZOMBIE, "Zombie"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.SHULKER, new Property(MobKey.SHULKER, config.getStringList(MobKey.SHULKER, pristineOutputs.getName(), DeepConstants.LOOT.SHULKER, "Shulker"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.GUARDIAN, new Property(MobKey.GUARDIAN, config.getStringList(MobKey.GUARDIAN, pristineOutputs.getName(), DeepConstants.LOOT.GUARDIAN, "Guardian"), Property.Type.STRING));
+
 
         if(DeepConstants.MOD_TE_LOADED) {
-            pristineOutputs.put("thermalelemental", new Property("thermalelemental", config.getStringList("thermalelemental", pristineOutputs.getName(), DeepConstants.LOOT.THERMALELEMENTAL, "Thermal Elemental"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TE, new Property(MobKey.TE, config.getStringList(MobKey.TE, pristineOutputs.getName(), DeepConstants.LOOT.THERMALELEMENTAL, "Thermal Elemental"), Property.Type.STRING));
         }
 
         if(DeepConstants.MOD_TCON_LOADED) {
-            pristineOutputs.put("tinkerslime", new Property("tinkerslime", config.getStringList("tinkerslime", pristineOutputs.getName(), DeepConstants.LOOT.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TINKERSLIME, new Property(MobKey.TINKERSLIME, config.getStringList(MobKey.TINKERSLIME, pristineOutputs.getName(), DeepConstants.LOOT.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
         }
 
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
-            pristineOutputs.put("twilightforest", new Property("twilightforest", config.getStringList("twilightforest", pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTFOREST, "Twilight Forest(Biome, not the whole mod)"), Property.Type.STRING));
-            pristineOutputs.put("twilightswamp", new Property("twilightswamp", config.getStringList("twilightswamp", pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTSWAMP, "Twilight Swamp creatures"), Property.Type.STRING));
-            pristineOutputs.put("twilightdarkwood", new Property("twilightdarkwood", config.getStringList("twilightdarkwood", pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTDARKWOOD, "Twilight Darkwood creatures"), Property.Type.STRING));
-            pristineOutputs.put("twilightglacier", new Property("twilightglacier", config.getStringList("twilightglacier", pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTGLACIER, "Twilight Glacier creatures"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TWILIGHTFOREST, new Property(MobKey.TWILIGHTFOREST, config.getStringList(MobKey.TWILIGHTFOREST, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTFOREST, "Twilight Forest(Biome, not the whole mod)"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TWILIGHTSWAMP, new Property(MobKey.TWILIGHTSWAMP, config.getStringList(MobKey.TWILIGHTSWAMP, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTSWAMP, "Twilight Swamp creatures"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TWILIGHTDARKWOOD, new Property(MobKey.TWILIGHTDARKWOOD, config.getStringList(MobKey.TWILIGHTDARKWOOD, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTDARKWOOD, "Twilight Darkwood creatures"), Property.Type.STRING));
+            pristineOutputs.put(MobKey.TWILIGHTGLACIER, new Property(MobKey.TWILIGHTGLACIER, config.getStringList(MobKey.TWILIGHTGLACIER, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTGLACIER, "Twilight Glacier creatures"), Property.Type.STRING));
         }
+    }
+
+    private static void initTrialRewards() {
+        trialRewards.setComment("Rewards for the Max tier of trials.\nCAUTION: Try to keep these lists at max 3 items. Or it will break GUI formatting. \nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
+        config.setCategoryComment(trialRewards.getName(), trialRewards.getComment());
+
+        trialRewards.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, trialRewards.getName(), DeepConstants.TRIAL_REWARD.ZOMBIE, "Zombie Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.ENDERMAN, new Property(MobKey.ENDERMAN, config.getStringList(MobKey.ENDERMAN, trialRewards.getName(), DeepConstants.TRIAL_REWARD.ENDERMAN, "Enderman Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.SKELETON, new Property(MobKey.SKELETON, config.getStringList(MobKey.SKELETON, trialRewards.getName(), DeepConstants.TRIAL_REWARD.SKELETON, "Skeleton Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.WITCH, new Property(MobKey.WITCH, config.getStringList(MobKey.WITCH, trialRewards.getName(), DeepConstants.TRIAL_REWARD.WITCH, "Witch Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.SPIDER, new Property(MobKey.SPIDER, config.getStringList(MobKey.SPIDER, trialRewards.getName(), DeepConstants.TRIAL_REWARD.SPIDER, "Spider Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.SLIME, new Property(MobKey.SLIME, config.getStringList(MobKey.SLIME, trialRewards.getName(), DeepConstants.TRIAL_REWARD.SLIME, "Slime Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, trialRewards.getName(), DeepConstants.TRIAL_REWARD.WITHERSKELETON, "Slime Trial Reward"), Property.Type.STRING));
     }
 
     @SubscribeEvent
@@ -158,7 +179,26 @@ public class Config {
 
     public static class LootParser {
 
-        public static NonNullList<ItemStack> getLootEntries(String key) {
+        public static NonNullList<ItemStack> getTrialRewards(String key) {
+            NonNullList<ItemStack> list = NonNullList.create();
+
+            String[] toParseList;
+            if(trialRewards.containsKey(key)) {
+                toParseList = trialRewards.get(key).getStringList();
+            } else {
+                return list;
+            }
+
+            for(int i = 0; i < toParseList.length; i++) {
+                if(!getStackFromConfigLine(toParseList[i]).isEmpty()) {
+                    list.add(getStackFromConfigLine(toParseList[i]));
+                }
+            }
+
+            return list;
+        }
+
+        public static NonNullList<ItemStack> getPristineLootEntries(String key) {
             NonNullList<ItemStack> list = NonNullList.create();
 
             String[] toParseList;
@@ -169,16 +209,16 @@ public class Config {
             }
 
             for(int i = 0; i < toParseList.length; i++) {
-                if(!getStackFromConfigEntry(toParseList[i]).isEmpty()) {
-                    list.add(getStackFromConfigEntry(toParseList[i]));
+                if(!getStackFromConfigLine(toParseList[i]).isEmpty()) {
+                    list.add(getStackFromConfigLine(toParseList[i]));
                 }
             }
 
             return list;
         }
 
-        private static ItemStack getStackFromConfigEntry(String entry) {
-            String[] vals = entry.split(",");
+        private static ItemStack getStackFromConfigLine(String line) {
+            String[] vals = line.split(",");
 
             if (vals.length < 3) {
                 return ItemStack.EMPTY;

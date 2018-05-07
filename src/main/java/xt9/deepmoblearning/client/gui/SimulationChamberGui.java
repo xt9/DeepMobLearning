@@ -13,8 +13,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
-import xt9.deepmoblearning.common.mobs.MobMetaData;
-import xt9.deepmoblearning.common.mobs.MobMetaFactory;
+import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
 import xt9.deepmoblearning.common.util.DataModel;
@@ -89,7 +88,7 @@ public class SimulationChamberGui extends GuiContainer {
                 // Tooltip for energy
                 tooltip.add(f.format(energyStorage.getEnergyStored()) + "/" + f.format(energyStorage.getMaxEnergyStored()) + " RF");
                 if(tile.hasChip()) {
-                    MobMetaData data = MobMetaFactory.createMobMetaData(tile.getChip());
+                    MobMetaData data = DataModel.getMobMetaData(tile.getChip());
                     tooltip.add("Simulations with current data model drains " + f.format(data.getSimulationTickCost()) + "RF/t");
                 }
                 drawHoveringText(tooltip, x - 90, y - 16);
@@ -104,7 +103,7 @@ public class SimulationChamberGui extends GuiContainer {
         int top = getGuiTop();
         int spacing = 12;
         int topStart = top - 3;
-        MobMetaData data = MobMetaFactory.createMobMetaData(tile.getChip());
+        MobMetaData data = DataModel.getMobMetaData(tile.getChip());
 
         if(chipChanged()) {
             resetAnimations();
@@ -190,7 +189,7 @@ public class SimulationChamberGui extends GuiContainer {
             animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
             animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
 
-        } else if(!hasEnergy() && !tile.isCrafting) {
+        } else if(!hasEnergy() && !tile.isCrafting()) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
             Animation a1 = getAnimation("lowEnergy1");
             Animation a2 = getAnimation("lowEnergy2");
@@ -208,7 +207,7 @@ public class SimulationChamberGui extends GuiContainer {
             animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
             animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
             animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
-        } else if(tile.isCrafting) {
+        } else if(tile.isCrafting()) {
             drawString(renderer, tile.percentDone + "%", left + 176, top + 123, 6478079);
 
             drawString(renderer, tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, 16777215);

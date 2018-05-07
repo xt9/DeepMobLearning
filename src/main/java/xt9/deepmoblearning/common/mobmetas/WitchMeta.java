@@ -1,6 +1,5 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityWitch;
@@ -17,13 +16,6 @@ public class WitchMeta extends MobMetaData {
 
     WitchMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public EntityZombie getCombatEntity(World world) {
-        EntityZombie entity = new EntityZombie(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        return entity;
     }
 
     @Override

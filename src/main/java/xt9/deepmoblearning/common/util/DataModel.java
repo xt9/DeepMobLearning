@@ -1,15 +1,15 @@
 package xt9.deepmoblearning.common.util;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemDataModel;
-import xt9.deepmoblearning.common.mobs.MobMetaData;
-import xt9.deepmoblearning.common.mobs.MobMetaFactory;
+import xt9.deepmoblearning.common.mobmetas.MobKey;
+import xt9.deepmoblearning.common.mobmetas.MobMetaData;
+import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
 
 /**
  * Created by xt9 on 2018-01-06.
@@ -45,35 +45,28 @@ public class DataModel {
         return getMobMetaData(stack).getSimulationTickCost();
     }
 
+    public static String getMobKey(ItemStack stack) {
+        if(stack.getItem() instanceof ItemDataModel) {
+            return ((ItemDataModel) stack.getItem()).getMobKey();
+        } else {
+            return MobKey.ZOMBIE;
+        }
+    }
+
     public static MobMetaData getMobMetaData(ItemStack stack) {
-        return MobMetaFactory.createMobMetaData(stack);
+        return MobMetaFactory.createMobMetaData(getMobKey(stack));
     }
 
     public static int getPristineChance(ItemStack stack) {
-        switch(getTier(stack)) {
-            case 0: return 0;
-            case 1: return Config.pristineChance.get("tier1").getInt();
-            case 2: return Config.pristineChance.get("tier2").getInt();
-            case 3: return Config.pristineChance.get("tier3").getInt();
-            case 4: return Config.pristineChance.get("tier4").getInt();
-            default: return 0;
-        }
+        return Tier.getPristineChance(getTier(stack));
     }
 
     public static String getTierName(ItemStack stack, boolean getNextTierName) {
-        int addTiers = getNextTierName ? 1 : 0;
-        switch(getTier(stack) + addTiers) {
-            case 0: return "§8Faulty§r";
-            case 1: return "§aBasic§r";
-            case 2: return "§9Advanced§r";
-            case 3: return "§dSuperior§r";
-            case 4: return "§6Self Aware§r";
-            default: return "§8Faulty§r";
-        }
+        return Tier.getTierName(getTier(stack), getNextTierName);
     }
 
     /* Called by deep learners */
-    public static void increaseMobKillCount(ItemStack stack, EntityPlayer player) {
+    public static void increaseMobKillCount(ItemStack stack, EntityPlayerMP player) {
         // Get our current tier before increasing the kill count;
         int tier = getTier(stack);
         int i = getCurrentTierKillCount(stack);
@@ -84,7 +77,7 @@ public class DataModel {
         setTotalKillCount(stack, getTotalKillCount(stack) + 1);
 
         if(DataModelExperience.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
-            player.sendMessage(new TextComponentString(stack.getDisplayName() + " reached the " + getTierName(stack, true) + " tier"));
+            PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName() + " reached the " + getTierName(stack, true) + " tier"));
 
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);

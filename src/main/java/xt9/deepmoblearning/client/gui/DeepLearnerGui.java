@@ -14,10 +14,9 @@ import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.inventory.ContainerDeepLearner;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.mobs.MobMetaData;
-import xt9.deepmoblearning.common.mobs.MobMetaFactory;
-import xt9.deepmoblearning.common.mobs.SpiderMeta;
-import xt9.deepmoblearning.common.mobs.ZombieMeta;
+import xt9.deepmoblearning.common.mobmetas.MobMetaData;
+import xt9.deepmoblearning.common.mobmetas.SpiderMeta;
+import xt9.deepmoblearning.common.mobmetas.ZombieMeta;
 import xt9.deepmoblearning.common.util.DataModel;
 
 import java.io.IOException;
@@ -85,7 +84,7 @@ public class DeepLearnerGui extends GuiContainer {
 
         // If we have at least 1 valid mob chip
         if(validModelChips.size() >= 1 && currentItem < validModelChips.size()) {
-            this.meta = MobMetaFactory.createMobMetaData(validModelChips.get(currentItem));
+            this.meta = DataModel.getMobMetaData(validModelChips.get(currentItem));
 
             renderMetaDataText(meta, left, top, validModelChips.get(currentItem));
             renderMobDisplayBox(left, top);
@@ -217,7 +216,7 @@ public class DeepLearnerGui extends GuiContainer {
 
         int numOfHearts = meta.getNumberOfHearts();
         if(numOfHearts == 0) {
-            // Obfuscate if hears is 0, use for models with multiple mobs
+            // Obfuscate if hears is 0, use for models with multiple mobmetas
             drawString(renderer, "§k10§r", left + 246, topStart + (spacing * 2) - 1, 16777215);
         } else {
             drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, 16777215);

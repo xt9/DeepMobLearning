@@ -1,9 +1,7 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.item.ItemStack;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.Registry;
-import xt9.deepmoblearning.common.items.ItemDataModel;
 
 /**
  * Created by xt9 on 2017-12-29.
@@ -11,8 +9,6 @@ import xt9.deepmoblearning.common.items.ItemDataModel;
 public class MobMetaFactory {
     public static MobMetaData createMobMetaData(String key) {
         MobMetaData meta = new ZombieMeta("zombie", "Zombie", "Zombies", 0, 0, 0, 0, Registry.livingMatterOverworldian, Registry.pristineMatterZombie);
-
-        // Todo set up proper combat entities in all the meta classes
 
         if(key.equals(MobKey.ZOMBIE)) {
             meta = new ZombieMeta(
@@ -157,6 +153,31 @@ public class MobMetaFactory {
                 -20,
                 Registry.livingMatterExtraterrestrial,
                 Registry.pristineMatterDragon
+            );
+        } else if(key.equals(MobKey.SHULKER)) {
+            meta = new ShulkerMeta(
+                MobKey.SHULKER,
+                "Shulker",
+                "Shulkers",
+                15,
+                36,
+                5,
+                -5,
+                Registry.livingMatterExtraterrestrial,
+                Registry.pristineMatterShulker
+            );
+        }
+        else if(key.equals(MobKey.GUARDIAN)) {
+            meta = new GuardianMeta(
+                MobKey.GUARDIAN,
+                "Guardian",
+                "Guardians",
+                15,
+                36,
+                5,
+                -5,
+                Registry.livingMatterOverworldian,
+                Registry.pristineMatterGuardian
             );
         }
 

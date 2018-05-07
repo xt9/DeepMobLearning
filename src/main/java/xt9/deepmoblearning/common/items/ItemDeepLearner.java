@@ -51,7 +51,7 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
             } else {
                 list.add("Contains the following models");
                 for (ItemStack chip : internalChips) {
-                    if (chip.getItem() instanceof ItemDataModel.TE) {
+                    if (chip.getItem() instanceof ItemDataModel) {
                         list.add(DataModel.getTierName(chip, false) + " " + chip.getDisplayName());
                     }
                 }

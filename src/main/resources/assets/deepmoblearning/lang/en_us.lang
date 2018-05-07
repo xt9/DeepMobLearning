@@ -3,6 +3,7 @@
 #
 tile.deepmoblearning.simulation_chamber.name=Simulation Chamber
 tile.deepmoblearning.extraction_chamber.name=Loot Fabricator
+tile.deepmoblearning.trial_keystone.name=Trial Keystone
 
 #
 # Single items
@@ -12,6 +13,7 @@ item.deepmoblearning.charred_redstone.name=Charred Redstone
 item.deepmoblearning.charred_plate.name=Charred Plate
 item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 item.deepmoblearning.creative_model_learner.name=Creative Model Learner
+item.deepmoblearning.trial_key.name=§bTrial Key§r
 
 #
 # Data models
@@ -25,10 +27,12 @@ item.deepmoblearning.data_model_wither.name=§bWither Data Model§r
 item.deepmoblearning.data_model_witch.name=§bWitch Data Model§r
 item.deepmoblearning.data_model_spider.name=§bSpider Data Model§r
 item.deepmoblearning.data_model_creeper.name=§bCreeper Data Model§r
+item.deepmoblearning.data_model_guardian.name=§bGuardian Data Model§r
 item.deepmoblearning.data_model_ghast.name=§bGhast Data Model§r
 item.deepmoblearning.data_model_wither_skeleton.name=§bWither Skeleton Data Model§r
 item.deepmoblearning.data_model_slime.name=§bSlime Data Model§r
 item.deepmoblearning.data_model_dragon.name=§bEnder Dragon Data Model§r
+item.deepmoblearning.data_model_shulker.name=§bShulker Data Model§r
 item.deepmoblearning.data_model_thermal_elemental.name=§bThermal Elemental Data Model§r
 item.deepmoblearning.data_model_twilight_forest.name=§bTwilight Forest Data Model§r
 item.deepmoblearning.data_model_twilight_swamp.name=§bTwilight Swamp Data Model§r
@@ -59,6 +63,8 @@ item.deepmoblearning.pristine_matter_ghast.name=Pristine Ghast Matter
 item.deepmoblearning.pristine_matter_wither_skeleton.name=Pristine Wither Skeleton Matter
 item.deepmoblearning.pristine_matter_slime.name=Pristine Slime Matter
 item.deepmoblearning.pristine_matter_dragon.name=Pristine Ender Dragon Matter
+item.deepmoblearning.pristine_matter_shulker.name=Pristine Shulker Matter
+item.deepmoblearning.pristine_matter_guardian.name=Pristine Guardian Matter
 item.deepmoblearning.pristine_matter_thermal_elemental.name=Pristine Thermal Elemental Matter
 item.deepmoblearning.pristine_matter_twilight_forest.name=Pristine Twilight Forest Matter
 item.deepmoblearning.pristine_matter_twilight_swamp.name=Pristine Twilight Swamp Matter
@@ -80,7 +86,12 @@ deepmoblearning.data_model.data.collected=§rData collected: §7%s/%s§r
 deepmoblearning.data_model.data.killmultiplier=§rData per kill: §7%s§r
 deepmoblearning.data_model.rfcost=§rSimulation cost: §7%s RF/t§r
 deepmoblearning.living_matter.exp=§7Experience gained when consumed: §a%s§r
-
+deepmoblearning.trial_key.notattuned=§7The key is currently not attuned§r
+deepmoblearning.trial_key.attunement_go_to_jei=§7Read more about attunement in JEI§r
+deepmoblearning.trial_key.attuned=§rThe key is attuned to: §7%s§r
+deepmoblearning.trial_key.tier=§rKey tier: §7%s§r
+deepmoblearning.trial_key.affixes=§rAffixes: §7%s§r
+deepmoblearning.trial_key.affix_go_to_jei=§7Read more about each affix in JEI (Trial Keystone entry)§r
 #
 # JEI
 #
@@ -94,8 +105,14 @@ deepmoblearning.jei.description.pristine_matter=\nSecondary output from the simu
 #
 deepmoblearning.holdshift=§7- hold §r§oSHIFT§r§7 for more info§r
 
-
-
+#
+# Entity
+#
+entity.deepmoblearning.glitch.name=System Glitch
+entity.deepmoblearning.glitch_orb.name=Orb of the suffering AI
+entity.deepmoblearning.trial_enderman.name=Trial Enderman
+entity.deepmoblearning.trial_spider.name=Trial Spider
+entity.deepmoblearning.trial_cave_spider.name=Trial Cave Spider
 
 # Dev only strings
-deepmoblearning.devonly.holdcontrol=§7- hold §r§oCONTROL§r§7 for dev data§r
+deepmoblearning.devonly.holdcontrol=§7- hold §r§oCTRL§r§7 for dev data§r

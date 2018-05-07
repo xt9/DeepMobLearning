@@ -1,6 +1,5 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
@@ -23,13 +22,6 @@ public class TwilightGlacierMeta extends MobMetaData {
     }
 
     @Override
-    public EntityZombie getCombatEntity(World world) {
-        EntityZombie entity = new EntityZombie(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        return entity;
-    }
-
-    @Override
     public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
         return entityLiving instanceof EntityTFYetiAlpha ||
             entityLiving instanceof EntityTFYeti ||
@@ -49,6 +41,6 @@ public class TwilightGlacierMeta extends MobMetaData {
 
     @Override
     public String getExtraTooltip() {
-        return "Gain data by defeating non-vanilla mobs in the Yeti lair and Ice Tower";
+        return "Gain data by defeating non-vanilla mobmetas in the Yeti lair and Ice Tower";
     }
 }

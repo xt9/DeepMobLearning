@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
 /**
  * Created by xt9 on 2018-03-25.
@@ -10,6 +10,8 @@ public class MobKey {
     public static final String DRAGON = "dragon";
     public static final String ENDERMAN = "enderman";
     public static final String GHAST = "ghast";
+    public static final String GUARDIAN = "guardian";
+    public static final String SHULKER = "shulker";
     public static final String SKELETON = "skeleton";
     public static final String SLIME = "slime";
     public static final String SPIDER = "spider";

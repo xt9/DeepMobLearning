@@ -8,6 +8,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.blocks.BlockExtractionChamber;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
+import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
 import xt9.deepmoblearning.common.items.*;
 
 /**
@@ -16,6 +17,7 @@ import xt9.deepmoblearning.common.items.*;
 public class Registry {
     public static BlockSimulationChamber blockSimulationChamber;
     public static BlockExtractionChamber blockExtractionChamber;
+    public static BlockTrialKeystone blockTrialKeystone;
 
     // Lists
     public static NonNullList<ItemBase> items = NonNullList.create();
@@ -25,12 +27,14 @@ public class Registry {
 
     public static Item simulationChamber;
     public static Item extractionChamber;
+    public static Item trialKeystone;
     public static ItemPolymerClay polymerClay = new ItemPolymerClay();
     public static ItemCharredRedstone charredRedstone = new ItemCharredRedstone();
     public static ItemCharredPlate charredPlate = new ItemCharredPlate();
     public static ItemDeepLearner deepLearner = new ItemDeepLearner();
     public static ItemDataModelBlank dataModelBlank = new ItemDataModelBlank();
     public static ItemCreativeModelLearner cml = new ItemCreativeModelLearner();
+    public static ItemTrialKey trialKey = new ItemTrialKey();
 
     // Data models
     public static ItemDataModel.Zombie dataModelZombie = new ItemDataModel.Zombie();
@@ -45,6 +49,8 @@ public class Registry {
     public static ItemDataModel.Enderman dataModelEnderman = new ItemDataModel.Enderman();
     public static ItemDataModel.Wither dataModelWither = new ItemDataModel.Wither();
     public static ItemDataModel.Dragon dataModelDragon = new ItemDataModel.Dragon();
+    public static ItemDataModel.Shulker dataModelShulker = new ItemDataModel.Shulker();
+    public static ItemDataModel.Guardian dataModelGuardian = new ItemDataModel.Guardian();
     public static ItemDataModel.TE dataModelTE = new ItemDataModel.TE();
     public static ItemDataModel.TwilightForest dataModelTwilightForest = new ItemDataModel.TwilightForest();
     public static ItemDataModel.TwilightSwamp dataModelTwilightSwamp = new ItemDataModel.TwilightSwamp();
@@ -71,6 +77,8 @@ public class Registry {
     public static ItemPristineMatter.Enderman pristineMatterEnderman = new ItemPristineMatter.Enderman();
     public static ItemPristineMatter.Wither pristineMatterWither = new ItemPristineMatter.Wither();
     public static ItemPristineMatter.Dragon pristineMatterDragon = new ItemPristineMatter.Dragon();
+    public static ItemPristineMatter.Shulker pristineMatterShulker = new ItemPristineMatter.Shulker();
+    public static ItemPristineMatter.Guardian pristineMatterGuardian = new ItemPristineMatter.Guardian();
     public static ItemPristineMatter.TE pristineMatterTE = new ItemPristineMatter.TE();
     public static ItemPristineMatter.TwilightForest pristineMatterTwilightForest = new ItemPristineMatter.TwilightForest();
     public static ItemPristineMatter.TwilightSwamp pristineMatterTwilightSwamp = new ItemPristineMatter.TwilightSwamp();
@@ -92,6 +100,8 @@ public class Registry {
         dataModels.add(dataModelEnderman);
         dataModels.add(dataModelWither);
         dataModels.add(dataModelDragon);
+        dataModels.add(dataModelShulker);
+        dataModels.add(dataModelGuardian);
 
         if(DeepConstants.MOD_TE_LOADED) {
             dataModels.add(dataModelTE);
@@ -133,6 +143,8 @@ public class Registry {
         pristineMatter.add(pristineMatterEnderman);
         pristineMatter.add(pristineMatterWither);
         pristineMatter.add(pristineMatterDragon);
+        pristineMatter.add(pristineMatterShulker);
+        pristineMatter.add(pristineMatterGuardian);
 
         if(DeepConstants.MOD_TE_LOADED) {
             pristineMatter.add(pristineMatterTE);
@@ -151,13 +163,15 @@ public class Registry {
     public static void registerBlocks(IForgeRegistry registry) {
         blockSimulationChamber = new BlockSimulationChamber();
         blockExtractionChamber = new BlockExtractionChamber();
+        blockTrialKeystone = new BlockTrialKeystone();
 
         // Register tile entities
         GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepConstants.MODID + ":simulation_chamber");
         GameRegistry.registerTileEntity(blockExtractionChamber.getTileEntityClass(), DeepConstants.MODID + ":extraction_chamber");
+        GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), DeepConstants.MODID + ":trial_keystone");
 
         // Register our sole block
-        registry.registerAll(blockSimulationChamber, blockExtractionChamber);
+        registry.registerAll(blockSimulationChamber, blockExtractionChamber, blockTrialKeystone);
     }
 
     public static void registerItems(IForgeRegistry registry) {
@@ -168,7 +182,8 @@ public class Registry {
         // Create our Item instances
         simulationChamber = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
         extractionChamber = new ItemBlock(blockExtractionChamber).setRegistryName(blockExtractionChamber.getRegistryName());
-        registry.registerAll(simulationChamber, extractionChamber);
+        trialKeystone = new ItemBlock(blockTrialKeystone).setRegistryName(blockTrialKeystone.getRegistryName());
+        registry.registerAll(simulationChamber, extractionChamber, trialKeystone);
 
         items.add(charredRedstone);
         items.add(charredPlate);
@@ -176,6 +191,7 @@ public class Registry {
         items.add(deepLearner);
         items.add(dataModelBlank);
         items.add(cml);
+        items.add(trialKey);
         items.addAll(dataModels);
         items.addAll(livingMatter);
         items.addAll(pristineMatter);
@@ -188,6 +204,7 @@ public class Registry {
     public static void registerItemModels() {
         blockSimulationChamber.registerItemModel(Item.getItemFromBlock(blockSimulationChamber));
         blockExtractionChamber.registerItemModel(Item.getItemFromBlock(blockExtractionChamber));
+        blockTrialKeystone.registerItemModel(Item.getItemFromBlock(blockTrialKeystone));
 
         for (ItemBase item : items) {
             item.registerItemModel();

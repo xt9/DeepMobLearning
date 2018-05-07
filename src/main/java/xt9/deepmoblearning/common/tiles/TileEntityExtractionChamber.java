@@ -74,8 +74,8 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
                     percentDone++;
                 }
 
-                // Notify while crafting every other second, this is done more frequently when the container is open
-                if (ticks % 100 == 0) {
+                // Notify while crafting every 5sec, this is done more frequently when the container is open
+                if (ticks % (DeepConstants.TICKS_TO_SECOND * 5) == 0) {
                     updateState();
                 }
 
@@ -229,17 +229,18 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
     @Override
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            // If facing is null its interacting with a player or some fake player
             if(facing == null) {
-                return (T) new CombinedInvWrapper(pristine, output);
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(pristine, output));
             } else if(facing == EnumFacing.UP) {
                 // Input
-                return (T) pristine;
-            } else if(facing != null && facing != EnumFacing.UP) {
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(pristine);
+            } else {
                 // Output
-                return (T) output;
+                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(output);
             }
         } else if(capability == CapabilityEnergy.ENERGY) {
-            return (T) energyStorage;
+            return CapabilityEnergy.ENERGY.cast(energyStorage);
         }
 
         return super.getCapability(capability, facing);

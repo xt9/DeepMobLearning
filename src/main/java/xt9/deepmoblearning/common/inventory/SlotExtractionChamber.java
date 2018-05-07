@@ -21,7 +21,7 @@ public class SlotExtractionChamber extends SlotItemHandler {
     public boolean isItemValid(ItemStack stack) {
         Item item = stack.getItem();
         switch(getSlotIndex()) {
-            case DeepConstants.EXTRACTION_CHAMBER_INPUT_SLOT:
+            case ContainerExtractionChamber.INPUT_SLOT:
                 return !stack.isEmpty() && item instanceof ItemPristineMatter;
             default:
                 return false;

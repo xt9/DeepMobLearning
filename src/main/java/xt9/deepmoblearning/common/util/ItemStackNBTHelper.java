@@ -2,9 +2,10 @@ package xt9.deepmoblearning.common.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.NonNullList;
+import net.minecraftforge.common.util.Constants;
 import javax.annotation.Nullable;
-
 /**
  * Created by xt9 on 2017-06-12.
  */
@@ -47,5 +48,42 @@ public class ItemStackNBTHelper {
 
     public static int getInt(ItemStack stack, String key, int defaultVal) {
         return hasTag(stack) ? getTag(stack).getInteger(key) : defaultVal;
+    }
+
+    public static boolean getBoolean(ItemStack stack, String key, boolean defaultVal) {
+        return hasTag(stack) ? getTag(stack).getBoolean(key) : defaultVal;
+    }
+
+    public static void setBoolean(ItemStack stack, String key, boolean value) {
+        getTag(stack).setBoolean(key, value);
+    }
+
+    public static void setStringList(ItemStack stack, NonNullList<String> list, String key) {
+        NBTTagList stringList = new NBTTagList();
+
+        int index = 0;
+        for (String s : list) {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setString(index+"", s);
+            stringList.appendTag(tag);
+            index++;
+        }
+
+        getTag(stack).setTag(key, stringList);
+    }
+
+    public static NonNullList<String> getStringList(ItemStack stack, String key) {
+        NonNullList<String> list = NonNullList.create();
+
+        if(stack.hasTagCompound()) {
+            NBTTagList tagList = stack.getTagCompound().getTagList(key, Constants.NBT.TAG_COMPOUND);
+
+            for(int i = 0; i < tagList.tagCount(); i++) {
+                NBTTagCompound tag = tagList.getCompoundTagAt(i);
+                list.add(i, tag.getString(i+""));
+            }
+        }
+
+        return list;
     }
 }

@@ -1,14 +1,45 @@
 package xt9.deepmoblearning.common.util;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.capabilities.Capability;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.common.capabilities.PlayerTrial;
+import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.network.UpdateTrialOverlayMessage;
+
+import java.awt.*;
 
 /**
  * Created by xt9 on 2017-06-14.
  */
 public class PlayerHelper {
+    @SuppressWarnings("ConstantConditions")
+    public static IPlayerTrial getTrialCapability(EntityPlayerMP player) {
+        if(PlayerTrialProvider.PLAYER_TRIAL_CAP != null) {
+            return player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+        }
+        /* This will never happen, but tricks the IDE that the object is not always null */
+        return new PlayerTrial();
+    }
+
+    public static void sendMessageToOverlay(EntityPlayerMP player, String type) {
+        if(player != null) {
+            DeepMobLearning.network.sendTo(new UpdateTrialOverlayMessage(type), player);
+        }
+    }
+
+    public static void sendMessage(EntityPlayerMP player, TextComponentString component) {
+        if(player != null) {
+            player.sendMessage(component);
+        }
+    }
+
     private boolean isHoldingDeepLearner;
     private EntityPlayer player;
     private ItemStack stack;
@@ -30,6 +61,7 @@ public class PlayerHelper {
         }
 
     }
+
 
     public boolean isHoldingDeepLearner() {
         return isHoldingDeepLearner;

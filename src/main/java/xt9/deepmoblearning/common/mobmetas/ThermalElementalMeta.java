@@ -1,12 +1,8 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
 import cofh.thermalfoundation.entity.monster.EntityBasalz;
 import cofh.thermalfoundation.entity.monster.EntityBlitz;
 import cofh.thermalfoundation.entity.monster.EntityBlizz;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
@@ -19,13 +15,6 @@ public class ThermalElementalMeta extends MobMetaData {
 
     ThermalElementalMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public EntityZombie getCombatEntity(World world) {
-        EntityZombie entity = new EntityZombie(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        return entity;
     }
 
     @Override

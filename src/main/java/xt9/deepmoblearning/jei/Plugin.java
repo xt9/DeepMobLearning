@@ -28,6 +28,7 @@ public class Plugin implements IModPlugin {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void register(IModRegistry registry) {
         jeiHelpers = registry.getJeiHelpers();
 
@@ -37,7 +38,7 @@ public class Plugin implements IModPlugin {
         Map<ItemStack, NonNullList<ItemStack>> pristineTables = new HashMap<>();
 
         Registry.pristineMatter.forEach(
-            pristineItem -> pristineTables.put(new ItemStack(pristineItem, 1), Config.LootParser.getLootEntries(pristineItem.getMobKey()))
+            pristineItem -> pristineTables.put(new ItemStack(pristineItem, 1), Config.LootParser.getPristineLootEntries(pristineItem.getMobKey()))
         );
 
         pristineTables.forEach(
@@ -82,6 +83,8 @@ public class Plugin implements IModPlugin {
                 "\nHigher tiers get more data from defeating foes."
         );
 
+        registry.addIngredientInfo(new ItemStack(Registry.trialKey), ItemStack.class, JEIStringBuilder.getTrialKeyLines());
+        registry.addIngredientInfo(new ItemStack(Registry.trialKeystone), ItemStack.class, JEIStringBuilder.getTrialKeystoneLines());
     }
 
 

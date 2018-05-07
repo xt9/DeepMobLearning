@@ -20,11 +20,11 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by xt9 on 2018-04-18.
  */
-public class RenderEntityGlitchAttack<T extends Entity> extends Render<T> {
+public class RenderEntityGlitchOrb<T extends Entity> extends Render<T> {
     private Random rand;
     private Minecraft minecraft;
 
-    public RenderEntityGlitchAttack(RenderManager manager) {
+    public RenderEntityGlitchOrb(RenderManager manager) {
         super(manager);
         minecraft = Minecraft.getMinecraft();
         rand = new Random();

@@ -1,6 +1,6 @@
-package xt9.deepmoblearning.common.mobs;
+package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.world.World;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -19,15 +19,8 @@ public class SkeletonMeta extends MobMetaData {
     }
 
     @Override
-    public EntityZombie getCombatEntity(World world) {
-        EntityZombie entity = new EntityZombie(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.DIAMOND_SWORD));
-        return entity;
-    }
-
-    @Override
     public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntitySkeleton;
+        return entityLiving instanceof AbstractSkeleton;
     }
 
     public EntitySkeleton getEntity(World world) {

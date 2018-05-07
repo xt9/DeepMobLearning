@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.common.trials.affix;
+package xt9.deepmoblearning.common.trials;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntitySpider;
@@ -6,7 +6,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import xt9.deepmoblearning.common.trials.Trial;
+import xt9.deepmoblearning.common.entity.EntityTrialCaveSpider;
+import xt9.deepmoblearning.common.entity.EntityTrialSpider;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,9 +28,9 @@ public class SpiderTrial extends Trial {
     private EntitySpider getRandomSpider(World world) {
         int rand = ThreadLocalRandom.current().nextInt(1, 100);
         if(rand > 88) {
-
+            return new EntityTrialCaveSpider(world);
         } else {
-
+            return new EntityTrialSpider(world);
         }
     }
 

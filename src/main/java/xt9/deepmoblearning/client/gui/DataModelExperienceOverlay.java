@@ -25,7 +25,7 @@ import java.text.DecimalFormat;
  * Created by xt9 on 2017-06-14.
  */
 @Mod.EventBusSubscriber(Side.CLIENT)
-public class DataModelExperienceGui extends GuiScreen {
+public class DataModelExperienceOverlay extends GuiScreen {
     private final FontRenderer renderer;
     private Minecraft mc;
     private ItemStack deepLearner;
@@ -36,7 +36,7 @@ public class DataModelExperienceGui extends GuiScreen {
 
     private static final ResourceLocation experienceBar = new ResourceLocation(DeepConstants.MODID, "textures/gui/experience_gui.png");
 
-    public DataModelExperienceGui(Minecraft mc) {
+    public DataModelExperienceOverlay(Minecraft mc) {
         super();
         this.mc = mc;
         this.renderer = this.mc.fontRenderer;
@@ -139,8 +139,7 @@ public class DataModelExperienceGui extends GuiScreen {
         return scaledResolution.getScaledHeight() - (numberOfBars * componentHeight);
     }
 
-    private void drawItemStack(int x, int y, ItemStack stack)
-    {
+    private void drawItemStack(int x, int y, ItemStack stack) {
         GlStateManager.translate(0.0F, 0.0F, 32.0F);
         this.zLevel = 200.0F;
         itemRender.zLevel = 200.0F;

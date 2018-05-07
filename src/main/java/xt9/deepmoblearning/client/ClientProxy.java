@@ -1,7 +1,12 @@
 package xt9.deepmoblearning.client;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.entity.RenderCaveSpider;
+import net.minecraft.client.renderer.entity.RenderEnderman;
+import net.minecraft.client.renderer.entity.RenderSlime;
+import net.minecraft.client.renderer.entity.RenderSpider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -11,31 +16,50 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.client.gui.DataModelExperienceGui;
-import xt9.deepmoblearning.client.gui.DeepLearnerGui;
-import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
-import xt9.deepmoblearning.client.gui.SimulationChamberGui;
+import xt9.deepmoblearning.client.gui.*;
+import xt9.deepmoblearning.client.particle.ParticleGlitch;
+import xt9.deepmoblearning.client.particle.ParticleGlitchOrb;
+import xt9.deepmoblearning.client.renders.*;
 import xt9.deepmoblearning.common.CommonProxy;
-import xt9.deepmoblearning.common.items.ItemBase;
+import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
+import xt9.deepmoblearning.common.entity.*;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
+import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by xt9 on 2017-06-08.
  */
 public class ClientProxy extends CommonProxy {
+    @Override
+    public void preInit() {
+        super.preInit();
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlitch.class, RenderEntityGlitch::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGlitchOrb.class, RenderEntityGlitchOrb::new);
+
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrialEnderman.class, RenderEnderman::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrialSpider.class, RenderSpider::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrialCaveSpider.class, RenderCaveSpider::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTrialSlime.class, RenderSlime::new);
+    }
+
+    @Override
     public void registerRenderers() {
-        MinecraftForge.EVENT_BUS.register(new DataModelExperienceGui(Minecraft.getMinecraft()));
+        MinecraftForge.EVENT_BUS.register(new DataModelExperienceOverlay(Minecraft.getMinecraft()));
+        MinecraftForge.EVENT_BUS.register(new TrialOverlay(Minecraft.getMinecraft()));
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrialKeystone.class, new TESRTrialKeystone());
     }
 
     public void registerItemRenderer(Item item, int meta, String id) {
         ResourceLocation location = new ResourceLocation(DeepConstants.MODID, id);
-
-        if(item instanceof ItemBase) {
-            ItemBase itemBase = (ItemBase) item;
-        }
 
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
     }
@@ -53,9 +77,31 @@ public class ClientProxy extends CommonProxy {
                     return new SimulationChamberGui((TileEntitySimulationChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 case DeepConstants.TILE_EXTRACTION_CHAMBER_GUI_ID:
                     return new ExtractionChamberGui((TileEntityExtractionChamber) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
+                case DeepConstants.TILE_TRIAL_KEYSTONE_GUI_ID:
+                    return new TrialKeystoneGui((TileEntityTrialKeystone) world.getTileEntity(new BlockPos(x, y, z)), player.inventory, world);
                 default:
                     return null;
             }
         }
+    }
+
+    public IPlayerTrial getClientPlayerTrialCapability() {
+        //noinspection ConstantConditions
+        return FMLClientHandler.instance().getClientPlayerEntity().getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+    }
+
+    public void spawnGlitchParticle(World world, double x, double y, double z, double mx, double my, double mz) {
+        Particle particle = new ParticleGlitch(world, x, y, z, mx, my, mz);
+        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    public void spawnGlitchOrbParticle(World world, double x, double y, double z, double mx, double my, double mz) {
+        Particle particle = new ParticleGlitchOrb(world, x, y, z, mx, my, mz);
+
+        if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
+            particle.setRBGColorF(0.0F, 1.0F, 0.75F);
+        }
+
+        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 }

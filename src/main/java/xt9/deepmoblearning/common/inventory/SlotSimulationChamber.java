@@ -21,13 +21,13 @@ public class SlotSimulationChamber extends SlotItemHandler {
     public boolean isItemValid(ItemStack stack) {
         Item item = stack.getItem();
         switch(getSlotIndex()) {
-            case DeepConstants.SIMULATION_CHAMBER_DATA_MODEL_SLOT:
+            case ContainerSimulationChamber.DATA_MODEL_SLOT:
                 return !stack.isEmpty() && item instanceof ItemDataModel;
-            case DeepConstants.SIMULATION_CHAMBER_INPUT_SLOT:
+            case ContainerSimulationChamber.INPUT_SLOT:
                 return !stack.isEmpty() && item instanceof ItemPolymerClay;
-            case DeepConstants.SIMULATION_CHAMBER_OUTPUT_SLOT:
+            case ContainerSimulationChamber.OUTPUT_SLOT:
                 return false;
-            case DeepConstants.SIMULATION_CHAMBER_PRISTINE_SLOT:
+            case ContainerSimulationChamber.PRISTINE_SLOT:
                 return false;
             default:
                 return false;

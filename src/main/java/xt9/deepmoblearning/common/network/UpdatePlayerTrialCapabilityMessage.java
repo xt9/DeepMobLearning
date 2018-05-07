@@ -6,18 +6,19 @@ import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 
 /**
  * Created by xt9 on 2018-04-07.
  */
-public class UpdatePlayerTrialCapability implements IMessage {
+public class UpdatePlayerTrialCapabilityMessage implements IMessage {
     private NBTTagCompound compound;
 
-    public UpdatePlayerTrialCapability() {}
+    public UpdatePlayerTrialCapabilityMessage() {}
 
-    public UpdatePlayerTrialCapability(PlayerTrial instance) {
+    public UpdatePlayerTrialCapabilityMessage(PlayerTrial instance) {
         compound = instance.writeNBT(PlayerTrialProvider.PLAYER_TRIAL_CAP, instance, null);
     }
 
@@ -34,10 +35,13 @@ public class UpdatePlayerTrialCapability implements IMessage {
     }
 
 
-    public class Handler implements IMessageHandler<UpdatePlayerTrialCapability, IMessage> {
+    public static class Handler implements IMessageHandler<UpdatePlayerTrialCapabilityMessage, IMessage> {
 
         @Override
-        public IMessage onMessage(UpdatePlayerTrialCapability message, MessageContext context) {
+        public IMessage onMessage(UpdatePlayerTrialCapabilityMessage message, MessageContext ctx) {
+            PlayerTrial clientCapability = (PlayerTrial) DeepMobLearning.proxy.getClientPlayerTrialCapability();
+
+            clientCapability.readNBT(PlayerTrialProvider.PLAYER_TRIAL_CAP, clientCapability, null, message.compound);
             return null;
         }
     }

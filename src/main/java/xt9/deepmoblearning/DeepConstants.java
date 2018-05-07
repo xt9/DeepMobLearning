@@ -10,21 +10,17 @@ public class DeepConstants {
     public static final String MODID = "deepmoblearning";
     public static final String VERSION = "@VERSION@";
 
+    // Minecraft logic
+    public static final int TICKS_TO_SECOND = 20;
+
     // GUI ids
     public static final int ITEM_DEEP_LEARNER_GUI_ID = 1;
     public static final int TILE_SIMULATION_CHAMBER_GUI_ID = 2;
     public static final int TILE_EXTRACTION_CHAMBER_GUI_ID = 3;
+    public static final int TILE_TRIAL_KEYSTONE_GUI_ID = 4;
 
     // Internal inventory sizes
     public static final int DEEP_LEARNER_INTERNAL_SLOTS_SIZE = 4;
-
-    // Slot references
-    public static final int SIMULATION_CHAMBER_DATA_MODEL_SLOT = 0;
-    public static final int SIMULATION_CHAMBER_INPUT_SLOT = 1;
-    public static final int SIMULATION_CHAMBER_OUTPUT_SLOT = 2;
-    public static final int SIMULATION_CHAMBER_PRISTINE_SLOT = 3;
-
-    public static final int EXTRACTION_CHAMBER_INPUT_SLOT = 0;
 
     // Mob chip max tier
     public static final int MOB_CHIP_MAXIMUM_TIER = 4;
@@ -36,6 +32,9 @@ public class DeepConstants {
     public static final boolean MOD_TE_LOADED = Loader.isModLoaded("thermalfoundation");
     public static final boolean MOD_TWILIGHT_LOADED = Loader.isModLoaded("twilightforest");
     public static final boolean MOD_TCON_LOADED = Loader.isModLoaded("tconstruct");
+
+    // NBT references
+    public static final String NBT_STRING_AFFIX_CONNECTION = DeepConstants.MODID + ":mob_type";
 
     public static final class LOOT {
         public static final String[] CREEPER = {
@@ -152,7 +151,48 @@ public class DeepConstants {
             "minecraft:rotten_flesh,64,0",
             "minecraft:iron_ingot,16,0",
             "minecraft:carrot,32,0",
-            "minecraft:potato,32,0",
+            "minecraft:potato,32,0"
+        };
+
+        public static final String[] SHULKER = {
+            "minecraft:shulker_shell,18,0",
+            "minecraft:diamond,2,0"
+        };
+
+        public static final String[] GUARDIAN = {
+            "minecraft:prismarine_shard,32,0",
+            "minecraft:prismarine_crystals,32,0",
+            "minecraft:fish,64,0"
+        };
+    }
+
+    public static final class TRIAL_REWARD {
+        public static final String[] ZOMBIE = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] ENDERMAN = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] SKELETON = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] WITCH = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] SPIDER = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] SLIME = {
+            "minecraft:cookie,32,0"
+        };
+
+        public static final String[] WITHERSKELETON = {
+            "minecraft:cookie,32,0"
         };
     }
 }

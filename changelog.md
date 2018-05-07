@@ -1,5 +1,15 @@
 # 1.12.2
 
+### 2.0 - Trials
+Fight your way through combat trials, gaining additional data to your data models and
+receiving rewards upon completion.
+- Added The trial key, used in the Trial keystone.
+- Added the Trial Keystone. The heart of trials.
+- Added data model for shulkers
+- Added data model  for guardians
+- Added config option to add max tier specific rewards for trials
+
+
 ### 1.2
 - Added more configurable positions for the Experience gui (The bars that show up when holding the deep learner)
 - Added support for the Tinker's construct blue slime.
@@ -9,8 +19,8 @@
 - New machine, The Loot Fabricator. All the existing pristine -> item recipes was moved to this machine
 - Configurable loot tables for the Loot Fabricator.
 - Added JEI support for the Loot Fabricator.
-- Added support for Thermal Expansion mobs
-- Added support for Twilight forest mobs (Split into 4 different zones)
+- Added support for Thermal Expansion mobmetas
+- Added support for Twilight forest mobmetas (Split into 4 different zones)
 - Fixed server start crashes.
 - Added proper creative tab
 - Made the Creeper, Skeleton & Zombie data models easier to acquire (No longer crafted with skulls)
