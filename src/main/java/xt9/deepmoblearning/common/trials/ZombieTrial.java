@@ -25,7 +25,7 @@ public class ZombieTrial extends Trial {
     }
 
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
+    public EntityLiving getTrialPrimaryEntity(World world) {
         EntityMob e = getRandomZombie(world);
 
         int rand = ThreadLocalRandom.current().nextInt(0, 3);

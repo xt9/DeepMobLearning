@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "SSS",
+    "DMD"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stone_slab", "data": 0 },
+    "D": { "item": "minecraft:diamond", "data": 0 },
+    "M": { "item": "deepmoblearning:machine_casing", "data": 0 },
+    "T": { "item": "deepmoblearning:trial_key", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:trial_keystone",
+    "count": 1
+  }
+}

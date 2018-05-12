@@ -41,6 +41,6 @@ public class TwilightGlacierMeta extends MobMetaData {
 
     @Override
     public String getExtraTooltip() {
-        return "Gain data by defeating non-vanilla mobmetas in the Yeti lair and Ice Tower";
+        return "Gain data by defeating non-vanilla mobs in the Yeti lair and Ice Tower";
     }
 }

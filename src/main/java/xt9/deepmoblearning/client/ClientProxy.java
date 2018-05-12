@@ -22,7 +22,7 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.client.gui.*;
 import xt9.deepmoblearning.client.particle.ParticleGlitch;
-import xt9.deepmoblearning.client.particle.ParticleGlitchOrb;
+import xt9.deepmoblearning.client.particle.ParticleScalableSmoke;
 import xt9.deepmoblearning.client.renders.*;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
@@ -86,7 +86,6 @@ public class ClientProxy extends CommonProxy {
     }
 
     public IPlayerTrial getClientPlayerTrialCapability() {
-        //noinspection ConstantConditions
         return FMLClientHandler.instance().getClientPlayerEntity().getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
     }
 
@@ -95,13 +94,42 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
-    public void spawnGlitchOrbParticle(World world, double x, double y, double z, double mx, double my, double mz) {
-        Particle particle = new ParticleGlitchOrb(world, x, y, z, mx, my, mz);
+    public void spawnSmokeParticle(World world, double x, double y, double z, double mx, double my, double mz, String type) {
+        Particle particle;
+
+        switch(type) {
+            case "smoke": particle = getSmokeParticle(world, x, y, z, mx, my, mz); break;
+            case "mixed": particle = getMixedParticle(world, x, y, z, mx, my, mz); break;
+            default: particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+        }
+
+        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    private Particle getMixedParticle(World world, double x, double y, double z, double mx, double my, double mz) {
+        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+        particle.setRBGColorF(0.09F, 0.09F, 0.09F);
 
         if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
             particle.setRBGColorF(0.0F, 1.0F, 0.75F);
         }
 
-        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+        return particle;
     }
+
+    private Particle getSmokeParticle(World world, double x, double y, double z, double mx, double my, double mz) {
+        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+        particle.setRBGColorF(0.09F, 0.09F, 0.09F);
+
+        if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
+            particle.setRBGColorF(0.29F, 0.05F, 0.01F);
+        }
+
+        if(ThreadLocalRandom.current().nextInt(0, 4) == 0) {
+            particle.setRBGColorF(0.02F, 0.02F, 0.02F);
+        }
+
+        return particle;
+    }
+
 }

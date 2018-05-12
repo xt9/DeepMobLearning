@@ -1,8 +1,8 @@
 package xt9.deepmoblearning.common.blocks;
 
-import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -22,6 +22,8 @@ import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
  * Created by xt9 on 2017-06-15.
  */
 public class BlockSimulationChamber extends BlockBase implements ITileEntityProvider {
+    private static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
     public BlockSimulationChamber() {
         super("simulation_chamber", Material.ROCK);
         setHardness(4f);
@@ -29,8 +31,30 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
     }
 
     @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
     public boolean isFullCube(IBlockState state) {
         return false;
+    }
+
+    public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+        return getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
+
+    public IBlockState getStateFromMeta(int meta) {
+        return getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
+    }
+
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(FACING).getHorizontalIndex();
+    }
+
+    @Override
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING);
     }
 
     @Override
@@ -52,39 +76,6 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
             world.spawnEntity(item);
         }
         super.breakBlock(world, pos, state);
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase player, ItemStack stack) {
-        int rotation = EnumFacing.getDirectionFromEntityLiving(pos, player).ordinal();
-        world.setBlockState(pos, getStateFromMeta(rotation), 2);
-
-        super.onBlockPlacedBy(world, pos, state, player, stack);
-    }
-
-    @Override
-    public IBlockState getStateFromMeta(int meta){
-        return getDefaultState().withProperty(BlockDirectional.FACING, EnumFacing.getFront(meta));
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state){
-        return state.getValue(BlockDirectional.FACING).getIndex();
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState(){
-        return new BlockStateContainer(this, BlockDirectional.FACING);
-    }
-
-    @Override
-    public IBlockState withRotation(IBlockState state, Rotation rot){
-        return state.withProperty(BlockDirectional.FACING, rot.rotate(state.getValue(BlockDirectional.FACING)));
-    }
-
-    @Override
-    public IBlockState withMirror(IBlockState state, Mirror mirror){
-        return withRotation(state, mirror.toRotation(state.getValue(BlockDirectional.FACING)));
     }
 
     public Class<TileEntitySimulationChamber> getTileEntityClass() {

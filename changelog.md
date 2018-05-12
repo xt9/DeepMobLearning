@@ -8,6 +8,8 @@ receiving rewards upon completion.
 - Added data model for shulkers
 - Added data model  for guardians
 - Added config option to add max tier specific rewards for trials
+- Disabled flight during trials
+- Changed how you craft machines, it's now a much more "immersive" thing.
 
 
 ### 1.2

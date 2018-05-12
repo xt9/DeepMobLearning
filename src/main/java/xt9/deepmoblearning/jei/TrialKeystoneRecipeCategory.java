@@ -6,29 +6,26 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
-import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.Registry;
+
 import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by xt9 on 2018-01-14.
+ * Created by xt9 on 2018-05-12.
  */
-public class ExtractionChamberRecipeCategory implements IRecipeCategory {
+public class TrialKeystoneRecipeCategory implements IRecipeCategory {
     private ItemStack catalyst;
     private IDrawable background;
-    private IDrawableAnimated progress;
 
-    public ExtractionChamberRecipeCategory(IGuiHelper guiHelper) {
+    public TrialKeystoneRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/extraction_chamber.png");
-        this.catalyst = new ItemStack(Registry.extractionChamber);
+        this.catalyst = new ItemStack(Registry.trialKeystone);
 
         background = guiHelper.createDrawable(base, 0, 0, 140, 30, 0, 0, 0, 0);
-        IDrawableStatic progress = guiHelper.createDrawable(base, 0, 30, 35, 6);
-        this.progress = guiHelper.createAnimatedDrawable(progress, 120, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
@@ -36,7 +33,10 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
         guiItemStacks.init(0, true, 27, 6);
         guiItemStacks.init(1, false, 95, 6);
         guiItemStacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
-        guiItemStacks.set(1, ingredients.getOutputs(ItemStack.class).get(0));
+
+        for (int i = 1; i < ingredients.getOutputs(ItemStack.class).size(); i++) {
+            guiItemStacks.set(i, ingredients.getOutputs(ItemStack.class).get(i-1));
+        }
     }
 
     public void addCatalysts(IModRegistry registry) {
@@ -45,7 +45,7 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
 
     @Override
     public String getUid() {
-        return DeepConstants.MODID + ".extraction_chamber";
+        return DeepConstants.MODID + ".trial_keystone";
     }
 
     @Override
@@ -53,26 +53,20 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
         return catalyst.getDisplayName();
     }
 
-
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public String getModName() {
+        return DeepConstants.MODID;
     }
-
-    @Override
-    public void drawExtras(Minecraft minecraft) {
-        progress.draw(minecraft, 52, 12);
-    }
-
 
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         return Collections.emptyList();
     }
 
-
     @Override
-    public String getModName() {
-        return DeepConstants.MODID;
+    public IDrawable getBackground() {
+        return background;
     }
+
+
 }

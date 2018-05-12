@@ -1,0 +1,174 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"0": "deepmoblearning:blocks/color_stripes",
+		"1": "deepmoblearning:blocks/machine_base_up",
+		"particle": "deepmoblearning:blocks/color_stripes"
+	},
+	"elements": [
+		{
+			"from": [1, 1, 1],
+			"to": [15, 15, 15],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#1"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [15, 0, 0],
+			"to": [16, 1, 16],
+			"faces": {
+				"north": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"south": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 180}
+			}
+		},
+		{
+			"from": [0, 15, 0],
+			"to": [1, 16, 16],
+			"faces": {
+				"north": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"south": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 180}
+			}
+		},
+		{
+			"from": [0, 1, 0],
+			"to": [1, 15, 1],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0.5, 8, 0.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 15, 11, 16], "texture": "#0", "rotation": 180},
+				"down": {"uv": [10, 15, 11, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 1, 15],
+			"to": [1, 15, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0.5, 8, 15.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 15, 11, 16], "texture": "#0", "rotation": 180},
+				"down": {"uv": [10, 15, 11, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [15, 1, 15],
+			"to": [16, 15, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [15.5, 8, 15.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 15, 11, 16], "texture": "#0", "rotation": 180},
+				"down": {"uv": [10, 15, 11, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [15, 1, 0],
+			"to": [16, 15, 1],
+			"rotation": {"angle": 0, "axis": "x", "origin": [15.5, 8, 0.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 15, 11, 16], "texture": "#0", "rotation": 180},
+				"down": {"uv": [10, 15, 11, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [15, 15, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"south": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 180}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [1, 1, 16],
+			"faces": {
+				"north": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"east": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"south": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"west": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0"},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 180}
+			}
+		},
+		{
+			"from": [1, 0, 15],
+			"to": [15, 1, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.5, 15.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"east": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"west": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90}
+			}
+		},
+		{
+			"from": [1, 15, 15],
+			"to": [15, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15.5, 15.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"east": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"west": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90}
+			}
+		},
+		{
+			"from": [1, 15, 0],
+			"to": [15, 16, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15.5, 0.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"east": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"west": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90}
+			}
+		},
+		{
+			"from": [1, 0, 0],
+			"to": [15, 1, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0.5, 0.5]},
+			"faces": {
+				"north": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 270},
+				"east": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"south": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"west": {"uv": [10, 15, 11, 16], "texture": "#0"},
+				"up": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90},
+				"down": {"uv": [10, 0, 11, 16], "texture": "#0", "rotation": 90}
+			}
+		}
+	]
+}

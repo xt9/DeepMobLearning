@@ -48,6 +48,10 @@ public class TrialOverlay extends GuiScreen {
         setGuiSize(89, 12);
     }
 
+    public static void initPlayerCapability() {
+        clientCapability = (PlayerTrial) DeepMobLearning.proxy.getClientPlayerTrialCapability();
+    }
+
     public static void handleMessage(String type) {
         clientCapability = (PlayerTrial) DeepMobLearning.proxy.getClientPlayerTrialCapability();
 

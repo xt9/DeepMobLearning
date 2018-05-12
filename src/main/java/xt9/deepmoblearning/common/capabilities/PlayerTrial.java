@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -21,6 +22,7 @@ public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTri
     private int lastWave = 0;
     private int mobsDefeated = 0;
     private int waveMobTotal = 0;
+    private long tilePos;
 
     public static void init() {
         // Enable field injection for capabilities
@@ -31,11 +33,12 @@ public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTri
 
     }
 
-    public PlayerTrial(int currentWave, int lastWave, int mobsDefeated, int waveMobTotal) {
+    public PlayerTrial(int currentWave, int lastWave, int mobsDefeated, int waveMobTotal, long pos) {
         this.currentWave = currentWave;
         this.lastWave = lastWave;
         this.mobsDefeated = mobsDefeated;
         this.waveMobTotal = waveMobTotal;
+        this.tilePos = pos;
     }
 
 
@@ -47,6 +50,7 @@ public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTri
         compound.setInteger("lastWave", instance.getLastWave());
         compound.setInteger("mobsDefeated", instance.getDefated());
         compound.setInteger("waveMobTotal", instance.getWaveMobTotal());
+        compound.setLong("tilePos", instance.getTilePos());
         return compound;
     }
 
@@ -56,20 +60,13 @@ public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTri
         instance.setLastWave(((NBTTagCompound) nbt).getInteger("lastWave"));
         instance.setDefeated(((NBTTagCompound) nbt).getInteger("mobsDefeated"));
         instance.setWaveMobTotal(((NBTTagCompound) nbt).getInteger("waveMobTotal"));
+        instance.setTilePos(((NBTTagCompound) nbt).getLong("tilePos"));
     }
 
     @Override
     public void sync(EntityPlayerMP player) {
         //noinspection ConstantConditions
         DeepMobLearning.network.sendTo(new UpdatePlayerTrialCapabilityMessage((PlayerTrial)player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null)), player);
-    }
-
-    @Override
-    public void reset() {
-        currentWave = 0;
-        lastWave = 0;
-        mobsDefeated = 0;
-        waveMobTotal = 0;
     }
 
     @Override
@@ -110,5 +107,15 @@ public class PlayerTrial implements IPlayerTrial, Capability.IStorage<IPlayerTri
     @Override
     public int getWaveMobTotal() {
         return waveMobTotal;
+    }
+
+    @Override
+    public void setTilePos(long pos) {
+        tilePos = pos;
+    }
+
+    @Override
+    public long getTilePos() {
+        return tilePos;
     }
 }

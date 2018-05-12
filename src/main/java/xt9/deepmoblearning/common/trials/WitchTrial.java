@@ -16,7 +16,7 @@ public class WitchTrial extends Trial {
     }
 
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
+    public EntityLiving getTrialPrimaryEntity(World world) {
         return new EntityWitch(world);
     }
 

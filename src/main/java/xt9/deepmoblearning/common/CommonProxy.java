@@ -99,7 +99,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void spawnGlitchParticle(World world, double x, double y, double z, double mx, double my, double mz) {}
-    public void spawnGlitchOrbParticle(World world, double x, double y, double z, double mx, double my, double mz) {}
+    public void spawnSmokeParticle(World world, double x, double y, double z, double mx, double my, double mz, String type) {}
     public void registerItemRenderer(Item item, int meta, String id) {}
 
     public void registerRenderers() { }

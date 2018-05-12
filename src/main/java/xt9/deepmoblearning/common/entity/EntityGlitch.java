@@ -28,15 +28,9 @@ import java.util.concurrent.ThreadLocalRandom;
 public class EntityGlitch extends EntityMob {
     private boolean empowered = false;
 
-    @SuppressWarnings("unused")
     public EntityGlitch(World world) {
         super(world);
-    }
-
-    public EntityGlitch(World world, EntityPlayer player) {
-        super(world);
         setSize(0.6F, 1.95F);
-        setAttackTarget(player);
     }
 
     public void setEmpowered(boolean empowered) {
@@ -60,8 +54,7 @@ public class EntityGlitch extends EntityMob {
         tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
         tasks.addTask(7, new EntityAIWander(this, 1.0D));
         tasks.addTask(8, new EntityAILookIdle(this));
-        targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
 

@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.blocks.BlockExtractionChamber;
+import xt9.deepmoblearning.common.blocks.BlockMachineCasing;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
 import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
 import xt9.deepmoblearning.common.items.*;
@@ -15,9 +16,11 @@ import xt9.deepmoblearning.common.items.*;
  * Created by xt9 on 2017-06-08.
  */
 public class Registry {
+    public static BlockMachineCasing blockMachineCasing;
     public static BlockSimulationChamber blockSimulationChamber;
     public static BlockExtractionChamber blockExtractionChamber;
     public static BlockTrialKeystone blockTrialKeystone;
+
 
     // Lists
     public static NonNullList<ItemBase> items = NonNullList.create();
@@ -28,6 +31,7 @@ public class Registry {
     public static Item simulationChamber;
     public static Item extractionChamber;
     public static Item trialKeystone;
+    public static Item machineCasing;
     public static ItemPolymerClay polymerClay = new ItemPolymerClay();
     public static ItemCharredRedstone charredRedstone = new ItemCharredRedstone();
     public static ItemCharredPlate charredPlate = new ItemCharredPlate();
@@ -164,6 +168,7 @@ public class Registry {
         blockSimulationChamber = new BlockSimulationChamber();
         blockExtractionChamber = new BlockExtractionChamber();
         blockTrialKeystone = new BlockTrialKeystone();
+        blockMachineCasing = new BlockMachineCasing();
 
         // Register tile entities
         GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepConstants.MODID + ":simulation_chamber");
@@ -171,7 +176,7 @@ public class Registry {
         GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), DeepConstants.MODID + ":trial_keystone");
 
         // Register our sole block
-        registry.registerAll(blockSimulationChamber, blockExtractionChamber, blockTrialKeystone);
+        registry.registerAll(blockMachineCasing, blockSimulationChamber, blockExtractionChamber, blockTrialKeystone);
     }
 
     public static void registerItems(IForgeRegistry registry) {
@@ -180,10 +185,11 @@ public class Registry {
         populatePristineMatterList();
 
         // Create our Item instances
+        machineCasing = new ItemBlock(blockMachineCasing).setRegistryName(blockMachineCasing.getRegistryName());
         simulationChamber = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
         extractionChamber = new ItemBlock(blockExtractionChamber).setRegistryName(blockExtractionChamber.getRegistryName());
         trialKeystone = new ItemBlock(blockTrialKeystone).setRegistryName(blockTrialKeystone.getRegistryName());
-        registry.registerAll(simulationChamber, extractionChamber, trialKeystone);
+        registry.registerAll(machineCasing, simulationChamber, extractionChamber, trialKeystone);
 
         items.add(charredRedstone);
         items.add(charredPlate);
@@ -202,6 +208,7 @@ public class Registry {
     }
 
     public static void registerItemModels() {
+        blockMachineCasing.registerItemModel(Item.getItemFromBlock(blockMachineCasing));
         blockSimulationChamber.registerItemModel(Item.getItemFromBlock(blockSimulationChamber));
         blockExtractionChamber.registerItemModel(Item.getItemFromBlock(blockExtractionChamber));
         blockTrialKeystone.registerItemModel(Item.getItemFromBlock(blockTrialKeystone));

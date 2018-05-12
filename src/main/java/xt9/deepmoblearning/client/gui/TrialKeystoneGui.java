@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.client.gui.button.ItemSelectButton;
 import xt9.deepmoblearning.client.gui.button.TransparentButton;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
@@ -197,7 +196,7 @@ public class TrialKeystoneGui extends GuiContainer {
         int i = 0;
         rewardButtons.clear();
         drawString(fontRenderer, "Rewards", x + 115, y + 38, 6478079);
-        for (ItemStack itemStack : getRewards()) {
+        for (ItemStack itemStack : TrialFactory.getRewards(trialKey)) {
             // Attach a non-visible button to each reward so we can render a tooltip for it
             GuiButton btn = new TransparentButton(i, x + 115 + (18 * i), y + 48, 18, 18);
             rewardButtons.put(btn, itemStack);
@@ -215,19 +214,6 @@ public class TrialKeystoneGui extends GuiContainer {
                 i++;
             }
         }
-    }
-
-    private NonNullList<ItemStack> getRewards() {
-        NonNullList<ItemStack> rewards = NonNullList.create();
-
-        Trial trialData = TrialFactory.createTrial(TrialKey.getMobKey(trialKey));
-        rewards.addAll(trialData.getTrialRewards(TrialKey.getTier(trialKey)));
-
-        if(Tier.isMaxTier(TrialKey.getTier(trialKey))) {
-            rewards.addAll(Config.LootParser.getTrialRewards(trialData.getMobKey()));
-        }
-
-        return  rewards;
     }
 
     private void drawItemStackWithCount(int x, int y, ItemStack stack) {

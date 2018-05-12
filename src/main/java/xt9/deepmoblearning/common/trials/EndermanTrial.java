@@ -17,11 +17,11 @@ public class EndermanTrial extends Trial {
 
     @Override
     public double getSpawnDelay() {
-        return 3.0;
+        return 2.6;
     }
 
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
+    public EntityLiving getTrialPrimaryEntity(World world) {
         return new EntityTrialEnderman(world);
     }
 

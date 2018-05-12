@@ -23,10 +23,9 @@ public class WitherSkeletonTrial extends Trial {
     }
 
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
+    public EntityLiving getTrialPrimaryEntity(World world) {
         EntityWitherSkeleton e = new EntityWitherSkeleton(world);
         e.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.STONE_SWORD));
-        e.setAttackTarget(player);
         return e;
     }
 

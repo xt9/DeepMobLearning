@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.items.ItemDataModel;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
@@ -27,6 +28,16 @@ public class DataModel {
         }
 
         return filteredList;
+    }
+
+    public static ItemStack getModelFromMobKey(String mobKey) {
+        ItemStack result = ItemStack.EMPTY;
+        for (ItemDataModel dataModel : Registry.dataModels) {
+            if(dataModel.getMobKey().equals(mobKey)) {
+                result = new ItemStack(dataModel);
+            }
+        }
+        return result;
     }
 
     public static boolean hasExtraTooltip(ItemStack stack) {

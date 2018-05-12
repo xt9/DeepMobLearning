@@ -45,7 +45,10 @@ public class UpdateKeystoneItemMessage implements IMessage {
         public IMessage onMessage(UpdateKeystoneItemMessage message, MessageContext ctx) {
             Minecraft.getMinecraft().addScheduledTask(() -> {
                 TileEntityTrialKeystone te = (TileEntityTrialKeystone) Minecraft.getMinecraft().world.getTileEntity(message.pos);
-                te.trialKey.setStackInSlot(0, message.stack);
+
+                if(te != null) {
+                    te.trialKey.setStackInSlot(0, message.stack);
+                }
             });
             return null;
         }

@@ -17,6 +17,8 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.items.ItemTrialKey;
 import xt9.deepmoblearning.common.items.ItemDataModel;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
@@ -56,43 +58,77 @@ public class EntityDeathHandler {
         }
     }
 
+
     @SubscribeEvent
     public static void entityDeath(LivingDeathEvent event) {
-        String nbtkey = TileEntityTrialKeystone.NBT_LONG_TILE_POS;
-
-        if(event.getEntityLiving().getEntityData().hasKey(nbtkey)) {
-            Long pos = event.getEntity().getEntityData().getLong(nbtkey);
-
-            BlockPos tilePos = BlockPos.fromLong(pos);
-            TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
-            // Check if the tile still exists (Could be broken after the mob got the nbt tag)
-            if(tile instanceof TileEntityTrialKeystone) {
-                ((TileEntityTrialKeystone) tile).catchMobDeath();
-            }
+        if(event.getEntityLiving().getEntityData().hasKey(TileEntityTrialKeystone.NBT_LONG_TILE_POS)) {
+            handleTrialMobDeath(event);
         }
 
-
         if(event.getSource().getTrueSource() instanceof EntityPlayer) {
-            EntityPlayerMP player = (EntityPlayerMP) event.getSource().getTrueSource();
+            handlePlayerKilledEntity(event);
+        }
 
-            NonNullList<ItemStack> inventory = NonNullList.create();
-            inventory.addAll(player.inventory.mainInventory);
-            inventory.addAll(player.inventory.offHandInventory);
+        if(event.getEntityLiving() instanceof EntityPlayer) {
+            handlePlayerDeathDuringTrial(event);
+        }
+    }
 
-            // Grab the deep learners and combat trial items from a players inventory
-            NonNullList<ItemStack> deepLearners = getDeepLearners(inventory);
-            NonNullList<ItemStack> trialKeys = getTrialKeys(inventory);
-            NonNullList<ItemStack> updatedModels = NonNullList.create();
 
-            // Update every data model in every deeplearner that match the kill event
-            deepLearners.forEach(stack -> {
-                NonNullList<ItemStack> models = updateAndReturnModels(stack, event, player);
-                updatedModels.addAll(models);
-            });
+    @SuppressWarnings("ConstantConditions")
+    private static void handlePlayerKilledEntity(LivingDeathEvent event) {
+        EntityPlayerMP player = (EntityPlayerMP) event.getSource().getTrueSource();
 
-            // Attune the trial key if possible
-            if(updatedModels.size() > 0) {
-                trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
+        NonNullList<ItemStack> inventory = NonNullList.create();
+        inventory.addAll(player.inventory.mainInventory);
+        inventory.addAll(player.inventory.offHandInventory);
+
+        // Grab the deep learners and combat trial items from a players inventory
+        NonNullList<ItemStack> deepLearners = getDeepLearners(inventory);
+        NonNullList<ItemStack> trialKeys = getTrialKeys(inventory);
+        NonNullList<ItemStack> updatedModels = NonNullList.create();
+
+        // Update every data model in every deeplearner that match the kill event
+        deepLearners.forEach(stack -> {
+            NonNullList<ItemStack> models = updateAndReturnModels(stack, event, player);
+            updatedModels.addAll(models);
+        });
+
+        // Attune the trial key if possible
+        if(updatedModels.size() > 0) {
+            trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
+        }
+    }
+
+    private static void handleTrialMobDeath(LivingDeathEvent event) {
+        Long pos = event.getEntity().getEntityData().getLong(TileEntityTrialKeystone.NBT_LONG_TILE_POS);
+
+        BlockPos tilePos = BlockPos.fromLong(pos);
+        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
+
+        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
+        if(tile instanceof TileEntityTrialKeystone) {
+            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
+            if(keystone.isTrialActive()) {
+                keystone.catchMobDeath();
+            }
+        }
+    }
+
+    private static void handlePlayerDeathDuringTrial(LivingDeathEvent event) {
+        EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+
+        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+
+
+        BlockPos tilePos = BlockPos.fromLong(cap.getTilePos());
+        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
+
+        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
+        if(tile instanceof TileEntityTrialKeystone) {
+            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
+            if(keystone.isTrialActive()) {
+                keystone.playerDied();
             }
         }
     }

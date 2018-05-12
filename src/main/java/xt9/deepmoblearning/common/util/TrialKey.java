@@ -6,7 +6,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
 import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
@@ -17,12 +16,18 @@ import xt9.deepmoblearning.common.trials.affix.TrialAffixFactory;
  */
 public class TrialKey {
     public static void attune(ItemStack stack, ItemStack dataModel, EntityPlayerMP player) {
+        setAttunedNBT(stack, dataModel);
+        MobMetaData data = DataModel.getMobMetaData(dataModel);
+
+        PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName() + " was attuned to: " + data.getName()));
+    }
+
+    public static void setAttunedNBT(ItemStack stack, ItemStack dataModel) {
         setAttunedStatus(stack, true);
 
         MobMetaData data = DataModel.getMobMetaData(dataModel);
         setMobKey(stack, data.getKey());
         setTier(stack, DataModel.getTier(dataModel));
-        PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName() + " was attuned to: " + data.getName()));
     }
 
     public static NonNullList<ITrialAffix> getAffixes(ItemStack stack, BlockPos pos, World world) {

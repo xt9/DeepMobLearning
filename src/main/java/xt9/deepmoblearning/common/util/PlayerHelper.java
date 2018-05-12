@@ -3,9 +3,13 @@ package xt9.deepmoblearning.common.util;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
@@ -14,6 +18,7 @@ import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.network.UpdateTrialOverlayMessage;
 
 import java.awt.*;
+import java.util.UUID;
 
 /**
  * Created by xt9 on 2017-06-14.
@@ -60,6 +65,11 @@ public class PlayerHelper {
             stack = ItemStack.EMPTY;
         }
 
+    }
+
+    public static EntityPlayerMP getPlayerFromUUID(UUID uuid) {
+        PlayerList list = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList();
+        return list.getPlayerByUUID(uuid);
     }
 
 

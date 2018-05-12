@@ -1,5 +1,8 @@
 package xt9.deepmoblearning.common.tiles;
 
+import java.util.*;
+
+import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
@@ -15,6 +18,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -39,7 +43,6 @@ import xt9.deepmoblearning.common.util.TrialKey;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -48,6 +51,20 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TileEntityTrialKeystone extends TileEntity implements ITickable, IGuiTile {
     public static final String NBT_LONG_TILE_POS = DeepConstants.MODID + ":tilepos";
 
+    private boolean active = false;
+    private int ticksToNextWave = 0;
+    private int waveMobTotal = 0;
+    private int mobsSpawned = 0;
+    private int mobsDefeated = 0;
+    private int currentWave = 0;
+    private int lastWave = 0;
+    private long tickCount = 0;
+
+    private Trial trialData;
+    private ItemStack activeKey = ItemStack.EMPTY;
+    private NonNullList<ITrialAffix> affixes = NonNullList.create();
+    private ThreadLocalRandom rand = ThreadLocalRandom.current();
+    private final Set<EntityPlayerMP> participants = Collections.newSetFromMap(new WeakHashMap<>());
     public BaseItemHandler trialKey = new TrialKeyHandler() {
         @Override
         protected void onContentsChanged(int slot) {
@@ -58,33 +75,22 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         }
     };
 
-    private boolean active = false;
-    private EntityPlayerMP player;
-
-    private ItemStack activeKey;
-    private int ticksToNextWave = 0;
-    private int waveMobTotal = 0;
-    private int mobsSpawned = 0;
-    private int mobsDefeated = 0;
-    private int currentWave = 0;
-    private int lastWave = 0;
-    private long tickCount = 0;
-    private Trial trialData;
-    private NonNullList<ITrialAffix> affixes = NonNullList.create();
-    private ThreadLocalRandom rand = ThreadLocalRandom.current();
 
     public void update() {
         tickCount++;
 
         if(!world.isRemote) {
             if(isTrialActive()) {
-                if(player == null) {
-                    finishTrial(true);
+                disableFlying();
+
+                if(participants.isEmpty()) {
+                    finishTrial(true, true);
                 } else if(ticksToNextWave > 0) {
                     ticksToNextWave--;
                     if(ticksToNextWave == 0) {
                         nextWave();
                     }
+                    // Return early during wave intermission
                     return;
                 } else if (currentWave <= lastWave) {
                     if(mobsSpawned < waveMobTotal) {
@@ -93,9 +99,9 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
                         }
                     } else if(mobsDefeated == waveMobTotal) {
                         if(currentWave == (lastWave - 1)) {
-                            finishTrial(false);
+                            finishTrial(false, true);
                         } else {
-                            waveCountdown(100);
+                            sendWaveCountdown(100);
                         }
                     }
                 } else {
@@ -114,7 +120,22 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
                     updateState();
                 }
             }
+
+            if(tickCount % (DeepConstants.TICKS_TO_SECOND * 5) ==  0) {
+                markDirty();
+            }
         }
+    }
+
+    private void disableFlying() {
+        participants.forEach(p -> {
+            if(!p.capabilities.isCreativeMode) {
+                p.capabilities.allowFlying = false;
+                p.capabilities.isFlying = false;
+                p.sendPlayerAbilities();
+            }
+        });
+
     }
 
     private void runAffixes() {
@@ -137,27 +158,32 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             return;
         }
 
+        BlockPos point1 = new BlockPos(pos.getX() - 7, pos.getY(), pos.getZ() - 7);
+        BlockPos point2 = new BlockPos(pos.getX() + 7, pos.getY() + 3, pos.getZ() + 7);
+        List<EntityPlayerMP> playersInArea = world.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(point1, point2), Predicates.alwaysTrue());
+        if(playersInArea.isEmpty()) {
+            return;
+        } else {
+            participants.addAll(playersInArea);
+        }
+
         trialData = TrialFactory.createTrial(TrialKey.getMobKey(activeKey));
         lastWave = TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(activeKey));
         waveMobTotal = trialData.getMobCountForWave(currentWave);
         affixes = TrialKey.getAffixes(activeKey, pos, world);
+        trialKey.setStackInSlot(0, ItemStack.EMPTY);
         active = true;
-        consumeTrialKey();
 
 
-        PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(player);
-        cap.reset();
-        cap.setLastWave(lastWave);
-        cap.setWaveMobTotal(waveMobTotal);
-        cap.sync(player);
-
+        updateCapability();
         updateState();
-        PlayerHelper.sendMessageToOverlay(player, "WaveNumber");
+
+        participants.forEach(p -> PlayerHelper.sendMessageToOverlay(p, "WaveNumber"));
     }
 
-    private void waveCountdown(int ticks) {
+    private void sendWaveCountdown(int ticks) {
         ticksToNextWave = ticks;
-        PlayerHelper.sendMessageToOverlay(player, "WaveCountdown");
+        participants.forEach(participant -> PlayerHelper.sendMessageToOverlay(participant, "WaveCountdown"));
     }
 
     private void nextWave() {
@@ -165,31 +191,51 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         mobsDefeated = 0;
         mobsSpawned = 0;
         waveMobTotal = trialData.getMobCountForWave(currentWave);
+        updateCapability();
 
+        participants.forEach(participant -> PlayerHelper.sendMessageToOverlay(participant, "WaveNumber"));
+    }
 
-        PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(player);
-        cap.setWaveMobTotal(waveMobTotal);
-        cap.setCurrentWave(currentWave);
-        cap.setDefeated(0);
-        cap.sync(player);
-
-        PlayerHelper.sendMessageToOverlay(player, "WaveNumber");
+    public void updateCapability() {
+        participants.forEach(p -> {
+            PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
+            cap.setWaveMobTotal(waveMobTotal);
+            cap.setCurrentWave(currentWave);
+            cap.setDefeated(mobsDefeated);
+            cap.setLastWave(lastWave);
+            cap.setTilePos(pos.toLong());
+            cap.sync(p);
+        });
     }
 
     public void catchMobDeath() {
         mobsDefeated++;
-        if(player != null) {
-            PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(player);
-            cap.setDefeated(cap.getDefated() + 1);
-            cap.sync(player);
+        updateCapability();
+    }
+
+    public void playerDied() {
+        if(isTrialActive()) {
+            boolean isParticipantsDead = true;
+            for (EntityPlayerMP participant : participants) {
+                if(!participant.isDead) {
+                    isParticipantsDead = false;
+                }
+            }
+
+            if(isParticipantsDead) {
+                participants.forEach(p -> PlayerHelper.sendMessage(p, new TextComponentString("All participants died. Better luck next time.")));
+                finishTrial(true, false);
+            }
         }
     }
 
-    public void finishTrial(boolean abort) {
+    public void finishTrial(boolean abort, boolean sendMessages) {
         if(!abort) {
-            PlayerHelper.sendMessageToOverlay(player, "TrialCompleted");
+            if(sendMessages) {
+                participants.forEach(p -> PlayerHelper.sendMessageToOverlay(p, "TrialCompleted"));
+            }
 
-            NonNullList<ItemStack> rewards = getRewards();
+            NonNullList<ItemStack> rewards = TrialFactory.getRewards(activeKey);
             rewards.forEach(stack -> {
                 EntityItem item = new EntityItem(world, pos.getX(), pos.getY() + 2, pos.getZ(), stack);
                 item.setDefaultPickupDelay();
@@ -197,21 +243,11 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             });
         } else if(isTrialActive()) {
             // If the trial is active and for some reason aborted, Send a message to the user.
-            PlayerHelper.sendMessageToOverlay(player, "TrialAborted");
+            if(sendMessages) {
+                participants.forEach(p -> PlayerHelper.sendMessageToOverlay(p, "TrialAborted"));
+            }
         }
         resetTrial();
-    }
-
-    public NonNullList<ItemStack> getRewards() {
-        NonNullList<ItemStack> rewards = NonNullList.create();
-
-        rewards.addAll(trialData.getTrialRewards(TrialKey.getTier(activeKey)));
-
-        if(Tier.isMaxTier(TrialKey.getTier(activeKey))) {
-            rewards.addAll(Config.LootParser.getTrialRewards(trialData.getMobKey()));
-        }
-
-        return rewards;
     }
 
     public void resetTrial() {
@@ -221,16 +257,11 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         mobsDefeated = 0;
         lastWave = 0;
         currentWave = 0;
-
-        if(player != null) {
-            PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(player);
-            cap.reset();
-            cap.sync(player);
-        }
+        updateCapability();
     }
 
     private void spawnTrialMob() {
-        EntityLiving e = trialData.getTrialPrimaryEntity(world, player);
+        EntityLiving e = trialData.getTrialPrimaryEntity(world);
 
         // Spawn randomly within the confines of the trial
         int randomX = pos.getX() + rand.nextInt(-7, 7);
@@ -255,7 +286,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         int randomZ = pos.getZ() + rand.nextInt(-7, 7);
 
         if(rand.nextInt(1, 100) <= TrialRuleset.getGlitchSpawnChance(TrialKey.getTier(activeKey))) {
-            EntityGlitch e = TrialRuleset.getGlitch(world, player);
+            EntityGlitch e = TrialRuleset.getGlitch(world);
             e.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
             e.enablePersistence();
 
@@ -263,11 +294,10 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
             world.spawnEntity(e);
 
-            PlayerHelper.sendMessageToOverlay(player, "GlitchNotification");
+            participants.forEach(p -> PlayerHelper.sendMessageToOverlay(p, "GlitchNotification"));
         }
     }
 
-    // Todo, spawn check, needs a 16x16 area of air blocks to start the trial
     public boolean areaIsClear() {
         Iterable<BlockPos> groundLayer;
         Iterable<BlockPos> airLayer;
@@ -303,10 +333,6 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
     public boolean isTrialActive() {
         return active;
-    }
-
-    public void consumeTrialKey() {
-        trialKey.setStackInSlot(0, ItemStack.EMPTY);
     }
 
     public ItemStack getTrialKey() {
@@ -353,6 +379,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         tag.setBoolean("active", active);
         tag.setInteger("currentWave", currentWave);
         tag.setInteger("lastWave", lastWave);
+
         return tag;
     }
 
@@ -371,19 +398,25 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setTag("inventory", trialKey.serializeNBT());
         compound.setBoolean("active", active);
         compound.setInteger("currentWave", currentWave);
         compound.setInteger("lastWave", lastWave);
+        compound.setInteger("mobsSpawned", mobsSpawned);
+        compound.setInteger("mobsDefeated", mobsDefeated);
+        compound.setInteger("waveMobTotal", waveMobTotal);
+        compound.setTag("inventory", trialKey.serializeNBT());
         return super.writeToNBT(compound);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
-        trialKey.deserializeNBT(compound.getCompoundTag("inventory"));
         active = compound.getBoolean("active");
         currentWave = compound.getInteger("currentWave");
         lastWave = compound.getInteger("lastWave");
+        mobsSpawned = compound.getInteger("mobsSpawned");
+        mobsDefeated = compound.getInteger("mobsDefeated");
+        waveMobTotal = compound.getInteger("waveMobTotal");
+        trialKey.deserializeNBT(compound.getCompoundTag("inventory"));
         super.readFromNBT(compound);
     }
 
@@ -407,9 +440,5 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
     public int getGuiID() {
         return DeepConstants.TILE_TRIAL_KEYSTONE_GUI_ID;
-    }
-
-    public void setPlayer(EntityPlayerMP player) {
-        this.player = player;
     }
 }

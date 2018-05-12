@@ -1,15 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "OO",
-    "OC"
+    "POP",
+    "OCO",
+    "POP"
   ],
   "key": {
+    "P": { "item": "deepmoblearning:charred_plate", "data": 0 },
     "O": { "item": "minecraft:obsidian", "data": 0 },
     "C": { "item": "deepmoblearning:charred_redstone", "data": 0 }
   },
   "result": {
-    "item": "deepmoblearning:charred_plate",
-    "count": 8
+    "item": "deepmoblearning:machine_casing",
+    "count": 1
   }
 }

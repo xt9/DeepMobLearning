@@ -35,7 +35,6 @@ public class TrialStartMessage implements IMessage {
             player.getServerWorld().addScheduledTask(() -> {
                 if(player.openContainer instanceof ContainerTrialKeystone) {
                     ContainerTrialKeystone container = (ContainerTrialKeystone) player.openContainer;
-                    container.tile.setPlayer(player);
                     container.tile.startTrial();
                 }
             });

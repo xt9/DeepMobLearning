@@ -1,9 +1,13 @@
 package xt9.deepmoblearning.common.trials;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
+import xt9.deepmoblearning.common.util.Tier;
+import xt9.deepmoblearning.common.util.TrialKey;
 
 
 /**
@@ -58,5 +62,19 @@ public class TrialFactory {
 
     public static boolean isMobKeyValidForTrial(String key) {
         return getValidTrials().contains(key);
+    }
+
+    public static NonNullList<ItemStack> getRewards(ItemStack trialKey) {
+        NonNullList<ItemStack> rewards = NonNullList.create();
+        Trial trialData = TrialFactory.createTrial(TrialKey.getMobKey(trialKey));
+
+
+        rewards.addAll(trialData.getTrialRewards(TrialKey.getTier(trialKey)));
+
+        if(Tier.isMaxTier(TrialKey.getTier(trialKey))) {
+            rewards.addAll(Config.LootParser.getTrialRewards(trialData.getMobKey()));
+        }
+
+        return rewards;
     }
 }

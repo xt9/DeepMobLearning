@@ -39,7 +39,7 @@ public abstract class Trial {
         return data;
     }
 
-    public abstract EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player);
+    public abstract EntityLiving getTrialPrimaryEntity(World world);
     public abstract NonNullList<ItemStack> getTrialRewards(int tier);
 
     public double getSpawnDelay() {

@@ -7,6 +7,12 @@ import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
+import xt9.deepmoblearning.common.items.ItemTrialKey;
+import xt9.deepmoblearning.common.mobmetas.MobMetaData;
+import xt9.deepmoblearning.common.trials.TrialFactory;
+import xt9.deepmoblearning.common.util.DataModel;
+import xt9.deepmoblearning.common.util.Tier;
+import xt9.deepmoblearning.common.util.TrialKey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +22,7 @@ import java.util.Map;
 public class Plugin implements IModPlugin {
     private static IJeiHelpers jeiHelpers;
     private static ExtractionChamberRecipeCategory exChamberCategory;
+    private static TrialKeystoneRecipeCategory trialKeystoneCategory;
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry)
@@ -25,16 +32,32 @@ public class Plugin implements IModPlugin {
 
         exChamberCategory = new ExtractionChamberRecipeCategory(guiHelper);
         registry.addRecipeCategories(exChamberCategory);
+
+        // todo trialKeystoneCategory = new TrialKeystoneRecipeCategory(guiHelper);
+        // todo registry.addRecipeCategories(trialKeystoneCategory);
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
+        subtypeRegistry.registerSubtypeInterpreter(Registry.trialKey, itemStack -> null);
+    }
+
+    @Override
     public void register(IModRegistry registry) {
         jeiHelpers = registry.getJeiHelpers();
 
         // Register recipe handlers
-        registry.handleRecipes(exChamberCategory.getRecipeClass(), ExtractionChamberRecipeWrapper::new, exChamberCategory.getUid());
+        registry.handleRecipes(ExtractionChamberRecipe.class, ExtractionChamberRecipeWrapper::new, exChamberCategory.getUid());
+        // todo registry.handleRecipes(TrialKeystoneRecipe.class, TrialKeystoneRecipeWrapper::new, trialKeystoneCategory.getUid());
 
+        addExtractionChamberRecipes(registry);
+        // todo addTrialKeystoneRecipes(registry);
+
+        addItemDescriptions(registry);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void addExtractionChamberRecipes(IModRegistry registry) {
         Map<ItemStack, NonNullList<ItemStack>> pristineTables = new HashMap<>();
 
         Registry.pristineMatter.forEach(
@@ -47,11 +70,32 @@ public class Plugin implements IModPlugin {
             )
         );
 
-        // Add recipes
         registry.addRecipes(new ArrayList(ExtractionChamberRecipe.recipes), exChamberCategory.getUid());
         registry.addRecipeClickArea(ExtractionChamberGui.class, 84 , 23, 6, 35, exChamberCategory.getUid());
         exChamberCategory.addCatalysts(registry);
+    }
 
+    @SuppressWarnings("unchecked")
+    private void addTrialKeystoneRecipes(IModRegistry registry) {
+
+        TrialFactory.getValidTrials().forEach(mobkey -> {
+            // Add each tier and their rewards
+            for (int i = 0; i < 5; i++) {
+                ItemStack dataModel = DataModel.getModelFromMobKey(mobkey);
+                ItemStack trialKey = new ItemStack(Registry.trialKey);
+                TrialKey.setAttunedNBT(trialKey, dataModel);
+                TrialKey.setTier(trialKey, i);
+
+                TrialKeystoneRecipe.addRecipe(trialKey, TrialFactory.getRewards(trialKey));
+            }
+        });
+
+
+        registry.addRecipes(new ArrayList(TrialKeystoneRecipe.recipes), trialKeystoneCategory.getUid());
+        trialKeystoneCategory.addCatalysts(registry);
+    }
+
+    private void addItemDescriptions(IModRegistry registry) {
         NonNullList<ItemStack> matter = NonNullList.create();
         for (int i = 0; i < Registry.livingMatter.size(); i++) {
             matter.add(new ItemStack(Registry.livingMatter.get(i)));
@@ -76,16 +120,18 @@ public class Plugin implements IModPlugin {
 
 
         registry.addIngredientInfo(dataModels, ItemStack.class, "# of monsters defeated to reach the next tier",
-                Config.modelExperience.get("killsToTier1").getInt() + " <- §3§oFaulty to Basic§r",
-                Config.modelExperience.get("killsToTier2").getInt() + " <- §3§oBasic to Advanced§r",
-                Config.modelExperience.get("killsToTier3").getInt() + " <- §3§oAdvanced to Superior§r",
-                Config.modelExperience.get("killsToTier4").getInt() + " <- §3§oSuperior to Self Aware§r",
-                "\nHigher tiers get more data from defeating foes."
+            Config.modelExperience.get("killsToTier1").getInt() + " <- §3§oFaulty to Basic§r",
+            Config.modelExperience.get("killsToTier2").getInt() + " <- §3§oBasic to Advanced§r",
+            Config.modelExperience.get("killsToTier3").getInt() + " <- §3§oAdvanced to Superior§r",
+            Config.modelExperience.get("killsToTier4").getInt() + " <- §3§oSuperior to Self Aware§r",
+            "\nHigher tiers get more data from defeating foes."
         );
 
         registry.addIngredientInfo(new ItemStack(Registry.trialKey), ItemStack.class, JEIStringBuilder.getTrialKeyLines());
         registry.addIngredientInfo(new ItemStack(Registry.trialKeystone), ItemStack.class, JEIStringBuilder.getTrialKeystoneLines());
     }
+
+
 
 
 }

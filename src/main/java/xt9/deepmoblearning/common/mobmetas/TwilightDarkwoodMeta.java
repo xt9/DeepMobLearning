@@ -38,6 +38,6 @@ public class TwilightDarkwoodMeta extends MobMetaData {
 
     @Override
     public String getExtraTooltip() {
-        return "Gain data by defeating non-vanilla mobmetas in the Goblin Knight Stronghold and Dark tower";
+        return "Gain data by defeating non-vanilla mobs in the Goblin Knight Stronghold and Dark tower";
     }
 }

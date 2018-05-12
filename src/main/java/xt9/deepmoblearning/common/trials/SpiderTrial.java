@@ -20,9 +20,8 @@ public class SpiderTrial extends Trial {
     }
 
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
-        EntitySpider e = getRandomSpider(world);
-        return e;
+    public EntityLiving getTrialPrimaryEntity(World world) {
+        return getRandomSpider(world);
     }
 
     private EntitySpider getRandomSpider(World world) {

@@ -4,13 +4,14 @@
 tile.deepmoblearning.simulation_chamber.name=Simulation Chamber
 tile.deepmoblearning.extraction_chamber.name=Loot Fabricator
 tile.deepmoblearning.trial_keystone.name=Trial Keystone
+tile.deepmoblearning.machine_casing.name=Soot-covered Machine Casing
 
 #
 # Single items
 #
 item.deepmoblearning.polymer_clay.name=Polymer Clay
-item.deepmoblearning.charred_redstone.name=Charred Redstone
-item.deepmoblearning.charred_plate.name=Charred Plate
+item.deepmoblearning.charred_redstone.name=Soot-covered Redstone
+item.deepmoblearning.charred_plate.name=Soot-covered Plate
 item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 item.deepmoblearning.creative_model_learner.name=Creative Model Learner
 item.deepmoblearning.trial_key.name=§bTrial Key§r
@@ -96,7 +97,7 @@ deepmoblearning.trial_key.affix_go_to_jei=§7Read more about each affix in JEI (
 # JEI
 #
 deepmoblearning.jei.description.deep_learner=A scanning device that can record data from the demise of monsters. In order to collect data you must populate one of the 4 available slots in the deep learner with data models.\n\nProjectile kills will count.
-deepmoblearning.jei.description.simulation_chamber=Can use the data that you have gathered from your deep learner to generate matter.\nIn order for this machine to operate you must supply it with energy, a data model with a tier of basic or better and polymer clay. Each simulation grants 1 data to inserted the model.
+deepmoblearning.jei.description.simulation_chamber=Can read the data that you have gathered from your deep learner to generate matter.\nIn order for this machine to operate you must supply it with energy, a data model with a tier of basic or better and polymer clay. Each simulation grants 1 data to inserted the model.
 deepmoblearning.jei.description.living_matter=\nThe main output from the simulation chamber.\n\nCan be consumed for experience\n\nHold shift to consume entire stack.
 deepmoblearning.jei.description.pristine_matter=\nSecondary output from the simulation chamber.\n\nProcurement chance depends on data model tier
 

@@ -76,13 +76,14 @@ public class EntityGlitchOrb extends EntityFireball {
 
             ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-            DeepMobLearning.proxy.spawnGlitchOrbParticle(world,
+            DeepMobLearning.proxy.spawnSmokeParticle(world,
                 posX + rand.nextDouble(-0.5D, 0.5D),
                 posY  + rand.nextDouble(-0.1D, 0.1D),
                 posZ + rand.nextDouble(-0.5D, 0.5D),
                 rand.nextDouble(-0.08D, 0.08D),
                 rand.nextDouble(-0.08D, 0),
-                rand.nextDouble(-0.08D, 0.08D)
+                rand.nextDouble(-0.08D, 0.08D),
+                "mixed"
             );
 
 

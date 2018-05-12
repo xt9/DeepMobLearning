@@ -28,7 +28,7 @@ public class SkeletonTrial extends Trial {
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public EntityLiving getTrialPrimaryEntity(World world, EntityPlayerMP player) {
+    public EntityLiving getTrialPrimaryEntity(World world) {
         EntityMob e = getRandomSkeleton(world);
 
         // Default equipment

@@ -40,6 +40,6 @@ public class TwilightSwampMeta extends MobMetaData {
 
     @Override
     public String getExtraTooltip() {
-        return "Gain data by defeating non-vanilla mobmetas in the Swamp Labyrinth or the Hydra lair.";
+        return "Gain data by defeating non-vanilla mobs in the Swamp Labyrinth or the Hydra lair.";
     }
 }

@@ -18,6 +18,8 @@ public interface IPlayerTrial {
     void setWaveMobTotal(int total);
     int getWaveMobTotal();
 
+    void setTilePos(long pos);
+    long getTilePos();
+
     void sync(EntityPlayerMP player);
-    void reset();
 }

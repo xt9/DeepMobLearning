@@ -1,13 +1,18 @@
 package xt9.deepmoblearning.common.events;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.client.gui.TrialOverlay;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 
@@ -40,5 +45,16 @@ public class CapabilityHandler {
         cap.setCurrentWave(oldCap.getCurrentWave());
         cap.setLastWave(oldCap.getLastWave());
         cap.setWaveMobTotal(oldCap.getWaveMobTotal());
+        cap.setTilePos(oldCap.getTilePos());
+    }
+
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public static void onPlayerJoinedWorld(EntityJoinWorldEvent event) {
+        /* Re-init the player capability when player joins world */
+        if(event.getEntity() instanceof EntityPlayerSP) {
+            TrialOverlay.initPlayerCapability();
+        }
     }
 }

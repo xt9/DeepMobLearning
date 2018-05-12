@@ -1,12 +1,7 @@
 package xt9.deepmoblearning.common.trials;
 
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
-import xt9.deepmoblearning.common.mobmetas.MobKey;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by xt9 on 2018-03-27.
@@ -46,7 +41,7 @@ public class TrialRuleset {
     }
 
     /* Get a Glitch entity */
-    public static EntityGlitch getGlitch(World world, EntityPlayerMP player) {
-        return new EntityGlitch(world, player);
+    public static EntityGlitch getGlitch(World world) {
+        return new EntityGlitch(world);
     }
 }
