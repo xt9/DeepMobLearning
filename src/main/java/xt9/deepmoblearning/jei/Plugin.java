@@ -7,13 +7,11 @@ import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
-import xt9.deepmoblearning.common.items.ItemTrialKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,21 +23,15 @@ public class Plugin implements IModPlugin {
     private static TrialKeystoneRecipeCategory trialKeystoneCategory;
 
     @Override
-    public void registerCategories(IRecipeCategoryRegistration registry)
-    {
+    public void registerCategories(IRecipeCategoryRegistration registry) {
         jeiHelpers = registry.getJeiHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
         exChamberCategory = new ExtractionChamberRecipeCategory(guiHelper);
         registry.addRecipeCategories(exChamberCategory);
 
-        // todo trialKeystoneCategory = new TrialKeystoneRecipeCategory(guiHelper);
-        // todo registry.addRecipeCategories(trialKeystoneCategory);
-    }
-
-    @Override
-    public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-        subtypeRegistry.registerSubtypeInterpreter(Registry.trialKey, itemStack -> null);
+        trialKeystoneCategory = new TrialKeystoneRecipeCategory(guiHelper);
+        registry.addRecipeCategories(trialKeystoneCategory);
     }
 
     @Override
@@ -48,10 +40,10 @@ public class Plugin implements IModPlugin {
 
         // Register recipe handlers
         registry.handleRecipes(ExtractionChamberRecipe.class, ExtractionChamberRecipeWrapper::new, exChamberCategory.getUid());
-        // todo registry.handleRecipes(TrialKeystoneRecipe.class, TrialKeystoneRecipeWrapper::new, trialKeystoneCategory.getUid());
+        registry.handleRecipes(TrialKeystoneRecipe.class, TrialKeystoneRecipeWrapper::new, trialKeystoneCategory.getUid());
 
         addExtractionChamberRecipes(registry);
-        // todo addTrialKeystoneRecipes(registry);
+        addTrialKeystoneRecipes(registry);
 
         addItemDescriptions(registry);
     }
@@ -83,10 +75,12 @@ public class Plugin implements IModPlugin {
             for (int i = 0; i < 5; i++) {
                 ItemStack dataModel = DataModel.getModelFromMobKey(mobkey);
                 ItemStack trialKey = new ItemStack(Registry.trialKey);
+                MobMetaData data = DataModel.getMobMetaData(dataModel);
+
                 TrialKey.setAttunedNBT(trialKey, dataModel);
                 TrialKey.setTier(trialKey, i);
 
-                TrialKeystoneRecipe.addRecipe(trialKey, TrialFactory.getRewards(trialKey));
+                TrialKeystoneRecipe.addRecipe(trialKey, TrialFactory.getRewards(trialKey), data.getName(), Tier.getTierName(i, false));
             }
         });
 

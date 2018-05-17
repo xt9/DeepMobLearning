@@ -27,10 +27,6 @@ public class BlockBase extends Block {
         setRegistryName(name);
     }
 
-    public void registerItemModel(Item itemBlock) {
-        DeepMobLearning.proxy.registerItemRenderer(itemBlock, 0, blockName);
-    }
-
     @SideOnly(Side.CLIENT)
     @Override
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)

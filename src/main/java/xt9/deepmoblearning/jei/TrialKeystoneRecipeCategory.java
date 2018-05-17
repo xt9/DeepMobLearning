@@ -6,6 +6,7 @@ import mezz.jei.api.gui.*;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import xt9.deepmoblearning.DeepConstants;
@@ -22,20 +23,31 @@ public class TrialKeystoneRecipeCategory implements IRecipeCategory {
     private IDrawable background;
 
     public TrialKeystoneRecipeCategory(IGuiHelper guiHelper) {
-        ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/extraction_chamber.png");
+        ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/trial_keystone.png");
         this.catalyst = new ItemStack(Registry.trialKeystone);
 
-        background = guiHelper.createDrawable(base, 0, 0, 140, 30, 0, 0, 0, 0);
+        background = guiHelper.createDrawable(base, 0, 0, 100, 26, 8, 0, 20, 0);
     }
 
+    @Override
+    public void drawExtras(Minecraft minecraft) {
+
+    }
+
+    @SuppressWarnings("NullableProblems")
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        guiItemStacks.init(0, true, 27, 6);
-        guiItemStacks.init(1, false, 95, 6);
+
+        guiItemStacks.init(0, true, 20, 8);
         guiItemStacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
 
-        for (int i = 1; i < ingredients.getOutputs(ItemStack.class).size(); i++) {
-            guiItemStacks.set(i, ingredients.getOutputs(ItemStack.class).get(i-1));
+        guiItemStacks.init(1, false, 48, 8);
+        guiItemStacks.init(2, false, 66, 8);
+        guiItemStacks.init(3, false, 84, 8);
+        guiItemStacks.init(4, false, 102, 8);
+
+        for (int i = 0; i < Math.min(ingredients.getOutputs(ItemStack.class).size(), 4); i++) {
+            guiItemStacks.set(i + 1, ingredients.getOutputs(ItemStack.class).get(i));
         }
     }
 

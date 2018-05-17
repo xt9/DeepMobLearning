@@ -4,7 +4,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -53,7 +52,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     public int energy = 0;
     public int ticks = 0;
     public int percentDone = 0;
-    private String currentChipType = "";
+    private String currentDataModelType = "";
     private MobMetaData mobMetaData;
 
     @Override
@@ -66,17 +65,17 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                     startSimulation();
                 }
             } else {
-                if (!canContinueSimulation() || chipTypeChanged()) {
+                if (!canContinueSimulation() || dataModelTypeChanged()) {
                     finishSimulation(true);
                     return;
                 }
 
-                updateSimulationText(getChip());
+                updateSimulationText(getDataModel());
 
                 if (percentDone == 0) {
                     Random rand = new Random();
                     int num = rand.nextInt(100);
-                    int chance = DataModel.getPristineChance(getChip());
+                    int chance = DataModel.getPristineChance(getDataModel());
                     byproductSuccess = num <= MathHelper.ensureRange(chance, 1, 100);
                 }
 
@@ -105,8 +104,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private void startSimulation() {
         isCrafting = true;
-        currentChipType = DataModel.getMobMetaData(getChip()).getKey();
-        mobMetaData = MobMetaFactory.createMobMetaData(currentChipType);
+        currentDataModelType = DataModel.getMobMetaData(getDataModel()).getKey();
+        mobMetaData = MobMetaFactory.createMobMetaData(currentDataModelType);
         resetAnimations();
     }
 
@@ -116,7 +115,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         isCrafting = false;
         // Only decrease input and increase output if not aborted, and only if on the server's TE
         if(!abort && !world.isRemote) {
-            DataModel.increaseSimulationCount(getChip());
+            DataModel.increaseSimulationCount(getDataModel());
 
             ItemStack oldInput = getPolymerClay();
             ItemStack oldOutput = getLiving();
@@ -150,24 +149,24 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     private boolean canContinueSimulation() {
-        return hasChip() && DataModel.getTier(getChip()) != 0
+        return hasDataModel() && DataModel.getTier(getDataModel()) != 0
                 && hasPolymerClay();
     }
 
-    private boolean chipTypeChanged() {
-        return !currentChipType.equals(DataModel.getMobMetaData(getChip()).getKey());
+    private boolean dataModelTypeChanged() {
+        return !currentDataModelType.equals(DataModel.getMobMetaData(getDataModel()).getKey());
     }
 
     public boolean hasEnergyForSimulation() {
-        if(hasChip()) {
+        if(hasDataModel()) {
             int ticksPerSimulation = 300;
-            return energyStorage.getEnergyStored() > (ticksPerSimulation * DataModel.getSimulationTickCost(getChip()));
+            return energyStorage.getEnergyStored() > (ticksPerSimulation * DataModel.getSimulationTickCost(getDataModel()));
         } else {
             return false;
         }
     }
 
-    public ItemStack getChip() {
+    public ItemStack getDataModel() {
         return dataModel.getStackInSlot(0);
     }
 
@@ -188,8 +187,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         return stack.getItem() instanceof ItemPolymerClay && stack.getCount() > 0;
     }
 
-    public boolean hasChip() {
-        return getChip().getItem() instanceof ItemDataModel;
+    public boolean hasDataModel() {
+        return getDataModel().getItem() instanceof ItemDataModel;
     }
 
     public boolean outputIsFull() {
@@ -199,7 +198,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         }
 
         boolean stackLimitReached = stack.getCount() == lOutput.getSlotLimit(0);
-        boolean outputMatches = chipMatchesOutput(getChip(), getLiving());
+        boolean outputMatches = dataModelMatchesOutput(getDataModel(), getLiving());
 
         return stackLimitReached || !outputMatches;
     }
@@ -215,26 +214,26 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         }
 
         boolean stackLimitReached = stack.getCount() == pOutput.getSlotLimit(0);
-        boolean outputMatches = chipMatchesPristine(getChip(), getPristine());
+        boolean outputMatches = dataModelMatchesPristine(getDataModel(), getPristine());
 
         return stackLimitReached || !outputMatches;
     }
 
-    private static boolean chipMatchesOutput(ItemStack chip, ItemStack stack) {
-        Item livingMatter = DataModel.getMobMetaData(chip).getLivingMatter();
-        return livingMatter.getClass().equals(stack.getItem().getClass());
+    private static boolean dataModelMatchesOutput(ItemStack stack, ItemStack output) {
+        Item livingMatter = DataModel.getMobMetaData(stack).getLivingMatter();
+        return livingMatter.getClass().equals(output.getItem().getClass());
     }
 
-    private static boolean chipMatchesPristine(ItemStack chip, ItemStack stack) {
-        Item pristineMatter = DataModel.getMobMetaData(chip).getPristineMatter();
-        return pristineMatter.getClass().equals(stack.getItem().getClass());
+    private static boolean dataModelMatchesPristine(ItemStack stack, ItemStack pristine) {
+        Item pristineMatter = DataModel.getMobMetaData(stack).getPristineMatter();
+        return pristineMatter.getClass().equals(pristine.getItem().getClass());
     }
 
-    private void updateSimulationText(ItemStack chip) {
+    private void updateSimulationText(ItemStack stack) {
         String[] lines = new String[] {
                 "> Launching runtime",
                 "v1.4.7",
-                "> Iteration #" + (DataModel.getTotalSimulationCount(chip) + 1) + " started",
+                "> Iteration #" + (DataModel.getTotalSimulationCount(stack) + 1) + " started",
                 "> Loading model from chip memory",
                 "> Assessing threat level",
                 "> Engaged enemy",

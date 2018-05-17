@@ -42,6 +42,14 @@ public class ItemStackNBTHelper {
         return hasTag(stack) ? getTag(stack).getString(key) : defaultVal;
     }
 
+    public static void setLong(ItemStack stack, String key, long val) {
+        getTag(stack).setLong(key, val);
+    }
+
+    public static long getLong(ItemStack stack, String key, long defaultVal) {
+        return hasTag(stack) ? getTag(stack).getLong(key) : defaultVal;
+    }
+
     public static void setInt(ItemStack stack, String key, int val) {
         getTag(stack).setInteger(key, val);
     }

@@ -25,18 +25,18 @@ import java.text.DecimalFormat;
  * Created by xt9 on 2017-06-14.
  */
 @Mod.EventBusSubscriber(Side.CLIENT)
-public class DataModelExperienceOverlay extends GuiScreen {
+public class DataOverlay extends GuiScreen {
     private final FontRenderer renderer;
     private Minecraft mc;
     private ItemStack deepLearner;
-    private NonNullList<ItemStack> chipStackList;
+    private NonNullList<ItemStack> dataModels;
     private PlayerHelper playerH;
     private int componentHeight = 26;
     private int barSpacing = 12;
 
     private static final ResourceLocation experienceBar = new ResourceLocation(DeepConstants.MODID, "textures/gui/experience_gui.png");
 
-    public DataModelExperienceOverlay(Minecraft mc) {
+    public DataOverlay(Minecraft mc) {
         super();
         this.mc = mc;
         this.renderer = this.mc.fontRenderer;
@@ -65,7 +65,7 @@ public class DataModelExperienceOverlay extends GuiScreen {
             return;
         } else {
             this.deepLearner = playerH.getHeldDeepLearner();
-            this.chipStackList = DataModel.getValidFromList(ItemDeepLearner.getContainedItems(deepLearner));
+            this.dataModels = DataModel.getValidFromList(ItemDeepLearner.getContainedItems(deepLearner));
         }
 
 
@@ -83,11 +83,11 @@ public class DataModelExperienceOverlay extends GuiScreen {
                 break;
             case "bottomleft":
                 x = getLeftCornerX() + 18;
-                y = getBottomY(chipStackList.size()) - 5;
+                y = getBottomY(dataModels.size()) - 5;
                 break;
             case "bottomright":
                 x = getRightCornerX();
-                y = getBottomY(chipStackList.size()) - 5;
+                y = getBottomY(dataModels.size()) - 5;
                 break;
             default:
                 x = getLeftCornerX() + 18;
@@ -95,8 +95,8 @@ public class DataModelExperienceOverlay extends GuiScreen {
                 break;
         }
 
-        for (int i = 0; i < chipStackList.size(); i++) {
-            ItemStack stack = chipStackList.get(i);
+        for (int i = 0; i < dataModels.size(); i++) {
+            ItemStack stack = dataModels.get(i);
             String tierName = DataModel.getTierName(stack, false);
             int tier = DataModel.getTier(stack);
             double k = DataModel.getKillsToNextTier(stack);
@@ -116,7 +116,7 @@ public class DataModelExperienceOverlay extends GuiScreen {
         mc.getTextureManager().bindTexture(experienceBar);
         drawTexturedModalRect(x, y + barSpacing + (index * componentHeight), 0, 0, 89, 12);
 
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12, 89, 11);
         } else {
             drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12,

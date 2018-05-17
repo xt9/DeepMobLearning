@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.trials.affix;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Items;

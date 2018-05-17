@@ -6,6 +6,7 @@ import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
+import xt9.deepmoblearning.common.util.MathHelper;
 import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
 
@@ -68,11 +69,14 @@ public class TrialFactory {
         NonNullList<ItemStack> rewards = NonNullList.create();
         Trial trialData = TrialFactory.createTrial(TrialKey.getMobKey(trialKey));
 
-
         rewards.addAll(trialData.getTrialRewards(TrialKey.getTier(trialKey)));
 
         if(Tier.isMaxTier(TrialKey.getTier(trialKey))) {
-            rewards.addAll(Config.LootParser.getTrialRewards(trialData.getMobKey()));
+            // Limit the max tier reward list to 3 items
+            NonNullList<ItemStack> maxTierRewards = Config.LootParser.getTrialRewards(trialData.getMobKey());
+            for (int i = 0; i < MathHelper.ensureRange(maxTierRewards.size(), 0, 3); i++) {
+                rewards.add(maxTierRewards.get(i));
+            }
         }
 
         return rewards;

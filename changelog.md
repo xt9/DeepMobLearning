@@ -9,7 +9,11 @@ receiving rewards upon completion.
 - Added data model  for guardians
 - Added config option to add max tier specific rewards for trials
 - Disabled flight during trials
-- Changed how you craft machines, it's now a much more "immersive" thing.
+- Renamed Chared redstone to Soot-covered redstone
+- Soot covered redstone is now crafted by left clicking blocks of coal with a piece of redstone
+- Data models is now crafted using Soot-covered redstone, instead of vanilla redstone
+- Added a config option to disable the Redstone/Block of coal interaction
+- Added JEI integration for the trials, so added rewards are easily found
 
 
 ### 1.2

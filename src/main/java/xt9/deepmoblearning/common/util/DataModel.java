@@ -176,14 +176,14 @@ public class DataModel {
     }
 
     public static int getTierRoofAsKills(ItemStack stack) {
-        if(getTier(stack) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(getTier(stack) == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         return DataModelExperience.getTierRoof(getTier(stack), true);
     }
 
     public static int getTierRoof(ItemStack stack) {
-        if(getTier(stack) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(getTier(stack) == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         return DataModelExperience.getTierRoof(getTier(stack), false);

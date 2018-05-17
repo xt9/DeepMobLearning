@@ -34,7 +34,7 @@ public class SimulationChamberGui extends GuiContainer {
     private static final int HEIGHT = 230;
 
     private HashMap<String, Animation> animationList;
-    private ItemStack currentChip = ItemStack.EMPTY;
+    private ItemStack currentDataModel = ItemStack.EMPTY;
     private TileEntitySimulationChamber tile;
     private DeepEnergyStorage energyStorage;
     private FontRenderer renderer;
@@ -73,10 +73,10 @@ public class SimulationChamberGui extends GuiContainer {
 
         if(47 <= y && y < 135) {
             if(13 <= x && x < 22) {
-                // Tooltip for Chip exp bar
-                if(tile.hasChip()) {
-                    if(DataModel.getTier(tile.getChip()) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
-                        tooltip.add(DataModel.getCurrentTierSimulationCountWithKills(tile.getChip()) + "/" + DataModel.getTierRoof(tile.getChip()) + " Data collected");
+                // Tooltip for data model data bar
+                if(tile.hasDataModel()) {
+                    if(DataModel.getTier(tile.getDataModel()) != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
+                        tooltip.add(DataModel.getCurrentTierSimulationCountWithKills(tile.getDataModel()) + "/" + DataModel.getTierRoof(tile.getDataModel()) + " Data collected");
                     } else {
                         tooltip.add("This data model has reached the max tier.");
                     }
@@ -87,8 +87,8 @@ public class SimulationChamberGui extends GuiContainer {
             } else if(211 <= x && x < 220) {
                 // Tooltip for energy
                 tooltip.add(f.format(energyStorage.getEnergyStored()) + "/" + f.format(energyStorage.getMaxEnergyStored()) + " RF");
-                if(tile.hasChip()) {
-                    MobMetaData data = DataModel.getMobMetaData(tile.getChip());
+                if(tile.hasDataModel()) {
+                    MobMetaData data = DataModel.getMobMetaData(tile.getDataModel());
                     tooltip.add("Simulations with current data model drains " + f.format(data.getSimulationTickCost()) + "RF/t");
                 }
                 drawHoveringText(tooltip, x - 90, y - 16);
@@ -103,9 +103,9 @@ public class SimulationChamberGui extends GuiContainer {
         int top = getGuiTop();
         int spacing = 12;
         int topStart = top - 3;
-        MobMetaData data = DataModel.getMobMetaData(tile.getChip());
+        MobMetaData data = DataModel.getMobMetaData(tile.getDataModel());
 
-        if(chipChanged()) {
+        if(dataModelChanged()) {
             resetAnimations();
         }
 
@@ -114,7 +114,7 @@ public class SimulationChamberGui extends GuiContainer {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(left, top, 0, 0, 216, 141);
 
-        // Draw chip slot
+        // Draw data model slot
         drawTexturedModalRect(left - 22, top, 0, 141, 18, 18);
 
         // Draw current energy
@@ -125,7 +125,7 @@ public class SimulationChamberGui extends GuiContainer {
 
         String[] lines;
 
-        if(!tile.hasChip()) {
+        if(!tile.hasDataModel()) {
             lines = new String[] {"Please insert a data model", "to begin the simulation"};
 
             Animation a1 = getAnimation("pleaseInsert1");
@@ -134,7 +134,7 @@ public class SimulationChamberGui extends GuiContainer {
             animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, 16777215);
             animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), 16777215);
 
-        } else if(DataModel.getTier(tile.getChip()) == 0) {
+        } else if(DataModel.getTier(tile.getDataModel()) == 0) {
 
             lines = new String[] {"Insufficient data in model", "please insert a basic model", "or better "};
 
@@ -147,21 +147,21 @@ public class SimulationChamberGui extends GuiContainer {
             animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), 16777215);
 
         } else {
-            // Draw current chip experience
-            if(DataModel.getTier(tile.getChip()) == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            // Draw current data model data
+            if(DataModel.getTier(tile.getDataModel()) == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
                 drawTexturedModalRect(left + 6,  top + 48, 18, 141, 7, 87);
             } else {
-                int collectedData = DataModel.getCurrentTierSimulationCountWithKills(tile.getChip());
-                int tierRoof = DataModel.getTierRoof(tile.getChip());
+                int collectedData = DataModel.getCurrentTierSimulationCountWithKills(tile.getDataModel());
+                int tierRoof = DataModel.getTierRoof(tile.getDataModel());
 
                 int experienceBarHeight = (int) (((float) collectedData / tierRoof * 87));
                 int experienceBarOffset = 87 - experienceBarHeight;
                 drawTexturedModalRect(left + 6,  top + 48 + experienceBarOffset, 18, 141, 7, experienceBarHeight);
             }
 
-            drawString(renderer, "Tier: " + DataModel.getTierName(tile.getChip(), false), left + 10, topStart + spacing, 16777215);
-            drawString(renderer, "Iterations: " + f.format(DataModel.getTotalSimulationCount(tile.getChip())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Pristine chance: " + DataModel.getPristineChance(tile.getChip()) + "%", left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Tier: " + DataModel.getTierName(tile.getDataModel(), false), left + 10, topStart + spacing, 16777215);
+            drawString(renderer, "Iterations: " + f.format(DataModel.getTotalSimulationCount(tile.getDataModel())), left + 10, topStart + spacing * 2, 16777215);
+            drawString(renderer, "Pristine chance: " + DataModel.getPristineChance(tile.getDataModel()) + "%", left + 10, topStart + spacing * 3, 16777215);
         }
 
         // Draw player inventory
@@ -176,7 +176,7 @@ public class SimulationChamberGui extends GuiContainer {
     private void drawConsoleText(int left, int top, int spacing) {
         String[] lines;
 
-        if(!tile.hasChip() || DataModel.getTier(tile.getChip()) == 0) {
+        if(!tile.hasDataModel() || DataModel.getTier(tile.getDataModel()) == 0) {
             animateString("_", getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, 16777215);
 
         } else if(!tile.hasPolymerClay()) {
@@ -233,11 +233,11 @@ public class SimulationChamberGui extends GuiContainer {
         return tile.hasEnergyForSimulation();
     }
 
-    private boolean chipChanged() {
-        if(ItemStack.areItemStacksEqual(currentChip, tile.getChip())) {
+    private boolean dataModelChanged() {
+        if(ItemStack.areItemStacksEqual(currentDataModel, tile.getDataModel())) {
             return false;
         } else {
-            this.currentChip = tile.getChip();
+            this.currentDataModel = tile.getDataModel();
             return true;
         }
     }

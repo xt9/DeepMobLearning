@@ -1,11 +1,13 @@
 package xt9.deepmoblearning.common;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockExtractionChamber;
 import xt9.deepmoblearning.common.blocks.BlockMachineCasing;
 import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
@@ -21,9 +23,9 @@ public class Registry {
     public static BlockExtractionChamber blockExtractionChamber;
     public static BlockTrialKeystone blockTrialKeystone;
 
-
     // Lists
-    public static NonNullList<ItemBase> items = NonNullList.create();
+    public static NonNullList<Item> items = NonNullList.create();
+    public static NonNullList<Block> blocks = NonNullList.create();
     public static NonNullList<ItemDataModel> dataModels = NonNullList.create();
     public static NonNullList<ItemLivingMatter> livingMatter = NonNullList.create();
     public static NonNullList<ItemPristineMatter> pristineMatter = NonNullList.create();
@@ -33,34 +35,39 @@ public class Registry {
     public static Item trialKeystone;
     public static Item machineCasing;
     public static ItemPolymerClay polymerClay = new ItemPolymerClay();
-    public static ItemCharredRedstone charredRedstone = new ItemCharredRedstone();
-    public static ItemCharredPlate charredPlate = new ItemCharredPlate();
+    public static ItemSootedRedstone sootedRedstone = new ItemSootedRedstone();
+    public static ItemSootedPlate sootedPlate = new ItemSootedPlate();
     public static ItemDeepLearner deepLearner = new ItemDeepLearner();
     public static ItemDataModelBlank dataModelBlank = new ItemDataModelBlank();
     public static ItemCreativeModelLearner cml = new ItemCreativeModelLearner();
     public static ItemTrialKey trialKey = new ItemTrialKey();
+    public static ItemGlitchHeart glitchHeart = new ItemGlitchHeart();
+    public static ItemGlitchFragment glitchFragment = new ItemGlitchFragment();
+
+    // Armor
+    public static ItemGlitchChestplate glitchInfusedChestPlate = new ItemGlitchChestplate();
 
     // Data models
-    public static ItemDataModel.Zombie dataModelZombie = new ItemDataModel.Zombie();
-    public static ItemDataModel.Skeleton dataModelSkeleton = new ItemDataModel.Skeleton();
-    public static ItemDataModel.Creeper dataModelCreeper = new ItemDataModel.Creeper();
-    public static ItemDataModel.Spider dataModelSpider = new ItemDataModel.Spider();
-    public static ItemDataModel.Slime dataModelSlime = new ItemDataModel.Slime();
-    public static ItemDataModel.Witch dataModelWitch = new ItemDataModel.Witch();
-    public static ItemDataModel.Blaze dataModelBlaze = new ItemDataModel.Blaze();
-    public static ItemDataModel.Ghast dataModelGhast = new ItemDataModel.Ghast();
-    public static ItemDataModel.WitherSkeleton dataModelWitherSkeleton = new ItemDataModel.WitherSkeleton();
-    public static ItemDataModel.Enderman dataModelEnderman = new ItemDataModel.Enderman();
-    public static ItemDataModel.Wither dataModelWither = new ItemDataModel.Wither();
-    public static ItemDataModel.Dragon dataModelDragon = new ItemDataModel.Dragon();
-    public static ItemDataModel.Shulker dataModelShulker = new ItemDataModel.Shulker();
-    public static ItemDataModel.Guardian dataModelGuardian = new ItemDataModel.Guardian();
-    public static ItemDataModel.TE dataModelTE = new ItemDataModel.TE();
-    public static ItemDataModel.TwilightForest dataModelTwilightForest = new ItemDataModel.TwilightForest();
-    public static ItemDataModel.TwilightSwamp dataModelTwilightSwamp = new ItemDataModel.TwilightSwamp();
-    public static ItemDataModel.TwilightDarkwood dataModelTwilightDarkwood = new ItemDataModel.TwilightDarkwood();
-    public static ItemDataModel.TwilightGlacier dataModelTwilightGlacier = new ItemDataModel.TwilightGlacier();
-    public static ItemDataModel.TinkerSlime dataModelTinkerSlime = new ItemDataModel.TinkerSlime();
+    private static ItemDataModel.Zombie dataModelZombie = new ItemDataModel.Zombie();
+    private static ItemDataModel.Skeleton dataModelSkeleton = new ItemDataModel.Skeleton();
+    private static ItemDataModel.Creeper dataModelCreeper = new ItemDataModel.Creeper();
+    private static ItemDataModel.Spider dataModelSpider = new ItemDataModel.Spider();
+    private static ItemDataModel.Slime dataModelSlime = new ItemDataModel.Slime();
+    private static ItemDataModel.Witch dataModelWitch = new ItemDataModel.Witch();
+    private static ItemDataModel.Blaze dataModelBlaze = new ItemDataModel.Blaze();
+    private static ItemDataModel.Ghast dataModelGhast = new ItemDataModel.Ghast();
+    private static ItemDataModel.WitherSkeleton dataModelWitherSkeleton = new ItemDataModel.WitherSkeleton();
+    private static ItemDataModel.Enderman dataModelEnderman = new ItemDataModel.Enderman();
+    private static ItemDataModel.Wither dataModelWither = new ItemDataModel.Wither();
+    private static ItemDataModel.Dragon dataModelDragon = new ItemDataModel.Dragon();
+    private static ItemDataModel.Shulker dataModelShulker = new ItemDataModel.Shulker();
+    private static ItemDataModel.Guardian dataModelGuardian = new ItemDataModel.Guardian();
+    private static ItemDataModel.TE dataModelTE = new ItemDataModel.TE();
+    private static ItemDataModel.TwilightForest dataModelTwilightForest = new ItemDataModel.TwilightForest();
+    private static ItemDataModel.TwilightSwamp dataModelTwilightSwamp = new ItemDataModel.TwilightSwamp();
+    private static ItemDataModel.TwilightDarkwood dataModelTwilightDarkwood = new ItemDataModel.TwilightDarkwood();
+    private static ItemDataModel.TwilightGlacier dataModelTwilightGlacier = new ItemDataModel.TwilightGlacier();
+    private static ItemDataModel.TinkerSlime dataModelTinkerSlime = new ItemDataModel.TinkerSlime();
 
     // Living matter
     public static ItemLivingMatter.Overworldian livingMatterOverworldian = new ItemLivingMatter.Overworldian();
@@ -176,9 +183,14 @@ public class Registry {
         GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), DeepConstants.MODID + ":trial_keystone");
 
         // Register our sole block
-        registry.registerAll(blockMachineCasing, blockSimulationChamber, blockExtractionChamber, blockTrialKeystone);
+        blocks.add(blockMachineCasing);
+        blocks.add(blockSimulationChamber);
+        blocks.add(blockExtractionChamber);
+        blocks.add(blockTrialKeystone);
+        blocks.forEach(registry::register);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static void registerItems(IForgeRegistry registry) {
         populateDataModelList();
         populateLivingMatterList();
@@ -191,13 +203,17 @@ public class Registry {
         trialKeystone = new ItemBlock(blockTrialKeystone).setRegistryName(blockTrialKeystone.getRegistryName());
         registry.registerAll(machineCasing, simulationChamber, extractionChamber, trialKeystone);
 
-        items.add(charredRedstone);
-        items.add(charredPlate);
+        items.add(sootedRedstone);
+        items.add(sootedPlate);
         items.add(polymerClay);
         items.add(deepLearner);
         items.add(dataModelBlank);
         items.add(cml);
         items.add(trialKey);
+        items.add(glitchHeart);
+        items.add(glitchFragment);
+        items.add(glitchInfusedChestPlate);
+
         items.addAll(dataModels);
         items.addAll(livingMatter);
         items.addAll(pristineMatter);
@@ -208,13 +224,12 @@ public class Registry {
     }
 
     public static void registerItemModels() {
-        blockMachineCasing.registerItemModel(Item.getItemFromBlock(blockMachineCasing));
-        blockSimulationChamber.registerItemModel(Item.getItemFromBlock(blockSimulationChamber));
-        blockExtractionChamber.registerItemModel(Item.getItemFromBlock(blockExtractionChamber));
-        blockTrialKeystone.registerItemModel(Item.getItemFromBlock(blockTrialKeystone));
+        for (Block block : blocks) {
+            DeepMobLearning.proxy.registerItemRenderer(Item.getItemFromBlock(block), block.getRegistryName(), 0);
+        }
 
-        for (ItemBase item : items) {
-            item.registerItemModel();
+        for (Item item : items) {
+            DeepMobLearning.proxy.registerItemRenderer(item, item.getRegistryName(), 0);
         }
     }
 }

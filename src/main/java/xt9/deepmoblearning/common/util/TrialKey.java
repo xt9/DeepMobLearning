@@ -83,4 +83,5 @@ public class TrialKey {
     public static void setAffixList(ItemStack stack, NonNullList<String> list) {
         ItemStackNBTHelper.setStringList(stack, list, "affixes");
     }
+
 }

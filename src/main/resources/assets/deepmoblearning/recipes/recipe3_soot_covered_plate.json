@@ -6,10 +6,10 @@
   ],
   "key": {
     "O": { "item": "minecraft:obsidian", "data": 0 },
-    "C": { "item": "deepmoblearning:charred_redstone", "data": 0 }
+    "C": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 }
   },
   "result": {
-    "item": "deepmoblearning:charred_plate",
+    "item": "deepmoblearning:soot_covered_plate",
     "count": 8
   }
 }

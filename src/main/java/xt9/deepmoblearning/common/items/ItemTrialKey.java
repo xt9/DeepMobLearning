@@ -40,7 +40,7 @@ public class ItemTrialKey extends ItemBase {
 
         if(KeyboardHelper.isHoldingShift()) {
             if(TrialKey.isAttuned(stack)) {
-                list.add(I18n.format("deepmoblearning.trial_key.attuned", TrialKey.getMobMetaData(stack).getName()));
+                list.add(I18n.format("deepmoblearning.trial_key.attuned_type", TrialKey.getMobMetaData(stack).getName()));
                 list.add(I18n.format("deepmoblearning.trial_key.tier", TrialKey.getTierName(stack, false)));
 
                 NonNullList<ITrialAffix> affixes = TrialKey.getAffixes(stack, new BlockPos(0,0,0), worldIn);

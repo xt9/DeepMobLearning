@@ -53,14 +53,12 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void registerRenderers() {
-        MinecraftForge.EVENT_BUS.register(new DataModelExperienceOverlay(Minecraft.getMinecraft()));
+        MinecraftForge.EVENT_BUS.register(new DataOverlay(Minecraft.getMinecraft()));
         MinecraftForge.EVENT_BUS.register(new TrialOverlay(Minecraft.getMinecraft()));
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrialKeystone.class, new TESRTrialKeystone());
     }
 
-    public void registerItemRenderer(Item item, int meta, String id) {
-        ResourceLocation location = new ResourceLocation(DeepConstants.MODID, id);
-
+    public void registerItemRenderer(Item item, ResourceLocation location, int meta) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
     }
 
@@ -100,14 +98,21 @@ public class ClientProxy extends CommonProxy {
         switch(type) {
             case "smoke": particle = getSmokeParticle(world, x, y, z, mx, my, mz); break;
             case "mixed": particle = getMixedParticle(world, x, y, z, mx, my, mz); break;
-            default: particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+            case "cyan": particle = getCyanParticle(world, x, y, z, mx, my, mz); break;
+            default: particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz, 1.4F);
         }
 
         Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
+    private Particle getCyanParticle(World world, double x, double y, double z, double mx, double my, double mz) {
+        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz, 1.4F);
+        particle.setRBGColorF(0.0F, 1.0F, 0.75F);
+        return particle;
+    }
+
     private Particle getMixedParticle(World world, double x, double y, double z, double mx, double my, double mz) {
-        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz, 1.4F);
         particle.setRBGColorF(0.09F, 0.09F, 0.09F);
 
         if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
@@ -118,7 +123,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     private Particle getSmokeParticle(World world, double x, double y, double z, double mx, double my, double mz) {
-        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz);
+        Particle particle = new ParticleScalableSmoke(world, x, y, z, mx, my, mz, 1.6F);
         particle.setRBGColorF(0.09F, 0.09F, 0.09F);
 
         if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {

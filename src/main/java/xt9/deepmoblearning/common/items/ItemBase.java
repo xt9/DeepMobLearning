@@ -24,10 +24,6 @@ public class ItemBase extends Item {
         this.itemName = name;
     }
 
-    public void registerItemModel() {
-        DeepMobLearning.proxy.registerItemRenderer(this, 0, itemName);
-    }
-
     @Override
     @SideOnly(Side.CLIENT)
     public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {

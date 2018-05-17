@@ -22,8 +22,8 @@ public class DeepConstants {
     // Internal inventory sizes
     public static final int DEEP_LEARNER_INTERNAL_SLOTS_SIZE = 4;
 
-    // Mob chip max tier
-    public static final int MOB_CHIP_MAXIMUM_TIER = 4;
+    // Data model max tier
+    public static final int DATA_MODEL_MAXIMUM_TIER = 4;
 
     // Config restraints
     public static final int MAX_DATA_MODEL_COST = 6666;
@@ -168,31 +168,31 @@ public class DeepConstants {
 
     public static final class TRIAL_REWARD {
         public static final String[] ZOMBIE = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,3,0"
         };
 
         public static final String[] ENDERMAN = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,5,0"
         };
 
         public static final String[] SKELETON = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,3,0"
         };
 
         public static final String[] WITCH = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,6,0"
         };
 
         public static final String[] SPIDER = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,4,0"
         };
 
         public static final String[] SLIME = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,3,0"
         };
 
         public static final String[] WITHERSKELETON = {
-            "minecraft:cookie,32,0"
+            "deepmoblearning:glitch_heart,5,0"
         };
     }
 }

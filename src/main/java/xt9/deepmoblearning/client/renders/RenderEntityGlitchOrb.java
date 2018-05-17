@@ -32,7 +32,7 @@ public class RenderEntityGlitchOrb<T extends Entity> extends Render<T> {
 
     @SuppressWarnings("NullableProblems")
     public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        renderProjectile(x, y, z, 4.0F, new ItemStack(Registry.pristineMatterCreeper));
+        renderProjectile(x, y, z, 4.0F, new ItemStack(Registry.glitchHeart));
 
         super.doRender(entity, x * 1.0F, y * 1.0F, z * 1.0F, entityYaw, partialTicks);
     }

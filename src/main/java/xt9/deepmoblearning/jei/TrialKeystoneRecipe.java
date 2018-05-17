@@ -11,15 +11,19 @@ import java.util.ArrayList;
 public class TrialKeystoneRecipe {
     public static ArrayList<TrialKeystoneRecipe> recipes = new ArrayList<>();
     public final ItemStack input;
+    public final String keyType;
+    public final String keyTier;
     public final NonNullList<ItemStack> outputs;
 
 
-    private TrialKeystoneRecipe(ItemStack input, NonNullList<ItemStack> outputs) {
+    private TrialKeystoneRecipe(ItemStack input, NonNullList<ItemStack> outputs, String keyType, String keyTier) {
         this.input = input;
         this.outputs = outputs;
+        this.keyType = keyType;
+        this.keyTier = keyTier;
     }
 
-    public static void addRecipe(ItemStack input, NonNullList<ItemStack> outputs) {
-        recipes.add(new TrialKeystoneRecipe(input, outputs));
+    public static void addRecipe(ItemStack input, NonNullList<ItemStack> outputs, String keyType, String keyTier) {
+        recipes.add(new TrialKeystoneRecipe(input, outputs, keyType, keyTier));
     }
 }

@@ -1,0 +1,22 @@
+{
+  "pools": [
+    {
+      "name": "deepmoblearning",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "deepmoblearning:glitch_heart",
+          "functions": [{
+            "function": "minecraft:looting_enchant",
+            "count": {
+              "min": 0,
+              "max": 1
+            }
+          }]
+        }
+      ]
+    }
+  ]
+}
+

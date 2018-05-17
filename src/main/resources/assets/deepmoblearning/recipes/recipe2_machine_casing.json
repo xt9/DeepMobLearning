@@ -6,9 +6,9 @@
     "POP"
   ],
   "key": {
-    "P": { "item": "deepmoblearning:charred_plate", "data": 0 },
+    "P": { "item": "deepmoblearning:soot_covered_plate", "data": 0 },
     "O": { "item": "minecraft:obsidian", "data": 0 },
-    "C": { "item": "deepmoblearning:charred_redstone", "data": 0 }
+    "C": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 }
   },
   "result": {
     "item": "deepmoblearning:machine_casing",

@@ -41,7 +41,7 @@ public class ItemDataModel extends ItemBase {
         } else {
             list.add(I18n.format("deepmoblearning.data_model.tier", DataModel.getTierName(stack, false)));
             int tier = DataModel.getTier(stack);
-            if(tier != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+            if(tier != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
                 list.add(I18n.format("deepmoblearning.data_model.data.collected", DataModel.getCurrentTierSimulationCountWithKills(stack), DataModel.getTierRoof(stack)));
                 list.add(I18n.format("deepmoblearning.data_model.data.killmultiplier", DataModelExperience.getKillMultiplier(DataModel.getTier(stack))));
             }

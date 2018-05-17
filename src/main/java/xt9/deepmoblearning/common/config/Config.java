@@ -29,6 +29,7 @@ public class Config {
 
     public static Property rfCostExtractionChamber;
     public static Property guiOverlaySide;
+    public static Property isSootedRedstoneCraftingEnabled;
 
     public static void load() {
         config.load();
@@ -44,7 +45,7 @@ public class Config {
 
         rfCostExtractionChamber = config.get(Configuration.CATEGORY_GENERAL, "rfCostLootFabricator", 256, "RF/t cost for the Loot Fabricator, roof is 18k RF/t");
         guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
-
+        isSootedRedstoneCraftingEnabled = config.get(Configuration.CATEGORY_GENERAL, "isSootedRedstoneCraftingEnabled", true, "Enable the Crafting of sooted redstone on Vanilla blocks of coal");
         config.save();
     }
 
@@ -157,7 +158,7 @@ public class Config {
     }
 
     private static void initTrialRewards() {
-        trialRewards.setComment("Rewards for the Max tier of trials.\nCAUTION: Try to keep these lists at max 3 items. Or it will break GUI formatting. \nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
+        trialRewards.setComment("Rewards for the Max tier of trials.\nCAUTION: Max 3 items per list, anything after that will be trimmed. \nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
         config.setCategoryComment(trialRewards.getName(), trialRewards.getComment());
 
         trialRewards.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, trialRewards.getName(), DeepConstants.TRIAL_REWARD.ZOMBIE, "Zombie Trial Reward"), Property.Type.STRING));

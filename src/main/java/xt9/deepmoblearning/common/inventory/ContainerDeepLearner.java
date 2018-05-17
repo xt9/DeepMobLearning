@@ -35,11 +35,11 @@ public class ContainerDeepLearner extends Container {
         this.world = world;
         this.player = inventory.player;
         this.equipmentSlot = slot;
-        addChipSlots();
+        addDataModelSlots();
         addInventorySlots();
     }
 
-    private void addChipSlots() {
+    private void addDataModelSlots() {
         addSlotToContainer(new SlotDeepLearner(handler, 0, 257, 100));
         addSlotToContainer(new SlotDeepLearner(handler, 1, 275, 100));
         addSlotToContainer(new SlotDeepLearner(handler, 2, 257, 118));

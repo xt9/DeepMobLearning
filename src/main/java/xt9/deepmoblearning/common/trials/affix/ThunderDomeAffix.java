@@ -75,7 +75,6 @@ public class ThunderDomeAffix implements ITrialAffix {
             List<Entity> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(start, end));
             Entity unlucky = entities.get(new Random().nextInt(entities.size()));
 
-            // Todo ascertain if the fire from the bolt is a big issue, most people play without doFireTick
             world.addWeatherEffect(new EntityLightningBolt(world, unlucky.posX, unlucky.posY - 1.5D, unlucky.posZ, false));
             ticks = 0;
         }

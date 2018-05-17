@@ -115,7 +115,7 @@ public class ContainerSimulationChamber extends Container {
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
         ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
 
-        // Crafting will be interrupted if the slot clicked is the chip/input slot, so reset the animations
+        // Crafting will be interrupted if the slot clicked is the data model/input slot, so reset the animations
         if(slotId == INPUT_SLOT|| slotId == DATA_MODEL_SLOT) {
             tile.resetAnimations();
         }

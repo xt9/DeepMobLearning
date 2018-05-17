@@ -64,7 +64,7 @@ public class LevelUpModelMessage implements IMessage {
                     for (ItemStack stack : deepLearnerInternalInv) {
                         if (stack.getItem() instanceof ItemDataModel) {
                             int tier = DataModel.getTier(stack);
-                            if (tier != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+                            if (tier != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
                                 if (action == 0) {
                                     DataModel.setTier(stack, (tier + 1));
                                 } else {

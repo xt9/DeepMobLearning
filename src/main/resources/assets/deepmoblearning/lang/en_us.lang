@@ -10,11 +10,15 @@ tile.deepmoblearning.machine_casing.name=Soot-covered Machine Casing
 # Single items
 #
 item.deepmoblearning.polymer_clay.name=Polymer Clay
-item.deepmoblearning.charred_redstone.name=Soot-covered Redstone
-item.deepmoblearning.charred_plate.name=Soot-covered Plate
+item.deepmoblearning.soot_covered_redstone.name=Soot-covered Redstone
+item.deepmoblearning.soot_covered_plate.name=Soot-covered Plate
 item.deepmoblearning.deep_learner.name=§bDeep Learner§r
 item.deepmoblearning.creative_model_learner.name=Creative Model Learner
 item.deepmoblearning.trial_key.name=§bTrial Key§r
+item.deepmoblearning.glitch_heart.name=§bCorrupted Glitch Heart§r
+item.deepmoblearning.glitch_fragment.name=§bUnstable Glitch Fragment§r
+
+item.deepmoblearning.glitch_infused_chestplate.name=§bGlitch Infused Chestplate§r
 
 #
 # Data models
@@ -89,10 +93,14 @@ deepmoblearning.data_model.rfcost=§rSimulation cost: §7%s RF/t§r
 deepmoblearning.living_matter.exp=§7Experience gained when consumed: §a%s§r
 deepmoblearning.trial_key.notattuned=§7The key is currently not attuned§r
 deepmoblearning.trial_key.attunement_go_to_jei=§7Read more about attunement in JEI§r
-deepmoblearning.trial_key.attuned=§rThe key is attuned to: §7%s§r
+deepmoblearning.trial_key.attuned_type=§rThe key is attuned to: §7%s§r
 deepmoblearning.trial_key.tier=§rKey tier: §7%s§r
 deepmoblearning.trial_key.affixes=§rAffixes: §7%s§r
 deepmoblearning.trial_key.affix_go_to_jei=§7Read more about each affix in JEI (Trial Keystone entry)§r
+
+deepmoblearning.trial_key.jei.type=§rKey type: §7%s§r
+deepmoblearning.trial_key.jei.tier=§rKey tier: §7%s§r
+
 #
 # JEI
 #
@@ -100,6 +108,10 @@ deepmoblearning.jei.description.deep_learner=A scanning device that can record d
 deepmoblearning.jei.description.simulation_chamber=Can read the data that you have gathered from your deep learner to generate matter.\nIn order for this machine to operate you must supply it with energy, a data model with a tier of basic or better and polymer clay. Each simulation grants 1 data to inserted the model.
 deepmoblearning.jei.description.living_matter=\nThe main output from the simulation chamber.\n\nCan be consumed for experience\n\nHold shift to consume entire stack.
 deepmoblearning.jei.description.pristine_matter=\nSecondary output from the simulation chamber.\n\nProcurement chance depends on data model tier
+deepmoblearning.jei.category.trial_keystone.type=§b%s§r
+deepmoblearning.jei.category.trial_keystone.tier=§r%s§r
+
+
 
 #
 # GUI

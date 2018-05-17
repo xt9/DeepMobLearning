@@ -43,16 +43,16 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        NonNullList<ItemStack> internalChips = DataModel.getValidFromList(getContainedItems(stack));
+        NonNullList<ItemStack> internalDataModels = DataModel.getValidFromList(getContainedItems(stack));
 
-        if(internalChips.size() > 0) {
+        if(internalDataModels.size() > 0) {
             if(!KeyboardHelper.isHoldingShift()) {
                 list.add(I18n.format("deepmoblearning.holdshift"));
             } else {
                 list.add("Contains the following models");
-                for (ItemStack chip : internalChips) {
-                    if (chip.getItem() instanceof ItemDataModel) {
-                        list.add(DataModel.getTierName(chip, false) + " " + chip.getDisplayName());
+                for (ItemStack dataModel : internalDataModels) {
+                    if (dataModel.getItem() instanceof ItemDataModel) {
+                        list.add(DataModel.getTierName(dataModel, false) + " " + dataModel.getDisplayName());
                     }
                 }
             }

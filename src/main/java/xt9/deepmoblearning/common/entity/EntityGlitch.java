@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -18,8 +19,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.ZombieEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
+import javax.annotation.Nullable;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -31,6 +34,13 @@ public class EntityGlitch extends EntityMob {
     public EntityGlitch(World world) {
         super(world);
         setSize(0.6F, 1.95F);
+
+    }
+
+    @Nullable
+    @Override
+    protected ResourceLocation getLootTable() {
+        return new ResourceLocation(DeepConstants.MODID, "glitch");
     }
 
     public void setEmpowered(boolean empowered) {

@@ -133,7 +133,7 @@ public class TrialKeystoneGui extends GuiContainer {
         drawTexturedModalRect(left, top, 0, 0, 200, 100);
 
 
-        // Draw chip slot
+        // Draw data model slot
         drawTexturedModalRect(left - 20, top, 0, 100, 18, 18);
 
         // Draw player inventory

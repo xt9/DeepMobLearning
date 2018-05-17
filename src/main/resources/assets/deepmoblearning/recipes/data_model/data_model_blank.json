@@ -9,7 +9,7 @@
     "E": { "item": "minecraft:repeater", "data": 0 },
     "S": { "item": "minecraft:stone", "data": 0 },
     "G": { "item": "minecraft:gold_ingot", "data": 0 },
-    "R": { "item": "minecraft:redstone", "data": 0 },
+    "R": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 },
     "C": { "item": "minecraft:dye", "data": 6 }
   },
   "result": {

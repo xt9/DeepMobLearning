@@ -53,6 +53,7 @@ public class CommonProxy implements IGuiHandler {
     }
 
     public void preInit() {
+        // Entities
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch"), EntityGlitch.class, DeepConstants.MODID + ".glitch", 0, DeepMobLearning.instance, 64, 1, true, 0, 0);
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch_orb"), EntityGlitchOrb.class, DeepConstants.MODID + ".glitch_orb", 1, DeepMobLearning.instance, 64, 1, true);
 
@@ -60,6 +61,12 @@ public class CommonProxy implements IGuiHandler {
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_spider"), EntityTrialSpider.class, DeepConstants.MODID + ".trial_spider", 3, DeepMobLearning.instance, 64, 1, true);
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_cave_spider"), EntityTrialCaveSpider.class, DeepConstants.MODID + ".trial_cave_spider", 4, DeepMobLearning.instance, 64, 1, true);
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_slime"), EntityTrialSlime.class, DeepConstants.MODID + ".trial_slime", 5, DeepMobLearning.instance, 64, 1, true);
+
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":item_glitch_fragment"), EntityItemGlitchFragment.class, DeepConstants.MODID + ".item_glitch_fragment", 6, DeepMobLearning.instance, 64, 1, true);
+
+        // Loot tables
+        LootTableList.register(new ResourceLocation(DeepConstants.MODID, "glitch"));
+
     }
 
     public void init() {
@@ -100,7 +107,7 @@ public class CommonProxy implements IGuiHandler {
 
     public void spawnGlitchParticle(World world, double x, double y, double z, double mx, double my, double mz) {}
     public void spawnSmokeParticle(World world, double x, double y, double z, double mx, double my, double mz, String type) {}
-    public void registerItemRenderer(Item item, int meta, String id) {}
+    public void registerItemRenderer(Item item, ResourceLocation location, int meta) {}
 
     public void registerRenderers() { }
 }

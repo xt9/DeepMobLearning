@@ -32,7 +32,7 @@ public class DeepLearnerGui extends GuiContainer {
     protected ItemStack deepLearner;
     private MobMetaData meta;
     private World world;
-    private NonNullList<ItemStack> validModelChips;
+    private NonNullList<ItemStack> validDataModels;
     private int currentItem = 0;
 
     private static final ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/deeplearner_base.png");
@@ -72,22 +72,22 @@ public class DeepLearnerGui extends GuiContainer {
 
         // Get the meta for the first ItemDataModel in this deeplearner
         NonNullList<ItemStack> list = ItemDeepLearner.getContainedItems(deepLearner);
-        this.validModelChips = DataModel.getValidFromList(list);
+        this.validDataModels = DataModel.getValidFromList(list);
 
         // Render cycle buttons if we have multiple models (atleast 2).
-        if(validModelChips.size() > 1) {
+        if(validDataModels.size() > 1) {
             renderCycleButtons(left, top, mouseX, mouseY);
         }
 
-        if(currentItem >= validModelChips.size()) {
+        if(currentItem >= validDataModels.size()) {
             this.currentItem = previousItemIndex();
         }
 
-        // If we have at least 1 valid mob chip
-        if(validModelChips.size() >= 1 && currentItem < validModelChips.size()) {
-            this.meta = DataModel.getMobMetaData(validModelChips.get(currentItem));
+        // If we have at least 1 valid data model
+        if(validDataModels.size() >= 1 && currentItem < validDataModels.size()) {
+            this.meta = DataModel.getMobMetaData(validDataModels.get(currentItem));
 
-            renderMetaDataText(meta, left, top, validModelChips.get(currentItem));
+            renderMetaDataText(meta, left, top, validDataModels.get(currentItem));
             renderMobDisplayBox(left, top);
             renderEntity(meta.getEntity(world), meta.getInterfaceScale(), left + meta.getInterfaceOffsetX(), top + 80 + meta.getInterfaceOffsetY(), partialTicks);
             if(meta instanceof ZombieMeta || meta instanceof SpiderMeta) {
@@ -103,7 +103,7 @@ public class DeepLearnerGui extends GuiContainer {
         int result;
 
         // If last in list go back to start of list
-        if(currentItem == validModelChips.size() - 1) {
+        if(currentItem == validDataModels.size() - 1) {
             result = 0;
         } else {
             result = currentItem + 1;
@@ -116,8 +116,8 @@ public class DeepLearnerGui extends GuiContainer {
         int result;
         // If first in list
         if(currentItem == 0) {
-            if(validModelChips.size() > 1) {
-                result = validModelChips.size() - 1;
+            if(validDataModels.size() > 1) {
+                result = validDataModels.size() - 1;
             } else {
                 result = 0;
             }
@@ -150,7 +150,7 @@ public class DeepLearnerGui extends GuiContainer {
         int x = mX - guiLeft;
         int y = mY - guiTop;
 
-        if(validModelChips.size() > 1) {
+        if(validDataModels.size() > 1) {
             if (x >= -27 && x < 23 && 105 <= y && y < 129) {
 
                 if (-27 <= x && x < -3) {
@@ -191,18 +191,18 @@ public class DeepLearnerGui extends GuiContainer {
             drawString(renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
         }
 
-        String chipTier = DataModel.getTierName(stack, false);
+        String dataModelTier = DataModel.getTierName(stack, false);
         String nextTier = DataModel.getTierName(stack, true);
         String pluralMobName = DataModel.getMobMetaData(stack).getPluralName();
 
         int totalKills = DataModel.getTotalKillCount(stack);
         double killsToNextTier = DataModel.getKillsToNextTier(stack);
 
-        drawString(renderer, "Model Tier: " + chipTier, leftStart, topStart + (spacing * 8), 16777215);
+        drawString(renderer, "Model Tier: " + dataModelTier, leftStart, topStart + (spacing * 8), 16777215);
         drawString(renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 16777215);
 
 
-        if(DataModel.getTier(stack) != DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(DataModel.getTier(stack) != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             drawString(renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), 16777215);
         } else {
             drawString(renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 16777215);

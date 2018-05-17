@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "deepmoblearning:items/charred_plate"
+    "layer0": "deepmoblearning:items/glitch_heart"
   }
 }

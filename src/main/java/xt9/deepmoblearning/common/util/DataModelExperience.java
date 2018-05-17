@@ -25,7 +25,7 @@ public class DataModelExperience {
 
     /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */
     public static boolean shouldIncreaseTier(int tier, int kc, int sc) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return false;
         }
         int roof = maxExperience[tier];
@@ -35,21 +35,21 @@ public class DataModelExperience {
     }
 
     public static double getCurrentTierKillCountWithSims(int tier, int kc, int sc) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         return kc + ((double) sc / killMultiplier[tier]);
     }
 
     public static int getCurrentTierSimulationCountWithKills(int tier, int kc, int sc) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         return sc + (kc * killMultiplier[tier]);
     }
 
     public static double getKillsToNextTier(int tier, int kc, int sc) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         int killRoof = getTierRoof(tier, true);
@@ -57,7 +57,7 @@ public class DataModelExperience {
     }
 
     public static int getSimulationsToNextTier(int tier, int kc, int sc) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         int roof = getTierRoof(tier, false);
@@ -65,7 +65,7 @@ public class DataModelExperience {
     }
 
     public static int getTierRoof(int tier, boolean asKills) {
-        if(tier == DeepConstants.MOB_CHIP_MAXIMUM_TIER) {
+        if(tier == DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
             return 0;
         }
         if(!asKills) {
