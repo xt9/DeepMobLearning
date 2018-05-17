@@ -37,13 +37,6 @@ public class PlayerHandler {
     public static final List<UUID> FLYING_PLAYERS = new ArrayList<>();
 
     @SubscribeEvent
-    public static void fallEvent(LivingFallEvent event) {
-        if (event.getEntity() instanceof EntityPlayer) {
-            event.setDamageMultiplier(2);
-        }
-    }
-
-    @SubscribeEvent
     public static void playerTickUpdate(TickEvent.PlayerTickEvent event) {
         PlayerCapabilities cap = event.player.capabilities;
 
