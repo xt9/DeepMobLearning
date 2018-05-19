@@ -33,6 +33,8 @@ public class ItemLivingMatter extends ItemBase {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        list.add("Can be consumed for experience §r(Right click)§r");
+        list.add("Hold §rSHIFT§7 to consume entire stack.");
         list.add(I18n.format("deepmoblearning.living_matter.exp", Config.livingMatterEXP.get(getType()).getInt()));
     }
 

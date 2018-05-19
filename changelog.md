@@ -5,15 +5,21 @@ Fight your way through combat trials, gaining additional data to your data model
 receiving rewards upon completion.
 - Added The trial key, used in the Trial keystone.
 - Added the Trial Keystone. The heart of trials.
-- Added data model for shulkers
-- Added data model  for guardians
-- Added config option to add max tier specific rewards for trials
-- Disabled flight during trials
-- Renamed Chared redstone to Soot-covered redstone
-- Soot covered redstone is now crafted by left clicking blocks of coal with a piece of redstone
-- Data models is now crafted using Soot-covered redstone, instead of vanilla redstone
-- Added a config option to disable the Redstone/Block of coal interaction
-- Added JEI integration for the trials, so added rewards are easily found
+- Added a Armor set with a set bonus that's relevant for the mods progression path.
+- Added a Sword that helps you level models faster.
+- Added data model for shulkers.
+- Added data model for guardians.
+- Added config option to add max tier specific rewards for trials.
+- Disabled flight during trials.
+- Renamed Chared redstone to Soot-covered redstone.
+- Soot covered redstone is now crafted by left clicking blocks of coal with a piece of redstone.
+- Data models is now crafted using Soot-covered redstone, instead of vanilla redstone.
+- Added a config option to disable the Redstone/Block of coal interaction.
+- Added JEI integration for the trials, so added rewards are easily found.
+- Added JEI integration for the simulation chamber.
+- Removed some information tabs in JEI since the new categories are self explanatory.
+- Retextured a few pristine matters that needed some love.
+
 
 
 ### 1.2

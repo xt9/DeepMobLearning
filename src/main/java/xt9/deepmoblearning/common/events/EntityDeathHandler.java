@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -19,10 +20,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
-import xt9.deepmoblearning.common.items.ItemTrialKey;
-import xt9.deepmoblearning.common.items.ItemDataModel;
-import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.items.*;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
+import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
 import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
@@ -30,6 +30,9 @@ import xt9.deepmoblearning.common.trials.affix.TrialAffixKey;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 import xt9.deepmoblearning.common.util.TrialKey;
 import xt9.deepmoblearning.common.util.DataModel;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 
 /**
@@ -94,10 +97,31 @@ public class EntityDeathHandler {
             updatedModels.addAll(models);
         });
 
-        // Attune the trial key if possible
-        if(updatedModels.size() > 0) {
-            trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
+        // Return early if no models were affected
+        if(updatedModels.size() == 0) {
+            return;
         }
+
+        // Chance to drop pristine matter from the model that gained data
+        if(ItemGlitchArmor.isSetEquippedByPlayer(player)) {
+            IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+            if(!cap.isTrialActive()) {
+                ItemGlitchArmor.dropPristineMatter(event.getEntityLiving().world, event.getEntityLiving().getPosition(), updatedModels.get(0), player);
+            }
+        }
+
+        if(player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemGlitchSword) {
+            IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+            if(!cap.isTrialActive()) {
+                ItemStack sword = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+                if(ItemGlitchSword.canIncreaseDamage(sword)) {
+                    ItemGlitchSword.increaseDamage(sword, player);
+                }
+            }
+        }
+
+        // Attune the trial key if possible
+        trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
     }
 
     private static void handleTrialMobDeath(LivingDeathEvent event) {
@@ -115,6 +139,7 @@ public class EntityDeathHandler {
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void handlePlayerDeathDuringTrial(LivingDeathEvent event) {
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 
@@ -134,19 +159,20 @@ public class EntityDeathHandler {
     }
 
     private static NonNullList<ItemStack> updateAndReturnModels(ItemStack deepLearner, LivingDeathEvent event, EntityPlayerMP player) {
-        NonNullList<ItemStack> deepLearnerInternalInv = ItemDeepLearner.getContainedItems(deepLearner);
+        NonNullList<ItemStack> deepLearnerItems = ItemDeepLearner.getContainedItems(deepLearner);
         NonNullList<ItemStack> result = NonNullList.create();
 
-        deepLearnerInternalInv.forEach(stack -> {
+        deepLearnerItems.forEach(stack -> {
             if (stack.getItem() instanceof ItemDataModel) {
                 MobMetaData meta = DataModel.getMobMetaData(stack);
 
                 if (meta.entityLivingMatchesMob(event.getEntityLiving())) {
+
                     DataModel.increaseMobKillCount(stack, player);
                     result.add(stack);
                 }
             }
-            ItemDeepLearner.setContainedItems(deepLearner, deepLearnerInternalInv);
+            ItemDeepLearner.setContainedItems(deepLearner, deepLearnerItems);
         });
 
         return result;

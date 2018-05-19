@@ -1,5 +1,7 @@
 package xt9.deepmoblearning.common.mobmetas;
 
+import net.minecraft.util.NonNullList;
+
 /**
  * Created by xt9 on 2018-03-25.
  * Reference keys for mobs

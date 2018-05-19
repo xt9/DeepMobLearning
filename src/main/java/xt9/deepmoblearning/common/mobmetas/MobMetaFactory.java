@@ -202,7 +202,7 @@ public class MobMetaFactory {
                     6,
                     12,
                     Registry.livingMatterTwilight,
-                    Registry.pristineMatterWitch);
+                    Registry.pristineMatterTwilightForest);
             } else if(key.equals(MobKey.TWILIGHTSWAMP)) {
                 meta = new TwilightSwampMeta(
                     MobKey.TWILIGHTSWAMP,

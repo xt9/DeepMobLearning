@@ -44,8 +44,12 @@ public class Registry {
     public static ItemGlitchHeart glitchHeart = new ItemGlitchHeart();
     public static ItemGlitchFragment glitchFragment = new ItemGlitchFragment();
 
-    // Armor
-    public static ItemGlitchChestplate glitchInfusedChestPlate = new ItemGlitchChestplate();
+    // Armor & Sword
+    public static ItemGlitchArmor.ItemGlitchHelmet glitchInfusedHelmet = new ItemGlitchArmor.ItemGlitchHelmet();
+    public static ItemGlitchArmor.ItemGlitchChestplate glitchInfusedChestplate = new ItemGlitchArmor.ItemGlitchChestplate();
+    public static ItemGlitchArmor.ItemGlitchLeggings glitchInfusedLeggings = new ItemGlitchArmor.ItemGlitchLeggings();
+    public static ItemGlitchArmor.ItemGlitchBoots glitchInfusedBoots = new ItemGlitchArmor.ItemGlitchBoots();
+    public static ItemGlitchSword glitchInfusedSword = new ItemGlitchSword();
 
     // Data models
     private static ItemDataModel.Zombie dataModelZombie = new ItemDataModel.Zombie();
@@ -171,6 +175,7 @@ public class Registry {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void registerBlocks(IForgeRegistry registry) {
         blockSimulationChamber = new BlockSimulationChamber();
         blockExtractionChamber = new BlockExtractionChamber();
@@ -190,7 +195,7 @@ public class Registry {
         blocks.forEach(registry::register);
     }
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings({"ConstantConditions", "unchecked"})
     public static void registerItems(IForgeRegistry registry) {
         populateDataModelList();
         populateLivingMatterList();
@@ -212,7 +217,11 @@ public class Registry {
         items.add(trialKey);
         items.add(glitchHeart);
         items.add(glitchFragment);
-        items.add(glitchInfusedChestPlate);
+        items.add(glitchInfusedHelmet);
+        items.add(glitchInfusedChestplate);
+        items.add(glitchInfusedLeggings);
+        items.add(glitchInfusedBoots);
+        items.add(glitchInfusedSword);
 
         items.addAll(dataModels);
         items.addAll(livingMatter);

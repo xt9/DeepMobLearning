@@ -1,13 +1,18 @@
 package xt9.deepmoblearning.common.util;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.items.ItemDataModel;
+import xt9.deepmoblearning.common.items.ItemGlitchArmor;
+import xt9.deepmoblearning.common.items.ItemGlitchSword;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
@@ -77,11 +82,15 @@ public class DataModel {
     }
 
     /* Called by deep learners */
+    @SuppressWarnings("ConstantConditions")
     public static void increaseMobKillCount(ItemStack stack, EntityPlayerMP player) {
         // Get our current tier before increasing the kill count;
         int tier = getTier(stack);
         int i = getCurrentTierKillCount(stack);
-        i = i + 1;
+        boolean isGlitchSwordEquipped = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemGlitchSword;
+        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+
+        i = i + (isGlitchSwordEquipped && !cap.isTrialActive() ? 2 : 1);
         setCurrentTierKillCount(stack, i);
 
         // Update the totals

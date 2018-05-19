@@ -3,25 +3,22 @@ package xt9.deepmoblearning.common.events;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.item.ItemRedstone;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import org.apache.logging.log4j.core.Filter;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
-import xt9.deepmoblearning.common.items.ItemGlitchChestplate;
+import xt9.deepmoblearning.common.items.ItemGlitchArmor;
 import xt9.deepmoblearning.common.items.ItemGlitchHeart;
 
 import java.util.ArrayList;
@@ -40,12 +37,21 @@ public class PlayerHandler {
     public static void playerTickUpdate(TickEvent.PlayerTickEvent event) {
         PlayerCapabilities cap = event.player.capabilities;
 
-        if(FLYING_PLAYERS.contains(event.player.getUniqueID()) && !ItemGlitchChestplate.isEquippedByPlayer(event.player)) {
-            if(cap.allowFlying && !event.player.isSpectator() && !event.player.isCreative()) {
-                cap.allowFlying = false;
-                cap.isFlying = false;
+        if(!event.player.world.isRemote) {
+            if(!cap.allowFlying && ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
+                cap.allowFlying = true;
+                event.player.sendPlayerAbilities();
+                PlayerHandler.FLYING_PLAYERS.add(event.player.getUniqueID());
             }
-            FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.player.getUniqueID().toString()));
+
+            if(FLYING_PLAYERS.contains(event.player.getUniqueID()) && !ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
+                if(cap.allowFlying && !event.player.isSpectator() && !event.player.isCreative()) {
+                    cap.allowFlying = false;
+                    cap.isFlying = false;
+                    event.player.sendPlayerAbilities();
+                }
+                FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.player.getUniqueID().toString()));
+            }
         }
     }
 

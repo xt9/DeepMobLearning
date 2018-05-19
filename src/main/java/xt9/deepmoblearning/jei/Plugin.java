@@ -7,11 +7,15 @@ import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
+import xt9.deepmoblearning.common.items.ItemLivingMatter;
+import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
+
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +23,7 @@ import java.util.Map;
 @JEIPlugin
 public class Plugin implements IModPlugin {
     private static IJeiHelpers jeiHelpers;
+    private static SimulationChamberRecipeCategory simChamberCategory;
     private static ExtractionChamberRecipeCategory exChamberCategory;
     private static TrialKeystoneRecipeCategory trialKeystoneCategory;
 
@@ -26,6 +31,9 @@ public class Plugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         jeiHelpers = registry.getJeiHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
+
+        simChamberCategory = new SimulationChamberRecipeCategory(guiHelper);
+        registry.addRecipeCategories(simChamberCategory);
 
         exChamberCategory = new ExtractionChamberRecipeCategory(guiHelper);
         registry.addRecipeCategories(exChamberCategory);
@@ -39,13 +47,30 @@ public class Plugin implements IModPlugin {
         jeiHelpers = registry.getJeiHelpers();
 
         // Register recipe handlers
+        registry.handleRecipes(SimulationChamberRecipe.class, SimulationChamberRecipeWrapper::new, simChamberCategory.getUid());
         registry.handleRecipes(ExtractionChamberRecipe.class, ExtractionChamberRecipeWrapper::new, exChamberCategory.getUid());
         registry.handleRecipes(TrialKeystoneRecipe.class, TrialKeystoneRecipeWrapper::new, trialKeystoneCategory.getUid());
 
+        addSimulationChamberRecipes(registry);
         addExtractionChamberRecipes(registry);
         addTrialKeystoneRecipes(registry);
 
         addItemDescriptions(registry);
+    }
+
+    private void addSimulationChamberRecipes(IModRegistry registry) {
+        Registry.dataModels.forEach(itemDataModel -> {
+            ItemStack dataModel = DataModel.getModelFromMobKey(itemDataModel.getMobKey());
+            ItemStack livingMatter = DataModel.getMobMetaData(dataModel).getLivingMatterStack(1);
+            ItemStack pristineMatterStack = DataModel.getMobMetaData(dataModel).getPristineMatterStack(1);
+
+            // Init as tier 1 since faulty models don't work in the simulation chamber
+            DataModel.setTier(dataModel, 1);
+            SimulationChamberRecipe.addRecipe(dataModel, livingMatter, pristineMatterStack);
+        });
+
+        registry.addRecipes(new ArrayList(SimulationChamberRecipe.recipes), simChamberCategory.getUid());
+        simChamberCategory.addCatalysts(registry);
     }
 
     @SuppressWarnings("unchecked")
@@ -69,7 +94,6 @@ public class Plugin implements IModPlugin {
 
     @SuppressWarnings("unchecked")
     private void addTrialKeystoneRecipes(IModRegistry registry) {
-
         TrialFactory.getValidTrials().forEach(mobkey -> {
             // Add each tier and their rewards
             for (int i = 0; i < 5; i++) {
@@ -106,11 +130,7 @@ public class Plugin implements IModPlugin {
             pristines.add(new ItemStack(Registry.pristineMatter.get(i)));
         }
 
-        registry.addIngredientInfo(new ItemStack(Registry.simulationChamber), ItemStack.class, "deepmoblearning.jei.description.simulation_chamber");
         registry.addIngredientInfo(new ItemStack(Registry.deepLearner), ItemStack.class, "deepmoblearning.jei.description.deep_learner");
-
-        registry.addIngredientInfo(matter, ItemStack.class, "deepmoblearning.jei.description.living_matter");
-        registry.addIngredientInfo(pristines, ItemStack.class, "deepmoblearning.jei.description.pristine_matter");
 
 
         registry.addIngredientInfo(dataModels, ItemStack.class, "# of monsters defeated to reach the next tier",

@@ -98,7 +98,7 @@ public class TrialOverlay extends GuiScreen {
             clientCapability = (PlayerTrial) DeepMobLearning.proxy.getClientPlayerTrialCapability();
         }
 
-        if(clientCapability.getLastWave() == 0) {
+        if(!clientCapability.isTrialActive()) {
             return;
         }
 

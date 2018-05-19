@@ -21,5 +21,8 @@ public interface IPlayerTrial {
     void setTilePos(long pos);
     long getTilePos();
 
+    void setIsActive(boolean b);
+    boolean isTrialActive();
+
     void sync(EntityPlayerMP player);
 }

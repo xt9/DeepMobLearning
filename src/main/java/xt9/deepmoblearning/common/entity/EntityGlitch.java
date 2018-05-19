@@ -64,7 +64,7 @@ public class EntityGlitch extends EntityMob {
         tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
         tasks.addTask(7, new EntityAIWander(this, 1.0D));
         tasks.addTask(8, new EntityAILookIdle(this));
-        targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        targetTasks.addTask(0, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
 
@@ -122,7 +122,7 @@ public class EntityGlitch extends EntityMob {
         }
 
         public void startExecuting() {
-            this.attackTimer = 50;
+            this.attackTimer = 60;
         }
 
         public void resetTask() {

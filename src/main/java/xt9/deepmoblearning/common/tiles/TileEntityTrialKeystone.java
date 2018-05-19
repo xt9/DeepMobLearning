@@ -1,12 +1,10 @@
 package xt9.deepmoblearning.common.tiles;
 
-import java.util.*;
-
-import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,7 +24,6 @@ import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
-import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
 import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.handlers.TrialKeyHandler;
@@ -36,13 +33,16 @@ import xt9.deepmoblearning.common.network.UpdateKeystoneItemMessage;
 import xt9.deepmoblearning.common.trials.Trial;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
-import xt9.deepmoblearning.common.trials.affix.*;
+import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
 import xt9.deepmoblearning.common.util.PlayerHelper;
-import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -160,7 +160,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
         BlockPos point1 = new BlockPos(pos.getX() - 7, pos.getY(), pos.getZ() - 7);
         BlockPos point2 = new BlockPos(pos.getX() + 7, pos.getY() + 3, pos.getZ() + 7);
-        List<EntityPlayerMP> playersInArea = world.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(point1, point2), Predicates.alwaysTrue());
+        List<EntityPlayerMP> playersInArea = world.getEntitiesWithinAABB(EntityPlayerMP.class, new AxisAlignedBB(point1, point2), p -> true);
         if(playersInArea.isEmpty()) {
             return;
         } else {
@@ -204,6 +204,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             cap.setDefeated(mobsDefeated);
             cap.setLastWave(lastWave);
             cap.setTilePos(pos.toLong());
+            cap.setIsActive(active);
             cap.sync(p);
         });
     }
@@ -272,6 +273,11 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         e.getEntityData().setLong(NBT_LONG_TILE_POS, getPos().toLong());
         e.enablePersistence();
 
+        EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
+        if(target != null) {
+            e.setAttackTarget(target);
+        }
+
         affixes.forEach(affix -> affix.apply(e));
 
         // Do not spawn them all at once (once every 2 sec atm)
@@ -289,6 +295,11 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             EntityGlitch e = TrialRuleset.getGlitch(world);
             e.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
             e.enablePersistence();
+
+            EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
+            if(target != null) {
+                e.setAttackTarget(target);
+            }
 
             affixes.forEach(affix -> affix.applyToGlitch(e));
 
