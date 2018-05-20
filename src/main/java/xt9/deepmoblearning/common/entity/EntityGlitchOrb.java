@@ -40,9 +40,7 @@ public class EntityGlitchOrb extends EntityFireball {
     public void onUpdate() {
         if (!world.isRemote) {
             setFlag(6, isGlowing());
-        }
 
-        if (world.isRemote || (shootingEntity == null || !shootingEntity.isDead) && world.isBlockLoaded(new BlockPos(this))) {
             List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(1.0D));
 
             entities.forEach(entity -> {
@@ -50,8 +48,9 @@ public class EntityGlitchOrb extends EntityFireball {
                     onImpact((EntityPlayer) entity);
                 }
             });
+        }
 
-
+        if (world.isRemote || (shootingEntity == null || !shootingEntity.isDead) && world.isBlockLoaded(new BlockPos(this))) {
             this.posX += motionX;
             this.posY += motionY;
             this.posZ += motionZ;
@@ -85,7 +84,6 @@ public class EntityGlitchOrb extends EntityFireball {
                 rand.nextDouble(-0.08D, 0.08D),
                 "mixed"
             );
-
 
             setPosition(posX, posY, posZ);
         }
