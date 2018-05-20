@@ -34,8 +34,6 @@ public class EntityGlitch extends EntityMob {
     public EntityGlitch(World world) {
         super(world);
         setSize(0.6F, 1.95F);
-        setEmpowered(true);
-
     }
 
     @Nullable
@@ -123,11 +121,15 @@ public class EntityGlitch extends EntityMob {
         }
 
         public void startExecuting() {
-            this.attackTimer = 60;
+            resetTask();
         }
 
         public void resetTask() {
-
+            if(glitch.empowered) {
+                attackTimer = 70;
+            } else {
+                attackTimer = 60;
+            }
         }
 
         public void updateTask() {
@@ -148,7 +150,7 @@ public class EntityGlitch extends EntityMob {
                 --this.attackTimer;
                 ThreadLocalRandom rand = ThreadLocalRandom.current();
 
-                // Barrage target, reset timer when it hits 0
+                // Barrage target, reset task when timer hit's 0
                 if(attackTimer == 48) {
                     spawnGlitchOrb(world, target, rand.nextDouble(-1.2, 1.2), 0.1,rand.nextDouble(-1.2, 1.2));
                 } else if (attackTimer == 36) {
@@ -156,7 +158,7 @@ public class EntityGlitch extends EntityMob {
                 } else if(attackTimer == 24 && glitch.empowered) {
                     spawnGlitchOrb(world, target, rand.nextDouble(-1.2, 1.2), 0.3D,rand.nextDouble(-1.2, 1.2));
                 } else if(attackTimer == 0) {
-                    this.attackTimer = 60;
+                    resetTask();
                 }
             } else {
                 // Path towards target if not in range for an attack
