@@ -18,7 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 
@@ -32,7 +31,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ItemGlitchSword extends ItemSword {
     private static final int DAMAGE_BONUS = 2;
     private static final int DAMAGE_BONUS_MAX = 24;
-    private static final int DAMAGE_INCREASE_CHANCE = 100;
+    private static final int DAMAGE_INCREASE_CHANCE = 7;
 
     private static ToolMaterial material = EnumHelper.addToolMaterial(
         "GLITCH_INFUSED_MATERIAL",
