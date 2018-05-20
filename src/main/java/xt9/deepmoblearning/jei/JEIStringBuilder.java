@@ -73,4 +73,16 @@ public class JEIStringBuilder {
 
         return lines.toArray(new String[lines.size()]);
     }
+
+    public static String[] getInfusedIngotLines() {
+        NonNullList<String> lines = NonNullList.create();
+        lines.add("TLDR: Drop some fragments, lapis and gold ingots into a body of water and hope for the best");
+        lines.add("");
+        lines.add("You've found that lapis is a good stabilization agent for Unstable glitch fragments.");
+        lines.add("After the fragments are stable, they desperately seek out a material to latch on to, you think that gold might be strong enough as a host.");
+        lines.add("");
+        lines.add("The entire process is delicate, it needs to be performed in water or the materials wont bind properly.");
+
+        return lines.toArray(new String[lines.size()]);
+    }
 }

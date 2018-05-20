@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
+    { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 }
+  ],
+  "result": {
+    "item": "deepmoblearning:infused_ingot_block",
+    "count": 1
+  }
+}

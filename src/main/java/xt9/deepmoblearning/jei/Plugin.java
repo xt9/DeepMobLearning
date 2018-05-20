@@ -7,15 +7,12 @@ import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.client.gui.ExtractionChamberGui;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
-import xt9.deepmoblearning.common.items.ItemLivingMatter;
-import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -130,8 +127,6 @@ public class Plugin implements IModPlugin {
             pristines.add(new ItemStack(Registry.pristineMatter.get(i)));
         }
 
-        registry.addIngredientInfo(new ItemStack(Registry.deepLearner), ItemStack.class, "deepmoblearning.jei.description.deep_learner");
-
 
         registry.addIngredientInfo(dataModels, ItemStack.class, "# of monsters defeated to reach the next tier",
             Config.modelExperience.get("killsToTier1").getInt() + " <- §3§oFaulty to Basic§r",
@@ -141,8 +136,11 @@ public class Plugin implements IModPlugin {
             "\nHigher tiers get more data from defeating foes."
         );
 
+        registry.addIngredientInfo(new ItemStack(Registry.deepLearner), ItemStack.class, "deepmoblearning.jei.description.deep_learner");
+        registry.addIngredientInfo(new ItemStack(Registry.glitchInfusedIngot), ItemStack.class, JEIStringBuilder.getInfusedIngotLines());
+
         registry.addIngredientInfo(new ItemStack(Registry.trialKey), ItemStack.class, JEIStringBuilder.getTrialKeyLines());
-        registry.addIngredientInfo(new ItemStack(Registry.trialKeystone), ItemStack.class, JEIStringBuilder.getTrialKeystoneLines());
+        registry.addIngredientInfo(new ItemStack(Registry.trialKeystoneItem), ItemStack.class, JEIStringBuilder.getTrialKeystoneLines());
     }
 
 

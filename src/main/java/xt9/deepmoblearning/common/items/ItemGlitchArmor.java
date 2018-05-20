@@ -14,8 +14,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.config.Config;
@@ -75,6 +77,10 @@ public class ItemGlitchArmor extends ItemArmor {
         }
     }
 
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return repair.getItem() instanceof ItemGlitchIngot;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)

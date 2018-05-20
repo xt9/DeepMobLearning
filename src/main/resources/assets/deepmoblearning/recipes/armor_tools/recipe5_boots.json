@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "I I"
+  ],
+  "key": {
+    "I": { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 }
+  },
+  "result": {
+    "item": "deepmoblearning:glitch_infused_boots",
+    "count": 1
+  }
+}

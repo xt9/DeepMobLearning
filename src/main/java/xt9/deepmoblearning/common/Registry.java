@@ -8,10 +8,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.common.blocks.BlockExtractionChamber;
-import xt9.deepmoblearning.common.blocks.BlockMachineCasing;
-import xt9.deepmoblearning.common.blocks.BlockSimulationChamber;
-import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
+import xt9.deepmoblearning.common.blocks.*;
 import xt9.deepmoblearning.common.items.*;
 
 /**
@@ -19,6 +16,7 @@ import xt9.deepmoblearning.common.items.*;
  */
 public class Registry {
     public static BlockMachineCasing blockMachineCasing;
+    public static BlockInfusedIngot blockInfusedIngot;
     public static BlockSimulationChamber blockSimulationChamber;
     public static BlockExtractionChamber blockExtractionChamber;
     public static BlockTrialKeystone blockTrialKeystone;
@@ -30,10 +28,11 @@ public class Registry {
     public static NonNullList<ItemLivingMatter> livingMatter = NonNullList.create();
     public static NonNullList<ItemPristineMatter> pristineMatter = NonNullList.create();
 
-    public static Item simulationChamber;
-    public static Item extractionChamber;
-    public static Item trialKeystone;
-    public static Item machineCasing;
+    public static Item simulationChamberItem;
+    public static Item extractionChamberItem;
+    public static Item trialKeystoneItem;
+    public static Item machineCasingItem;
+    public static Item infusedIngotBlockItem;
     public static ItemPolymerClay polymerClay = new ItemPolymerClay();
     public static ItemSootedRedstone sootedRedstone = new ItemSootedRedstone();
     public static ItemSootedPlate sootedPlate = new ItemSootedPlate();
@@ -43,6 +42,7 @@ public class Registry {
     public static ItemTrialKey trialKey = new ItemTrialKey();
     public static ItemGlitchHeart glitchHeart = new ItemGlitchHeart();
     public static ItemGlitchFragment glitchFragment = new ItemGlitchFragment();
+    public static ItemGlitchIngot glitchInfusedIngot = new ItemGlitchIngot();
 
     // Armor & Sword
     public static ItemGlitchArmor.ItemGlitchHelmet glitchInfusedHelmet = new ItemGlitchArmor.ItemGlitchHelmet();
@@ -50,6 +50,7 @@ public class Registry {
     public static ItemGlitchArmor.ItemGlitchLeggings glitchInfusedLeggings = new ItemGlitchArmor.ItemGlitchLeggings();
     public static ItemGlitchArmor.ItemGlitchBoots glitchInfusedBoots = new ItemGlitchArmor.ItemGlitchBoots();
     public static ItemGlitchSword glitchInfusedSword = new ItemGlitchSword();
+
 
     // Data models
     private static ItemDataModel.Zombie dataModelZombie = new ItemDataModel.Zombie();
@@ -181,6 +182,7 @@ public class Registry {
         blockExtractionChamber = new BlockExtractionChamber();
         blockTrialKeystone = new BlockTrialKeystone();
         blockMachineCasing = new BlockMachineCasing();
+        blockInfusedIngot = new BlockInfusedIngot();
 
         // Register tile entities
         GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepConstants.MODID + ":simulation_chamber");
@@ -189,6 +191,7 @@ public class Registry {
 
         // Register our sole block
         blocks.add(blockMachineCasing);
+        blocks.add(blockInfusedIngot);
         blocks.add(blockSimulationChamber);
         blocks.add(blockExtractionChamber);
         blocks.add(blockTrialKeystone);
@@ -202,11 +205,12 @@ public class Registry {
         populatePristineMatterList();
 
         // Create our Item instances
-        machineCasing = new ItemBlock(blockMachineCasing).setRegistryName(blockMachineCasing.getRegistryName());
-        simulationChamber = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
-        extractionChamber = new ItemBlock(blockExtractionChamber).setRegistryName(blockExtractionChamber.getRegistryName());
-        trialKeystone = new ItemBlock(blockTrialKeystone).setRegistryName(blockTrialKeystone.getRegistryName());
-        registry.registerAll(machineCasing, simulationChamber, extractionChamber, trialKeystone);
+        machineCasingItem = new ItemBlock(blockMachineCasing).setRegistryName(blockMachineCasing.getRegistryName());
+        infusedIngotBlockItem = new ItemBlock(blockInfusedIngot).setRegistryName(blockInfusedIngot.getRegistryName());
+        simulationChamberItem = new ItemBlock(blockSimulationChamber).setRegistryName(blockSimulationChamber.getRegistryName());
+        extractionChamberItem = new ItemBlock(blockExtractionChamber).setRegistryName(blockExtractionChamber.getRegistryName());
+        trialKeystoneItem = new ItemBlock(blockTrialKeystone).setRegistryName(blockTrialKeystone.getRegistryName());
+        registry.registerAll(machineCasingItem, infusedIngotBlockItem, simulationChamberItem, extractionChamberItem, trialKeystoneItem);
 
         items.add(sootedRedstone);
         items.add(sootedPlate);
@@ -217,6 +221,7 @@ public class Registry {
         items.add(trialKey);
         items.add(glitchHeart);
         items.add(glitchFragment);
+        items.add(glitchInfusedIngot);
         items.add(glitchInfusedHelmet);
         items.add(glitchInfusedChestplate);
         items.add(glitchInfusedLeggings);

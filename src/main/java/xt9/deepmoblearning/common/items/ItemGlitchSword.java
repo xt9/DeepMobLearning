@@ -18,6 +18,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 
@@ -50,6 +51,17 @@ public class ItemGlitchSword extends ItemSword {
         setRegistryName(itemName);
     }
 
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        list.add("§rBonus: Quick learner§r");
+        list.add("§r(Bonuses are disabled during Trials)§r");
+        list.add("§6The Data gained from the demise of a mob is doubled,§r");
+        list.add("§6when Data is gained there is also a small chance§r");
+        list.add("§6that the sword will get a permanent damage increase.§r");
+        list.add("");
+        list.add("Current damage increase: §b" + getPermanentWeaponDamage(stack) + " §r(Max " + DAMAGE_BONUS_MAX +")§r");
+    }
+
     public static void increaseDamage(ItemStack stack, EntityPlayerMP player) {
         if(ThreadLocalRandom.current().nextInt(1, 100) <= DAMAGE_INCREASE_CHANCE) {
             int current = getPermanentWeaponDamage(stack);
@@ -68,23 +80,17 @@ public class ItemGlitchSword extends ItemSword {
         return getPermanentWeaponDamage(sword) < DAMAGE_BONUS_MAX;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        list.add("§rBonus: Quick learner§r");
-        list.add("§r(Bonuses are disabled during Trials)§r");
-        list.add("§6The Data gained from the demise of a mob is doubled,§r");
-        list.add("§6when Data is gained there is also a small chance§r");
-        list.add("§6that the sword will get a permanent damage increase.§r");
-        list.add("");
-        list.add("Current damage increase: §b" + getPermanentWeaponDamage(stack) + " §r(Max " + DAMAGE_BONUS_MAX +")§r");
-    }
-
     public static int getPermanentWeaponDamage(ItemStack stack) {
         return ItemStackNBTHelper.getInt(stack,"permDamage", 0);
     }
 
     public static void setPermanentWeaponDamage(ItemStack stack, int damage) {
         ItemStackNBTHelper.setInt(stack,"permDamage", damage);
+    }
+
+    @Override
+    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+        return repair.getItem() instanceof ItemGlitchIngot;
     }
 
     @Override

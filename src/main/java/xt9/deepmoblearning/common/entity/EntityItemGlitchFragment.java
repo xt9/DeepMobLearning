@@ -3,9 +3,13 @@ package xt9.deepmoblearning.common.entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
+import xt9.deepmoblearning.common.items.ItemGlitchIngot;
 
+import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -22,8 +26,6 @@ public class EntityItemGlitchFragment extends EntityItem {
         super(worldIn, x, y, z);
         setItem(stack);
         setPickupDelay(15);
-        isImmuneToFire = true;
-        setOnFireFromLava();
     }
 
     @Override
@@ -32,30 +34,87 @@ public class EntityItemGlitchFragment extends EntityItem {
 
 
         if(isInWater() && !world.isRemote) {
-
-            // todo check if iron is present
-            EntityItem newItem = new EntityItem(world, posX, posY + 1.0D, posZ, new ItemStack(Items.COAL, getItem().getCount()));
-            newItem.motionX = motionX;
-            newItem.motionY = 0.22D;
-            newItem.motionZ = motionZ;
-            newItem.setDefaultPickupDelay();
-            newItem.setFire(0);
+            AxisAlignedBB box = new AxisAlignedBB(posX - 1, posY - 1, posZ - 1, posX + 1, posY + 1, posZ + 1);
+            List<EntityItem> entities = world.getEntitiesWithinAABB(EntityItem.class, box);
             ThreadLocalRandom rand = ThreadLocalRandom.current();
 
             DeepMobLearning.proxy.spawnSmokeParticle(world,
                 posX + rand.nextDouble(-0.25D, 0.25D),
                 posY  + rand.nextDouble(-0.1D, 0.1D),
                 posZ + rand.nextDouble(-0.25D, 0.25D),
-                rand.nextDouble(-0.08D, 0.08D),
+                rand.nextDouble(-0.08, 0.08D),
                 rand.nextDouble(-0.08D, 0.22D),
                 rand.nextDouble(-0.08D, 0.08D),
                 "cyan"
             );
 
-            //setItem(ItemStack.EMPTY);
-            //setDead();
-            //world.spawnEntity(newItem);
+
+            if(!isItemListValid(entities)) {
+                progress = 0;
+                return;
+            }
+
+            if(progress < 35) {
+                progress++;
+                for (int i = 0; i < 4; i++) {
+                    DeepMobLearning.proxy.spawnSmokeParticle(world,
+                        posX + rand.nextDouble(-0.25D, 0.25D),
+                        posY  + rand.nextDouble(-0.1D, 0.8D),
+                        posZ + rand.nextDouble(-0.25D, 0.25D),
+                        rand.nextDouble(-0.08, 0.08D),
+                        rand.nextDouble(-0.08D, 0.22D),
+                        rand.nextDouble(-0.08D, 0.08D),
+                        "cyan"
+                    );
+                }
+            } else {
+                entities.forEach(entityItem -> {
+                    if(!(entityItem.getItem().getItem() instanceof ItemGlitchIngot)) {
+                        entityItem.getItem().shrink(1);
+                    }
+                });
+
+                if(getItem().getCount() == 0) {
+                    setDead();
+                    progress = 0;
+                }
+
+                entities.forEach(entityItem -> {
+                    if (entityItem.getItem().getCount() == 0) {
+                        entityItem.setDead();
+                        progress = 0;
+                    }
+                });
+
+
+                EntityItem newItem = new EntityItem(world, posX, posY + 0.6D, posZ, new ItemStack(Registry.glitchInfusedIngot, 1));
+                newItem.motionX = rand.nextDouble(-0.2D, 0.2D);
+                newItem.motionY = 0;
+                newItem.motionZ = rand.nextDouble(-0.2D, 0.2D);
+                newItem.setDefaultPickupDelay();
+
+                world.spawnEntity(newItem);
+            }
         }
     }
+
+    public boolean isItemListValid(List<EntityItem> list) {
+        // Don't check for glitch fragment because if it wasn't here the method would not run
+        boolean foundGold = false;
+        boolean foundLapis = false;
+
+        for (EntityItem entityItem : list) {
+            if(ItemStack.areItemsEqual(entityItem.getItem(), new ItemStack(Items.GOLD_INGOT))) {
+                foundGold = true;
+            }
+            if(ItemStack.areItemStacksEqual(entityItem.getItem(), new ItemStack(Items.DYE, entityItem.getItem().getCount(), 4))) {
+                foundLapis = true;
+            }
+        }
+
+        return foundGold && foundLapis;
+    }
+
+
 
 }

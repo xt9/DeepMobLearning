@@ -24,7 +24,7 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
 
     public ExtractionChamberRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/extraction_chamber.png");
-        this.catalyst = new ItemStack(Registry.extractionChamber);
+        this.catalyst = new ItemStack(Registry.extractionChamberItem);
 
         background = guiHelper.createDrawable(base, 0, 0, 140, 30, 0, 0, 0, 0);
         IDrawableStatic progress = guiHelper.createDrawable(base, 0, 30, 35, 6);

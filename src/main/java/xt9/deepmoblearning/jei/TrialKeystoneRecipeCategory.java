@@ -24,7 +24,7 @@ public class TrialKeystoneRecipeCategory implements IRecipeCategory {
 
     public TrialKeystoneRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/trial_keystone.png");
-        this.catalyst = new ItemStack(Registry.trialKeystone);
+        this.catalyst = new ItemStack(Registry.trialKeystoneItem);
 
         background = guiHelper.createDrawable(base, 0, 0, 100, 26, 8, 0, 20, 0);
     }

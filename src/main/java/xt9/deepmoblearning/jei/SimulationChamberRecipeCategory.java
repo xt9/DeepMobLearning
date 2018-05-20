@@ -22,7 +22,7 @@ public class SimulationChamberRecipeCategory implements IRecipeCategory {
 
     public SimulationChamberRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/simulation_chamber.png");
-        this.catalyst = new ItemStack(Registry.simulationChamber);
+        this.catalyst = new ItemStack(Registry.simulationChamberItem);
 
         background = guiHelper.createDrawable(base, 0, 0, 116, 43, 0, 0, 0, 0);
         IDrawableStatic progress = guiHelper.createDrawable(base, 0, 43, 35, 6);
