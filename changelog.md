@@ -7,8 +7,8 @@ receiving rewards upon completion.
 - Added the Trial Keystone. The heart of trials.
 - Added a Armor set with a set bonus that's relevant for the mods progression path.
 - Added a Sword that helps you level models faster.
-- Added data model for shulkers.
-- Added data model for guardians.
+- Added data model for Shulkers.
+- Added data model for Guardians.
 - Added config option to add max tier specific rewards for trials.
 - Disabled flight during trials.
 - Renamed Chared redstone to Soot-covered redstone.
@@ -18,7 +18,7 @@ receiving rewards upon completion.
 - Added JEI integration for the trials, so added rewards are easily found.
 - Added JEI integration for the simulation chamber.
 - Removed some information tabs in JEI since the new categories are self explanatory.
-- Retextured a few pristine matters that needed some love.
+- Retextured a few pristine matters that needed some love (zombie/witherskeleton/thermal).
 
 
 
