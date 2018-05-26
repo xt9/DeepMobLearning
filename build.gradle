@@ -13,8 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 def mcVersion = "1.12.2"
 def modMajor = "2"
 def modMinor = "0"
-def modPatch = "0"
-
+def modPatch = "1"
 
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
 group = "xt9.deepmoblearning" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -26,7 +25,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.12.2-14.23.1.2555"
+    version = "1.12.2-14.23.4.2703"
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.
@@ -52,7 +51,6 @@ repositories {
         name = "ModMaven"
         url = "modmaven.k-4u.nl"
     }
-
 }
 
 dependencies {

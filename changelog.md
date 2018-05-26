@@ -1,5 +1,10 @@
 # 1.12.2
 
+### 2.0.1
+- Updated to forge 14.23.4.2703
+- Stopped using a deprecated register function for TE's (Got deprecated in 2703)
+- Added additional tooltip to deep learner to make them aware of the HUD
+
 ### 2.0 - Trials
 Fight your way through combat trials, gaining additional data to your data models and
 receiving rewards upon completion.

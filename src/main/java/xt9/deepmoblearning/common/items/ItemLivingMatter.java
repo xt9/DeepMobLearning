@@ -39,6 +39,7 @@ public class ItemLivingMatter extends ItemBase {
     }
 
     @Override
+    @SuppressWarnings({"NullableProblems", "unchecked"})
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand) {
         if(player.world.isRemote) {
             if(KeyboardHelper.isHoldingShift()) {

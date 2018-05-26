@@ -106,7 +106,7 @@ public class DeepMobLearning {
         @SideOnly(Side.CLIENT)
         @Override
         public ItemStack getIconItemStack() {
-            return new ItemStack(Registry.deepLearner, 1);
+            return new ItemStack(Registry.deepLearner);
         }
     };
 }

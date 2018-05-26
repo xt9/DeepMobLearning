@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.DeepConstants;
@@ -185,9 +186,9 @@ public class Registry {
         blockInfusedIngot = new BlockInfusedIngot();
 
         // Register tile entities
-        GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), DeepConstants.MODID + ":simulation_chamber");
-        GameRegistry.registerTileEntity(blockExtractionChamber.getTileEntityClass(), DeepConstants.MODID + ":extraction_chamber");
-        GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), DeepConstants.MODID + ":trial_keystone");
+        GameRegistry.registerTileEntity(blockSimulationChamber.getTileEntityClass(), new ResourceLocation(DeepConstants.MODID, "simulation_chamber"));
+        GameRegistry.registerTileEntity(blockExtractionChamber.getTileEntityClass(), new ResourceLocation(DeepConstants.MODID, "extraction_chamber"));
+        GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), new ResourceLocation(DeepConstants.MODID, "trial_keystone"));
 
         // Register our sole block
         blocks.add(blockMachineCasing);

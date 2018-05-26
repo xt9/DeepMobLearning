@@ -45,6 +45,9 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
         NonNullList<ItemStack> internalDataModels = DataModel.getValidFromList(getContainedItems(stack));
 
+        list.add("Will display a §bHUD§7 when in mainhand or offhand");
+        list.add("and populated with data models");
+
         if(internalDataModels.size() > 0) {
             if(!KeyboardHelper.isHoldingShift()) {
                 list.add(I18n.format("deepmoblearning.holdshift"));

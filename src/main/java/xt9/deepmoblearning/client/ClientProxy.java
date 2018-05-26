@@ -58,6 +58,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTrialKeystone.class, new TESRTrialKeystone());
     }
 
+    @Override
     public void registerItemRenderer(Item item, ResourceLocation location, int meta) {
         ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(location, "inventory"));
     }
