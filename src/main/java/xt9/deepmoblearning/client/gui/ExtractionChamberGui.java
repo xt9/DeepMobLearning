@@ -20,6 +20,7 @@ import xt9.deepmoblearning.common.inventory.ContainerExtractionChamber;
 import xt9.deepmoblearning.common.network.ExtractionChamberChangePageMessage;
 import xt9.deepmoblearning.common.network.ExtractorSetSelectedItemMessage;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.MathHelper;
 import xt9.deepmoblearning.common.util.Pagination;
 import java.io.IOException;
@@ -102,7 +103,7 @@ public class ExtractionChamberGui extends GuiContainer {
             if (aButtonList instanceof ItemSelectButton) {
                 ItemSelectButton btn = (ItemSelectButton) aButtonList;
                 if (btn.isMouseOver()) {
-                    renderer.drawString(btn.stack.getDisplayName(), 2, -10, 16777215);
+                    renderer.drawString(btn.stack.getDisplayName(), 2, -10, Color.WHITE);
                 }
             }
         }

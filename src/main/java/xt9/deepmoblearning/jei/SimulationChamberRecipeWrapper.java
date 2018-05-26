@@ -7,9 +7,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.Tier;
-
 import javax.annotation.Nonnull;
 
 /**
@@ -69,10 +69,10 @@ public class SimulationChamberRecipeWrapper implements IRecipeWrapper {
         FontRenderer render = minecraft.fontRenderer;
 
         String tierName = Tier.getTierName(DataModel.getTier(dataModel), false);
-        render.drawStringWithShadow(tierName, 90 - render.getStringWidth(tierName), 30, 16777215);
+        render.drawStringWithShadow(tierName, 90 - render.getStringWidth(tierName), 30, Color.WHITE);
 
         int pristineChance = DataModel.getPristineChance(dataModel);
         String chanceText = pristineChance + "%";
-        render.drawStringWithShadow(chanceText, 115, 31, 16777215);
+        render.drawStringWithShadow(chanceText, 115, 31, Color.WHITE);
     }
 }

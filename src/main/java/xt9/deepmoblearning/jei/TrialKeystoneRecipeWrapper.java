@@ -7,6 +7,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import xt9.deepmoblearning.common.util.Color;
 
 import javax.annotation.Nonnull;
 
@@ -36,7 +37,7 @@ public class TrialKeystoneRecipeWrapper implements IRecipeWrapper {
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         FontRenderer render = minecraft.fontRenderer;
 
-        render.drawStringWithShadow(keyTier, 38 - render.getStringWidth(keyTier), -4, 16777215);
-        render.drawStringWithShadow(keyType, 48, -4, 16777215);
+        render.drawStringWithShadow(keyTier, 38 - render.getStringWidth(keyTier), -4, Color.WHITE);
+        render.drawStringWithShadow(keyType, 48, -4, Color.WHITE);
     }
 }

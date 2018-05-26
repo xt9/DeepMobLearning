@@ -26,6 +26,7 @@ import xt9.deepmoblearning.common.tiles.IGuiTile;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
+import xt9.deepmoblearning.common.util.Color;
 
 
 /**
@@ -54,7 +55,7 @@ public class CommonProxy implements IGuiHandler {
 
     public void preInit() {
         // Entities
-        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch"), EntityGlitch.class, DeepConstants.MODID + ".glitch", 0, DeepMobLearning.instance, 64, 1, true, 0, 0);
+        EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch"), EntityGlitch.class, DeepConstants.MODID + ".glitch", 0, DeepMobLearning.instance, 64, 1, true, 0, Color.AQUA);
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":glitch_orb"), EntityGlitchOrb.class, DeepConstants.MODID + ".glitch_orb", 1, DeepMobLearning.instance, 64, 1, true);
 
         EntityRegistry.registerModEntity(new ResourceLocation(DeepConstants.MODID + ":trial_enderman"), EntityTrialEnderman.class, DeepConstants.MODID + ".trial_enderman", 2, DeepMobLearning.instance, 64, 1, true);

@@ -16,6 +16,7 @@ import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 import xt9.deepmoblearning.common.util.Animation;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.MathHelper;
 
@@ -131,8 +132,8 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a1 = getAnimation("pleaseInsert1");
             Animation a2 = getAnimation("pleaseInsert2");
 
-            animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, 16777215);
-            animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, Color.WHITE);
+            animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), Color.WHITE);
 
         } else if(DataModel.getTier(tile.getDataModel()) == 0) {
 
@@ -142,9 +143,9 @@ public class SimulationChamberGui extends GuiContainer {
             Animation insufData2 = getAnimation("insufData2");
             Animation insufData3 = getAnimation("insufData3");
 
-            animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, 16777215);
-            animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), 16777215);
-            animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), 16777215);
+            animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, Color.WHITE);
+            animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), Color.WHITE);
+            animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), Color.WHITE);
 
         } else {
             // Draw current data model data
@@ -159,9 +160,9 @@ public class SimulationChamberGui extends GuiContainer {
                 drawTexturedModalRect(left + 6,  top + 48 + experienceBarOffset, 18, 141, 7, experienceBarHeight);
             }
 
-            drawString(renderer, "Tier: " + DataModel.getTierName(tile.getDataModel(), false), left + 10, topStart + spacing, 16777215);
-            drawString(renderer, "Iterations: " + f.format(DataModel.getTotalSimulationCount(tile.getDataModel())), left + 10, topStart + spacing * 2, 16777215);
-            drawString(renderer, "Pristine chance: " + DataModel.getPristineChance(tile.getDataModel()) + "%", left + 10, topStart + spacing * 3, 16777215);
+            drawString(renderer, "Tier: " + DataModel.getTierName(tile.getDataModel(), false), left + 10, topStart + spacing, Color.WHITE);
+            drawString(renderer, "Iterations: " + f.format(DataModel.getTotalSimulationCount(tile.getDataModel())), left + 10, topStart + spacing * 2, Color.WHITE);
+            drawString(renderer, "Pristine chance: " + DataModel.getPristineChance(tile.getDataModel()) + "%", left + 10, topStart + spacing * 3, Color.WHITE);
         }
 
         // Draw player inventory
@@ -177,7 +178,7 @@ public class SimulationChamberGui extends GuiContainer {
         String[] lines;
 
         if(!tile.hasDataModel() || DataModel.getTier(tile.getDataModel()) == 0) {
-            animateString("_", getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, 16777215);
+            animateString("_", getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, Color.WHITE);
 
         } else if(!tile.hasPolymerClay()) {
             lines = new String[] {"Cannot begin simulation", "Missing polymer medium", "_"};
@@ -185,9 +186,9 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a2 = getAnimation("inputSlotEmpty2");
             Animation a3 = getAnimation("blinkingUnderline1");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
 
         } else if(!hasEnergy() && !tile.isCrafting()) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
@@ -195,37 +196,37 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a2 = getAnimation("lowEnergy2");
             Animation a3 = getAnimation("blinkingUnderline2");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
         } else if(tile.outputIsFull() || tile.pristineIsFull()) {
             lines = new String[] {"Cannot begin simulation", "Output or pristine buffer is full", "_"};
             Animation a1 = getAnimation("outputSlotFilled1");
             Animation a2 = getAnimation("outputSlotFilled2");
             Animation a3 = getAnimation("blinkingUnderline3");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, 16777215);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, 16777215);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), 16777215);
+            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
         } else if(tile.isCrafting()) {
-            drawString(renderer, tile.percentDone + "%", left + 176, top + 123, 6478079);
+            drawString(renderer, tile.percentDone + "%", left + 176, top + 123, Color.AQUA);
 
-            drawString(renderer, tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, 16777215);
-            drawString(renderer, tile.getSimulationText("simulationProgressLine1Version"), left + 124, top + 51, 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine1"), left + 21, top + 51, Color.WHITE);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine1Version"), left + 124, top + 51, Color.WHITE);
 
-            drawString(renderer, tile.getSimulationText("simulationProgressLine2"), left + 21, top + 51 + spacing, 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine2"), left + 21, top + 51 + spacing, Color.WHITE);
 
-            drawString(renderer, tile.getSimulationText("simulationProgressLine3"), left + 21, top + 51 + (spacing * 2), 16777215);
-            drawString(renderer, tile.getSimulationText("simulationProgressLine4"), left + 21, top + 51 + (spacing * 3), 16777215);
-            drawString(renderer, tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine3"), left + 21, top + 51 + (spacing * 2), Color.WHITE);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine4"), left + 21, top + 51 + (spacing * 3), Color.WHITE);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine5"), left + 21, top + 51 + (spacing * 4), Color.WHITE);
 
-            drawString(renderer, tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), 16777215);
-            drawString(renderer, tile.getSimulationText("simulationProgressLine6Result"), left + 140, top + 51 + (spacing * 5), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine6"), left + 21, top + 51 + (spacing * 5), Color.WHITE);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine6Result"), left + 140, top + 51 + (spacing * 5), Color.WHITE);
 
-            drawString(renderer, tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), 16777215);
-            drawString(renderer, tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), 16777215);
+            drawString(renderer, tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), Color.WHITE);
+            drawString(renderer, tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), Color.WHITE);
         } else {
-            animateString("_", getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, 16777215);
+            animateString("_", getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, Color.WHITE);
         }
     }
 

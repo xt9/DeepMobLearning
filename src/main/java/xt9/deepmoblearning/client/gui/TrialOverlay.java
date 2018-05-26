@@ -20,6 +20,7 @@ import org.lwjgl.opengl.GL11;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
+import xt9.deepmoblearning.common.util.Color;
 
 
 /**
@@ -154,7 +155,7 @@ public class TrialOverlay extends GuiScreen {
         drawTexturedModalRect(getScreenCenterX() - string1Width - 22, 108, 0, 0, 17, 17);
         drawTexturedModalRect(getScreenCenterX() + string1Width + 4, 108, 0, 0, 17, 17);
 
-        renderScaledStringWithColor(scale1, x1, 110, notif1, 13068507);
+        renderScaledStringWithColor(scale1, x1, 110, notif1, Color.BRIGHT_PURPLE);
         renderScaledString(scale2, x2, 130, notif2);
     }
 
@@ -165,20 +166,20 @@ public class TrialOverlay extends GuiScreen {
         int y = 145;
 
         drawItemStackWithCount(x - 21, y + 4, new ItemStack(Items.CLOCK));
-        renderScaledStringWithColor(scale, scaledX, y + 2, "Wave", 	3403740);
-        drawString(fontRender, (clientCapability.getCurrentWave() + 1) + "/" + clientCapability.getLastWave(), x + 1, y + 16, 16777215);
+        renderScaledStringWithColor(scale, scaledX, y + 2, "Wave", 	Color.BRIGHT_LIME);
+        drawString(fontRender, (clientCapability.getCurrentWave() + 1) + "/" + clientCapability.getLastWave(), x + 1, y + 16, Color.WHITE);
 
         ItemStack skull = new ItemStack(Items.SKULL);
         skull.setItemDamage(0);
 
         drawItemStackWithCount(x - 21, y + 36, skull);
-        renderScaledStringWithColor(scale, scaledX, y + 32, "Opponents", 	3403740);
+        renderScaledStringWithColor(scale, scaledX, y + 32, "Opponents", Color.BRIGHT_LIME);
 
         int toKill = clientCapability.getWaveMobTotal() - clientCapability.getDefated();
         if(toKill== 0) {
-            drawString(fontRender, "Wave cleared", x + 1, y + 46, 16777215);
+            drawString(fontRender, "Wave cleared", x + 1, y + 46, Color.WHITE);
         } else {
-            drawString(fontRender, toKill + " to go", x + 1, y + 46, 16777215);
+            drawString(fontRender, toKill + " to go", x + 1, y + 46, Color.WHITE);
         }
     }
 
@@ -192,7 +193,7 @@ public class TrialOverlay extends GuiScreen {
     }
 
     private void renderScaledString(float scale, int x, int y, String text) {
-        renderScaledStringWithColor(scale, x, y, text, 16777215);
+        renderScaledStringWithColor(scale, x, y, text, Color.WHITE);
     }
 
     private int getHalfLineWidth(String text, float glScale) {

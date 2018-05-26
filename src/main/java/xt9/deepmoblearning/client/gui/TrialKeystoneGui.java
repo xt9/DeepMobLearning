@@ -22,6 +22,7 @@ import xt9.deepmoblearning.common.trials.Trial;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
 import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.Tier;
 import xt9.deepmoblearning.common.util.TrialKey;
 
@@ -142,31 +143,31 @@ public class TrialKeystoneGui extends GuiContainer {
 
 
         if(tile.isTrialActive()) {
-            drawCenteredString(fontRenderer, "Trial is currently active", left + 100, top + 34, 	16777215);
-            drawCenteredString(fontRenderer, "§6Rewards§r will drop upon completion.", left + 100, top + 46, 	16777215);
-            drawCenteredString(fontRenderer, "Current wave: (" + (tile.getCurrentWave() + 1) + "/" + tile.getLastWave() + ")", left + 100, top + 58, 	16777215);
+            drawCenteredString(fontRenderer, "Trial is currently active", left + 100, top + 34, Color.WHITE);
+            drawCenteredString(fontRenderer, "§6Rewards§r will drop upon completion.", left + 100, top + 46, 	Color.WHITE);
+            drawCenteredString(fontRenderer, "Current wave: (" + (tile.getCurrentWave() + 1) + "/" + tile.getLastWave() + ")", left + 100, top + 58, 	Color.WHITE);
             return;
         }
 
         if(!tile.areaIsClear()) {
-            drawCenteredString(fontRenderer, "Something is blocking the §bTrial Area§r", left + 100, top + 22, 16777215);
-            drawCenteredString(fontRenderer, "Make sure a 15x15x10 area is clear", left + 100, top + 34, 16777215);
-            drawCenteredString(fontRenderer, "and the layer beneath the", left + 100, top + 46, 16777215);
-            drawCenteredString(fontRenderer, " §bTrial Keystone§r is made up", left + 100, top + 58, 16777215);
-            drawCenteredString(fontRenderer, "of full blocks (also 15x15)", left + 100, top + 70, 16777215);
+            drawCenteredString(fontRenderer, "Something is blocking the §bTrial Area§r", left + 100, top + 22, Color.WHITE);
+            drawCenteredString(fontRenderer, "Make sure a 15x15x10 area is clear", left + 100, top + 34, Color.WHITE);
+            drawCenteredString(fontRenderer, "and the layer beneath the", left + 100, top + 46, Color.WHITE);
+            drawCenteredString(fontRenderer, " §bTrial Keystone§r is made up", left + 100, top + 58, Color.WHITE);
+            drawCenteredString(fontRenderer, "of full blocks (also 15x15)", left + 100, top + 70, Color.WHITE);
             return;
         }
 
         if(!tile.hasTrialKey()) {
-            drawCenteredString(fontRenderer, "Please insert a attuned Trial Key", left + 100, top + 42, 	16777215);
-            drawCenteredString(fontRenderer, "to start a trial", left + 100, top + 54, 	16777215);
+            drawCenteredString(fontRenderer, "Please insert a attuned Trial Key", left + 100, top + 42, 	Color.WHITE);
+            drawCenteredString(fontRenderer, "to start a trial", left + 100, top + 54, 	Color.WHITE);
             return;
         }
 
         if(tile.hasTrialKey() && !TrialKey.isAttuned(tile.getTrialKey())) {
-            drawCenteredString(fontRenderer, "Current key is not attuned", left + 100, top + 34, 	16777215);
-            drawCenteredString(fontRenderer, "learn more about attunement in the", left + 100, top + 46, 	16777215);
-            drawCenteredString(fontRenderer, "JEI entry for the " + new ItemStack(Registry.trialKey).getDisplayName(), left + 100, top + 58, 	16777215);
+            drawCenteredString(fontRenderer, "Current key is not attuned", left + 100, top + 34, 	Color.WHITE);
+            drawCenteredString(fontRenderer, "learn more about attunement in the", left + 100, top + 46, 	Color.WHITE);
+            drawCenteredString(fontRenderer, "JEI entry for the " + new ItemStack(Registry.trialKey).getDisplayName(), left + 100, top + 58, 	Color.WHITE);
             return;
         }
 
@@ -182,20 +183,20 @@ public class TrialKeystoneGui extends GuiContainer {
     private void drawKeyInfo(int x, int y) {
         NonNullList<ITrialAffix> affixes = TrialKey.getAffixes(trialKey, tile.getPos(), tile.getWorld());
 
-        drawString(fontRenderer, "Trial type", x + 6, y + 6, 6478079);
-        drawString(fontRenderer, TrialKey.getMobMetaData(trialKey).getName(), x + 6, y + 18, 16777215);
+        drawString(fontRenderer, "Trial type", x + 6, y + 6, Color.AQUA);
+        drawString(fontRenderer, TrialKey.getMobMetaData(trialKey).getName(), x + 6, y + 18, Color.WHITE);
 
         // Top right
-        drawString(fontRenderer, "Tier:", x + 115, y + 6, 6478079);
-        drawString(fontRenderer, Tier.getTierName(TrialKey.getTier(trialKey), false) + "", x + 140, y + 6, 16777215);
+        drawString(fontRenderer, "Tier:", x + 115, y + 6, Color.AQUA);
+        drawString(fontRenderer, Tier.getTierName(TrialKey.getTier(trialKey), false) + "", x + 140, y + 6, Color.WHITE);
 
-        drawString(fontRenderer, "Waves:", x + 115, y + 18, 6478079);
-        drawString(fontRenderer, TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(trialKey)) + "", x + 150, y + 18, 16777215);
+        drawString(fontRenderer, "Waves:", x + 115, y + 18, Color.AQUA);
+        drawString(fontRenderer, TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(trialKey)) + "", x + 150, y + 18, Color.WHITE);
 
 
         int i = 0;
         rewardButtons.clear();
-        drawString(fontRenderer, "Rewards", x + 115, y + 38, 6478079);
+        drawString(fontRenderer, "Rewards", x + 115, y + 38, Color.AQUA);
         for (ItemStack itemStack : TrialFactory.getRewards(trialKey)) {
             // Attach a non-visible button to each reward so we can render a tooltip for it
             GuiButton btn = new TransparentButton(i, x + 115 + (18 * i), y + 48, 18, 18);
@@ -206,11 +207,11 @@ public class TrialKeystoneGui extends GuiContainer {
         }
 
         if(affixes.size() > 0) {
-            drawString(fontRenderer, "Affixes", x + 6, y + 38, 6478079);
+            drawString(fontRenderer, "Affixes", x + 6, y + 38, Color.AQUA);
 
             i = 0;
             for (ITrialAffix affix : affixes) {
-                drawString(fontRenderer, affix.getAffixNameWithFormatting(), x + 6, y + 50 + (12 * i), 6478079);
+                drawString(fontRenderer, affix.getAffixNameWithFormatting(), x + 6, y + 50 + (12 * i), Color.WHITE);
                 i++;
             }
         }

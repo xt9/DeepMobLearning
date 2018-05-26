@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.DataModel;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 
@@ -110,7 +111,7 @@ public class DataOverlay extends GuiScreen {
         DecimalFormat f = new DecimalFormat("0.#");
 
         drawItemStack(x - 18, y - 2 + barSpacing + (index * componentHeight), stack);
-        drawString(renderer, tierName + " Model", x - 14, y + (index * componentHeight) + 2, 16777215);
+        drawString(renderer, tierName + " Model", x - 14, y + (index * componentHeight) + 2, Color.WHITE);
 
         // Draw the bar
         mc.getTextureManager().bindTexture(experienceBar);
@@ -121,7 +122,7 @@ public class DataOverlay extends GuiScreen {
         } else {
             drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12,
                     (int) (((float) currenKillCount / tierRoof * 89)), 11);
-            drawString(renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + barSpacing + (index * componentHeight), 16777215);
+            drawString(renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + barSpacing + (index * componentHeight), Color.WHITE);
         }
     }
 

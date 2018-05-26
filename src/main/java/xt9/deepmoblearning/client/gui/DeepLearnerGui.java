@@ -17,6 +17,7 @@ import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
 import xt9.deepmoblearning.common.mobmetas.SpiderMeta;
 import xt9.deepmoblearning.common.mobmetas.ZombieMeta;
+import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.DataModel;
 
 import java.io.IOException;
@@ -167,13 +168,13 @@ public class DeepLearnerGui extends GuiContainer {
         int leftStart = left + 49;
         int spacing = 12;
 
-        drawString(renderer, "No Data Model Found", leftStart, top + spacing, 6478079);
-        drawString(renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), 16777215);
-        drawString(renderer,  "Your data models will collect data", leftStart, top + (spacing * 3), 16777215);
-        drawString(renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), 16777215);
+        drawString(renderer, "No Data Model Found", leftStart, top + spacing, Color.AQUA);
+        drawString(renderer,  "Please insert a Data Model!", leftStart, top + (spacing * 2), Color.WHITE);
+        drawString(renderer,  "Your data models will collect data", leftStart, top + (spacing * 3), Color.WHITE);
+        drawString(renderer,  "when they are placed in the deep learner.", leftStart, top + (spacing * 4), Color.WHITE);
 
-        drawString(renderer,  "In order to collect data, you must", leftStart, top + (spacing * 6), 16777215);
-        drawString(renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), 16777215);
+        drawString(renderer,  "In order to collect data, you must", leftStart, top + (spacing * 6), Color.WHITE);
+        drawString(renderer,  "deliver the killing blow.", leftStart, top + (spacing * 7), Color.WHITE);
     }
 
     private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack) {
@@ -182,13 +183,13 @@ public class DeepLearnerGui extends GuiContainer {
         int topStart = top - 4;
         int spacing = 12;
 
-        drawString(renderer, "Name", leftStart, topStart + spacing, 6478079);
-        drawString(renderer,  "The " + meta.getName(), leftStart, topStart + (spacing *  2), 16777215);
+        drawString(renderer, "Name", leftStart, topStart + spacing, Color.AQUA);
+        drawString(renderer,  "The " + meta.getName(), leftStart, topStart + (spacing *  2), Color.WHITE);
 
-        drawString(renderer, "Information", leftStart, topStart + (spacing *  3), 6478079);
+        drawString(renderer, "Information", leftStart, topStart + (spacing *  3), Color.AQUA);
         String mobTrivia[] = meta.getMobTrivia();
         for (int i = 0; i < mobTrivia.length; i++) {
-            drawString(renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), 16777215);
+            drawString(renderer, mobTrivia[i], leftStart, topStart + (spacing * 3) + ((i + 1) * 12), Color.WHITE);
         }
 
         String dataModelTier = DataModel.getTierName(stack, false);
@@ -198,14 +199,14 @@ public class DeepLearnerGui extends GuiContainer {
         int totalKills = DataModel.getTotalKillCount(stack);
         double killsToNextTier = DataModel.getKillsToNextTier(stack);
 
-        drawString(renderer, "Model Tier: " + dataModelTier, leftStart, topStart + (spacing * 8), 16777215);
-        drawString(renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 16777215);
+        drawString(renderer, "Model Tier: " + dataModelTier, leftStart, topStart + (spacing * 8), Color.WHITE);
+        drawString(renderer, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), Color.WHITE);
 
 
         if(DataModel.getTier(stack) != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
-            drawString(renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), 16777215);
+            drawString(renderer, "Defeat " + f.format(killsToNextTier) + " more to reach " + nextTier, leftStart, topStart + (spacing * 10), Color.WHITE);
         } else {
-            drawString(renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 16777215);
+            drawString(renderer, "Maximum tier achieved", leftStart, topStart + (spacing * 10), Color.WHITE);
         }
 
 
@@ -213,14 +214,14 @@ public class DeepLearnerGui extends GuiContainer {
         Minecraft.getMinecraft().getTextureManager().bindTexture(base);
         drawTexturedModalRect(left + 235, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
 
-        drawString(renderer, "Life points", left + 235, topStart + spacing, 6478079);
+        drawString(renderer, "Life points", left + 235, topStart + spacing, Color.AQUA);
 
         int numOfHearts = meta.getNumberOfHearts();
         if(numOfHearts == 0) {
             // Obfuscate if hears is 0, use for models with multiple mobmetas
-            drawString(renderer, "§k10§r", left + 246, topStart + (spacing * 2) - 1, 16777215);
+            drawString(renderer, "§k10§r", left + 246, topStart + (spacing * 2) - 1, Color.WHITE);
         } else {
-            drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, 16777215);
+            drawString(renderer, "" + meta.getNumberOfHearts(), left + 246, topStart + (spacing * 2) - 1, Color.WHITE);
         }
     }
 

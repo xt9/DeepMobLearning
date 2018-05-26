@@ -25,6 +25,7 @@ public class BlockBase extends Block {
         setUnlocalizedName(DeepConstants.MODID + "." + name);
         setCreativeTab(DeepMobLearning.creativeTab);
         setRegistryName(name);
+        setLightLevel(1F);
     }
 
     @SideOnly(Side.CLIENT)
