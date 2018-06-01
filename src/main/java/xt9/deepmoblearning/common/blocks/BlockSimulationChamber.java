@@ -59,8 +59,10 @@ public class BlockSimulationChamber extends BlockBase implements ITileEntityProv
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntitySimulationChamber tile = getTileEntity(world, pos);
-        CommonProxy.openTileEntityGui(world, player, tile, pos);
+        if(!player.isSneaking()) {
+            TileEntitySimulationChamber tile = getTileEntity(world, pos);
+            CommonProxy.openTileEntityGui(world, player, tile, pos);
+        }
         return true;
     }
 

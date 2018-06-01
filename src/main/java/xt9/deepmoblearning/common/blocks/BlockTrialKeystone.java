@@ -68,8 +68,10 @@ public class BlockTrialKeystone extends BlockBase implements ITileEntityProvider
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        TileEntityTrialKeystone tile = getTileEntity(world, pos);
-        CommonProxy.openTileEntityGui(world, player, tile, pos);
+        if(!player.isSneaking()) {
+            TileEntityTrialKeystone tile = getTileEntity(world, pos);
+            CommonProxy.openTileEntityGui(world, player, tile, pos);
+        }
         return true;
     }
 

@@ -376,7 +376,6 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     private void setSimulationTextFromNBT(NBTTagCompound tag) {
         simulationText.forEach((key, text) -> simulationText.put(key, tag.getString(key)));
-
     }
 
     private void doStaggeredDiskSave(int divisor) {

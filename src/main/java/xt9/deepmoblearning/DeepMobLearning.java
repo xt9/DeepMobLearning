@@ -63,14 +63,12 @@ public class DeepMobLearning {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        IForgeRegistry registry = event.getRegistry();
-        Registry.registerBlocks(registry);
+        Registry.registerBlocks(event.getRegistry());
     }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        IForgeRegistry registry = event.getRegistry();
-        Registry.registerItems(registry);
+        Registry.registerItems(event.getRegistry());
     }
 
     @SubscribeEvent

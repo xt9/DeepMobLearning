@@ -190,7 +190,6 @@ public class Registry {
         GameRegistry.registerTileEntity(blockExtractionChamber.getTileEntityClass(), new ResourceLocation(DeepConstants.MODID, "extraction_chamber"));
         GameRegistry.registerTileEntity(blockTrialKeystone.getTileEntityClass(), new ResourceLocation(DeepConstants.MODID, "trial_keystone"));
 
-        // Register our sole block
         blocks.add(blockMachineCasing);
         blocks.add(blockInfusedIngot);
         blocks.add(blockSimulationChamber);

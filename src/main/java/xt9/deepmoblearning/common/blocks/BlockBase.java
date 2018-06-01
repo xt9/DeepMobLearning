@@ -30,13 +30,7 @@ public class BlockBase extends Block {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list)
-    {
+    public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> list) {
         list.add(new ItemStack(this, 1));
     }
-
-    public ItemBlock getItemBlock(Block block) {
-        return new ItemBlockBase(blockName, 64, block);
-    }
-
 }

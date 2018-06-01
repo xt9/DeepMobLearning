@@ -40,6 +40,10 @@ minecraft {
     replace "@VERSION@", project.version.toString()
 }
 
+jar {
+    classifier = 'universal'
+}
+
 repositories {
     maven {
         // location of the maven that hosts JEI files
