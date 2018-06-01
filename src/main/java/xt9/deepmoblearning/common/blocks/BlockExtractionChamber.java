@@ -32,12 +32,12 @@ public class BlockExtractionChamber extends BlockBase implements ITileEntityProv
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isFullCube(IBlockState state) {
-        return false;
+        return true;
     }
 
     public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
