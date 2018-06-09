@@ -50,6 +50,10 @@ repositories {
         name = "Progwml6 maven"
         url = "http://dvs1.progwml6.com/files/maven"
     }
+    maven { // GuideAPI
+        name = "Tehnut Maven"
+        url = "http://tehnut.info/maven/"
+    }
     maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
@@ -67,6 +71,7 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mcVersion}:4.8.5.135"
 
+    deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.5-60"
     compile 'cofhcore:CoFHCore-1.12.2:release:universal'
     compile 'thermal-foundation:ThermalFoundation-1.12.2:release:universal'
     compile 'the-twilight-forest:twilightforest-1.12.2:release:universal'

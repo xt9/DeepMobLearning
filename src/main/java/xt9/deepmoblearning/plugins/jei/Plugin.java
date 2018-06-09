@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.jei;
+package xt9.deepmoblearning.plugins.jei;
 
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
@@ -111,36 +111,19 @@ public class Plugin implements IModPlugin {
     }
 
     private void addItemDescriptions(IModRegistry registry) {
-        NonNullList<ItemStack> matter = NonNullList.create();
-        for (int i = 0; i < Registry.livingMatter.size(); i++) {
-            matter.add(new ItemStack(Registry.livingMatter.get(i)));
-        }
+        registry.addIngredientInfo(new ItemStack(Registry.glitchInfusedIngot), ItemStack.class, getInfusedIngotLines());
+    }
 
-        NonNullList<ItemStack> dataModels = NonNullList.create();
-        dataModels.add(new ItemStack(Registry.dataModelBlank));
-        for (int i = 0; i < Registry.dataModels.size(); i++) {
-            dataModels.add(new ItemStack(Registry.dataModels.get(i)));
-        }
+    public static String[] getInfusedIngotLines() {
+        NonNullList<String> lines = NonNullList.create();
+        lines.add("TLDR: Drop some fragments, lapis and gold ingots into a body of water and hope for the best");
+        lines.add("");
+        lines.add("You've found that lapis is a good stabilization agent for Unstable glitch fragments.");
+        lines.add("After the fragments are stable, they desperately seek out a material to latch on to, you think that gold might be strong enough as a host.");
+        lines.add("");
+        lines.add("The entire process is delicate, it needs to be performed in water or the materials wont bind properly.");
 
-        NonNullList<ItemStack> pristines = NonNullList.create();
-        for (int i = 0; i < Registry.pristineMatter.size(); i++) {
-            pristines.add(new ItemStack(Registry.pristineMatter.get(i)));
-        }
-
-
-        registry.addIngredientInfo(dataModels, ItemStack.class, "# of monsters defeated to reach the next tier",
-            Config.modelExperience.get("killsToTier1").getInt() + " <- §3§oFaulty to Basic§r",
-            Config.modelExperience.get("killsToTier2").getInt() + " <- §3§oBasic to Advanced§r",
-            Config.modelExperience.get("killsToTier3").getInt() + " <- §3§oAdvanced to Superior§r",
-            Config.modelExperience.get("killsToTier4").getInt() + " <- §3§oSuperior to Self Aware§r",
-            "\nHigher tiers get more data from defeating foes."
-        );
-
-        registry.addIngredientInfo(new ItemStack(Registry.deepLearner), ItemStack.class, "deepmoblearning.jei.description.deep_learner");
-        registry.addIngredientInfo(new ItemStack(Registry.glitchInfusedIngot), ItemStack.class, JEIStringBuilder.getInfusedIngotLines());
-
-        registry.addIngredientInfo(new ItemStack(Registry.trialKey), ItemStack.class, JEIStringBuilder.getTrialKeyLines());
-        registry.addIngredientInfo(new ItemStack(Registry.trialKeystoneItem), ItemStack.class, JEIStringBuilder.getTrialKeystoneLines());
+        return lines.toArray(new String[lines.size()]);
     }
 
 

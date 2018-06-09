@@ -56,7 +56,8 @@ public class DeepConstants {
 
         public static final String[] ENDERMAN = {
             "minecraft:ender_pearl,6,0",
-            "minecraft:end_crystal,1,0"
+            "minecraft:end_crystal,1,0",
+            "enderio:block_enderman_skull,2,0"
         };
 
         public static final String[] GHAST = {

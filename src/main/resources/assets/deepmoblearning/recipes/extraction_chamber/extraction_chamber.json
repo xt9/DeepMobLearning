@@ -7,8 +7,8 @@
   ],
   "key": {
     "M": { "item": "deepmoblearning:machine_casing", "data": 0 },
-    "G": { "item": "minecraft:gold_ingot", "data": 0 },
-    "D": { "item": "minecraft:diamond", "data": 0 },
+    "G": { "type": "forge:ore_dict", "ore": "ingotGold" },
+    "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
     "C": { "item": "minecraft:comparator", "data": 0 },
     "O": { "item": "minecraft:dye", "data": 14 },
     "Y": { "item": "minecraft:dye", "data": 11 }

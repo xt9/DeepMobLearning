@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "minecraft:dirt", "data": 0 },
-    { "item": "minecraft:leaves", "data": 0 },
+    { "type": "forge:ore_dict", "ore": "dirt" },
+    { "type": "forge:ore_dict", "ore": "treeLeaves" },
     { "item": "deepmoblearning:living_matter_overworldian", "data": 0 }
   ],
   "result": {

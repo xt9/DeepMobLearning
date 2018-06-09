@@ -93,7 +93,7 @@ public class LootHoarderAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "Will lure in the smaller and more greedy zombies of the world (They may carry valuables)";
     }
 }

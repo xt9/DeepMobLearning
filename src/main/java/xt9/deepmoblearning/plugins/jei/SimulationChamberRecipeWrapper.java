@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.jei;
+package xt9.deepmoblearning.plugins.jei;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -38,7 +38,7 @@ public class SimulationChamberRecipeWrapper implements IRecipeWrapper {
         ingredients.setOutputs(ItemStack.class, outputs);
     }
 
-    public void cycleTier() {
+    private void cycleTier() {
         int currentTier = DataModel.getTier(dataModel);
         if(Tier.isMaxTier(currentTier)) {
             DataModel.setTier(dataModel, 1);

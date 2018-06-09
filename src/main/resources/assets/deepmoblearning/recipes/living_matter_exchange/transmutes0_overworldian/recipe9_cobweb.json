@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "minecraft:string", "data": 0 },
-    { "item": "minecraft:slime_ball", "data": 0 },
+    { "type": "forge:ore_dict", "ore": "string" },
+    { "type": "forge:ore_dict", "ore": "slimeball" },
     { "item": "deepmoblearning:living_matter_overworldian", "data": 0 },
     { "item": "deepmoblearning:living_matter_overworldian", "data": 0 }
   ],

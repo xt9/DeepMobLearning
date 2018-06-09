@@ -7,8 +7,8 @@
   ],
   "key": {
     "I": { "item": "deepmoblearning:glitch_infused_ingot", "data": 0 },
-    "N": { "item": "minecraft:iron_nugget", "data": 0 },
-    "S": { "item": "minecraft:stick", "data": 0 }
+    "N": { "type": "forge:ore_dict", "ore": "nuggetIron" },
+    "S": { "type": "forge:ore_dict", "ore": "stickWood" }
   },
   "result": {
     "item": "deepmoblearning:glitch_infused_sword",

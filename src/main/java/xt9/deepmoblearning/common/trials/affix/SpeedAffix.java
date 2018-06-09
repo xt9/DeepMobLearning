@@ -10,7 +10,6 @@ import xt9.deepmoblearning.common.entity.EntityGlitch;
  */
 @SuppressWarnings("ConstantConditions")
 public class SpeedAffix implements ITrialAffix {
-    private String[] descriptionLines = {"The speed affix applies a permanent speed increase. (Effect only applied to the Trial specific opponents)"};
     private PotionEffect effect = new PotionEffect(Potion.REGISTRY.getObjectById(1), Integer.MAX_VALUE, 0);
 
     @Override
@@ -35,7 +34,8 @@ public class SpeedAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "The speed affix applies a permanent speed increase.\n(Effect only applied to the Trial specific opponents)";
     }
+
 }

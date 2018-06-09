@@ -1,10 +1,10 @@
 [{
   "modid": "deepmoblearning",
   "name": "Deep Mob Learning",
-  "description": "Mob looting, revamped.",
+  "description": "Server friendly mob loot acquisition.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://minecraft.curseforge.com/projects/deep-mob-learning",
   "updateUrl": "",
   "authorList": ["xt9 (IterationFunk)"],
   "credits": "",

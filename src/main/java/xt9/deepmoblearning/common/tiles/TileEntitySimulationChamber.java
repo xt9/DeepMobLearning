@@ -332,7 +332,6 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        // Here we get the packet from the server and read it into our client side tile particle
         super.onDataPacket(net, packet);
         readFromNBT(packet.getNbtCompound());
     }

@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.jei;
+package xt9.deepmoblearning.plugins.jei;
 
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModRegistry;

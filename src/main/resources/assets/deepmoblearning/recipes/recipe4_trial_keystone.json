@@ -6,8 +6,8 @@
     "SSS"
   ],
   "key": {
-    "S": { "item": "minecraft:stone", "data": 0 },
-    "D": { "item": "minecraft:diamond", "data": 0 },
+    "S": { "type": "forge:ore_dict", "ore": "stone" },
+    "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
     "M": { "item": "deepmoblearning:machine_casing", "data": 0 },
     "T": { "item": "deepmoblearning:trial_key", "data": 0 }
   },

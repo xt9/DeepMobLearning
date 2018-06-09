@@ -7,8 +7,8 @@
   ],
   "key": {
     "E": { "item": "minecraft:ender_pearl", "data": 0 },
-    "D": { "item": "minecraft:diamond", "data": 0 },
-    "N": { "item": "minecraft:iron_nugget", "data": 0 }
+    "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
+    "N": { "type": "forge:ore_dict", "ore": "nuggetIron" }
   },
   "result": {
     "item": "deepmoblearning:trial_key",

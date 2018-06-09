@@ -97,11 +97,11 @@ deepmoblearning.data_model.data.killmultiplier=§rData per kill: §7%s§r
 deepmoblearning.data_model.rfcost=§rSimulation cost: §7%s RF/t§r
 deepmoblearning.living_matter.exp=§7Experience per item: §a%s§r
 deepmoblearning.trial_key.notattuned=§7The key is currently not attuned§r
-deepmoblearning.trial_key.attunement_go_to_jei=§7Read more about attunement in JEI§r
+deepmoblearning.trial_key.attunement_go_to_jei=§7Read more about attunement in the Guidebook§r
 deepmoblearning.trial_key.attuned_type=§rThe key is attuned to: §7%s§r
 deepmoblearning.trial_key.tier=§rKey tier: §7%s§r
 deepmoblearning.trial_key.affixes=§rAffixes: §7%s§r
-deepmoblearning.trial_key.affix_go_to_jei=§7Read more about each affix in JEI (Trial Keystone entry)§r
+deepmoblearning.trial_key.affix_go_to_jei=§7Read more about each affix in the Guidebook§r
 
 deepmoblearning.trial_key.jei.type=§rKey type: §7%s§r
 deepmoblearning.trial_key.jei.tier=§rKey tier: §7%s§r
@@ -109,10 +109,8 @@ deepmoblearning.trial_key.jei.tier=§rKey tier: §7%s§r
 #
 # JEI
 #
-deepmoblearning.jei.description.deep_learner=A scanning device that can record data from the demise of monsters. In order to collect data you must populate one of the 4 available slots in the Deep Learner with data models.\n\nProjectile kills will count.
 deepmoblearning.jei.category.trial_keystone.type=§b%s§r
 deepmoblearning.jei.category.trial_keystone.tier=§r%s§r
-
 
 
 #

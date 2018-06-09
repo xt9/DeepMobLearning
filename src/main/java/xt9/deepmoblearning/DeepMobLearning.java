@@ -13,9 +13,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.registries.IForgeRegistry;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
@@ -23,7 +23,7 @@ import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.network.*;
 
 @Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory",
-    dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct", acceptedMinecraftVersions = "[1.12,1.12.2]")
+    dependencies = "required-after:guideapi@[1.12-2.1.5-60,);after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
 
@@ -78,9 +78,7 @@ public class DeepMobLearning {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        // Register GUI handler
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
-
         proxy.init();
     }
 

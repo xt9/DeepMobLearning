@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by xt9 on 2018-04-24.
  */
 public class RegenPartyAffix implements ITrialAffix {
-    private String[] descriptionLines = {"A Regen Party affix will sometimes cause a rip in time & space, causing the skies to open up and fling lingering regen potions into the air."};
     private BlockPos pos;
     private World world;
     private int ticks = 0;
@@ -74,7 +73,7 @@ public class RegenPartyAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "A Regen Party affix will sometimes cause a rip in time & space, causing the skies to open up and fling lingering regen potions into the air.";
     }
 }

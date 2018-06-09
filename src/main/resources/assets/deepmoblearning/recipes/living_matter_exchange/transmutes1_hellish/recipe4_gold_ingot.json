@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "minecraft:glowstone_dust", "data": 0 },
-    { "item": "minecraft:iron_ingot", "data": 0 },
+    { "type": "forge:ore_dict", "ore": "dustGlowstone" },
+    { "type": "forge:ore_dict", "ore": "ingotIron" },
     { "item": "deepmoblearning:living_matter_hellish", "data": 0 }
   ],
   "result": {

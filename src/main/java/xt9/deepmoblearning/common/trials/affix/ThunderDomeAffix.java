@@ -19,7 +19,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by xt9 on 2018-05-01.
  */
 public class ThunderDomeAffix implements ITrialAffix {
-    private String[] descriptionLines = {"Makes the trial more electric by causing random thunder strikes. May occasionally directly strike the Player, Opponents or System glitches in the trial"};
     private BlockPos pos;
     private World world;
     private int ticks = 0;
@@ -91,7 +90,7 @@ public class ThunderDomeAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "Makes the trial more electric by causing random thunder strikes. May occasionally directly strike the Player, Opponents or System glitches in the trial";
     }
 }

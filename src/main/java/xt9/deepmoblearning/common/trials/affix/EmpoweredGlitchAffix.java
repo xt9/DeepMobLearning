@@ -12,8 +12,6 @@ import xt9.deepmoblearning.common.entity.EntityGlitch;
  */
 @SuppressWarnings("ConstantConditions")
 public class EmpoweredGlitchAffix implements ITrialAffix {
-    private String[] descriptionLines = {"Empowers the System glitches. They gain more health and launch more orbs which also deal more damage.\n(This affix only affect System glitches)"};
-
     @Override
     public void apply(EntityLiving entity) {
 
@@ -45,7 +43,7 @@ public class EmpoweredGlitchAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "Empowers the System glitches. They gain more health and launch more orbs which also deal more damage.\n(This affix only affect System glitches)";
     }
 }

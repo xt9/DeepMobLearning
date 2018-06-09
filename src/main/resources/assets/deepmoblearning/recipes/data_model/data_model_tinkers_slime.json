@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank", "data": 0 },
+    { "item": "tconstruct:edible", "data": 1 }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_tinker_slime",
+    "count": 1
+  }
+}

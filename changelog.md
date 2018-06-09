@@ -4,6 +4,14 @@
 - Updated to forge 14.23.4.2703
 - Stopped using a deprecated register function for TE's (Got deprecated in 2703)
 - Added additional tooltip to deep learner to make them aware of the HUD
+- Prevent opening the tile entities when sneaking
+- Added a Guidebook (With Guidebook API)
+- Changed the Ender pearl transmutation recipe to be more expensive.
+- Added OreDict in recipes where applicable.
+- Added Ender IO enderman heads to the pristine enderman matter table. (Remove previous config to regenerate)
+- Actually added a recipe for the Tinker Slime Data model... Oopsie
+- Actually added a recipe for the Shulker Data model... Oopsie
+- Actually added a recipe for the Guardian Data model... Oopsie
 
 ### 2.0 - Trials
 Fight your way through combat trials, gaining additional data to your data models and

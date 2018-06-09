@@ -1,4 +1,4 @@
-package xt9.deepmoblearning.jei;
+package xt9.deepmoblearning.plugins.jei;
 
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeWrapper;

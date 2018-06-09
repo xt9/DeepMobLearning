@@ -12,7 +12,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by xt9 on 2018-04-25.
  */
 public class BlazeInvadersAffix implements ITrialAffix {
-    private String[] descriptionLines = {"The Blaze Invaders affix will sometimes make blazes appear inside of the trial (Try to don't get burned)"};
     private BlockPos pos;
     private World world;
     private int ticks = 0;
@@ -68,7 +67,7 @@ public class BlazeInvadersAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "The Blaze Invaders affix will sometimes make blazes appear inside of the trial (Try to don't get burned)";
     }
 }

@@ -11,8 +11,6 @@ import xt9.deepmoblearning.common.entity.EntityGlitch;
  * Created by xt9 on 2018-04-25.
  */
 public class KnockbackImmuneAffix implements ITrialAffix {
-    private String[] descriptionLines = {"Applies a permanent knockback immunity. (Effect only applied to the Trial specific opponents)"};
-
     @Override
     public void apply(EntityLiving entity) {
         IAttributeInstance knockbackResist = entity.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE);
@@ -41,7 +39,7 @@ public class KnockbackImmuneAffix implements ITrialAffix {
     }
 
     @Override
-    public String[] getDescriptionLines() {
-        return descriptionLines;
+    public String getAffixDescription() {
+        return "Applies a permanent knockback immunity.\n(Effect only applied to the Trial specific opponents)";
     }
 }

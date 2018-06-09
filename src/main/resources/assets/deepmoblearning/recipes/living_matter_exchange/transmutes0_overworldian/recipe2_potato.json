@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     { "item": "deepmoblearning:living_matter_overworldian", "data": 0 },
-    { "item": "minecraft:carrot", "data": 0 }
+    { "type": "forge:ore_dict", "ore": "cropCarrot" }
   ],
   "result": {
     "item": "minecraft:potato",

@@ -13,5 +13,5 @@ public interface ITrialAffix {
     void run();
     String getAffixName();
     String getAffixNameWithFormatting();
-    String[] getDescriptionLines();
+    String getAffixDescription();
 }

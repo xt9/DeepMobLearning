@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "minecraft:stick", "data": 0 },
+    { "type": "forge:ore_dict", "ore": "stickWood" },
     { "item": "deepmoblearning:living_matter_hellish", "data": 0 },
     { "item": "deepmoblearning:living_matter_hellish", "data": 0 }
   ],
