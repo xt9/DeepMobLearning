@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.common.CommonProxy;
@@ -26,11 +25,15 @@ import xt9.deepmoblearning.common.network.*;
     dependencies = "required-after:guideapi@[1.12-2.1.5-60,);after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
+    private int networkID = 0;
 
     @Mod.Instance(DeepConstants.MODID)
     public static DeepMobLearning instance;
 
-    @SidedProxy(clientSide="xt9.deepmoblearning.client.ClientProxy", serverSide="xt9.deepmoblearning.common.CommonProxy")
+    @SidedProxy(
+        clientSide="xt9.deepmoblearning.client.ClientProxy",
+        serverSide="xt9.deepmoblearning.common.CommonProxy"
+    )
     public static CommonProxy proxy;
 
     public static SimpleNetworkWrapper network;
@@ -42,18 +45,18 @@ public class DeepMobLearning {
 
         // Init network messages
         network = NetworkRegistry.INSTANCE.newSimpleChannel(DeepConstants.MODID);
-        network.registerMessage(ExtractorSetSelectedItemMessage.Handler.class, ExtractorSetSelectedItemMessage.class, 0, Side.SERVER);
-        network.registerMessage(ExtractionChamberChangePageMessage.Handler.class, ExtractionChamberChangePageMessage.class, 1, Side.SERVER);
-        network.registerMessage(LevelUpModelMessage.Handler.class, LevelUpModelMessage.class, 2, Side.SERVER);
-        network.registerMessage(ConsumeLivingMatterMessage.Handler.class, ConsumeLivingMatterMessage.class, 3, Side.SERVER);
+        network.registerMessage(ExtractorSetSelectedItemMessage.Handler.class, ExtractorSetSelectedItemMessage.class, networkID++, Side.SERVER);
+        network.registerMessage(ExtractionChamberChangePageMessage.Handler.class, ExtractionChamberChangePageMessage.class, networkID++, Side.SERVER);
+        network.registerMessage(LevelUpModelMessage.Handler.class, LevelUpModelMessage.class, networkID++, Side.SERVER);
+        network.registerMessage(ConsumeLivingMatterMessage.Handler.class, ConsumeLivingMatterMessage.class, networkID++, Side.SERVER);
 
-        network.registerMessage(TrialStartMessage.Handler.class, TrialStartMessage.class, 4, Side.SERVER);
+        network.registerMessage(TrialStartMessage.Handler.class, TrialStartMessage.class, networkID++, Side.SERVER);
 
-        network.registerMessage(UpdateKeystoneItemMessage.Handler.class, UpdateKeystoneItemMessage.class, 5, Side.CLIENT);
-        network.registerMessage(RequestKeystoneItemMessage.Handler.class, RequestKeystoneItemMessage.class, 6, Side.SERVER);
+        network.registerMessage(UpdateKeystoneItemMessage.Handler.class, UpdateKeystoneItemMessage.class, networkID++, Side.CLIENT);
+        network.registerMessage(RequestKeystoneItemMessage.Handler.class, RequestKeystoneItemMessage.class, networkID++, Side.SERVER);
 
-        network.registerMessage(UpdatePlayerTrialCapabilityMessage.Handler.class, UpdatePlayerTrialCapabilityMessage.class, 7, Side.CLIENT);
-        network.registerMessage(UpdateTrialOverlayMessage.Handler.class, UpdateTrialOverlayMessage.class, 8, Side.CLIENT);
+        network.registerMessage(UpdatePlayerTrialCapabilityMessage.Handler.class, UpdatePlayerTrialCapabilityMessage.class, networkID++, Side.CLIENT);
+        network.registerMessage(UpdateTrialOverlayMessage.Handler.class, UpdateTrialOverlayMessage.class, networkID++, Side.CLIENT);
 
         // Init capabilities
         PlayerTrial.init();

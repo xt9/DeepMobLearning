@@ -26,15 +26,15 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/extraction_chamber.png");
         this.catalyst = new ItemStack(Registry.extractionChamberItem);
 
-        background = guiHelper.createDrawable(base, 0, 0, 140, 30, 0, 0, 0, 0);
+        background = guiHelper.createDrawable(base, 0, 0, 103, 30, 0, 0, 0, 0);
         IDrawableStatic progress = guiHelper.createDrawable(base, 0, 30, 35, 6);
         this.progress = guiHelper.createAnimatedDrawable(progress, 120, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-        guiItemStacks.init(0, true, 27, 6);
-        guiItemStacks.init(1, false, 95, 6);
+        guiItemStacks.init(0, true, 8, 6);
+        guiItemStacks.init(1, false, 76, 6);
         guiItemStacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
         guiItemStacks.set(1, ingredients.getOutputs(ItemStack.class).get(0));
     }
@@ -61,7 +61,7 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory {
 
     @Override
     public void drawExtras(Minecraft minecraft) {
-        progress.draw(minecraft, 52, 12);
+        progress.draw(minecraft, 34, 12);
     }
 
 

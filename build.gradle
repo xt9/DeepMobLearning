@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 def mcVersion = "1.12.2"
 def modMajor = "2"
 def modMinor = "0"
-def modPatch = "1"
+def modPatch = "2"
 
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
 group = "xt9.deepmoblearning" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -41,7 +41,7 @@ minecraft {
 }
 
 jar {
-    classifier = 'universal'
+    classifier = "universal"
 }
 
 repositories {
@@ -67,15 +67,19 @@ repositories {
 
 dependencies {
     // compile against the JEI API but do not include it at runtime
-    deobfProvided "mezz.jei:jei_${mcVersion}:4.8.5.135:api"
+    deobfProvided "mezz.jei:jei_${mcVersion}:4.10.0.201:api"
     // at runtime, use the full JEI jar
-    runtime "mezz.jei:jei_${mcVersion}:4.8.5.135"
+    runtime "mezz.jei:jei_${mcVersion}:4.10.0.201"
 
     deobfCompile "info.amerifrance.guideapi:Guide-API:1.12-2.1.5-60"
-    compile 'cofhcore:CoFHCore-1.12.2:release:universal'
-    compile 'thermal-foundation:ThermalFoundation-1.12.2:release:universal'
-    compile 'the-twilight-forest:twilightforest-1.12.2:release:universal'
-    compile 'tinkers-construct:TConstruct:1.12.2:2.10.0.81'
+
+    compile "blood-magic:BloodMagic-1.12.2:2.2.12:97"
+    compile "deep-mob-learning-blood-magic-addon:deepmoblearningbm-1.12.2:0.9.0:universal"
+
+    compile "cofhcore:CoFHCore-1.12.2:release:universal"
+    compile "thermal-foundation:ThermalFoundation-1.12.2:release:universal"
+    compile "the-twilight-forest:twilightforest-1.12.2:release:universal"
+    compile "tinkers-construct:TConstruct:1.12.2:2.10.0.81"
 }
 
 processResources {

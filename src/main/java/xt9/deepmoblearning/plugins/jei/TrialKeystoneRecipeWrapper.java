@@ -37,7 +37,7 @@ public class TrialKeystoneRecipeWrapper implements IRecipeWrapper {
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
         FontRenderer render = minecraft.fontRenderer;
 
-        render.drawStringWithShadow(keyTier, 38 - render.getStringWidth(keyTier), -4, Color.WHITE);
-        render.drawStringWithShadow(keyType, 48, -4, Color.WHITE);
+        render.drawStringWithShadow(keyTier, 52 - render.getStringWidth(keyTier), 4, Color.WHITE);
+        render.drawStringWithShadow(keyType, 64, 4, Color.WHITE);
     }
 }

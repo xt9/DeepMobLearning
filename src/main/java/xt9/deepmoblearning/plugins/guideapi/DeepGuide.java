@@ -10,6 +10,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.plugins.guideapi.categories.*;
 
@@ -42,6 +43,10 @@ public class DeepGuide implements IGuideBook {
         CategoryExtractionChamber.init(instance);
         CategoryTrial.init(instance);
         CategoryGlitches.init(instance);
+
+        if(DeepConstants.MOD_BM_ADDON_LOADED) {
+            CategoryBloodMagic.init(instance);
+        }
     }
 
     @Nullable

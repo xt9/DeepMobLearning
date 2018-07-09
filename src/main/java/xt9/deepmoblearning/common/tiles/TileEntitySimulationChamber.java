@@ -149,8 +149,7 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     private boolean canContinueSimulation() {
-        return hasDataModel() && DataModel.getTier(getDataModel()) != 0
-                && hasPolymerClay();
+        return hasDataModel() && DataModel.getTier(getDataModel()) != 0 && hasPolymerClay();
     }
 
     private boolean dataModelTypeChanged() {

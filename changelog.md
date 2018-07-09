@@ -1,5 +1,10 @@
 # 1.12.2
 
+### 2.0.2
+- Added Guidebook chapter for the BloodMagic Addon
+- Fixed Jei Categories clipping the new border style
+- Changed nether star transmutation recipe to require wither skeleton skulls
+
 ### 2.0.1
 - Updated to forge 14.23.4.2703
 - Stopped using a deprecated register function for TE's (Got deprecated in 2703)

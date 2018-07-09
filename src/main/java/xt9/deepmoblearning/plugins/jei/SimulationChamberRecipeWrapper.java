@@ -69,10 +69,10 @@ public class SimulationChamberRecipeWrapper implements IRecipeWrapper {
         FontRenderer render = minecraft.fontRenderer;
 
         String tierName = Tier.getTierName(DataModel.getTier(dataModel), false);
-        render.drawStringWithShadow(tierName, 90 - render.getStringWidth(tierName), 30, Color.WHITE);
+        render.drawStringWithShadow(tierName, 70 - render.getStringWidth(tierName), 30, Color.WHITE);
 
         int pristineChance = DataModel.getPristineChance(dataModel);
         String chanceText = pristineChance + "%";
-        render.drawStringWithShadow(chanceText, 115, 31, Color.WHITE);
+        render.drawStringWithShadow(chanceText, 97, 31, Color.WHITE);
     }
 }

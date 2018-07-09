@@ -26,25 +26,20 @@ public class TrialKeystoneRecipeCategory implements IRecipeCategory {
         ResourceLocation base = new ResourceLocation(DeepConstants.MODID, "textures/gui/jei/trial_keystone.png");
         this.catalyst = new ItemStack(Registry.trialKeystoneItem);
 
-        background = guiHelper.createDrawable(base, 0, 0, 100, 26, 8, 0, 20, 0);
-    }
-
-    @Override
-    public void drawExtras(Minecraft minecraft) {
-
+        background = guiHelper.createDrawable(base, 0, 0, 100, 18, 18, 0, 36, 18);
     }
 
     @SuppressWarnings("NullableProblems")
     public void setRecipe(IRecipeLayout recipeLayout, IRecipeWrapper recipeWrapper, IIngredients ingredients) {
         IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-        guiItemStacks.init(0, true, 20, 8);
+        guiItemStacks.init(0, true, 36, 18);
         guiItemStacks.set(0, ingredients.getInputs(ItemStack.class).get(0));
 
-        guiItemStacks.init(1, false, 48, 8);
-        guiItemStacks.init(2, false, 66, 8);
-        guiItemStacks.init(3, false, 84, 8);
-        guiItemStacks.init(4, false, 102, 8);
+        guiItemStacks.init(1, false, 64, 18);
+        guiItemStacks.init(2, false, 82, 18);
+        guiItemStacks.init(3, false, 100, 18);
+        guiItemStacks.init(4, false, 118, 18);
 
         for (int i = 0; i < Math.min(ingredients.getOutputs(ItemStack.class).size(), 4); i++) {
             guiItemStacks.set(i + 1, ingredients.getOutputs(ItemStack.class).get(i));

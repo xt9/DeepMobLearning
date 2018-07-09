@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " E ",
-    "DLD",
-    " E "
+    "WLW",
+    "SSS",
+    " S "
   ],
   "key": {
     "L": { "item": "deepmoblearning:living_matter_extraterrestrial", "data": 0 },
-    "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
-    "E": { "type": "forge:ore_dict", "ore": "gemEmerald" }
+    "S": { "item": "minecraft:soul_sand", "data": 0 },
+    "W": { "item": "minecraft:skull", "data": 1 }
   },
   "result": {
     "item": "minecraft:nether_star",

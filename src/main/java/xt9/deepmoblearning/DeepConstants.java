@@ -32,6 +32,7 @@ public class DeepConstants {
     public static final boolean MOD_TE_LOADED = Loader.isModLoaded("thermalfoundation");
     public static final boolean MOD_TWILIGHT_LOADED = Loader.isModLoaded("twilightforest");
     public static final boolean MOD_TCON_LOADED = Loader.isModLoaded("tconstruct");
+    public static final boolean MOD_BM_ADDON_LOADED = Loader.isModLoaded("deepmoblearningbm");
 
     // NBT references
     public static final String NBT_STRING_AFFIX_CONNECTION = DeepConstants.MODID + ":mob_type";

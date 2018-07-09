@@ -172,7 +172,7 @@ public class Config {
 
     @SubscribeEvent
     public static void onConfigurationChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if(event.getModID().equalsIgnoreCase(DeepConstants.MODID)){
+        if(event.getModID().equalsIgnoreCase(DeepConstants.MODID)) {
             // Reload the values if something was changed so the config accessors are "up to date"
             initConfigValues();
         }

@@ -42,7 +42,7 @@ public class SimulationChamberRecipeCategory implements IRecipeCategory {
         guiItemStacks.init(2, false, 95, 3);
         guiItemStacks.set(2, ingredients.getOutputs(ItemStack.class).get(0));
 
-        guiItemStacks.init(3, false, 94, 25);
+        guiItemStacks.init(3, false, 75 , 25);
         guiItemStacks.set(3, ingredients.getOutputs(ItemStack.class).get(1));
     }
 
@@ -74,6 +74,4 @@ public class SimulationChamberRecipeCategory implements IRecipeCategory {
     public IDrawable getBackground() {
         return background;
     }
-
-
 }

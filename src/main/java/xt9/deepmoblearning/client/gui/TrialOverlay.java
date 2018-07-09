@@ -232,7 +232,6 @@ public class TrialOverlay extends GuiScreen {
         itemRender.zLevel = 0.0F;
 
         RenderHelper.disableStandardItemLighting();
-
     }
 
 }
