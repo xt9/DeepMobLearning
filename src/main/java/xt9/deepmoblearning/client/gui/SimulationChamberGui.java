@@ -133,8 +133,8 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a1 = getAnimation("pleaseInsert1");
             Animation a2 = getAnimation("pleaseInsert2");
 
-            animateString(lines[0], a1, null, 5, false, left + 10, topStart + spacing, Color.WHITE);
-            animateString(lines[1], a2, a1, 5, false, left + 10, topStart + (spacing * 2), Color.WHITE);
+            animateString(lines[0], a1, null, 1, false, left + 10, topStart + spacing, Color.WHITE);
+            animateString(lines[1], a2, a1, 1, false, left + 10, topStart + (spacing * 2), Color.WHITE);
 
         } else if(DataModel.getTier(tile.getDataModel()) == 0) {
 
@@ -144,9 +144,9 @@ public class SimulationChamberGui extends GuiContainer {
             Animation insufData2 = getAnimation("insufData2");
             Animation insufData3 = getAnimation("insufData3");
 
-            animateString(lines[0], insufData, null, 5, false, left + 10, topStart + spacing, Color.WHITE);
-            animateString(lines[1], insufData2, insufData, 5, false,  left + 10, topStart + (spacing * 2), Color.WHITE);
-            animateString(lines[2], insufData3, insufData2, 5, false,  left + 10, topStart + (spacing * 3), Color.WHITE);
+            animateString(lines[0], insufData, null, 1, false, left + 10, topStart + spacing, Color.WHITE);
+            animateString(lines[1], insufData2, insufData, 1, false,  left + 10, topStart + (spacing * 2), Color.WHITE);
+            animateString(lines[2], insufData3, insufData2, 1, false,  left + 10, topStart + (spacing * 3), Color.WHITE);
 
         } else {
             // Draw current data model data
@@ -179,17 +179,17 @@ public class SimulationChamberGui extends GuiContainer {
         String[] lines;
 
         if(!tile.hasDataModel() || DataModel.getTier(tile.getDataModel()) == 0) {
-            animateString("_", getAnimation("blinkingUnderline"), null, 100, true, left + 21, top + 49, Color.WHITE);
+            animateString("_", getAnimation("blinkingUnderline"), null, 16, true, left + 21, top + 49, Color.WHITE);
 
-        } else if(!tile.hasPolymerClay()) {
+        } else if(!tile.hasPolymerClay() && !tile.isCrafting()) {
             lines = new String[] {"Cannot begin simulation", "Missing polymer medium", "_"};
             Animation a1 = getAnimation("inputSlotEmpty1");
             Animation a2 = getAnimation("inputSlotEmpty2");
             Animation a3 = getAnimation("blinkingUnderline1");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
+            animateString(lines[0], a1, null, 1, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 1, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 16, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
 
         } else if(!hasEnergy() && !tile.isCrafting()) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
@@ -197,18 +197,18 @@ public class SimulationChamberGui extends GuiContainer {
             Animation a2 = getAnimation("lowEnergy2");
             Animation a3 = getAnimation("blinkingUnderline2");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
+            animateString(lines[0], a1, null, 1, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 1, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 16, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
         } else if(tile.outputIsFull() || tile.pristineIsFull()) {
             lines = new String[] {"Cannot begin simulation", "Output or pristine buffer is full", "_"};
             Animation a1 = getAnimation("outputSlotFilled1");
             Animation a2 = getAnimation("outputSlotFilled2");
             Animation a3 = getAnimation("blinkingUnderline3");
 
-            animateString(lines[0], a1, null, 5, false, left + 21, top + 51, Color.WHITE);
-            animateString(lines[1], a2, a1, 5, false, left + 21, top + 51 + spacing, Color.WHITE);
-            animateString(lines[2], a3, a2, 100, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
+            animateString(lines[0], a1, null, 1, false, left + 21, top + 51, Color.WHITE);
+            animateString(lines[1], a2, a1, 1, false, left + 21, top + 51 + spacing, Color.WHITE);
+            animateString(lines[2], a3, a2, 16, true, left + 21, top + 51 + (spacing * 2), Color.WHITE);
         } else if(tile.isCrafting()) {
             drawString(renderer, tile.percentDone + "%", left + 176, top + 123, Color.AQUA);
 
@@ -227,7 +227,7 @@ public class SimulationChamberGui extends GuiContainer {
             drawString(renderer, tile.getSimulationText("simulationProgressLine7"), left + 21, top + 51 + (spacing * 6), Color.WHITE);
             drawString(renderer, tile.getSimulationText("blinkingDots1"), left + 128, top + 51 + (spacing * 6), Color.WHITE);
         } else {
-            animateString("_", getAnimation("blinkingUnderline"), null, 250, true, left + 21, top + 49, Color.WHITE);
+            animateString("_", getAnimation("blinkingUnderline"), null, 16, true, left + 21, top + 49, Color.WHITE);
         }
     }
 
@@ -260,13 +260,13 @@ public class SimulationChamberGui extends GuiContainer {
     private void animateString(String string, Animation anim, @Nullable Animation precedingAnim, int delay, boolean loop, int left, int top, int color) {
         if(precedingAnim != null) {
             if (precedingAnim.hasFinished()) {
-                String result = anim.animate(string, delay, loop);
+                String result = anim.animate(string, delay, world.getTotalWorldTime(), loop);
                 drawString(renderer, result, left, top, color);
             } else {
                 return;
             }
         }
-        String result = anim.animate(string, delay, loop);
+        String result = anim.animate(string, delay, world.getTotalWorldTime(), loop);
         drawString(renderer, result, left, top, color);
     }
 }

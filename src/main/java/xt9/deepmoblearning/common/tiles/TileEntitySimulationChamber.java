@@ -83,7 +83,6 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
                 energyStorage.voidEnergy(rfTickCost);
 
                 if (ticks % ((DeepConstants.TICKS_TO_SECOND * 15) / 100) == 0) {
-                    // This process takes 300 ticks, which is 15seconds
                     percentDone++;
                 }
 
@@ -106,6 +105,9 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         isCrafting = true;
         currentDataModelType = DataModel.getMobMetaData(getDataModel()).getKey();
         mobMetaData = MobMetaFactory.createMobMetaData(currentDataModelType);
+        ItemStack oldInput = getPolymerClay();
+        ItemStack newInput = new ItemStack(Registry.polymerClay, oldInput.getCount() - 1);
+        polymer.setStackInSlot(0, newInput);
         resetAnimations();
     }
 
@@ -117,13 +119,8 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         if(!abort && !world.isRemote) {
             DataModel.increaseSimulationCount(getDataModel());
 
-            ItemStack oldInput = getPolymerClay();
             ItemStack oldOutput = getLiving();
-
-            ItemStack newInput = new ItemStack(Registry.polymerClay, oldInput.getCount() - 1);
             ItemStack newOutput = mobMetaData.getLivingMatterStack(oldOutput.getCount() + 1);
-
-            polymer.setStackInSlot(0, newInput);
             lOutput.setStackInSlot(0, newOutput);
 
             if(byproductSuccess) {
@@ -145,11 +142,11 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     }
 
     private boolean canStartSimulation() {
-        return hasEnergyForSimulation() && canContinueSimulation() && !outputIsFull() && !pristineIsFull();
+        return hasEnergyForSimulation() && canContinueSimulation() && !outputIsFull() && !pristineIsFull() && hasPolymerClay();
     }
 
     private boolean canContinueSimulation() {
-        return hasDataModel() && DataModel.getTier(getDataModel()) != 0 && hasPolymerClay();
+        return hasDataModel() && DataModel.getTier(getDataModel()) != 0;
     }
 
     private boolean dataModelTypeChanged() {
@@ -283,12 +280,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private String animate(String string, Animation anim, @Nullable Animation precedingAnim, int delayInTicks, boolean loop) {
         if(precedingAnim != null) {
             if (precedingAnim.hasFinished()) {
-                return anim.animate(string, delayInTicks, loop);
+                return anim.animate(string, delayInTicks, world.getTotalWorldTime(), loop);
             } else {
                 return "";
             }
         }
-        return  anim.animate(string, delayInTicks, loop);
+        return  anim.animate(string, delayInTicks, world.getTotalWorldTime(), loop);
     }
 
     private Animation getAnimation(String key) {

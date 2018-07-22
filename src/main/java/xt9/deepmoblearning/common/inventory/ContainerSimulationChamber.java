@@ -112,18 +112,6 @@ public class ContainerSimulationChamber extends Container {
     }
 
     @Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
-        ItemStack stack = super.slotClick(slotId, dragType, clickTypeIn, player);
-
-        // Crafting will be interrupted if the slot clicked is the data model/input slot, so reset the animations
-        if(slotId == INPUT_SLOT|| slotId == DATA_MODEL_SLOT) {
-            tile.resetAnimations();
-        }
-
-        return stack;
-    }
-
-    @Override
     public boolean canInteractWith(EntityPlayer entityplayer) {
         return !entityplayer.isSpectator();
     }

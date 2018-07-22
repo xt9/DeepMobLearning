@@ -1,5 +1,11 @@
 # 1.12.2
 
+### 2.0.3
+- DeepLearner should no longer play re-requip animation when nbt data change
+- Simulation Chamber now consumes Polymer clay on simulation start rather then on end (Prevent success fishing)
+- All text animation messages in the Simulation Chamber should now be animated at a similiar pace on all framerates (Lower framerates animated painfully slow before)
+- Cleaned up Container class for Simulation Chamber
+
 ### 2.0.2
 - Added Guidebook chapter for the BloodMagic Addon
 - Fixed Jei Categories clipping the new border style

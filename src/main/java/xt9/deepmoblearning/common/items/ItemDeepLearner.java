@@ -90,6 +90,11 @@ public class ItemDeepLearner extends ItemBase implements IGuiItem {
         deepLearner.getTagCompound().setTag("inventory", inventory);
     }
 
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
+    }
+
     public int getGuiID() {
         return DeepConstants.ITEM_DEEP_LEARNER_GUI_ID;
     }
