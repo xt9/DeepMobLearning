@@ -72,9 +72,13 @@ public class ThunderDomeAffix implements ITrialAffix {
             BlockPos end = new BlockPos(pos.getX() + 7, pos.getY() + 10, pos.getZ() + 7);
 
             List<Entity> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(start, end));
-            Entity unlucky = entities.get(new Random().nextInt(entities.size()));
+            if(!entities.isEmpty()) {
+                Entity unlucky = entities.get(new Random().nextInt(entities.size()));
+                if(unlucky.isEntityAlive()) {
+                    world.addWeatherEffect(new EntityLightningBolt(world, unlucky.posX, unlucky.posY - 1.5D, unlucky.posZ, false));
+                }
+            }
 
-            world.addWeatherEffect(new EntityLightningBolt(world, unlucky.posX, unlucky.posY - 1.5D, unlucky.posZ, false));
             ticks = 0;
         }
     }

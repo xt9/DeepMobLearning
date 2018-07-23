@@ -71,10 +71,6 @@ public class ZombieTrial extends Trial {
         } else {
             EntityZombie e = new EntityZombie(world);
             e.setChild(true);
-            //EntityChicken c = new EntityChicken(world);
-            //c.setLocationAndAngles(0, 0, 0, 0 ,0);
-            //world.spawnEntity(c);
-            //e.startRiding(c, true);
             return e;
         }
     }

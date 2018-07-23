@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.client.gui.button.ClickableZoneButton;
 import xt9.deepmoblearning.client.gui.button.ItemSelectButton;
 import xt9.deepmoblearning.client.gui.button.PaginationButton;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
@@ -41,6 +42,7 @@ public class ExtractionChamberGui extends GuiContainer {
     private DeepEnergyStorage energyStorage;
     private PaginationButton leftButton;
     private PaginationButton rightButton;
+    private ClickableZoneButton deselectItemButton;
     private int currentPage;
     private ItemStack currentInput;
 
@@ -58,6 +60,7 @@ public class ExtractionChamberGui extends GuiContainer {
         super.initGui();
         initSelectButtons();
         initPaginationButtons();
+        deselectItemButton = new ClickableZoneButton(1339, getGuiLeft() + 79, getGuiTop() + 4, 16, 16, this.width, this.height);
         currentPage = tile.pageHandler.getCurrentPageIndex();
         currentInput = tile.getPristine();
     }
@@ -95,6 +98,12 @@ public class ExtractionChamberGui extends GuiContainer {
                 tooltip.add("Operational cost: " + f.format(tile.energyCost) + " RF/t");
                 drawHoveringText(tooltip, x - 16, y - 16);
             }
+        }
+
+        if(!tile.resultingItem.isEmpty()) {
+            List<String> deselectTooltip = new ArrayList<>();
+            deselectTooltip.add("Click to remove autocraft");
+            deselectItemButton.setTooltip(deselectTooltip);
         }
     }
 
@@ -143,14 +152,20 @@ public class ExtractionChamberGui extends GuiContainer {
         int i = 0;
         int rowIndex = 0;
         Iterator it = pageList.entrySet().iterator();
+        boolean foundSelected = false;
 
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            Map.Entry pair = (Map.Entry) it.next();
 
             ItemStack loot = (ItemStack) pair.getValue();
-            if(i <= 2) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 8, ItemStack.areItemsEqual(loot, tile.resultingItem), loot)); }
-            else if(i <= 5)  { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 27, ItemStack.areItemsEqual(loot, tile.resultingItem), loot)); }
-            else if(i <= 8) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 46, ItemStack.areItemsEqual(loot, tile.resultingItem), loot)); }
+            boolean selected = !foundSelected && ItemStack.areItemsEqual(loot, tile.resultingItem);
+            if(selected) {
+                foundSelected = true;
+            }
+
+            if(i <= 2) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 8, selected, loot)); }
+            else if(i <= 5)  { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 27, selected, loot)); }
+            else if(i <= 8) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 46, selected, loot)); }
 
             i++;
             // Reset rowindex after 3 rendered items
@@ -175,27 +190,22 @@ public class ExtractionChamberGui extends GuiContainer {
             actionPerformed(leftButton);
         } else if(rightButton.mousePressed(mc, mouseX, mouseY)) {
             actionPerformed(rightButton);
+        } else if(deselectItemButton.mousePressed(mc, mouseX, mouseY)) {
+            actionPerformed(deselectItemButton);
         }
     }
 
     @Override
     protected void actionPerformed(GuiButton pressedButton) throws IOException {
-
         if(pressedButton instanceof ItemSelectButton) {
             ItemSelectButton btn = (ItemSelectButton) pressedButton;
-
             // Select or deselect the clicked button
             if(btn.isSelected()) {
                 btn.setSelected(false);
                 DeepMobLearning.network.sendToServer(new ExtractorSetSelectedItemMessage(-1));
             } else {
                 // Deselect all Selectable buttons
-                for(GuiButton b : buttonList) {
-                    if(b instanceof ItemSelectButton) {
-                        ((ItemSelectButton) b).setSelected(false);
-                    }
-                }
-
+                clearSelectedItems();
                 btn.setSelected(true);
                 DeepMobLearning.network.sendToServer(new ExtractorSetSelectedItemMessage(pressedButton.id));
             }
@@ -211,7 +221,21 @@ public class ExtractionChamberGui extends GuiContainer {
             initSelectButtons();
             initPaginationButtons();
         }
+
+        if(pressedButton.id == deselectItemButton.id) {
+            clearSelectedItems();
+            DeepMobLearning.network.sendToServer(new ExtractorSetSelectedItemMessage(-1));
+        }
     }
+
+    private void clearSelectedItems() {
+        for(GuiButton b : buttonList) {
+            if(b instanceof ItemSelectButton) {
+                ((ItemSelectButton) b).setSelected(false);
+            }
+        }
+    }
+
 
     private Map<Integer, ItemStack> getPaginatedItems() {
         Map<Integer, ItemStack> list = new TreeMap<>();
@@ -249,6 +273,10 @@ public class ExtractionChamberGui extends GuiContainer {
         // Draw player inventory
         Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left, top + 88, 0, 0, 176, 90);
+
+        if(!tile.resultingItem.isEmpty()) {
+            deselectItemButton.drawButton(mc, mouseX, mouseY, mc.getRenderPartialTicks());
+        }
     }
 
     /* Needed on 1.12 to render tooltips */
@@ -261,27 +289,12 @@ public class ExtractionChamberGui extends GuiContainer {
     }
 
     private void drawPaginationButtons(int mouseX, int mouseY) {
-        GlStateManager.disableRescaleNormal();
-        RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableLighting();
-        GlStateManager.disableDepth();
         leftButton.drawButton(mc, mouseX, mouseY, 0);
         rightButton.drawButton(mc, mouseX, mouseY, 0);
-        GlStateManager.enableLighting();
-        GlStateManager.enableDepth();
-        RenderHelper.enableStandardItemLighting();
     }
 
     private void drawItemStackWithCount(int x, int y, ItemStack stack, int count) {
-        RenderHelper.enableGUIStandardItemLighting();
-
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        GlStateManager.translate(0.0F, 0.0F, 32.0F);
-        this.zLevel = 200.0F;
-        itemRender.zLevel = 200.0F;
         itemRender.renderItemAndEffectIntoGUI(stack, x, y);
         itemRender.renderItemOverlayIntoGUI(fontRenderer, stack, x - 1, y - 1, count != 1 ? count + ""  : "");
-        this.zLevel = 0.0F;
-        itemRender.zLevel = 0.0F;
     }
 }

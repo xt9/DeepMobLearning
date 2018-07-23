@@ -1,5 +1,10 @@
 # 1.12.2
 
+### 2.0.4
+- Fixed thunderdome affix crash when no entity is in the area
+- Fixed a bug where some foreground elements was not drawn in the Loot Fabricator
+- Added a click area for the Loot Fabricator to remove the selected item
+
 ### 2.0.3
 - DeepLearner should no longer play re-requip animation when nbt data change
 - Simulation Chamber now consumes Polymer clay on simulation start rather then on end (Prevent success fishing)

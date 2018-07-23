@@ -274,7 +274,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         e.enablePersistence();
 
         EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
-        if(target != null) {
+        if(target != null && target.isEntityAlive()) {
             e.setAttackTarget(target);
         }
 
@@ -297,7 +297,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             e.enablePersistence();
 
             EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
-            if(target != null) {
+            if(target != null  && target.isEntityAlive()) {
                 e.setAttackTarget(target);
             }
 
@@ -381,31 +381,20 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     @Override
-    public NBTTagCompound getUpdateTag() {
-        return getNetworkTag(super.getUpdateTag());
-    }
-
-    private NBTTagCompound getNetworkTag(NBTTagCompound tag) {
-        tag.setTag("inventory", trialKey.serializeNBT());
-        tag.setBoolean("active", active);
-        tag.setInteger("currentWave", currentWave);
-        tag.setInteger("lastWave", lastWave);
-
-        return tag;
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(getPos(), 3, writeToNBT(new NBTTagCompound()));
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTag = new NBTTagCompound();
-        writeToNBT(nbtTag);
-        return new SPacketUpdateTileEntity(getPos(), -1, nbtTag);
+    public final NBTTagCompound getUpdateTag() {
+        return this.writeToNBT(new NBTTagCompound());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        super.onDataPacket(net, packet);
         readFromNBT(packet.getNbtCompound());
     }
+
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         compound.setBoolean("active", active);

@@ -160,26 +160,17 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
     }
 
     @Override
-    public final NBTTagCompound getUpdateTag()
-    {
-        return getNetworkTag(super.getUpdateTag());
-    }
-
-    private NBTTagCompound getNetworkTag(NBTTagCompound tag) {
-        tag.setBoolean("isCrafting", isCrafting);
-        return energyStorage.writeEnergy(tag);
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(getPos(), 3, writeToNBT(new NBTTagCompound()));
     }
 
     @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTag = new NBTTagCompound();
-        writeToNBT(nbtTag);
-        return new SPacketUpdateTileEntity(getPos(), -1, nbtTag);
+    public final NBTTagCompound getUpdateTag() {
+        return this.writeToNBT(new NBTTagCompound());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        super.onDataPacket(net, packet);
         readFromNBT(packet.getNbtCompound());
     }
 
