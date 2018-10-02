@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.0.5
+- Added config options for horizontal and vertical 'spacing' for the DeepLearner overlay. These values will be relative to the selected overlay corner.
+
 ### 2.0.4
 - Fixed thunderdome affix crash when no entity is in the area
 - Fixed a bug where some foreground elements was not drawn in the Loot Fabricator

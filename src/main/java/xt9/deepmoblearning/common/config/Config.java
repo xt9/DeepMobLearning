@@ -28,8 +28,11 @@ public class Config {
     public static ConfigCategory trialRewards = new ConfigCategory("trial max tier rewards");
 
     public static Property rfCostExtractionChamber;
-    public static Property guiOverlaySide;
     public static Property isSootedRedstoneCraftingEnabled;
+
+    public static Property guiOverlaySide;
+    public static Property guiOverlayVerticalSpacing;
+    public static Property guiOverlayHorizontalSpacing;
 
     public static void load() {
         config.load();
@@ -44,8 +47,11 @@ public class Config {
         initTrialRewards();
 
         rfCostExtractionChamber = config.get(Configuration.CATEGORY_GENERAL, "rfCostLootFabricator", 256, "RF/t cost for the Loot Fabricator, roof is 18k RF/t");
-        guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
         isSootedRedstoneCraftingEnabled = config.get(Configuration.CATEGORY_GENERAL, "isSootedRedstoneCraftingEnabled", true, "Enable the Crafting of sooted redstone on Vanilla blocks of coal");
+
+        guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
+        guiOverlayVerticalSpacing = config.get(Configuration.CATEGORY_GENERAL, "guiOverlayVerticalSpacing", 0, "Vertical spacing from the selected corner, values can be both positive and negative");
+        guiOverlayHorizontalSpacing = config.get(Configuration.CATEGORY_GENERAL, "guiOverlayHorizontalSpacing", 0, "Horizontal spacing from the selected corner, values can be both positive and negative");
         config.save();
     }
 

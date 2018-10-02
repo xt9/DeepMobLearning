@@ -70,29 +70,29 @@ public class DataOverlay extends GuiScreen {
         }
 
 
-        int x;
-        int y;
+        int x = Config.guiOverlayHorizontalSpacing.getInt();
+        int y = Config.guiOverlayVerticalSpacing.getInt();
         String position = Config.guiOverlaySide.getString();
         switch (position) {
             case "topleft":
-                x = getLeftCornerX() + 18;
-                y = 5;
+                x = x + getLeftCornerX() + 18;
+                y = y + 5;
                 break;
             case "topright":
-                x = getRightCornerX();
-                y = 5;
+                x = x + getRightCornerX();
+                y = y + 5;
                 break;
             case "bottomleft":
-                x = getLeftCornerX() + 18;
-                y = getBottomY(dataModels.size()) - 5;
+                x = x + getLeftCornerX() + 18;
+                y = y + getBottomY(dataModels.size()) - 5;
                 break;
             case "bottomright":
-                x = getRightCornerX();
-                y = getBottomY(dataModels.size()) - 5;
+                x = x + getRightCornerX();
+                y = y + getBottomY(dataModels.size()) - 5;
                 break;
             default:
-                x = getLeftCornerX() + 18;
-                y = 5;
+                x = x + getLeftCornerX() + 18;
+                y = y + 5;
                 break;
         }
 
