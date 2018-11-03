@@ -52,6 +52,6 @@ public class DeepGuide implements IGuideBook {
     @Nullable
     @Override
     public IRecipe getRecipe(@Nonnull ItemStack bookStack) {
-        return new ShapelessOreRecipe(new ResourceLocation(DeepConstants.MODID, "guide"), bookStack, new ItemStack(Items.BOOK), new ItemStack(Registry.sootedRedstone)).setRegistryName("guide");
+        return new ShapelessOreRecipe(new ResourceLocation(DeepConstants.MODID, "deepguide"), bookStack, new ItemStack(Items.BOOK), new ItemStack(Registry.sootedRedstone)).setRegistryName("deepguide");
     }
 }

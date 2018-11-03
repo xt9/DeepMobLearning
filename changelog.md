@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.0.6
+- Fixed guidebook recipe conflict with bm/woot (#11)
+
 ### 2.0.5
 - Added config options for horizontal and vertical 'spacing' for the DeepLearner overlay. These values will be relative to the selected overlay corner.
 
