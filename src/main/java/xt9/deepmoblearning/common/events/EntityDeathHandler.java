@@ -22,7 +22,6 @@ import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.items.*;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
-import xt9.deepmoblearning.common.mobmetas.MobMetaFactory;
 import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
@@ -30,9 +29,6 @@ import xt9.deepmoblearning.common.trials.affix.TrialAffixKey;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 import xt9.deepmoblearning.common.util.TrialKey;
 import xt9.deepmoblearning.common.util.DataModel;
-
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 
 /**
@@ -153,7 +149,7 @@ public class EntityDeathHandler {
         if(tile instanceof TileEntityTrialKeystone) {
             TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
             if(keystone.isTrialActive()) {
-                keystone.playerDied();
+                keystone.playerDied((EntityPlayerMP) player);
             }
         }
     }
@@ -167,7 +163,6 @@ public class EntityDeathHandler {
                 MobMetaData meta = DataModel.getMobMetaData(stack);
 
                 if (meta.entityLivingMatchesMob(event.getEntityLiving())) {
-
                     DataModel.increaseMobKillCount(stack, player);
                     result.add(stack);
                 }

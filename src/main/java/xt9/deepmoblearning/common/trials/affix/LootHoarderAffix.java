@@ -51,17 +51,18 @@ public class LootHoarderAffix implements ITrialAffix {
     @Override
     public void run() {
         ticks++;
-        // Once every 15 seconds
+        // Once every 15 seconds, 25% chance
         if(ticks % (DeepConstants.TICKS_TO_SECOND * 15) == 0) {
-            if(ThreadLocalRandom.current().nextInt(1, 100) > 66) {
+            if(ThreadLocalRandom.current().nextInt(1, 100) > 75) {
                 EntityZombie hoarder = new EntityZombie(world);
                 hoarder.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.GOLDEN_HELMET));
                 hoarder.setCustomNameTag("Loot Hoarder");
                 hoarder.setChild(true);
 
-                int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-7, 7);
+                int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-5, 5);
                 int randomY = pos.getY() + ThreadLocalRandom.current().nextInt(0, 1);
-                int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-7, 7);
+                int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-5, 5);
+
                 hoarder.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
                 hoarder.getEntityData().setString(DeepConstants.NBT_STRING_AFFIX_CONNECTION, TrialAffixKey.LOOT_HOARDERS);
                 hoarder.enablePersistence();

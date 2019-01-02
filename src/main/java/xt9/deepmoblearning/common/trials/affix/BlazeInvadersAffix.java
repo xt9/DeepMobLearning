@@ -45,9 +45,9 @@ public class BlazeInvadersAffix implements ITrialAffix {
             if(ThreadLocalRandom.current().nextInt(1, 100) > 66) {
                 EntityBlaze blaze = new EntityBlaze(world);
 
-                int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-7, 7);
+                int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-5, 5);
                 int randomY = pos.getY() + ThreadLocalRandom.current().nextInt(0, 1);
-                int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-7, 7);
+                int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-5, 5);
                 blaze.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
 
                 world.spawnEntity(blaze);

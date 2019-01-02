@@ -30,7 +30,7 @@ public class CategoryTrial {
         entries.put(new ResourceLocation(DeepConstants.MODID, "trial_key"), new EntryItemStack(getTrialKeyPages(), "Trial Key", new ItemStack(Registry.trialKey)));
         entries.put(new ResourceLocation(DeepConstants.MODID, "available_trials"), new EntryItemStack(getAvailableAttunementPages(), "Available Trials", new ItemStack(Items.SKULL)));
         entries.put(new ResourceLocation(DeepConstants.MODID, "trial_keystone"), new EntryItemStack(getTrialKeystonePages(), "Trial Keystone", new ItemStack(Registry.trialKeystoneItem)));
-        entries.put(new ResourceLocation(DeepConstants.MODID, "affixes"), new EntryItemStack(getAffixPages(), "Trial Affixes", new ItemStack(Items.BLAZE_ROD)));
+        entries.put(new ResourceLocation(DeepConstants.MODID, "affixes"), new EntryItemStack(getAffixPages(), "Trial Affixes", new ItemStack(Items.WRITABLE_BOOK)));
 
         instance.addCategory(new CategoryItemStack(entries, "Trials", new ItemStack(Registry.trialKeystoneItem)));
     }

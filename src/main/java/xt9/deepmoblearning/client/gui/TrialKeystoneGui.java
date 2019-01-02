@@ -14,11 +14,9 @@ import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.client.gui.button.TransparentButton;
 import xt9.deepmoblearning.common.Registry;
-import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.inventory.ContainerTrialKeystone;
 import xt9.deepmoblearning.common.network.TrialStartMessage;
 import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
-import xt9.deepmoblearning.common.trials.Trial;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
 import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
@@ -167,7 +165,7 @@ public class TrialKeystoneGui extends GuiContainer {
         if(tile.hasTrialKey() && !TrialKey.isAttuned(tile.getTrialKey())) {
             drawCenteredString(fontRenderer, "Current key is not attuned", left + 100, top + 34, 	Color.WHITE);
             drawCenteredString(fontRenderer, "learn more about attunement in the", left + 100, top + 46, 	Color.WHITE);
-            drawCenteredString(fontRenderer, "JEI entry for the " + new ItemStack(Registry.trialKey).getDisplayName(), left + 100, top + 58, 	Color.WHITE);
+            drawCenteredString(fontRenderer, "guide entry for the " + new ItemStack(Registry.trialKey).getDisplayName(), left + 100, top + 58, 	Color.WHITE);
             return;
         }
 

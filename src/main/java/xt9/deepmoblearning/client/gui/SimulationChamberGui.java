@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.client.gui;
 
-import jline.internal.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -257,7 +256,7 @@ public class SimulationChamberGui extends GuiContainer {
         }
     }
 
-    private void animateString(String string, Animation anim, @Nullable Animation precedingAnim, int delay, boolean loop, int left, int top, int color) {
+    private void animateString(String string, Animation anim, Animation precedingAnim, int delay, boolean loop, int left, int top, int color) {
         if(precedingAnim != null) {
             if (precedingAnim.hasFinished()) {
                 String result = anim.animate(string, delay, world.getTotalWorldTime(), loop);

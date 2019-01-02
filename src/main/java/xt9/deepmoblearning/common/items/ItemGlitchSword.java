@@ -30,8 +30,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class ItemGlitchSword extends ItemSword {
     private static final int DAMAGE_BONUS = 2;
-    private static final int DAMAGE_BONUS_MAX = 24;
-    private static final int DAMAGE_INCREASE_CHANCE = 7;
+    private static final int DAMAGE_BONUS_MAX = 18;
+    private static final int DAMAGE_INCREASE_CHANCE = 6;
 
     private static ToolMaterial material = EnumHelper.addToolMaterial(
         "GLITCH_INFUSED_MATERIAL",
@@ -67,7 +67,7 @@ public class ItemGlitchSword extends ItemSword {
 
             setPermanentWeaponDamage(stack, current + DAMAGE_BONUS >= DAMAGE_BONUS_MAX ? DAMAGE_BONUS_MAX : current + DAMAGE_BONUS);
 
-            if(getPermanentWeaponDamage(stack) == DAMAGE_BONUS_MAX) {
+            if(getPermanentWeaponDamage(stack) >= DAMAGE_BONUS_MAX) {
                 PlayerHelper.sendMessage(player, new TextComponentString("Your " + stack.getDisplayName() + " has now reached peak performance!"));
             } else {
                 PlayerHelper.sendMessage(player, new TextComponentString("Your " + stack.getDisplayName() + " grows in power!"));

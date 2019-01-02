@@ -31,7 +31,7 @@ public class BlockTrialKeystone extends BlockBase implements ITileEntityProvider
     public BlockTrialKeystone() {
         super("trial_keystone", Material.ROCK);
         setHardness(4f);
-        setResistance(100.0f);
+        setResistance(3000.0f);
     }
 
     @Override

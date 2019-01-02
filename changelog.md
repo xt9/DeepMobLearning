@@ -1,5 +1,15 @@
 # 1.12.2
 
+### 2.1.0
+- Redesigned the Thunderdome affix to spawn in creatures of thunder (Charged creepers & Witches)
+- Creatures in the Trial now spawn a smidge closer to the middle of the room
+- Added sounds to Trials
+- The trial keystone now checks for nearby players on each new wave, so other players can join in late. (There's no extra reward for being more players but this will display the HUD for players that wasn't present at the start)
+- Fixed an issue where Players would get stuck in place after dying in a Trial
+- Fixed an issue where the trial kept going even if all participants has died.
+- Fixed an issue where the trial started on wave 2 if the player died during a wave countdown in a previous trial.
+- Slightly nerfed the damage ceiling of the Glitch Sword
+
 ### 2.0.6
 - Fixed guidebook recipe conflict with bm/woot (#11)
 

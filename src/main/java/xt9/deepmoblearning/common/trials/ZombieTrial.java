@@ -34,7 +34,7 @@ public class ZombieTrial extends Trial {
         }
 
         if(!(e instanceof EntityHusk)) {
-            // Husks don't burn in the sun, and without weapons the apply hunger
+            // Husks don't burn in the sun, and without weapons they apply hunger
             setRandomHeadArmor(e);
             setRandomWeapon(e);
         }

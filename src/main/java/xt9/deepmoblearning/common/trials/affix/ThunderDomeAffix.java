@@ -1,18 +1,14 @@
 package xt9.deepmoblearning.common.trials.affix;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityWitch;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
-
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -58,24 +54,28 @@ public class ThunderDomeAffix implements ITrialAffix {
 
         ticks++;
 
-        // Do once every 2.5 seconds, strike a random location
-        if(ticks % (DeepConstants.TICKS_TO_SECOND * 2.5) == 0) {
-            int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-18, 18);
-            int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-18, 18);
-
-            world.addWeatherEffect(new EntityLightningBolt(world, (double) randomX, (double) pos.getY(), (double) randomZ, false));
-        }
-
-        // Once every 15 seconds, stike a random entity in the trial
+        // Once every 15 seconds
         if(ticks % (DeepConstants.TICKS_TO_SECOND * 15) == 0) {
-            BlockPos start = new BlockPos(pos.getX() - 7, pos.getY(), pos.getZ() - 7);
-            BlockPos end = new BlockPos(pos.getX() + 7, pos.getY() + 10, pos.getZ() + 7);
+            // 22% chance
+            if(ThreadLocalRandom.current().nextInt(1, 100) < 22) {
+                int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-5, 5);
+                int randomY = pos.getY() + ThreadLocalRandom.current().nextInt(0, 1);
+                int randomZ = pos.getZ() + ThreadLocalRandom.current().nextInt(-5, 5);
 
-            List<Entity> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(start, end));
-            if(!entities.isEmpty()) {
-                Entity unlucky = entities.get(new Random().nextInt(entities.size()));
-                if(unlucky.isEntityAlive()) {
-                    world.addWeatherEffect(new EntityLightningBolt(world, unlucky.posX, unlucky.posY - 1.5D, unlucky.posZ, false));
+                if(ThreadLocalRandom.current().nextInt(1, 100) < 33) {
+                    EntityCreeper creeper = new EntityCreeper(world);
+                    creeper.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
+
+                    NBTTagCompound tag = new NBTTagCompound();
+                    tag = creeper.writeToNBT(tag);
+                    tag.setBoolean("powered", true);
+                    creeper.readEntityFromNBT(tag);
+
+                    world.spawnEntity(creeper);
+                } else {
+                    EntityWitch witch = new EntityWitch(world);
+                    witch.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
+                    world.spawnEntity(witch);
                 }
             }
 
@@ -95,6 +95,6 @@ public class ThunderDomeAffix implements ITrialAffix {
 
     @Override
     public String getAffixDescription() {
-        return "Makes the trial more electric by causing random thunder strikes. May occasionally directly strike the Player, Opponents or System glitches in the trial";
+        return "Adds creatures of thunder to the Trial. May occasionally spawn in Charged Creepers or Witches";
     }
 }
