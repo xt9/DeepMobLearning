@@ -2,7 +2,8 @@
 
 ### 2.1.1
 - Fixed a connection crash on the client.
-- The area checked for participants when a Trial starts is now larger
+- The area checked for participants when a Trial starts is now larger (required arena size is unchanged)
+- Straying too far from the Trial will now remove you from the participant list
 - Merged PR #14 from tommyTT, streamlining associating mobs with Data Models. Mobs can now be included into any given data model through the config.
 
 ### 2.1.0

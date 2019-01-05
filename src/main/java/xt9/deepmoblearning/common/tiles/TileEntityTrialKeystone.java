@@ -34,6 +34,7 @@ import xt9.deepmoblearning.common.trials.Trial;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
 import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
+import xt9.deepmoblearning.common.util.BlockDistance;
 import xt9.deepmoblearning.common.util.PlayerHelper;
 import xt9.deepmoblearning.common.util.SoundHelper;
 import xt9.deepmoblearning.common.util.TrialKey;
@@ -51,6 +52,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class TileEntityTrialKeystone extends TileEntity implements ITickable, IGuiTile {
     public static final String NBT_LONG_TILE_POS = DeepConstants.MODID + ":tilepos";
+    private static final int ARENA_RADIUS = 21;
 
     private boolean active = false;
     private int ticksToNextWave = 0;
@@ -83,10 +85,11 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         if(!world.isRemote) {
             if(isTrialActive()) {
                 disableFlying();
+                participantBouncer();
 
                 if(participants.isEmpty()) {
                     List<EntityPlayerMP> nearbyPlayers = PlayerHelper.getPlayersInArea(world, this.getPos(), 80, this.getPos().getY() - 30, this.getPos().getY() + 30);
-                    nearbyPlayers.forEach(p -> PlayerHelper.sendMessage(p, new TextComponentString("Trial failed, no participants alive.")));
+                    nearbyPlayers.forEach(p -> PlayerHelper.sendMessage(p, new TextComponentString("Trial failed, all participants have died/left the trial arena")));
                     finishTrial(true, false);
                 } else if(ticksToNextWave > 0) {
                     ticksToNextWave--;
@@ -141,6 +144,17 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         });
     }
 
+    private void participantBouncer() {
+        participants.forEach(p -> {
+            double distance = BlockDistance.getBlockDistance(this.getPos(), p.getPosition());
+            if (distance > ARENA_RADIUS) {
+                participants.remove(p);
+                clearPlayerCapability(p);
+                PlayerHelper.sendMessage(p, new TextComponentString("You left the Trial"));
+            }
+        });
+    }
+
     private void runAffixes() {
         affixes.forEach(ITrialAffix::run);
     }
@@ -160,7 +174,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         if (!TrialKey.isAttuned(activeKey)) {
             return;
         }
-        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 21, this.getPos().getY(), this.getPos().getY() + 11));
+        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), ARENA_RADIUS, this.getPos().getY(), this.getPos().getY() + 6));
         trialData = TrialFactory.createTrial(TrialKey.getMobKey(activeKey));
         lastWave = TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(activeKey));
         waveMobTotal = trialData.getMobCountForWave(currentWave);
@@ -189,12 +203,12 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         mobsSpawned = 0;
         waveMobTotal = trialData.getMobCountForWave(currentWave);
         participants.clear();
-        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 21, this.getPos().getY(), this.getPos().getY() + 11));
+        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), ARENA_RADIUS, this.getPos().getY(), this.getPos().getY() + 6));
         updateCapability();
         sendWaveStart();
     }
 
-    public void updateCapability() {
+    private void updateCapability() {
         participants.forEach(p -> {
             PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
             cap.setWaveMobTotal(waveMobTotal);
@@ -206,6 +220,18 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             cap.sync(p);
         });
     }
+
+    private void clearPlayerCapability(EntityPlayerMP p) {
+        PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
+        cap.setWaveMobTotal(0);
+        cap.setCurrentWave(0);
+        cap.setDefeated(0);
+        cap.setLastWave(0);
+        cap.setTilePos(0);
+        cap.setIsActive(false);
+        cap.sync(p);
+    }
+
 
     public void catchMobDeath() {
         mobsDefeated++;
