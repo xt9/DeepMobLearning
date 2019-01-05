@@ -22,7 +22,7 @@ public class DeepGuiConfig extends GuiConfig {
     public static List<IConfigElement> getConfigElements() {
         List <IConfigElement> elements = new ArrayList<>();
         elements.add(new ConfigElement(Config.dataModel));
-        elements.add(new ConfigElement(Config.dataModelMobs));
+        elements.add(new ConfigElement(Config.dataModelMobNames));
         elements.add(new ConfigElement(Config.livingMatterEXP));
         elements.add(new ConfigElement(Config.pristineChance));
         elements.add(new ConfigElement(Config.modelExperience));

@@ -8,6 +8,7 @@ import xt9.deepmoblearning.common.Registry;
  */
 public class MobMetaFactory {
     public static MobMetaData createMobMetaData(String key) {
+        /* Fallback if key does not match any entry */
         MobMetaData meta = new ZombieMeta("zombie", "Zombie", "Zombies", 0, 0, 0, 0, Registry.livingMatterOverworldian, Registry.pristineMatterZombie);
 
         if(key.equals(MobKey.ZOMBIE)) {

@@ -110,11 +110,11 @@ public abstract class MobMetaData {
             ResourceLocation registryName = entry.getRegistryName();
             if (registryName != null) {
                 String name = registryName.toString();
-                return ArrayUtils.contains(Config.dataModelMobs.get(getKey()).getStringList(), name);
+                return ArrayUtils.contains(Config.dataModelMobNames.get(getKey()).getStringList(), name);
             }
 
             // Fallback to the name, but this should never happen
-            return ArrayUtils.contains(Config.dataModelMobs.get(getKey()).getStringList(), entry.getName());
+            return ArrayUtils.contains(Config.dataModelMobNames.get(getKey()).getStringList(), entry.getName());
         }
 
         return false;

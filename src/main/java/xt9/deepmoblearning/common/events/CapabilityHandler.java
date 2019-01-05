@@ -53,19 +53,6 @@ public class CapabilityHandler {
         }
     }
 
-
-    @SubscribeEvent
-    @SideOnly(Side.SERVER)
-    public static void onPlayerJoinedWorldServer(EntityJoinWorldEvent event) {
-        /* Re-init the player capability when player joins world */
-        if(event.getEntity() instanceof EntityPlayerMP) {
-            EntityPlayerMP p = (EntityPlayerMP) event.getEntity();
-            PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
-            cap.sync(p);
-        }
-
-    }
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void onPlayerJoinedWorldClient(EntityJoinWorldEvent event) {

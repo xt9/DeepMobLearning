@@ -160,7 +160,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         if (!TrialKey.isAttuned(activeKey)) {
             return;
         }
-        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 9, this.getPos().getY(), this.getPos().getY() + 9));
+        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 21, this.getPos().getY(), this.getPos().getY() + 11));
         trialData = TrialFactory.createTrial(TrialKey.getMobKey(activeKey));
         lastWave = TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(activeKey));
         waveMobTotal = trialData.getMobCountForWave(currentWave);
@@ -188,7 +188,8 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         mobsDefeated = 0;
         mobsSpawned = 0;
         waveMobTotal = trialData.getMobCountForWave(currentWave);
-        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 9, this.getPos().getY(), this.getPos().getY() + 9));
+        participants.clear();
+        participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), 21, this.getPos().getY(), this.getPos().getY() + 11));
         updateCapability();
         sendWaveStart();
     }

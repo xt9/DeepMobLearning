@@ -1,5 +1,10 @@
 # 1.12.2
 
+### 2.1.1
+- Fixed a connection crash on the client.
+- The area checked for participants when a Trial starts is now larger
+- Merged PR #14 from tommyTT, streamlining associating mobs with Data Models. Mobs can now be included into any given data model through the config.
+
 ### 2.1.0
 - Redesigned the Thunderdome affix to spawn in creatures of thunder (Charged creepers & Witches)
 - Creatures in the Trial now spawn a smidge closer to the middle of the room

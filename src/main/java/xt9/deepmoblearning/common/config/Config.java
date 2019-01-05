@@ -21,7 +21,7 @@ import java.io.File;
 public class Config {
     private static Configuration config = new DMLConfiguration(new File("config/" + DeepConstants.MODID + ".cfg"));
     public static ConfigCategory dataModel = new ConfigCategory("data model simulation costs");
-    public static ConfigCategory dataModelMobs = new ConfigCategory("data model mob");
+    public static ConfigCategory dataModelMobNames = new ConfigCategory("data model mob names");
     public static ConfigCategory pristineChance = new ConfigCategory("pristine matter chance");
     public static ConfigCategory modelExperience = new ConfigCategory("model experience tweaks");
     public static ConfigCategory pristineOutputs = new ConfigCategory("pristine output items");
@@ -105,36 +105,36 @@ public class Config {
     }
 
     private static void initDataModelMobs() {
-        dataModelMobs.setComment("Register entities that count towards leveling up the model\nFormat is modname:entity_name");
-        config.setCategoryComment(dataModelMobs.getName(), dataModelMobs.getComment());
+        dataModelMobNames.setComment("Register entities that count towards leveling up the model\nFormat is modname:entity_name");
+        config.setCategoryComment(dataModelMobNames.getName(), dataModelMobNames.getComment());
 
-        dataModelMobs.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, dataModelMobs.getName(), DeepConstants.MOBS.ZOMBIE, "Zombie"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.SKELETON, new Property(MobKey.SKELETON, config.getStringList(MobKey.SKELETON, dataModelMobs.getName(), DeepConstants.MOBS.SKELETON, "Creeper"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.BLAZE, new Property(MobKey.BLAZE, config.getStringList(MobKey.BLAZE, dataModelMobs.getName(), DeepConstants.MOBS.BLAZE, "BLAZE"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.ENDERMAN, new Property(MobKey.ENDERMAN, config.getStringList(MobKey.ENDERMAN, dataModelMobs.getName(), DeepConstants.MOBS.ENDERMAN, "Enderman"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.WITHER, new Property(MobKey.WITHER, config.getStringList(MobKey.WITHER, dataModelMobs.getName(), DeepConstants.MOBS.WITHER, "Wither"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.WITCH, new Property(MobKey.WITCH, config.getStringList(MobKey.WITCH, dataModelMobs.getName(), DeepConstants.MOBS.WITCH, "Witch"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.SPIDER, new Property(MobKey.SPIDER, config.getStringList(MobKey.SPIDER, dataModelMobs.getName(), DeepConstants.MOBS.SPIDER, "Spider"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.CREEPER, new Property(MobKey.CREEPER, config.getStringList(MobKey.CREEPER, dataModelMobs.getName(), DeepConstants.MOBS.CREEPER, "Creeper"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.GHAST, new Property(MobKey.GHAST, config.getStringList(MobKey.GHAST, dataModelMobs.getName(), DeepConstants.MOBS.GHAST, "Ghast"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.SLIME, new Property(MobKey.SLIME, config.getStringList(MobKey.SLIME, dataModelMobs.getName(), DeepConstants.MOBS.SLIME, "Slime"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.DRAGON, new Property(MobKey.DRAGON, config.getStringList(MobKey.DRAGON, dataModelMobs.getName(), DeepConstants.MOBS.DRAGON, "Dragon"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.SHULKER, new Property(MobKey.SHULKER, config.getStringList(MobKey.SHULKER, dataModelMobs.getName(), DeepConstants.MOBS.SHULKER, "Shulker"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.GUARDIAN, new Property(MobKey.GUARDIAN, config.getStringList(MobKey.GUARDIAN, dataModelMobs.getName(), DeepConstants.MOBS.GUARDIAN, "Guardian"), Property.Type.STRING));
-        dataModelMobs.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, dataModelMobs.getName(), DeepConstants.MOBS.WITHERSKELETON, "Wither Skeleton"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, dataModelMobNames.getName(), DeepConstants.MOBS.ZOMBIE, "Zombie"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.SKELETON, new Property(MobKey.SKELETON, config.getStringList(MobKey.SKELETON, dataModelMobNames.getName(), DeepConstants.MOBS.SKELETON, "Creeper"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.BLAZE, new Property(MobKey.BLAZE, config.getStringList(MobKey.BLAZE, dataModelMobNames.getName(), DeepConstants.MOBS.BLAZE, "Blaze"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.ENDERMAN, new Property(MobKey.ENDERMAN, config.getStringList(MobKey.ENDERMAN, dataModelMobNames.getName(), DeepConstants.MOBS.ENDERMAN, "Enderman"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.WITHER, new Property(MobKey.WITHER, config.getStringList(MobKey.WITHER, dataModelMobNames.getName(), DeepConstants.MOBS.WITHER, "Wither"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.WITCH, new Property(MobKey.WITCH, config.getStringList(MobKey.WITCH, dataModelMobNames.getName(), DeepConstants.MOBS.WITCH, "Witch"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.SPIDER, new Property(MobKey.SPIDER, config.getStringList(MobKey.SPIDER, dataModelMobNames.getName(), DeepConstants.MOBS.SPIDER, "Spider"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.CREEPER, new Property(MobKey.CREEPER, config.getStringList(MobKey.CREEPER, dataModelMobNames.getName(), DeepConstants.MOBS.CREEPER, "Creeper"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.GHAST, new Property(MobKey.GHAST, config.getStringList(MobKey.GHAST, dataModelMobNames.getName(), DeepConstants.MOBS.GHAST, "Ghast"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.SLIME, new Property(MobKey.SLIME, config.getStringList(MobKey.SLIME, dataModelMobNames.getName(), DeepConstants.MOBS.SLIME, "Slime"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.DRAGON, new Property(MobKey.DRAGON, config.getStringList(MobKey.DRAGON, dataModelMobNames.getName(), DeepConstants.MOBS.DRAGON, "Dragon"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.SHULKER, new Property(MobKey.SHULKER, config.getStringList(MobKey.SHULKER, dataModelMobNames.getName(), DeepConstants.MOBS.SHULKER, "Shulker"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.GUARDIAN, new Property(MobKey.GUARDIAN, config.getStringList(MobKey.GUARDIAN, dataModelMobNames.getName(), DeepConstants.MOBS.GUARDIAN, "Guardian"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, dataModelMobNames.getName(), DeepConstants.MOBS.WITHERSKELETON, "Wither Skeleton"), Property.Type.STRING));
 
         /* Extension models */
         if(DeepConstants.MOD_TE_LOADED) {
-            dataModelMobs.put(MobKey.TE, new Property(MobKey.TE, config.getStringList(MobKey.TE, dataModelMobs.getName(), DeepConstants.MOBS.THERMALELEMENTAL, "Thermal Elemental"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TE, new Property(MobKey.TE, config.getStringList(MobKey.TE, dataModelMobNames.getName(), DeepConstants.MOBS.THERMALELEMENTAL, "Thermal Elemental"), Property.Type.STRING));
         }
         if(DeepConstants.MOD_TWILIGHT_LOADED) {
-            dataModelMobs.put(MobKey.TWILIGHTFOREST, new Property(MobKey.TWILIGHTFOREST, config.getStringList(MobKey.TWILIGHTFOREST, dataModelMobs.getName(), DeepConstants.MOBS.TWILIGHTFOREST, "Twilight Forest(Biome, not the whole mod)"), Property.Type.STRING));
-            dataModelMobs.put(MobKey.TWILIGHTSWAMP, new Property(MobKey.TWILIGHTSWAMP, config.getStringList(MobKey.TWILIGHTSWAMP, dataModelMobs.getName(), DeepConstants.MOBS.TWILIGHTSWAMP, "Twilight Swamp creatures"), Property.Type.STRING));
-            dataModelMobs.put(MobKey.TWILIGHTDARKWOOD, new Property(MobKey.TWILIGHTDARKWOOD, config.getStringList(MobKey.TWILIGHTDARKWOOD, dataModelMobs.getName(), DeepConstants.MOBS.TWILIGHTDARKWOOD, "Twilight Darkwood creatures"), Property.Type.STRING));
-            dataModelMobs.put(MobKey.TWILIGHTGLACIER, new Property(MobKey.TWILIGHTGLACIER, config.getStringList(MobKey.TWILIGHTGLACIER, dataModelMobs.getName(), DeepConstants.MOBS.TWILIGHTGLACIER, "Twilight Glacier creatures"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TWILIGHTFOREST, new Property(MobKey.TWILIGHTFOREST, config.getStringList(MobKey.TWILIGHTFOREST, dataModelMobNames.getName(), DeepConstants.MOBS.TWILIGHTFOREST, "Twilight Forest(Biome, not the whole mod)"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TWILIGHTSWAMP, new Property(MobKey.TWILIGHTSWAMP, config.getStringList(MobKey.TWILIGHTSWAMP, dataModelMobNames.getName(), DeepConstants.MOBS.TWILIGHTSWAMP, "Twilight Swamp creatures"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TWILIGHTDARKWOOD, new Property(MobKey.TWILIGHTDARKWOOD, config.getStringList(MobKey.TWILIGHTDARKWOOD, dataModelMobNames.getName(), DeepConstants.MOBS.TWILIGHTDARKWOOD, "Twilight Darkwood creatures"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TWILIGHTGLACIER, new Property(MobKey.TWILIGHTGLACIER, config.getStringList(MobKey.TWILIGHTGLACIER, dataModelMobNames.getName(), DeepConstants.MOBS.TWILIGHTGLACIER, "Twilight Glacier creatures"), Property.Type.STRING));
         }
         if(DeepConstants.MOD_TCON_LOADED) {
-            dataModelMobs.put(MobKey.TINKERSLIME, new Property(MobKey.TINKERSLIME, config.getStringList(MobKey.TINKERSLIME, dataModelMobs.getName(), DeepConstants.MOBS.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
+            dataModelMobNames.put(MobKey.TINKERSLIME, new Property(MobKey.TINKERSLIME, config.getStringList(MobKey.TINKERSLIME, dataModelMobNames.getName(), DeepConstants.MOBS.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
         }
     }
 

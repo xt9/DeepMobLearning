@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
