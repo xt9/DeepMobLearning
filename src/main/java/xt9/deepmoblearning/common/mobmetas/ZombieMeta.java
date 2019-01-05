@@ -1,7 +1,6 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.item.Item;
 
@@ -24,11 +23,6 @@ public class ZombieMeta extends MobMetaData {
         childEntity.setChild(true);
 
         return childEntity;
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityZombie;
     }
 
     public int getExtraInterfaceOffsetX() {

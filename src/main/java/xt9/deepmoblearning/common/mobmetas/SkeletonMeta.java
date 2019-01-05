@@ -1,8 +1,6 @@
 package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -16,11 +14,6 @@ public class SkeletonMeta extends MobMetaData {
 
     SkeletonMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof AbstractSkeleton;
     }
 
     public EntitySkeleton getEntity(World world) {

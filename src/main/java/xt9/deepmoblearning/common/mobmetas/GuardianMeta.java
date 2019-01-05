@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.mobmetas;
 
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -14,12 +13,6 @@ public class GuardianMeta extends MobMetaData {
     GuardianMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityGuardian;
-    }
-
 
     @Override
     public EntityGuardian getEntity(World world) {
