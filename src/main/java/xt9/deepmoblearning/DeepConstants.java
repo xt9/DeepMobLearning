@@ -212,7 +212,8 @@ public class DeepConstants {
         };
 
         public static final String[] ENDERMAN = {
-                "minecraft:enderman"
+                "minecraft:enderman",
+                "deepmoblearning:trial_enderman"
         };
 
         public static final String[] GHAST = {
@@ -228,6 +229,7 @@ public class DeepConstants {
         public static final String[] SLIME = {
                 "minecraft:slime",
                 "minecraft:magma_cube",
+                "deepmoblearning:trial_slime",
         };
 
         public static final String[] SPIDER = {
@@ -235,6 +237,8 @@ public class DeepConstants {
                 "minecraft:cave_spider",
                 "twilightforest:hedge_spider",
                 "twilightforest:king_spider",
+                "deepmoblearning:trial_spider",
+                "deepmoblearning:trial_cave_spider",
         };
 
         public static final String[] THERMALELEMENTAL = {
