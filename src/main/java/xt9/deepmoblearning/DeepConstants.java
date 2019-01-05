@@ -197,4 +197,127 @@ public class DeepConstants {
             "deepmoblearning:glitch_heart,5,0"
         };
     }
+
+    public static final class MOBS {
+        public static final String[] CREEPER = {
+                "minecraft:creeper"
+        };
+
+        public static final String[] BLAZE = {
+                "minecraft:blaze"
+        };
+
+        public static final String[] DRAGON = {
+                "minecraft:ender_dragon"
+        };
+
+        public static final String[] ENDERMAN = {
+                "minecraft:enderman"
+        };
+
+        public static final String[] GHAST = {
+                "minecraft:ghast"
+        };
+
+        public static final String[] SKELETON = {
+                "minecraft:stray",
+                "minecraft:skeleton",
+                "twilightforest:skeleton_druid"
+        };
+
+        public static final String[] SLIME = {
+                "minecraft:slime",
+                "minecraft:magma_cube",
+        };
+
+        public static final String[] SPIDER = {
+                "minecraft:spider",
+                "minecraft:cave_spider",
+                "twilightforest:hedge_spider",
+                "twilightforest:king_spider",
+        };
+
+        public static final String[] THERMALELEMENTAL = {
+                "thermalfoundation:blizz",
+                "thermalfoundation:blitz",
+                "thermalfoundation:basalz",
+        };
+
+        public static final String[] TINKERSLIME = {
+                "tconstruct:blueslime"
+        };
+
+        public static final String[] TWILIGHTFOREST = {
+                "twilightforest:naga",
+                "twilightforest:lich_minion",
+                "twilightforest:lich",
+                "twilightforest:death_tome",
+                "twilightforest:swarm_spider",
+        };
+
+        public static final String[] TWILIGHTSWAMP = {
+                "twilightforest:minotaur",
+                "twilightforest:minoshroom",
+                "twilightforest:maze_slime",
+                "twilightforest:fire_beetle",
+                "twilightforest:pinch_beetle",
+                "twilightforest:slime_beetle",
+                "twilightforest:hydra",
+        };
+
+        public static final String[] TWILIGHTDARKWOOD = {
+                "twilightforest:redcap",
+                "twilightforest:blockchain_goblin",
+                "twilightforest:kobold",
+                "twilightforest:goblin_knight_lower",
+                "twilightforest:goblin_knight_upper",
+                "twilightforest:helmet_crab",
+                "twilightforest:knight_phantom",
+                "twilightforest:tower_ghast",
+                "twilightforest:tower_broodling",
+                "twilightforest:tower_golem",
+                "twilightforest:tower_termite",
+                "twilightforest:mini_ghast",
+                "twilightforest:ur_ghast",
+        };
+
+        public static final String[] TWILIGHTGLACIER = {
+                "twilightforest:yeti_alpha",
+                "twilightforest:yeti",
+                "twilightforest:winter_wolf",
+                "twilightforest:penguin",
+                "twilightforest:snow_guardian",
+                "twilightforest:stable_ice_core",
+                "twilightforest:unstable_ice_core",
+                "twilightforest:snow_queen",
+        };
+
+        public static final String[] WITCH = {
+                "minecraft:witch"
+        };
+
+        public static final String[] WITHERSKELETON = {
+                "minecraft:wither_skeleton"
+        };
+
+        public static final String[] WITHER = {
+                "minecraft:wither"
+        };
+
+        public static final String[] ZOMBIE = {
+                "minecraft:husk",
+                "minecraft:zombie",
+                "minecraft:zombie_villager",
+                "minecraft:zombie_pigman",
+        };
+
+        public static final String[] SHULKER = {
+                "minecraft:shulker"
+        };
+
+        public static final String[] GUARDIAN = {
+                "minecraft:elder_guardian",
+                "minecraft:guardian",
+        };
+    }
 }

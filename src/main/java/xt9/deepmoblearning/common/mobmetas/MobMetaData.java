@@ -4,9 +4,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.ArrayUtils;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemLivingMatter;
@@ -27,6 +31,8 @@ public abstract class MobMetaData {
     protected ItemLivingMatter livingMatter;
     protected ItemPristineMatter pristineMatter;
     protected String[] mobTrivia;
+
+    private String[] mobRegistryNames;
 
     public MobMetaData(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter, String[] mobTrivia) {
         this.key = key;
@@ -99,6 +105,18 @@ public abstract class MobMetaData {
     }
 
     public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
+        EntityEntry entry = EntityRegistry.getEntry(entityLiving.getClass());
+        if (entry != null) {
+            ResourceLocation registryName = entry.getRegistryName();
+            if (registryName != null) {
+                String name = registryName.toString();
+                return ArrayUtils.contains(Config.dataModelMobs.get(getKey()).getStringList(), name);
+            }
+
+            // Fallback to the name, but this should never happen
+            return ArrayUtils.contains(Config.dataModelMobs.get(getKey()).getStringList(), entry.getName());
+        }
+
         return false;
     }
 

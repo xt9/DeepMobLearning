@@ -1,10 +1,7 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import twilightforest.entity.*;
-import twilightforest.entity.boss.EntityTFKnightPhantom;
 import twilightforest.entity.boss.EntityTFUrGhast;
 
 /**
@@ -15,21 +12,6 @@ public class TwilightDarkwoodMeta extends MobMetaData {
 
     TwilightDarkwoodMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityTFRedcap ||
-            entityLiving instanceof EntityTFBlockGoblin ||
-            entityLiving instanceof EntityTFKobold ||
-            entityLiving instanceof EntityTFGoblinKnightLower ||
-            entityLiving instanceof EntityTFGoblinKnightUpper ||
-            entityLiving instanceof EntityTFHelmetCrab ||
-            entityLiving instanceof EntityTFKnightPhantom ||
-            entityLiving instanceof EntityTFTowerGhast ||
-            entityLiving instanceof EntityTFTowerBroodling ||
-            entityLiving instanceof EntityTFTowerGolem ||
-            entityLiving instanceof EntityTFTowerTermite;
     }
 
     public EntityTFUrGhast getEntity(World world) {

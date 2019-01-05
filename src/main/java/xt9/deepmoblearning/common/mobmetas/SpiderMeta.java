@@ -1,7 +1,6 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCaveSpider;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.item.Item;
@@ -14,11 +13,6 @@ public class SpiderMeta extends MobMetaData {
 
     SpiderMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntitySpider;
     }
 
     public EntitySpider getEntity(World world) {

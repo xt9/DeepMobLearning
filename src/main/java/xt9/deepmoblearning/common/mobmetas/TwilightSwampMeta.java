@@ -1,13 +1,10 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
-import twilightforest.entity.*;
-import twilightforest.entity.boss.EntityTFHydra;
 import twilightforest.entity.boss.EntityTFMinoshroom;
 
 
@@ -19,16 +16,6 @@ public class TwilightSwampMeta extends MobMetaData {
 
     TwilightSwampMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityTFMinotaur ||
-            entityLiving instanceof EntityTFMazeSlime ||
-            entityLiving instanceof EntityTFFireBeetle ||
-            entityLiving instanceof EntityTFPinchBeetle ||
-            entityLiving instanceof EntityTFSlimeBeetle ||
-            entityLiving instanceof EntityTFHydra;
     }
 
     public EntityTFMinoshroom getEntity(World world) {

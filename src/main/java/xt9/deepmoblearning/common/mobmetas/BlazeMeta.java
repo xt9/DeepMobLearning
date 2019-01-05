@@ -15,11 +15,6 @@ public class BlazeMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityBlaze;
-    }
-
     public EntityBlaze getEntity(World world) {
         return new EntityBlaze(world);
     }

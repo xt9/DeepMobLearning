@@ -1,7 +1,6 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.item.Item;
 
@@ -13,11 +12,6 @@ public class CreeperMeta extends MobMetaData {
 
     CreeperMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityCreeper;
     }
 
     public EntityCreeper getEntity(World world) {

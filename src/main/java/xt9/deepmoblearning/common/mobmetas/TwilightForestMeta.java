@@ -1,13 +1,8 @@
 package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.world.World;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
-import twilightforest.entity.EntityTFDeathTome;
-import twilightforest.entity.EntityTFSwarmSpider;
 import twilightforest.entity.boss.EntityTFLich;
-import twilightforest.entity.boss.EntityTFLichMinion;
-import twilightforest.entity.boss.EntityTFNaga;
 
 /**
  * Created by xt9 on 2018-01-18.
@@ -17,15 +12,6 @@ public class TwilightForestMeta extends MobMetaData {
 
     TwilightForestMeta(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter) {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
-    }
-
-    @Override
-    public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        return entityLiving instanceof EntityTFNaga ||
-            entityLiving instanceof EntityTFLichMinion ||
-            entityLiving instanceof EntityTFLich ||
-            entityLiving instanceof EntityTFDeathTome ||
-            entityLiving instanceof EntityTFSwarmSpider;
     }
 
     public EntityTFLich getEntity(World world) {
