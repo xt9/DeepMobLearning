@@ -7,7 +7,7 @@
   ],
   "key": {
     "O": { "item": "deepmoblearning:soot_covered_plate", "data": 0 },
-    "D": { "item": "minecraft:dye", "data": 5 },
+    "D": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 },
     "S": { "item": "minecraft:stained_glass_pane", "data": 3 },
     "R": { "item": "minecraft:repeater", "data": 0 }
   },

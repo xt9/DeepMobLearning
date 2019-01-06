@@ -33,9 +33,4 @@ public class SpeedAffix implements ITrialAffix {
         return "§b"+getAffixName()+"§r";
     }
 
-    @Override
-    public String getAffixDescription() {
-        return "The speed affix applies a permanent speed increase.\n(Effect only applied to the Trial specific opponents)";
-    }
-
 }

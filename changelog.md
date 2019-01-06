@@ -1,5 +1,14 @@
 # 1.12.2
 
+### 2.2.0
+- Removed GuideAPI guide
+- Added Patchouli guide (Soft dependency)
+- Reworked Deep Learner Recipe to require less dyes
+- Reworked Soot-covered Machine Casing recipe to require less obsidian.
+- Reworked Loot Fabricator recipe to require less dye types.
+- Added a fallback book that tells the player to install Patchouli if it's not loaded
+- Added available attunements to the tooltip of the Trial Key
+
 ### 2.1.1
 - Fixed a connection crash on the client.
 - The area checked for participants when a Trial starts is now larger (required arena size is unchanged)

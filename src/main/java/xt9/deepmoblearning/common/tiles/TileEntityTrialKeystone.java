@@ -89,7 +89,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
                 if(participants.isEmpty()) {
                     List<EntityPlayerMP> nearbyPlayers = PlayerHelper.getPlayersInArea(world, this.getPos(), 80, this.getPos().getY() - 30, this.getPos().getY() + 30);
-                    nearbyPlayers.forEach(p -> PlayerHelper.sendMessage(p, new TextComponentString("Trial failed, all participants have died/left the trial arena")));
+                    nearbyPlayers.forEach(p -> PlayerHelper.sendMessage(p, new TextComponentString("Trial failed, all participants have died/left the arena")));
                     finishTrial(true, false);
                 } else if(ticksToNextWave > 0) {
                     ticksToNextWave--;

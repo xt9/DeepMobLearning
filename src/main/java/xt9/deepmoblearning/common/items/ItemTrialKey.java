@@ -14,6 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.network.TrialStartMessage;
+import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.affix.EmpoweredGlitchAffix;
 import xt9.deepmoblearning.common.trials.affix.ITrialAffix;
 import xt9.deepmoblearning.common.trials.affix.TrialAffixKey;
@@ -54,7 +55,12 @@ public class ItemTrialKey extends ItemBase {
                 list.add(I18n.format("deepmoblearning.trial_key.affix_go_to_jei"));
             } else {
                 list.add(I18n.format("deepmoblearning.trial_key.notattuned"));
-                list.add(I18n.format("deepmoblearning.trial_key.attunement_go_to_jei"));
+                list.add("§bAvailable attunements:§r");
+
+                NonNullList<String> availableTrials = TrialFactory.getValidTrialsHumanReadable();
+                for (String mobName : availableTrials) {
+                    list.add("  - §f" + mobName + "§r");
+                }
             }
         }
     }

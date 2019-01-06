@@ -71,9 +71,4 @@ public class RegenPartyAffix implements ITrialAffix {
     public String getAffixNameWithFormatting() {
         return "§d"+getAffixName()+"§r";
     }
-
-    @Override
-    public String getAffixDescription() {
-        return "A Regen Party affix will sometimes cause a rip in time & space, causing the skies to open up and fling lingering regen potions into the air.";
-    }
 }

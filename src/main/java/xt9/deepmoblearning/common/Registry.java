@@ -35,6 +35,7 @@ public class Registry {
     public static Item machineCasingItem;
     public static Item infusedIngotBlockItem;
     public static ItemPolymerClay polymerClay = new ItemPolymerClay();
+    public static ItemFallbackGuidebook fallbackGuidebook = new ItemFallbackGuidebook();
     public static ItemSootedRedstone sootedRedstone = new ItemSootedRedstone();
     public static ItemSootedPlate sootedPlate = new ItemSootedPlate();
     public static ItemDeepLearner deepLearner = new ItemDeepLearner();
@@ -231,6 +232,10 @@ public class Registry {
         items.addAll(dataModels);
         items.addAll(livingMatter);
         items.addAll(pristineMatter);
+
+        if(!DeepConstants.MOD_PATCHOULI_LOADED) {
+            items.add(fallbackGuidebook);
+        }
 
         for (Item item : items) {
             registry.register(item);

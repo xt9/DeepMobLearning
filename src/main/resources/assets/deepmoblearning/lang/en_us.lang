@@ -9,6 +9,7 @@ tile.deepmoblearning.infused_ingot_block.name=Glitch Infused Block
 #
 # Single items
 #
+item.deepmoblearning.book.name=Placeholder Guide (Install Patchouli)
 item.deepmoblearning.polymer_clay.name=Polymer Clay
 item.deepmoblearning.soot_covered_redstone.name=Soot-covered Redstone
 item.deepmoblearning.soot_covered_plate.name=Soot-covered Plate

@@ -22,7 +22,6 @@ import java.util.concurrent.ThreadLocalRandom;
  * Created by xt9 on 2018-04-24.
  */
 public class LootHoarderAffix implements ITrialAffix {
-    private String[] descriptionLines = {"Will lure in the smaller and more greedy zombies of the world (They may carry valuables)"};
     private BlockPos pos;
     private World world;
     private int ticks = 0;
@@ -91,10 +90,5 @@ public class LootHoarderAffix implements ITrialAffix {
     @Override
     public String getAffixNameWithFormatting() {
         return "§6"+getAffixName()+"§r";
-    }
-
-    @Override
-    public String getAffixDescription() {
-        return "Will lure in the smaller and more greedy zombies of the world (They may carry valuables)";
     }
 }

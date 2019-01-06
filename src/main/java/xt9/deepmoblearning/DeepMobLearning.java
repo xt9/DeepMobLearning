@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.patchouli.client.book.ClientBookRegistry;
 import xt9.deepmoblearning.common.CommonProxy;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
@@ -22,7 +23,7 @@ import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.network.*;
 
 @Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory",
-    dependencies = "required-after:guideapi@[1.12-2.1.5-60,);after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct")
+    dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct;after:patchouli")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
     private int networkID = 0;

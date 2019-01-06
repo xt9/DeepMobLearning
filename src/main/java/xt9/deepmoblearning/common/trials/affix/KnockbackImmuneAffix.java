@@ -37,9 +37,4 @@ public class KnockbackImmuneAffix implements ITrialAffix {
     public String getAffixNameWithFormatting() {
         return "§8"+getAffixName()+"§r";
     }
-
-    @Override
-    public String getAffixDescription() {
-        return "Applies a permanent knockback immunity.\n(Effect only applied to the Trial specific opponents)";
-    }
 }

@@ -41,9 +41,4 @@ public class EmpoweredGlitchAffix implements ITrialAffix {
     public String getAffixNameWithFormatting() {
         return "§3"+getAffixName()+"§r";
     }
-
-    @Override
-    public String getAffixDescription() {
-        return "Empowers the System glitches. They gain more health and launch more orbs which also deal more damage.\n(This affix only affect System glitches)";
-    }
 }

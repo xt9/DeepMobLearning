@@ -92,9 +92,4 @@ public class ThunderDomeAffix implements ITrialAffix {
     public String getAffixNameWithFormatting() {
         return "§9THUNDERDOME§r";
     }
-
-    @Override
-    public String getAffixDescription() {
-        return "Adds creatures of thunder to the Trial. May occasionally spawn in Charged Creepers or Witches";
-    }
 }

@@ -65,9 +65,4 @@ public class BlazeInvadersAffix implements ITrialAffix {
     public String getAffixNameWithFormatting() {
         return "§c"+getAffixName()+"§r";
     }
-
-    @Override
-    public String getAffixDescription() {
-        return "The Blaze Invaders affix will sometimes make blazes appear inside of the trial (Try to don't get burned)";
-    }
 }
