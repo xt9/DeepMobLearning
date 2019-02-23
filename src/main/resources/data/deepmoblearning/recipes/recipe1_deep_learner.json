@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ORO",
+    "RSR",
+    "ODO"
+  ],
+  "key": {
+    "O": { "item": "deepmoblearning:soot_covered_plate" },
+    "D": { "item": "deepmoblearning:soot_covered_redstone" },
+    "S": { "item": "minecraft:glass_pane" },
+    "R": { "item": "minecraft:repeater" }
+  },
+  "result": {
+    "item": "deepmoblearning:deep_learner"
+  }
+}

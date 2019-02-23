@@ -3,17 +3,17 @@ package xt9.deepmoblearning.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
 import xt9.deepmoblearning.common.util.Color;
@@ -25,9 +25,8 @@ import java.text.DecimalFormat;
 /**
  * Created by xt9 on 2017-06-14.
  */
-@Mod.EventBusSubscriber(Side.CLIENT)
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class DataOverlay extends GuiScreen {
-    private final FontRenderer renderer;
     private Minecraft mc;
     private ItemStack deepLearner;
     private NonNullList<ItemStack> dataModels;
@@ -37,18 +36,9 @@ public class DataOverlay extends GuiScreen {
 
     private static final ResourceLocation experienceBar = new ResourceLocation(DeepConstants.MODID, "textures/gui/experience_gui.png");
 
-    public DataOverlay(Minecraft mc) {
+    public DataOverlay() {
         super();
-        this.mc = mc;
-        this.renderer = this.mc.fontRenderer;
-        this.itemRender = this.mc.getRenderItem();
-        setGuiSize(89, 12);
-    }
-
-    /* Needed on 1.12 to render tooltips */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.mc = Minecraft.getInstance();
     }
 
     @SubscribeEvent(priority=EventPriority.NORMAL)
@@ -57,7 +47,7 @@ public class DataOverlay extends GuiScreen {
             return;
         }
 
-        if(!mc.inGameHasFocus) {
+        if(!mc.isGameFocused()) {
             return;
         }
 
@@ -70,9 +60,9 @@ public class DataOverlay extends GuiScreen {
         }
 
 
-        int x = Config.guiOverlayHorizontalSpacing.getInt();
-        int y = Config.guiOverlayVerticalSpacing.getInt();
-        String position = Config.guiOverlaySide.getString();
+        int x = Config.guiOverlayHorizontalSpacing;
+        int y = Config.guiOverlayVerticalSpacing;
+        String position = Config.guiOverlaySide;
         switch (position) {
             case "topleft":
                 x = x + getLeftCornerX() + 18;
@@ -111,7 +101,7 @@ public class DataOverlay extends GuiScreen {
         DecimalFormat f = new DecimalFormat("0.#");
 
         drawItemStack(x - 18, y - 2 + barSpacing + (index * componentHeight), stack);
-        drawString(renderer, tierName + " Model", x - 14, y + (index * componentHeight) + 2, Color.WHITE);
+        drawString(mc.fontRenderer, tierName + " Model", x - 14, y + (index * componentHeight) + 2, Color.WHITE);
 
         // Draw the bar
         mc.getTextureManager().bindTexture(experienceBar);
@@ -122,7 +112,7 @@ public class DataOverlay extends GuiScreen {
         } else {
             drawTexturedModalRect(x + 1,  y + 1 + barSpacing + (index * componentHeight), 0, 12,
                     (int) (((float) currenKillCount / tierRoof * 89)), 11);
-            drawString(renderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + barSpacing + (index * componentHeight), Color.WHITE);
+            drawString(mc.fontRenderer, f.format(killsToNextTier) + " to go", x + 3, y + 2 + barSpacing + (index * componentHeight), Color.WHITE);
         }
     }
 
@@ -131,21 +121,17 @@ public class DataOverlay extends GuiScreen {
     }
 
     private int getRightCornerX() {
-        ScaledResolution scaledResolution = new ScaledResolution(mc);
-        return scaledResolution.getScaledWidth() - width - 5;
+        return Minecraft.getInstance().mainWindow.getScaledWidth() - width - 5;
     }
 
     private int getBottomY(int numberOfBars) {
-        ScaledResolution scaledResolution = new ScaledResolution(mc);
-        return scaledResolution.getScaledHeight() - (numberOfBars * componentHeight);
+        return Minecraft.getInstance().mainWindow.getScaledHeight() - (numberOfBars * componentHeight);
     }
 
     private void drawItemStack(int x, int y, ItemStack stack) {
-        GlStateManager.translate(0.0F, 0.0F, 32.0F);
+        GlStateManager.translatef(0.0F, 0.0F, 32.0F);
         this.zLevel = 200.0F;
-        itemRender.zLevel = 200.0F;
-        itemRender.renderItemAndEffectIntoGUI(stack, x, y);
+        DeepMobLearning.proxy.getClientItemRenderer().renderItemAndEffectIntoGUI(stack, x, y);
         this.zLevel = 0.0F;
-        itemRender.zLevel = 0.0F;
     }
 }

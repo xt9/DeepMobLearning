@@ -6,7 +6,9 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -40,22 +42,15 @@ public class DeepLearnerGui extends GuiContainer {
     private static final ResourceLocation extras = new ResourceLocation(DeepConstants.MODID, "textures/gui/deeplearner_extras.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepConstants.MODID, "textures/gui/default_gui.png");
 
-    public DeepLearnerGui(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
-        super(new ContainerDeepLearner(inventory, world, slot, heldItem));
-        this.world = world;
-        this.renderer = Minecraft.getMinecraft().fontRenderer;
+    public DeepLearnerGui(InventoryPlayer inventory, ItemStack heldItem) {
+        super(new ContainerDeepLearner(inventory));
+        this.world = inventory.player.world;
+        this.renderer = Minecraft.getInstance().fontRenderer;
         this.deepLearner = heldItem;
         xSize = WIDTH;
         ySize = HEIGHT;
     }
 
-    /* Needed on 1.12 to render tooltips */
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        renderHoveredToolTip(mouseX, mouseY);
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -63,12 +58,12 @@ public class DeepLearnerGui extends GuiContainer {
         int top = getGuiTop();
 
         // Draw the main GUI
-        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getInstance().getTextureManager().bindTexture(base);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(left + 41, top, 0, 0, 256, 140);
 
         // Draw player inventory
-        Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
+        Minecraft.getInstance().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 81, top + 145, 0, 0, 176, 90);
 
         // Get the meta for the first ItemDataModel in this deeplearner
@@ -134,7 +129,7 @@ public class DeepLearnerGui extends GuiContainer {
         int y = mouseY - guiTop;
 
         // Draw the mob display box
-        Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
+        Minecraft.getInstance().getTextureManager().bindTexture(extras);
         drawTexturedModalRect( left - 27, top + 105, 75, 0, 24, 24);
         drawTexturedModalRect( left - 1, top + 105, 99, 0, 24, 24);
 
@@ -147,9 +142,9 @@ public class DeepLearnerGui extends GuiContainer {
     }
 
     @Override
-    protected void mouseClicked(int mX, int mY, int mouseButton) throws IOException {
-        int x = mX - guiLeft;
-        int y = mY - guiTop;
+    protected void handleMouseClick(Slot slot, int mouseX, int mouseY, ClickType type) {
+        int x = mouseX - guiLeft;
+        int y = mouseY - guiTop;
 
         if(validDataModels.size() > 1) {
             if (x >= -27 && x < 23 && 105 <= y && y < 129) {
@@ -161,8 +156,10 @@ public class DeepLearnerGui extends GuiContainer {
                 }
             }
         }
-        super.mouseClicked(mX, mY, mouseButton);
+        super.handleMouseClick(slot, mouseX, mouseY, type);
     }
+
+
 
     private void renderDefaultScreen(int left, int top) {
         int leftStart = left + 49;
@@ -211,7 +208,7 @@ public class DeepLearnerGui extends GuiContainer {
 
 
         // Draw heart
-        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
+        Minecraft.getInstance().getTextureManager().bindTexture(base);
         drawTexturedModalRect(left + 235, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
 
         drawString(renderer, "Life points", left + 235, topStart + spacing, Color.AQUA);
@@ -227,27 +224,27 @@ public class DeepLearnerGui extends GuiContainer {
 
     private void renderMobDisplayBox(int left, int top) {
         // Draw the mob display box
-        Minecraft.getMinecraft().getTextureManager().bindTexture(extras);
+        Minecraft.getInstance().getTextureManager().bindTexture(extras);
         drawTexturedModalRect( left -41, top, 0, 0, 75, 101);
     }
 
     private void renderEntity(Entity entity, float scale, float x, float y, float partialTicks) {
         // Disable the lightmap
-        Minecraft.getMinecraft().entityRenderer.disableLightmap();
+        Minecraft.getInstance().entityRenderer.disableLightmap();
 
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate(x, y, 0.0f);
-        GlStateManager.scale(scale, scale, scale);
-        GlStateManager.rotate(180.0f, 0.0f, 0.0f, 1.0f);
-        double heightOffset = Math.sin((world.getTotalWorldTime() + partialTicks) / 16.0) / 8.0;
+        GlStateManager.translatef(x, y, 0.0f);
+        GlStateManager.scalef(scale, scale, scale);
+        GlStateManager.rotatef(180.0f, 0.0f, 0.0f, 1.0f);
+        float heightOffset = (float) (Math.sin((world.getWorldInfo().getGameTime() + partialTicks) / 16.0) / 8.0);
 
         // Make sure the Z axis is high so it does not clip behind the backdrop or inventory
-        GlStateManager.translate(0.2f, 0.0f + heightOffset, 15.0f);
-        GlStateManager.rotate((world.getTotalWorldTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
-        Minecraft.getMinecraft().getRenderManager().renderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
+        GlStateManager.translatef(0.2f, 0.0f + heightOffset, 15.0f);
+        GlStateManager.rotatef((world.getWorldInfo().getGameTime() + partialTicks) * 3.0f, 0.0f, 1.0f, 0.0f);
+        Minecraft.getInstance().getRenderManager().renderEntity(entity,0.0f, 0.0f, 0.0f, 1.0f, 0, true);
 
         GlStateManager.popMatrix();
-        Minecraft.getMinecraft().entityRenderer.enableLightmap();
+        Minecraft.getInstance().entityRenderer.enableLightmap();
     }
 }

@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:data_model_blank" },
+    { "item": "tconstruct:edible" }
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_tinker_slime"
+  }
+}

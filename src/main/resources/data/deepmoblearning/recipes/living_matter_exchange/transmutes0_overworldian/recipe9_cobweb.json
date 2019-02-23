@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:string" },
+    { "item": "minecraft:slime_ball" },
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "deepmoblearning:living_matter_overworldian" }
+  ],
+  "result": {
+    "item": "minecraft:cobweb",
+    "count": 4
+  }
+}

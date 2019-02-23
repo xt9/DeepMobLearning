@@ -23,7 +23,8 @@ public class GuiFactory implements IModGuiFactory {
 
     @Override
     public GuiScreen createConfigGui(GuiScreen parentScreen){
-        return new DeepGuiConfig(parentScreen);
+        //return new DeepGuiConfig(parentScreen);
+        return null;
     }
 
     @Override

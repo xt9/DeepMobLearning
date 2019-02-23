@@ -8,12 +8,15 @@ import net.minecraft.world.World;
  */
 public class EntityTrialSlime extends EntitySlime {
     public EntityTrialSlime(World world) {
+        // @todo 1.13 see if this needs it's own type
         super(world);
         setSlimeSize(3, true);
     }
 
+
     @Override
-    public void setDead() {
-        isDead = true;
+    public void remove() {
+        this.removed = true;
+        this.invalidateCaps();
     }
 }

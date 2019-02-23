@@ -1,8 +1,12 @@
 package xt9.deepmoblearning.common.trials.affix;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
 
 /**
@@ -10,7 +14,8 @@ import xt9.deepmoblearning.common.entity.EntityGlitch;
  */
 @SuppressWarnings("ConstantConditions")
 public class SpeedAffix implements ITrialAffix {
-    private PotionEffect effect = new PotionEffect(Potion.REGISTRY.getObjectById(1), Integer.MAX_VALUE, 0);
+    // @todo 1.13 see if this resource location is correct
+    private PotionEffect effect = new PotionEffect(ForgeRegistries.POTIONS.getValue(new ResourceLocation("minecraft:speed")), Integer.MAX_VALUE, 0);
 
     @Override
     public void apply(EntityLiving entity) {

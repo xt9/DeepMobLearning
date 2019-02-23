@@ -7,12 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import xt9.deepmoblearning.DeepMobLearning;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import xt9.deepmoblearning.common.config.Config;
-import xt9.deepmoblearning.common.network.ConsumeLivingMatterMessage;
+import xt9.deepmoblearning.common.network.messages.ConsumeLivingMatterMessage;
+import xt9.deepmoblearning.common.network.Network;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
 
 import javax.annotation.Nullable;
@@ -31,11 +33,11 @@ public class ItemLivingMatter extends ItemBase {
         this.type = type;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        list.add("Can be consumed for experience §r(Right click)§r");
-        list.add("Hold §rSHIFT§7 to consume entire stack.");
-        list.add(I18n.format("deepmoblearning.living_matter.exp", Config.livingMatterEXP.get(getType()).getInt()));
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
+        list.add(new TextComponentString("Can be consumed for experience §r(Right click)§r"));
+        list.add(new TextComponentString("Hold §rSHIFT§7 to consume entire stack."));
+        list.add(new TextComponentString(I18n.format("deepmoblearning.living_matter.exp", Config.livingMatterEXP.get(getType()))));
     }
 
     @Override
@@ -43,14 +45,15 @@ public class ItemLivingMatter extends ItemBase {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand) {
         if(player.world.isRemote) {
             if(KeyboardHelper.isHoldingShift()) {
-                DeepMobLearning.network.sendToServer(new ConsumeLivingMatterMessage(true));
+                Network.channel.sendToServer(new ConsumeLivingMatterMessage(true));
             } else {
-                DeepMobLearning.network.sendToServer(new ConsumeLivingMatterMessage(false));
+                Network.channel.sendToServer(new ConsumeLivingMatterMessage(false));
             }
         }
 
         return new ActionResult(EnumActionResult.PASS, player.getHeldItem(hand));
     }
+
 
     public String getType() {
         return type;
@@ -65,8 +68,8 @@ public class ItemLivingMatter extends ItemBase {
             super("living_matter_overworldian", "§aOverworldian§r", "overworldian");
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -76,8 +79,8 @@ public class ItemLivingMatter extends ItemBase {
             super("living_matter_hellish", "§cHellish§r", "hellish");
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -87,8 +90,8 @@ public class ItemLivingMatter extends ItemBase {
             super("living_matter_extraterrestrial", "§dExtraterrestrial§r", "extraterrestrial");
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -98,8 +101,8 @@ public class ItemLivingMatter extends ItemBase {
             super("living_matter_twilight", "§dTwilight§r", "twilight");
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }

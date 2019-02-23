@@ -1,6 +1,6 @@
 package xt9.deepmoblearning.common.mobmetas;
 
-import cofh.thermalfoundation.entity.monster.EntityBlizz;
+import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.world.World;
 import net.minecraft.item.Item;
 
@@ -14,7 +14,12 @@ public class ThermalElementalMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityBlizz getEntity(World world) {
-        return new EntityBlizz(world);
+    @Override
+    public EntityBlaze getEntity(World world) {
+        return new EntityBlaze(world);
     }
+
+    /*    public EntityBlizz getEntity(World world) {
+        return new EntityBlizz(world);
+    }*/
 }

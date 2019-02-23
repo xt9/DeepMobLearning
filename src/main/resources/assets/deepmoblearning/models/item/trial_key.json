@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "deepmoblearning:items/trial_key"
+    "layer0": "deepmoblearning:item/trial_key"
   }
 }

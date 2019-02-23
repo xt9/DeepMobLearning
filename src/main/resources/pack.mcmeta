@@ -1,6 +1,6 @@
 {
     "pack": {
-        "pack_format": 3,
-        "description": "Resources for Deep Mob Learning"
+        "pack_format": 4,
+        "description": "Resources for Deep Mob Learning, pack format is 4 since 1.13"
     }
 }

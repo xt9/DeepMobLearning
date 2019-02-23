@@ -3,9 +3,11 @@ package xt9.deepmoblearning.common.items;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.util.DataModelExperience;
@@ -30,23 +32,23 @@ public class ItemDataModel extends ItemBase {
         return mobKey;
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
         if(DataModel.hasExtraTooltip(stack)) {
-            list.add(DataModel.getExtraTooltip(stack));
+            list.add(new TextComponentString(DataModel.getExtraTooltip(stack)));
         }
 
         if(!KeyboardHelper.isHoldingShift()) {
-            list.add(I18n.format("deepmoblearning.holdshift"));
+            list.add(new TextComponentString(I18n.format("deepmoblearning.holdshift")));
         } else {
-            list.add(I18n.format("deepmoblearning.data_model.tier", DataModel.getTierName(stack, false)));
+            list.add(new TextComponentString(I18n.format("deepmoblearning.data_model.tier", DataModel.getTierName(stack, false))));
             int tier = DataModel.getTier(stack);
             if(tier != DeepConstants.DATA_MODEL_MAXIMUM_TIER) {
-                list.add(I18n.format("deepmoblearning.data_model.data.collected", DataModel.getCurrentTierSimulationCountWithKills(stack), DataModel.getTierRoof(stack)));
-                list.add(I18n.format("deepmoblearning.data_model.data.killmultiplier", DataModelExperience.getKillMultiplier(DataModel.getTier(stack))));
+                list.add(new TextComponentString(I18n.format("deepmoblearning.data_model.data.collected", DataModel.getCurrentTierSimulationCountWithKills(stack), DataModel.getTierRoof(stack))));
+                list.add(new TextComponentString(I18n.format("deepmoblearning.data_model.data.killmultiplier", DataModelExperience.getKillMultiplier(DataModel.getTier(stack)))));
             }
-            list.add(I18n.format("deepmoblearning.data_model.rfcost", DataModel.getSimulationTickCost(stack)));
-            list.add(I18n.format("deepmoblearning.data_model.type", DataModel.getMatterTypeName(stack)));
+            list.add(new TextComponentString(I18n.format("deepmoblearning.data_model.rfcost", DataModel.getSimulationTickCost(stack))));
+            list.add(new TextComponentString(I18n.format("deepmoblearning.data_model.type", DataModel.getMatterTypeName(stack))));
         }
     }
 
@@ -55,8 +57,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_blaze", MobKey.BLAZE);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -66,8 +68,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_creeper", MobKey.CREEPER);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -77,8 +79,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_dragon", MobKey.DRAGON);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -88,8 +90,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_enderman", MobKey.ENDERMAN);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -99,8 +101,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_ghast", MobKey.GHAST);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -110,8 +112,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_guardian", MobKey.GUARDIAN);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -121,8 +123,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_shulker", MobKey.SHULKER);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -132,8 +134,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_skeleton", MobKey.SKELETON);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -143,8 +145,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_slime", MobKey.SLIME);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -154,8 +156,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_spider", MobKey.SPIDER);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -165,8 +167,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_witch", MobKey.WITCH);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -176,8 +178,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_wither", MobKey.WITHER);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -187,8 +189,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_wither_skeleton", MobKey.WITHERSKELETON);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -198,8 +200,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_zombie", MobKey.ZOMBIE);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
 
@@ -210,8 +212,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_thermal_elemental", MobKey.TE);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -221,8 +223,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_twilight_forest", MobKey.TWILIGHTFOREST);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -232,8 +234,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_twilight_swamp", MobKey.TWILIGHTSWAMP);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -243,8 +245,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_twilight_darkwood", MobKey.TWILIGHTDARKWOOD);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -254,8 +256,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_twilight_glacier", MobKey.TWILIGHTGLACIER);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
@@ -265,8 +267,8 @@ public class ItemDataModel extends ItemBase {
             super("data_model_tinker_slime", MobKey.TINKERSLIME);
         }
 
-        @SideOnly(Side.CLIENT)
-        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+        @OnlyIn(Dist.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }

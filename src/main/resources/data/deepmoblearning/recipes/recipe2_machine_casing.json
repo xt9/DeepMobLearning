@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PIP",
+    "ICI",
+    "PIP"
+  ],
+  "key": {
+    "P": { "item": "deepmoblearning:soot_covered_plate" },
+    "I": { "tag": "forge:ingots/iron" },
+    "C": { "item": "deepmoblearning:soot_covered_redstone" }
+  },
+  "result": {
+    "item": "deepmoblearning:machine_casing"
+  }
+}

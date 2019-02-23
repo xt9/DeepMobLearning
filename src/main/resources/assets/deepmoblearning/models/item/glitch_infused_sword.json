@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "deepmoblearning:items/glitch_infused_sword"
+    "layer0": "deepmoblearning:item/glitch_infused_sword"
   }
 }

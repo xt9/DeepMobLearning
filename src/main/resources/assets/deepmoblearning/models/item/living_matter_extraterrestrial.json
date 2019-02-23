@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "deepmoblearning:items/living_matter_extraterrestrial"
+    "layer0": "deepmoblearning:item/living_matter_extraterrestrial"
   }
 }

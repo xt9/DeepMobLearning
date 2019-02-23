@@ -13,7 +13,7 @@ import xt9.deepmoblearning.common.entity.EntityGlitch;
 public class KnockbackImmuneAffix implements ITrialAffix {
     @Override
     public void apply(EntityLiving entity) {
-        IAttributeInstance knockbackResist = entity.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE);
+        IAttributeInstance knockbackResist = entity.getAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE);
         AttributeModifier knockbackMod = new AttributeModifier(DeepConstants.MODID + ".ATTRIBUTE_KNOCKBACKRESIST", 1, 0);
         knockbackResist.applyModifier(knockbackMod);
     }

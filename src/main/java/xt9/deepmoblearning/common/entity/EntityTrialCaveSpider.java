@@ -12,6 +12,7 @@ import net.minecraft.world.World;
  */
 public class EntityTrialCaveSpider extends EntityCaveSpider {
     public EntityTrialCaveSpider(World world) {
+        // @todo 1.13 see if this needs it's own type
         super(world);
     }
 

@@ -37,7 +37,7 @@ public class ContainerTrialKeystone extends Container {
     }
 
     private void addSlotsToHandler() {
-        addSlotToContainer(new SlotTrialKeystone(tile.trialKey, 0, -19, 1));
+        addSlot(new SlotTrialKeystone(tile.trialKey, 0, -19, 1));
     }
 
     private void addInventorySlots() {
@@ -45,7 +45,7 @@ public class ContainerTrialKeystone extends Container {
         for (int row = 0; row < 9; row++) {
             int index = row;
             Slot slot = new Slot(inventory, index, 20 + row * 18, 172);
-            addSlotToContainer(slot);
+            addSlot(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -55,7 +55,7 @@ public class ContainerTrialKeystone extends Container {
                 int y = 114 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(inventory, index, x, y);
-                addSlotToContainer(slot);
+                addSlot(slot);
             }
         }
     }

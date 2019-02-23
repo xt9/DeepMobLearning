@@ -1,8 +1,8 @@
 package xt9.deepmoblearning.common.mobmetas;
 
+import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
-import slimeknights.tconstruct.world.entity.EntityBlueSlime;
 
 /**
  * Created by xt9 on 2018-03-21.
@@ -14,7 +14,11 @@ public class TinkerSlimeMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityBlueSlime getEntity(World world) {
-        return new EntityBlueSlime(world);
+    public EntitySlime getEntity(World world) {
+        return new EntitySlime(world);
     }
+
+/*    public EntityBlueSlime getEntity(World world) {
+        return new EntityBlueSlime(world);
+    }*/
 }

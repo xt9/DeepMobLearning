@@ -7,8 +7,11 @@ import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
+import net.minecraftforge.items.ItemStackHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.items.ItemDeepLearner;
@@ -18,32 +21,34 @@ import xt9.deepmoblearning.common.items.ItemDeepLearner;
  */
 public class ContainerDeepLearner extends Container {
     protected BaseItemHandler handler;
-    protected EntityEquipmentSlot equipmentSlot;
+    protected EnumHand usedHand;
     protected World world;
     protected EntityPlayer player;
     protected ItemStack deepLearner;
     protected int internalSlots;
     protected int deepLearnerSlot;
 
-    public ContainerDeepLearner(InventoryPlayer inventory, World world, EntityEquipmentSlot slot, ItemStack heldItem) {
+    public ContainerDeepLearner(InventoryPlayer inventory) {
         this.internalSlots = DeepConstants.DEEP_LEARNER_INTERNAL_SLOTS_SIZE;
-        // this.handler = new ItemStackHandler(ItemDeepLearner.getContainedItems(heldItem));
+        this.world = inventory.player.world;
+        this.player = inventory.player;
+
+        Item mainHand = player.getHeldItemMainhand().getItem();
+        usedHand = mainHand instanceof ItemDeepLearner ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+        ItemStack heldItem = mainHand instanceof ItemDeepLearner ? player.getHeldItem(EnumHand.MAIN_HAND) : player.getHeldItem(EnumHand.OFF_HAND);
 
         this.handler = new BaseItemHandler(ItemDeepLearner.getContainedItems(heldItem));
         this.deepLearnerSlot = inventory.currentItem + internalSlots;
         this.deepLearner = heldItem;
-        this.world = world;
-        this.player = inventory.player;
-        this.equipmentSlot = slot;
         addDataModelSlots();
         addInventorySlots();
     }
 
     private void addDataModelSlots() {
-        addSlotToContainer(new SlotDeepLearner(handler, 0, 257, 100));
-        addSlotToContainer(new SlotDeepLearner(handler, 1, 275, 100));
-        addSlotToContainer(new SlotDeepLearner(handler, 2, 257, 118));
-        addSlotToContainer(new SlotDeepLearner(handler, 3, 275, 118));
+        addSlot(new SlotDeepLearner(handler, 0, 257, 100));
+        addSlot(new SlotDeepLearner(handler, 1, 275, 100));
+        addSlot(new SlotDeepLearner(handler, 2, 257, 118));
+        addSlot(new SlotDeepLearner(handler, 3, 275, 118));
     }
 
     private void addInventorySlots() {
@@ -51,7 +56,7 @@ public class ContainerDeepLearner extends Container {
         for (int row = 0; row < 9; row++) {
             int index = row;
             Slot slot = new Slot(player.inventory, index, 89 + row * 18, 211);
-            addSlotToContainer(slot);
+            addSlot(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -61,7 +66,7 @@ public class ContainerDeepLearner extends Container {
                 int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(player.inventory, index, x, y);
-                addSlotToContainer(slot);
+                addSlot(slot);
             }
         }
     }
@@ -104,7 +109,7 @@ public class ContainerDeepLearner extends Container {
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player) {
 
-        if(slotId == deepLearnerSlot && !equipmentSlot.getName().equals("offhand") || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
+        if(slotId == deepLearnerSlot && usedHand != EnumHand.OFF_HAND || (clickTypeIn == ClickType.SWAP && dragType == player.inventory.currentItem)) {
             return ItemStack.EMPTY;
         }
 
@@ -126,9 +131,9 @@ public class ContainerDeepLearner extends Container {
 
     private void updateInventories() {
         ItemDeepLearner.setContainedItems(deepLearner, handler.getItemStacks());
-        ItemStack hand = player.getItemStackFromSlot(equipmentSlot);
+        ItemStack hand = player.getHeldItem(usedHand);
         if(!hand.isEmpty() && !hand.equals(deepLearner)) {
-            player.setItemStackToSlot(equipmentSlot, deepLearner);
+            player.setHeldItem(usedHand, deepLearner);
         }
         player.inventory.markDirty();
     }

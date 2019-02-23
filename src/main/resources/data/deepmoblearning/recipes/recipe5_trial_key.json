@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "   ",
+    "EDD",
+    " NN"
+  ],
+  "key": {
+    "E": { "item": "minecraft:ender_pearl" },
+    "D": { "item": "minecraft:diamond" },
+    "N": { "item": "minecraft:iron_nugget" }
+  },
+  "result": {
+    "item": "deepmoblearning:trial_key"
+  }
+}

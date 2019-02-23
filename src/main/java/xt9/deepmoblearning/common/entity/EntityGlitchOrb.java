@@ -5,14 +5,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.init.Particles;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -26,22 +27,25 @@ public class EntityGlitchOrb extends EntityFireball {
 
     @SuppressWarnings("unused")
     public EntityGlitchOrb(World worldIn) {
-        super(worldIn);
+        super(Registry.entityGlitchOrb, worldIn, 1.0f, 1.0f);
     }
 
+
+
     public EntityGlitchOrb(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ, boolean empowered) {
-        super(worldIn, shooter, accelX, accelY, accelZ);
+        // @todo 1.13 check last 2  (width and height)
+        super(Registry.entityGlitchOrb, shooter, accelX, accelY, accelZ, worldIn, 1.0f, 1.0f);
         if(empowered) {
             damage = 2.8F;
         }
     }
 
     @Override
-    public void onUpdate() {
-        if (!world.isRemote) {
+    public void tick() {
+        if(!world.isRemote) {
             setFlag(6, isGlowing());
 
-            List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(this, getEntityBoundingBox().grow(1.0D));
+            List<Entity> entities = world.getEntitiesWithinAABBExcludingEntity(this, getBoundingBox().grow(1.0D));
 
             entities.forEach(entity -> {
                 if(entity instanceof EntityPlayer) {
@@ -50,7 +54,7 @@ public class EntityGlitchOrb extends EntityFireball {
             });
         }
 
-        if (world.isRemote || (shootingEntity == null || !shootingEntity.isDead) && world.isBlockLoaded(new BlockPos(this))) {
+        if(world.isRemote || (shootingEntity == null || shootingEntity.isAlive()) && world.isBlockLoaded(new BlockPos(this))) {
             this.posX += motionX;
             this.posY += motionY;
             this.posZ += motionZ;
@@ -58,10 +62,10 @@ public class EntityGlitchOrb extends EntityFireball {
 
             // Motion multiplier
             float f = 1.11F;
-            if (isInWater()) {
+            if(isInWater()) {
                 for(int i = 0; i < 4; ++i) {
                     //noinspection RedundantArrayCreation
-                    world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * 0.25D, posY - motionY * 0.25D, posZ - motionZ * 0.25D, motionX, motionY, motionZ, new int[0]);
+                    world.spawnParticle(Particles.BUBBLE, posX - motionX * 0.25D, posY - motionY * 0.25D, posZ - motionZ * 0.25D, motionX, motionY, motionZ);
                 }
                 f = 0.8F;
             }
@@ -88,10 +92,10 @@ public class EntityGlitchOrb extends EntityFireball {
             setPosition(posX, posY, posZ);
         }
 
-        if (ticksExisted > 400){
-            setDead();
+        if(ticksExisted > 400){
+            remove();
         }
-        onEntityUpdate();
+        super.tick();
     }
 
     private void onImpact(EntityPlayer entity) {
@@ -99,7 +103,7 @@ public class EntityGlitchOrb extends EntityFireball {
             entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, shootingEntity), damage);
             //noinspection ConstantConditions
             entity.addPotionEffect(new PotionEffect(Potion.getPotionById(20), 40, 1));
-            setDead();
+            remove();
         }
     }
 

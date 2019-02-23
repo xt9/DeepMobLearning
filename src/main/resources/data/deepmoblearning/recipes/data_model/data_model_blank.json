@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CEC",
+    "RSR",
+    "CGC"
+  ],
+  "key": {
+    "E": { "item": "minecraft:repeater" },
+    "S": { "item": "minecraft:stone" },
+    "G": { "item": "minecraft:gold_ingot" },
+    "R": { "item": "deepmoblearning:soot_covered_redstone" },
+    "C": { "item": "minecraft:lapis_lazuli" }
+  },
+  "result": {
+    "item": "deepmoblearning:data_model_blank"
+  }
+}

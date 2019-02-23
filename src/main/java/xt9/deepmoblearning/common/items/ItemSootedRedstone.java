@@ -2,9 +2,11 @@ package xt9.deepmoblearning.common.items;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import xt9.deepmoblearning.common.config.Config;
 
 import javax.annotation.Nullable;
@@ -18,11 +20,11 @@ public class ItemSootedRedstone extends ItemBase {
         super("soot_covered_redstone", 64);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        if(Config.isSootedRedstoneCraftingEnabled.getBoolean()) {
-            list.add("Crafted by crushing §cRedstone§7 against");
-            list.add("a §rBlock of Coal§7 (Left click)");
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
+        if(Config.isSootedRedstoneCraftingEnabled) {
+            list.add(new TextComponentString("Crafted by crushing §cRedstone§7 against"));
+            list.add(new TextComponentString("a §rBlock of Coal§7 (Left click)"));
         }
     }
 }

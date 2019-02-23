@@ -1,12 +1,8 @@
 package xt9.deepmoblearning.common.items;
 
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.ResourceLocation;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 
@@ -17,23 +13,13 @@ public class ItemBase extends Item {
     public String itemName;
 
     public ItemBase(String name, int stackSize) {
-        setUnlocalizedName(DeepConstants.MODID + "." + name);
-        setCreativeTab(DeepMobLearning.creativeTab);
-        setRegistryName(name);
-        setMaxStackSize(stackSize);
+        super(getDefaultProps(stackSize));
+        setRegistryName(new ResourceLocation(DeepConstants.MODID, name));
         this.itemName = name;
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> list) {
-        if(isInCreativeTab(tab)) {
-            list.add(new ItemStack(this));
-        }
+    public static Item.Properties getDefaultProps(int stackSize) {
+        return new Item.Properties().maxStackSize(stackSize).group(DeepMobLearning.tab);
     }
 
-    @Override
-    public String getUnlocalizedName(ItemStack stack) {
-        return getUnlocalizedName();
-    }
 }

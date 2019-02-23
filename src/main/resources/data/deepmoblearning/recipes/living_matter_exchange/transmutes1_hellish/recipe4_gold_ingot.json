@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:glowstone_dust" },
+    { "item": "minecraft:iron_ingot" },
+    { "item": "deepmoblearning:living_matter_hellish" }
+  ],
+  "result": {
+    "item": "minecraft:gold_ingot",
+    "count": 6
+  }
+}

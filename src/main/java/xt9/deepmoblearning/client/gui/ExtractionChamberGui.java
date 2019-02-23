@@ -5,26 +5,24 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.ClickType;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.client.gui.button.ClickableZoneButton;
 import xt9.deepmoblearning.client.gui.button.ItemSelectButton;
 import xt9.deepmoblearning.client.gui.button.PaginationButton;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.inventory.ContainerExtractionChamber;
-import xt9.deepmoblearning.common.network.ExtractionChamberChangePageMessage;
-import xt9.deepmoblearning.common.network.ExtractorSetSelectedItemMessage;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 import xt9.deepmoblearning.common.util.Color;
 import xt9.deepmoblearning.common.util.MathHelper;
 import xt9.deepmoblearning.common.util.Pagination;
-import java.io.IOException;
+
 import java.text.NumberFormat;
 import java.util.*;
 
@@ -49,8 +47,8 @@ public class ExtractionChamberGui extends GuiContainer {
     public ExtractionChamberGui(TileEntityExtractionChamber te, InventoryPlayer inventory, World world) {
         super(new ContainerExtractionChamber(te, inventory, world));
         this.tile = te;
-        this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY, null);
-        this.renderer = Minecraft.getMinecraft().fontRenderer;
+        this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY).orElse(new DeepEnergyStorage(1000000, 25600 , 0, 0));
+        this.renderer = Minecraft.getInstance().fontRenderer;
         xSize = WIDTH;
         ySize = HEIGHT;
     }
@@ -66,13 +64,13 @@ public class ExtractionChamberGui extends GuiContainer {
     }
 
     @Override
-    public void updateScreen() {
-        super.updateScreen();
+    public void tick() {
+        super.tick();
         // What to do if item changes
         if(tile.pristineChanged() || tile.getPristine().isEmpty() || currentPage != tile.pageHandler.getCurrentPageIndex() || !ItemStack.areItemsEqual(currentInput, tile.getPristine())) {
             currentPage = tile.pageHandler.getCurrentPageIndex();
             currentInput = tile.getPristine();
-            buttonList.clear();
+            buttons.clear();
             initSelectButtons();
         }
         initPaginationButtons();
@@ -80,7 +78,7 @@ public class ExtractionChamberGui extends GuiContainer {
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
+        Minecraft.getInstance().getTextureManager().bindTexture(base);
         drawLootList();
         drawButtonHoverText();
         drawSelectedItem();
@@ -108,11 +106,11 @@ public class ExtractionChamberGui extends GuiContainer {
     }
 
     private void drawButtonHoverText() {
-        for (GuiButton aButtonList : buttonList) {
+        for (GuiButton aButtonList : buttons) {
             if (aButtonList instanceof ItemSelectButton) {
                 ItemSelectButton btn = (ItemSelectButton) aButtonList;
                 if (btn.isMouseOver()) {
-                    renderer.drawString(btn.stack.getDisplayName(), 2, -10, Color.WHITE);
+                    renderer.drawString(btn.stack.getDisplayName().getFormattedText(), 2, -10, Color.WHITE);
                 }
             }
         }
@@ -163,9 +161,9 @@ public class ExtractionChamberGui extends GuiContainer {
                 foundSelected = true;
             }
 
-            if(i <= 2) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 8, selected, loot)); }
-            else if(i <= 5)  { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 27, selected, loot)); }
-            else if(i <= 8) { buttonList.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 46, selected, loot)); }
+            if(i <= 2) { buttons.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 8, selected, loot)); }
+            else if(i <= 5)  { buttons.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 27, selected, loot)); }
+            else if(i <= 8) { buttons.add(new ItemSelectButton(i + (9 * tile.pageHandler.getCurrentPageIndex()), left + 16 + (rowIndex * 19), top + 46, selected, loot)); }
 
             i++;
             // Reset rowindex after 3 rendered items
@@ -182,7 +180,8 @@ public class ExtractionChamberGui extends GuiContainer {
         rightButton = new PaginationButton(1338, left + 44, top + 66, PaginationButton.RIGHT, p,p.getCurrentPageIndex() == p.getLastPageIndex());
     }
 
-    @Override
+    // @todo 1.13 implement
+/*    @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
@@ -193,11 +192,14 @@ public class ExtractionChamberGui extends GuiContainer {
         } else if(deselectItemButton.mousePressed(mc, mouseX, mouseY)) {
             actionPerformed(deselectItemButton);
         }
-    }
+    }*/
 
+
+    // @todo 1.13 implement
     @Override
-    protected void actionPerformed(GuiButton pressedButton) throws IOException {
-        if(pressedButton instanceof ItemSelectButton) {
+    protected void handleMouseClick(Slot slot, int mouseX, int mouseY, ClickType type) {
+        super.handleMouseClick(slot, mouseX, mouseY, type);
+/*        if(pressedButton instanceof ItemSelectButton) {
             ItemSelectButton btn = (ItemSelectButton) pressedButton;
             // Select or deselect the clicked button
             if(btn.isSelected()) {
@@ -225,11 +227,11 @@ public class ExtractionChamberGui extends GuiContainer {
         if(pressedButton.id == deselectItemButton.id) {
             clearSelectedItems();
             DeepMobLearning.network.sendToServer(new ExtractorSetSelectedItemMessage(-1));
-        }
+        }*/
     }
 
     private void clearSelectedItems() {
-        for(GuiButton b : buttonList) {
+        for(GuiButton b : buttons) {
             if(b instanceof ItemSelectButton) {
                 ((ItemSelectButton) b).setSelected(false);
             }
@@ -256,8 +258,8 @@ public class ExtractionChamberGui extends GuiContainer {
         int left = getGuiLeft();
         int top = getGuiTop();
         // Draw the main GUI
-        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getInstance().getTextureManager().bindTexture(base);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(left, top, 0, 0, 176, 83);
 
         // Draw crafting progress
@@ -271,26 +273,17 @@ public class ExtractionChamberGui extends GuiContainer {
         drawTexturedModalRect(left + 6,  top + 10 + energyBarOffset, 0, 83, 7, energyBarHeight);
 
         // Draw player inventory
-        Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
+        Minecraft.getInstance().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left, top + 88, 0, 0, 176, 90);
 
         if(!tile.resultingItem.isEmpty()) {
-            deselectItemButton.drawButton(mc, mouseX, mouseY, mc.getRenderPartialTicks());
+            deselectItemButton.drawButtonForegroundLayer(mouseX, mouseY);
         }
     }
 
-    /* Needed on 1.12 to render tooltips */
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        drawPaginationButtons(mouseX, mouseY);
-        renderHoveredToolTip(mouseX, mouseY);
-
-    }
-
     private void drawPaginationButtons(int mouseX, int mouseY) {
-        leftButton.drawButton(mc, mouseX, mouseY, 0);
-        rightButton.drawButton(mc, mouseX, mouseY, 0);
+        leftButton.drawButtonForegroundLayer(mouseX, mouseY);
+        rightButton.drawButtonForegroundLayer(mouseX, mouseY);
     }
 
     private void drawItemStackWithCount(int x, int y, ItemStack stack, int count) {

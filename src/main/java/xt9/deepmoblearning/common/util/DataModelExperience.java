@@ -9,18 +9,18 @@ import xt9.deepmoblearning.common.config.Config;
 public class DataModelExperience {
     // Simulations have no multipliers, they are always 1x
     private static final int[] killMultiplier = {
-        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier0").getInt(), 1, 100),
-        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier1").getInt(), 1, 100),
-        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier2").getInt(), 1, 100),
-        MathHelper.ensureRange(Config.modelExperience.get("killMultiplierTier3").getInt(), 1, 100),
+        MathHelper.ensureRange(Config.dataModelExperience.get("killMultiplierTier0"), 1, 100),
+        MathHelper.ensureRange(Config.dataModelExperience.get("killMultiplierTier1"), 1, 100),
+        MathHelper.ensureRange(Config.dataModelExperience.get("killMultiplierTier2"), 1, 100),
+        MathHelper.ensureRange(Config.dataModelExperience.get("killMultiplierTier3"), 1, 100),
         0 // Max tier, no kill multiplier
     };
 
     private static final int[] maxExperience = {
-        MathHelper.ensureRange(Config.modelExperience.get("killsToTier1").getInt(), 1, 500) * killMultiplier[0],
-        MathHelper.ensureRange(Config.modelExperience.get("killsToTier2").getInt(), 1, 500) * killMultiplier[1],
-        MathHelper.ensureRange(Config.modelExperience.get("killsToTier3").getInt(), 1, 500) * killMultiplier[2],
-        MathHelper.ensureRange(Config.modelExperience.get("killsToTier4").getInt(), 1, 500) * killMultiplier[3],
+        MathHelper.ensureRange(Config.dataModelExperience.get("killsToTier1"), 1, 500) * killMultiplier[0],
+        MathHelper.ensureRange(Config.dataModelExperience.get("killsToTier2"), 1, 500) * killMultiplier[1],
+        MathHelper.ensureRange(Config.dataModelExperience.get("killsToTier3"), 1, 500) * killMultiplier[2],
+        MathHelper.ensureRange(Config.dataModelExperience.get("killsToTier4"), 1, 500) * killMultiplier[3],
     };
 
     /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */

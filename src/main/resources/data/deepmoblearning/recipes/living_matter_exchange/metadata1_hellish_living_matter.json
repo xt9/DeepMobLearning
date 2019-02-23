@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " O ",
+    "ONO",
+    " O "
+  ],
+  "key": {
+    "O": {
+      "item": "deepmoblearning:living_matter_overworldian"
+    },
+    "N": {
+      "item": "minecraft:netherrack"
+    }
+  },
+  "result": {
+    "item": "deepmoblearning:living_matter_hellish"
+  }
+}

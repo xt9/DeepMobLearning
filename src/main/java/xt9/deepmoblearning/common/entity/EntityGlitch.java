@@ -2,25 +2,16 @@ package xt9.deepmoblearning.common.entity;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.living.ZombieEvent;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.ThreadLocalRandom;
@@ -32,14 +23,14 @@ public class EntityGlitch extends EntityMob {
     private boolean empowered = false;
 
     public EntityGlitch(World world) {
-        super(world);
+        super(Registry.entityGlitch, world);
         setSize(0.6F, 1.95F);
     }
 
     @Nullable
     @Override
     protected ResourceLocation getLootTable() {
-        return new ResourceLocation(DeepConstants.MODID, "glitch");
+        return new ResourceLocation(DeepConstants.MODID, "entityGlitch");
     }
 
     public void setEmpowered(boolean empowered) {
@@ -47,13 +38,13 @@ public class EntityGlitch extends EntityMob {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(26.0D);
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.29D);
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
-        getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(0.0D);
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(26.0D);
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.29D);
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(6.0D);
+        getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(0.0D);
+        getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
     }
 
     @Override
@@ -67,7 +58,7 @@ public class EntityGlitch extends EntityMob {
     }
 
 
-    public void onLivingUpdate() {
+    public void tick() {
         if (world.isRemote) {
             ThreadLocalRandom rand = ThreadLocalRandom.current();
             for(int i = 0; i < 16; ++i) {
@@ -84,7 +75,7 @@ public class EntityGlitch extends EntityMob {
         }
 
 
-        super.onLivingUpdate();
+        super.tick();
     }
 
 
@@ -133,7 +124,7 @@ public class EntityGlitch extends EntityMob {
         }
 
         public void updateTask() {
-            EntityLivingBase target = glitch.getAttackTarget();
+/*            EntityLivingBase target = glitch.getAttackTarget();
             if(target == null) {
                 resetTask();
                 return;
@@ -165,13 +156,13 @@ public class EntityGlitch extends EntityMob {
                 glitch.getNavigator().tryMoveToEntityLiving(target, 1.0F);
             }
 
-            super.updateTask();
+            super.updateTask();*/
         }
 
         private void spawnGlitchOrb(World world, Entity target, double xPad, double yPad, double zPad) {
             Vec3d vec3d = glitch.getLook(1.0F);
             double d2 = target.posX - (glitch.posX + vec3d.x * 0.5D);
-            double d3 = target.getEntityBoundingBox().minY + (double)(target.height / 2.0F) - (0.5D + glitch.posY + (double) (glitch.height / 2.0F));
+            double d3 = target.getBoundingBox().minY + (double)(target.height / 2.0F) - (0.5D + glitch.posY + (double) (glitch.height / 2.0F));
             double d4 = target.posZ - (glitch.posZ + vec3d.z * 0.5D);
 
 

@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
  */
 public class ItemStackNBTHelper {
     public static boolean hasTag(ItemStack stack) {
-        return stack.hasTagCompound();
+        return stack.hasTag();
     }
 
     public static boolean hasKey(ItemStack stack, String key) {
@@ -19,17 +19,17 @@ public class ItemStackNBTHelper {
     }
 
     public static NBTTagCompound getTag(ItemStack stack) {
-        if(!stack.hasTagCompound()) {
-            stack.setTagCompound(new NBTTagCompound());
+        if(!stack.hasTag()) {
+            stack.setTag(new NBTTagCompound());
         }
-        return stack.getTagCompound();
+        return stack.getTag();
     }
 
     public static void removeTag(ItemStack stack, String key) {
         if(hasKey(stack, key)) {
             getTag(stack).removeTag(key);
-            if(getTag(stack).hasNoTags()) {
-                stack.setTagCompound(null);
+            if(getTag(stack).size() == 0) {
+                stack.setTag(null);
             }
         }
     }
@@ -51,11 +51,11 @@ public class ItemStackNBTHelper {
     }
 
     public static void setInt(ItemStack stack, String key, int val) {
-        getTag(stack).setInteger(key, val);
+        getTag(stack).setInt(key, val);
     }
 
     public static int getInt(ItemStack stack, String key, int defaultVal) {
-        return hasTag(stack) ? getTag(stack).getInteger(key) : defaultVal;
+        return hasTag(stack) ? getTag(stack).getInt(key) : defaultVal;
     }
 
     public static boolean getBoolean(ItemStack stack, String key, boolean defaultVal) {
@@ -73,7 +73,7 @@ public class ItemStackNBTHelper {
         for (String s : list) {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setString(index+"", s);
-            stringList.appendTag(tag);
+            stringList.add(tag);
             index++;
         }
 
@@ -83,11 +83,11 @@ public class ItemStackNBTHelper {
     public static NonNullList<String> getStringList(ItemStack stack, String key) {
         NonNullList<String> list = NonNullList.create();
 
-        if(stack.hasTagCompound()) {
-            NBTTagList tagList = stack.getTagCompound().getTagList(key, Constants.NBT.TAG_COMPOUND);
+        if(stack.hasTag()) {
+            NBTTagList tagList = stack.getTag().getList(key, Constants.NBT.TAG_COMPOUND);
 
-            for(int i = 0; i < tagList.tagCount(); i++) {
-                NBTTagCompound tag = tagList.getCompoundTagAt(i);
+            for(int i = 0; i < tagList.size(); i++) {
+                NBTTagCompound tag = tagList.getCompound(i);
                 list.add(i, tag.getString(i+""));
             }
         }

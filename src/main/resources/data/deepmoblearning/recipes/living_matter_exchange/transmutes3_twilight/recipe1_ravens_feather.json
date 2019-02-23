@@ -1,0 +1,16 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "twilightforest"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_twilight" },
+    { "item": "minecraft:feather" }
+  ],
+  "result": {
+    "item": "twilightforest:raven_feather"
+  }
+}

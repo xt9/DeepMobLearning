@@ -2,8 +2,8 @@ package xt9.deepmoblearning.common.items;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 
@@ -18,7 +18,7 @@ public class ItemPristineMatter extends ItemBase {
         this.mobKey = mobKey;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(ItemStack stack) {
         return true;
     }

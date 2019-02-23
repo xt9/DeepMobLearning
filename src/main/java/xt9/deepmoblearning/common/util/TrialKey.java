@@ -19,7 +19,7 @@ public class TrialKey {
         setAttunedNBT(stack, dataModel);
         MobMetaData data = DataModel.getMobMetaData(dataModel);
 
-        PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName() + " was attuned to: " + data.getName()));
+        PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName().getFormattedText() + " was attuned to: " + data.getName()));
     }
 
     public static void setAttunedNBT(ItemStack stack, ItemStack dataModel) {

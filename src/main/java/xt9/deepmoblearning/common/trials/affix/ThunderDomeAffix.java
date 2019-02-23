@@ -45,7 +45,7 @@ public class ThunderDomeAffix implements ITrialAffix {
         // Do once every cycle, enable weather effects
         if(ticks == 0) {
             WorldInfo info = world.getWorldInfo();
-            info.setCleanWeatherTime(0);
+            info.setClearWeatherTime(0);
             info.setRaining(true);
             info.setThundering(true);
             info.setThunderTime(DeepConstants.TICKS_TO_SECOND * 20);
@@ -67,9 +67,10 @@ public class ThunderDomeAffix implements ITrialAffix {
                     creeper.setLocationAndAngles(randomX, randomY, randomZ, 0, 0);
 
                     NBTTagCompound tag = new NBTTagCompound();
-                    tag = creeper.writeToNBT(tag);
+                    // todo 1.13
+        /*            tag = creeper.writeToNBT(tag);
                     tag.setBoolean("powered", true);
-                    creeper.readEntityFromNBT(tag);
+                    creeper.readEntityFromNBT(tag);*/
 
                     world.spawnEntity(creeper);
                 } else {

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "deepmoblearning:items/pristine_matter_twilight_swamp"
+    "layer0": "deepmoblearning:item/pristine_matter_twilight_swamp"
   }
 }

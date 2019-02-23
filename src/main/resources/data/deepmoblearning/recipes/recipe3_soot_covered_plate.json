@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "OO",
+    "OC"
+  ],
+  "key": {
+    "O": { "item": "minecraft:obsidian" },
+    "C": { "item": "deepmoblearning:soot_covered_redstone" }
+  },
+  "result": {
+    "item": "deepmoblearning:soot_covered_plate",
+    "count": 8
+  }
+}

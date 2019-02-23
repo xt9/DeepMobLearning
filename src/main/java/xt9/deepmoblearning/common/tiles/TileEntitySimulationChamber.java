@@ -1,16 +1,24 @@
 package xt9.deepmoblearning.common.tiles;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
@@ -21,6 +29,7 @@ import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.handlers.DataModelHandler;
 import xt9.deepmoblearning.common.handlers.OutputHandler;
 import xt9.deepmoblearning.common.handlers.PolymerHandler;
+import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.ItemDataModel;
 import xt9.deepmoblearning.common.items.ItemPolymerClay;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
@@ -37,7 +46,7 @@ import java.util.Random;
 /**
  * Created by xt9 on 2017-06-15.
  */
-public class TileEntitySimulationChamber extends TileEntity implements ITickable, IGuiTile {
+public class TileEntitySimulationChamber extends TileEntity implements ITickable, IInteractionObject {
     private BaseItemHandler dataModel= new DataModelHandler();
     private BaseItemHandler polymer = new PolymerHandler();
     private BaseItemHandler lOutput = new OutputHandler();
@@ -55,11 +64,16 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private String currentDataModelType = "";
     private MobMetaData mobMetaData;
 
+    public TileEntitySimulationChamber() {
+        super(Registry.tileSimulationChamber);
+    }
+
     @Override
-    public void update() {
+    public void tick() {
         ticks++;
 
         if(!world.isRemote) {
+            energyStorage.receiveEnergy(520, false);
             if(!isCrafting()) {
                 if(canStartSimulation()) {
                     startSimulation();
@@ -280,12 +294,12 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
     private String animate(String string, Animation anim, @Nullable Animation precedingAnim, int delayInTicks, boolean loop) {
         if(precedingAnim != null) {
             if (precedingAnim.hasFinished()) {
-                return anim.animate(string, delayInTicks, world.getTotalWorldTime(), loop);
+                return anim.animate(string, delayInTicks, world.getWorldInfo().getGameTime(), loop);
             } else {
                 return "";
             }
         }
-        return  anim.animate(string, delayInTicks, world.getTotalWorldTime(), loop);
+        return  anim.animate(string, delayInTicks, world.getWorldInfo().getGameTime(), loop);
     }
 
     private Animation getAnimation(String key) {
@@ -309,22 +323,23 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(getPos(), 3, writeToNBT(new NBTTagCompound()));
+        return new SPacketUpdateTileEntity(getPos(), 3, write(new NBTTagCompound()));
     }
 
     @Override
     public final NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+        return this.write(new NBTTagCompound());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        readFromNBT(packet.getNbtCompound());
+        read(packet.getNbtCompound());
     }
 
+    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        compound.setInteger("simulationProgress", percentDone);
+    public NBTTagCompound write(NBTTagCompound compound) {
+        compound.setInt("simulationProgress", percentDone);
         compound.setBoolean("isCrafting", isCrafting);
         compound.setBoolean("craftSuccess", byproductSuccess);
         compound.setTag("dataModel", dataModel.serializeNBT());
@@ -334,23 +349,23 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         compound.setTag("dataModel", dataModel.serializeNBT());
         compound.setTag("simulationText", getNBTForSimulationText());
         energyStorage.writeEnergy(compound);
-        return super.writeToNBT(compound);
+        return super.write(compound);
     }
 
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        dataModel.deserializeNBT(compound.getCompoundTag("dataModel"));
-        polymer.deserializeNBT(compound.getCompoundTag("polymer"));
-        lOutput.deserializeNBT(compound.getCompoundTag("lOutput"));
-        pOutput.deserializeNBT(compound.getCompoundTag("pOutput"));
-        dataModel.deserializeNBT(compound.getCompoundTag("dataModel"));
-        setSimulationTextFromNBT(compound.getCompoundTag("simulationText"));
+    public void read(NBTTagCompound compound) {
+        dataModel.deserializeNBT(compound.getCompound("dataModel"));
+        polymer.deserializeNBT(compound.getCompound("polymer"));
+        lOutput.deserializeNBT(compound.getCompound("lOutput"));
+        pOutput.deserializeNBT(compound.getCompound("pOutput"));
+        dataModel.deserializeNBT(compound.getCompound("dataModel"));
+        setSimulationTextFromNBT(compound.getCompound("simulationText"));
         energyStorage.readEnergy(compound);
-        percentDone = compound.hasKey("simulationProgress", Constants.NBT.TAG_INT) ? compound.getInteger("simulationProgress") : 0;
-        isCrafting = compound.hasKey("isCrafting", Constants.NBT.TAG_BYTE) ? compound.getBoolean("isCrafting") : isCrafting;
-        byproductSuccess = compound.hasKey("craftSuccess", Constants.NBT.TAG_BYTE) ? compound.getBoolean("craftSuccess") : isCrafting;
-        super.readFromNBT(compound);
+        percentDone = compound.hasKey("simulationProgress") ? compound.getInt("simulationProgress") : 0;
+        isCrafting = compound.hasKey("isCrafting") ? compound.getBoolean("isCrafting") : isCrafting;
+        byproductSuccess = compound.hasKey("craftSuccess") ? compound.getBoolean("craftSuccess") : isCrafting;
+        super.read(compound);
     }
 
     private NBTTagCompound getNBTForSimulationText() {
@@ -373,34 +388,51 @@ public class TileEntitySimulationChamber extends TileEntity implements ITickable
         }
     }
 
-    @Override
-    public boolean hasCapability(Capability capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-                capability == CapabilityEnergy.ENERGY ||
-                super.hasCapability(capability, facing);
-    }
-
     @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    @SuppressWarnings({"unchecked", "NullableProblems"})
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if(facing == null) {
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(dataModel, polymer, lOutput, pOutput));
-            } else if(facing == EnumFacing.UP) {
-                // Input/Extract for Data models and Polymer from the top
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(dataModel, polymer));
-            } else {
-                // Output for all other sides
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(lOutput, pOutput));
+                return LazyOptional.of(() -> (T) new CombinedInvWrapper(dataModel, polymer, lOutput, pOutput));
+            } else if(facing == EnumFacing.UP) { // Inputs from the top
+                return LazyOptional.of(() -> (T) new CombinedInvWrapper(dataModel, polymer));
+            } else { // Output for all other sides
+                return LazyOptional.of(() -> (T) new CombinedInvWrapper(lOutput, pOutput));
             }
         } else if(capability == CapabilityEnergy.ENERGY) {
-            return CapabilityEnergy.ENERGY.cast(energyStorage);
+            return LazyOptional.of(() -> (T) energyStorage);
         }
 
         return super.getCapability(capability, facing);
     }
 
-    public int getGuiID() {
-        return DeepConstants.TILE_SIMULATION_CHAMBER_GUI_ID;
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public Container createContainer(InventoryPlayer inventory, EntityPlayer player) {
+        return new ContainerSimulationChamber(this, inventory, this.world);
+    }
+
+    @Override
+    @SuppressWarnings({"NullableProblems", "ConstantConditions"})
+    public String getGuiID() {
+        return new ResourceLocation(DeepConstants.MODID, "tile/simulation_chamber").toString();
+    }
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public ITextComponent getName() {
+        return new TextComponentString("Simulation Chamber");
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public ITextComponent getCustomName() {
+        return null;
     }
 }

@@ -1,25 +1,33 @@
 package xt9.deepmoblearning.common.tiles;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.energy.DeepEnergyStorage;
 import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.handlers.OutputHandler;
 import xt9.deepmoblearning.common.handlers.PristineHandler;
+import xt9.deepmoblearning.common.inventory.ContainerExtractionChamber;
+import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
 import xt9.deepmoblearning.common.items.ItemPristineMatter;
 import xt9.deepmoblearning.common.util.MathHelper;
 import xt9.deepmoblearning.common.util.Pagination;
@@ -30,7 +38,7 @@ import javax.annotation.Nullable;
 /**
  * Created by xt9 on 2017-06-15.
  */
-public class TileEntityExtractionChamber extends TileEntity implements ITickable, IGuiTile {
+public class TileEntityExtractionChamber extends TileEntity implements ITickable, IInteractionObject {
     private BaseItemHandler pristine = new PristineHandler();
     private BaseItemHandler output = new OutputHandler(16);
     private DeepEnergyStorage energyStorage = new DeepEnergyStorage(1000000, 25600 , 0, 0);
@@ -42,10 +50,14 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
     public Pagination pageHandler = new Pagination(0, getLootFromPristine().size(), 9);
     private String currentPristineMatter = "";
     public ItemStack resultingItem = ItemStack.EMPTY;
-    public int energyCost = MathHelper.ensureRange(Config.rfCostExtractionChamber.getInt(), 1, 18000);
+    public int energyCost = MathHelper.ensureRange(Config.rfCostExtractionChamber, 1, 18000);
+
+    public TileEntityExtractionChamber() {
+        super(Registry.tileExtractionChamber);
+    }
 
     @Override
-    public void update() {
+    public void tick() {
         ticks++;
 
         if(!world.isRemote) {
@@ -161,43 +173,44 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(getPos(), 3, writeToNBT(new NBTTagCompound()));
+        return new SPacketUpdateTileEntity(getPos(), 3, write(new NBTTagCompound()));
     }
 
     @Override
     public final NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+        return this.write(new NBTTagCompound());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        readFromNBT(packet.getNbtCompound());
+        read(packet.getNbtCompound());
     }
 
+    @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound write(NBTTagCompound compound) {
         compound.setTag("pristine", pristine.serializeNBT());
         compound.setTag("output", output.serializeNBT());
         compound.setTag("pageHandler", pageHandler.serializeNBT());
         compound.setTag("resultingItem", resultingItem.serializeNBT());
         compound.setBoolean("isCrafting", isCrafting);
-        compound.setInteger("crafingProgress", percentDone);
+        compound.setInt("crafingProgress", percentDone);
         compound.setString("currentPristine", currentPristineMatter);
         energyStorage.writeEnergy(compound);
-        return super.writeToNBT(compound);
+        return super.write(compound);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        pristine.deserializeNBT(compound.getCompoundTag("pristine"));
-        output.deserializeNBT(compound.getCompoundTag("output"));
-        pageHandler.deserializeNBT(compound.getCompoundTag("pageHandler"));
-        resultingItem = new ItemStack(compound.getCompoundTag("resultingItem"));
-        isCrafting = compound.hasKey("isCrafting", Constants.NBT.TAG_BYTE) ? compound.getBoolean("isCrafting") : isCrafting;
-        percentDone = compound.hasKey("crafingProgress", Constants.NBT.TAG_INT) ? compound.getInteger("crafingProgress") : 0;
-        currentPristineMatter = compound.hasKey("currentPristine", Constants.NBT.TAG_STRING) ? compound.getString("currentPristine") : "";
+    public void read(NBTTagCompound compound) {
+        pristine.deserializeNBT(compound.getCompound("pristine"));
+        output.deserializeNBT(compound.getCompound("output"));
+        pageHandler.deserializeNBT(compound.getCompound("pageHandler"));
+        resultingItem = ItemStack.read(compound.getCompound("resultingItem"));
+        isCrafting = compound.hasKey("isCrafting") ? compound.getBoolean("isCrafting") : isCrafting;
+        percentDone = compound.hasKey("crafingProgress") ? compound.getInt("crafingProgress") : 0;
+        currentPristineMatter = compound.hasKey("currentPristine") ? compound.getString("currentPristine") : "";
         energyStorage.readEnergy(compound);
-        super.readFromNBT(compound);
+        super.read(compound);
     }
 
     private void doStaggeredDiskSave(int divisor) {
@@ -209,35 +222,51 @@ public class TileEntityExtractionChamber extends TileEntity implements ITickable
         }
     }
 
-    @Override
-    public boolean hasCapability(Capability capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ||
-            capability == CapabilityEnergy.ENERGY ||
-            super.hasCapability(capability, facing);
-    }
-
     @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    @SuppressWarnings({"unchecked", "NullableProblems"})
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
         if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            // If facing is null its interacting with a player or some fake player
             if(facing == null) {
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(new CombinedInvWrapper(pristine, output));
-            } else if(facing == EnumFacing.UP) {
-                // Input
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(pristine);
-            } else {
-                // Output
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(output);
+                return LazyOptional.of(() -> (T) new CombinedInvWrapper(pristine, output));
+            } else if(facing == EnumFacing.UP) { // Input side
+                return LazyOptional.of(() -> (T) pristine);
+            } else { // Outputs from all other sides
+                return LazyOptional.of(() -> (T) output);
             }
         } else if(capability == CapabilityEnergy.ENERGY) {
-            return CapabilityEnergy.ENERGY.cast(energyStorage);
+            return LazyOptional.of(() -> (T) energyStorage);
         }
 
         return super.getCapability(capability, facing);
     }
 
-    public int getGuiID() {
-        return DeepConstants.TILE_EXTRACTION_CHAMBER_GUI_ID;
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public Container createContainer(InventoryPlayer inventory, EntityPlayer player) {
+        return new ContainerExtractionChamber(this, inventory, this.world);
+    }
+
+    @Override
+    @SuppressWarnings({"NullableProblems", "ConstantConditions"})
+    public String getGuiID() {
+        return new ResourceLocation(DeepConstants.MODID, "tile/extraction_chamber").toString();
+    }
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public ITextComponent getName() {
+        return new TextComponentString("Loot Fabricator");
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Nullable
+    @Override
+    public ITextComponent getCustomName() {
+        return null;
     }
 }

@@ -2,14 +2,13 @@ package xt9.deepmoblearning.common.inventory;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
 
 /**
@@ -31,7 +30,7 @@ public class ContainerSimulationChamber extends Container {
         this.world = world;
         this.tile = te;
 
-        this.inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        this.inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(new BaseItemHandler());
 
         addSlotsToHandler();
         addInventorySlots();
@@ -48,10 +47,10 @@ public class ContainerSimulationChamber extends Container {
     }
 
     private void addSlotsToHandler() {
-        addSlotToContainer(new SlotSimulationChamber(inventory, DATA_MODEL_SLOT, -13, 1));
-        addSlotToContainer(new SlotSimulationChamber(inventory, INPUT_SLOT, 176, 7));
-        addSlotToContainer(new SlotSimulationChamber(inventory, OUTPUT_SLOT, 196, 7));
-        addSlotToContainer(new SlotSimulationChamber(inventory, PRISTINE_SLOT, 186, 27));
+        addSlot(new SlotSimulationChamber(inventory, DATA_MODEL_SLOT, -13, 1));
+        addSlot(new SlotSimulationChamber(inventory, INPUT_SLOT, 176, 7));
+        addSlot(new SlotSimulationChamber(inventory, OUTPUT_SLOT, 196, 7));
+        addSlot(new SlotSimulationChamber(inventory, PRISTINE_SLOT, 186, 27));
     }
 
     private void addInventorySlots() {
@@ -59,7 +58,7 @@ public class ContainerSimulationChamber extends Container {
         for (int row = 0; row < 9; row++) {
             int index = row;
             Slot slot = new Slot(player.inventory, index, 36 + row * 18, 211);
-            addSlotToContainer(slot);
+            addSlot(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -69,7 +68,7 @@ public class ContainerSimulationChamber extends Container {
                 int y = 153 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(player.inventory, index, x, y);
-                addSlotToContainer(slot);
+                addSlot(slot);
             }
         }
     }

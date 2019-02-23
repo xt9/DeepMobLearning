@@ -1,6 +1,5 @@
 package xt9.deepmoblearning.common.util;
 
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -58,16 +57,15 @@ public class Pagination {
         lastPageIndex = getPageSize(newSize);
     }
 
-    public NBTBase serializeNBT() {
+    public NBTTagCompound serializeNBT() {
         NBTTagCompound nbt = new NBTTagCompound();
-        nbt.setInteger("currentPageIndex", currentPageIndex);
-        nbt.setInteger("lastPageIndex", lastPageIndex);
+        nbt.setInt("currentPageIndex", currentPageIndex);
+        nbt.setInt("lastPageIndex", lastPageIndex);
         return nbt;
     }
 
     public void deserializeNBT(NBTTagCompound nbt) {
-        currentPageIndex = nbt.getInteger("currentPageIndex");
-        lastPageIndex = nbt.getInteger("lastPageIndex");
-
+        currentPageIndex = nbt.getInt("currentPageIndex");
+        lastPageIndex = nbt.getInt("lastPageIndex");
     }
 }

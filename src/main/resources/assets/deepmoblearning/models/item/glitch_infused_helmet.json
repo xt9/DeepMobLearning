@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "deepmoblearning:items/glitch_infused_helmet"
+    "layer0": "deepmoblearning:item/glitch_infused_helmet"
   }
 }

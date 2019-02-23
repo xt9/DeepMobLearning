@@ -2,20 +2,22 @@ package xt9.deepmoblearning.common.mobmetas;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.ArrayUtils;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemLivingMatter;
 import xt9.deepmoblearning.common.items.ItemPristineMatter;
 import xt9.deepmoblearning.common.util.MathHelper;
+
+import java.util.List;
 
 /**
  * Created by xt9 on 2017-06-09.
@@ -48,7 +50,7 @@ public abstract class MobMetaData {
     }
 
     public int getSimulationTickCost() {
-        int cost = Config.dataModel.get(getKey()).getInt();
+        int cost = Config.dataModelRFCost.get(getKey());
         cost = MathHelper.ensureRange(cost, 1, DeepConstants.MAX_DATA_MODEL_COST);
         return cost;
     }
@@ -105,27 +107,26 @@ public abstract class MobMetaData {
     }
 
     public boolean entityLivingMatchesMob(EntityLivingBase entityLiving) {
-        EntityEntry entry = EntityRegistry.getEntry(entityLiving.getClass());
-        if (entry != null) {
-            ResourceLocation registryName = entry.getRegistryName();
-            if (registryName != null) {
-                String name = registryName.toString();
-                return ArrayUtils.contains(Config.dataModelMobNames.get(getKey()).getStringList(), name);
-            }
+        ResourceLocation registryName = entityLiving.getType().getRegistryName();
+        if (registryName != null) {
+            String name = registryName.toString();
 
-            // Fallback to the name, but this should never happen
-            return ArrayUtils.contains(Config.dataModelMobNames.get(getKey()).getStringList(), entry.getName());
+            for (String mobRegname : Config.dataModelMobs.get(getKey())) {
+                if (mobRegname.equals(name)) {
+                    return true;
+                }
+            }
         }
 
         return false;
     }
 
     // Have to implement, different for every Meta
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public abstract Entity getEntity(World world);
 
     // Optional fields
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Entity getExtraEntity(World world) {
         return null;
     }

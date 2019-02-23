@@ -20,7 +20,7 @@ public class EmpoweredGlitchAffix implements ITrialAffix {
     @Override
     public void applyToGlitch(EntityGlitch entity) {
         entity.setEmpowered(true);
-        IAttributeInstance health = entity.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH);
+        IAttributeInstance health = entity.getAttribute(SharedMonsterAttributes.MAX_HEALTH);
 
         AttributeModifier healthMod = new AttributeModifier(DeepConstants.MODID + ".ATTRIBUTE_MAX_HEALTH", 10, 0);
         health.applyModifier(healthMod);

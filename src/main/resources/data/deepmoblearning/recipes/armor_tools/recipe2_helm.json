@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "I I"
+  ],
+  "key": {
+    "I": { "item": "deepmoblearning:glitch_infused_ingot" }
+  },
+  "result": {
+    "item": "deepmoblearning:glitch_infused_helmet"
+  }
+}

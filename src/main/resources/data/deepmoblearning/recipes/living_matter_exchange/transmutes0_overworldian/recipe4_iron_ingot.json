@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "minecraft:rotten_flesh" }
+  ],
+  "result": {
+    "item": "minecraft:iron_ingot",
+    "count": 8
+  }
+}

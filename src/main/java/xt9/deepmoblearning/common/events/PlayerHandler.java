@@ -1,28 +1,29 @@
 package xt9.deepmoblearning.common.events;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockObsidian;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.PlayerCapabilities;
-import net.minecraft.item.ItemRedstone;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.items.ItemGlitchArmor;
 import xt9.deepmoblearning.common.items.ItemGlitchHeart;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -35,7 +36,7 @@ public class PlayerHandler {
 
     @SubscribeEvent
     public static void playerTickUpdate(TickEvent.PlayerTickEvent event) {
-        PlayerCapabilities cap = event.player.capabilities;
+        PlayerCapabilities cap = event.player.abilities;
 
         if(!event.player.world.isRemote) {
             if(!cap.allowFlying && ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
@@ -57,8 +58,8 @@ public class PlayerHandler {
 
     @SubscribeEvent
     public static void playerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
-        if(FLYING_PLAYERS.contains(event.player.getUniqueID())) {
-            FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.player.getUniqueID().toString()));
+        if(FLYING_PLAYERS.contains(event.getPlayer().getUniqueID())) {
+            FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.getPlayer().getUniqueID().toString()));
         }
     }
 
@@ -66,10 +67,9 @@ public class PlayerHandler {
     @SubscribeEvent
     public static void playerLeftClickedBlock(PlayerInteractEvent.LeftClickBlock event) {
         ItemStack stack = event.getEntityPlayer().getHeldItem(EnumHand.MAIN_HAND);
-
-        if(Config.isSootedRedstoneCraftingEnabled.getBoolean()) {
-            if(stack.getItem() instanceof ItemRedstone && isBlock("minecraft:coal_block", event.getWorld().getBlockState(event.getPos()).getBlock())) {
-                if(event.getSide() == Side.SERVER) {
+        if(Config.isSootedRedstoneCraftingEnabled) {
+            if(Objects.equals(stack.getItem().getRegistryName(), new ResourceLocation("minecraft", "redstone")) && isBlock("minecraft:coal_block", event.getWorld().getBlockState(event.getPos()).getBlock())) {
+                if(event.getSide() == Dist.DEDICATED_SERVER) {
                     createSootedRedstone(event);
                     stack.shrink(1);
                 } else {
@@ -78,8 +78,8 @@ public class PlayerHandler {
             }
         }
 
-        if(stack.getItem() instanceof ItemGlitchHeart && event.getWorld().getBlockState(event.getPos()).getBlock() instanceof BlockObsidian) {
-            if(event.getSide() == Side.SERVER) {
+        if(stack.getItem() instanceof ItemGlitchHeart && Objects.equals(event.getWorld().getBlockState(event.getPos()).getBlock().getRegistryName(), new ResourceLocation("minecraft", "obsidan"))) {
+            if(event.getSide() == Dist.DEDICATED_SERVER) {
                 createGlitchFragment(event);
                 stack.shrink(1);
             } else {
@@ -132,7 +132,7 @@ public class PlayerHandler {
     @SuppressWarnings("ConstantConditions")
     private static boolean isBlock(String unlocalizedPath, Block block) {
         ResourceLocation loc = block.getRegistryName();
-        String fullPath = loc.getResourceDomain() + ":" + loc.getResourcePath();
+        String fullPath = loc.getNamespace() + ":" + loc.getPath();
 
         return fullPath.equals(unlocalizedPath);
     }

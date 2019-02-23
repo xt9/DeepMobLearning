@@ -1,8 +1,8 @@
 package xt9.deepmoblearning.common.mobmetas;
 
+import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.world.World;
 import net.minecraft.item.Item;
-import twilightforest.entity.boss.EntityTFUrGhast;
 
 /**
  * Created by xt9 on 2018-01-21.
@@ -14,9 +14,14 @@ public class TwilightDarkwoodMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityTFUrGhast getEntity(World world) {
-        return new EntityTFUrGhast(world);
+    @Override
+    public EntityGhast getEntity(World world) {
+        return new EntityGhast(world);
     }
+
+    /*    public EntityTFUrGhast getEntity(World world) {
+        return new EntityTFUrGhast(world);
+    }*/
 
     @Override
     public String getExtraTooltip() {

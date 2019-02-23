@@ -10,10 +10,10 @@ public class Tier {
     public static int getPristineChance(int tier) {
         switch(tier) {
             case 0: return 0;
-            case 1: return Config.pristineChance.get("tier1").getInt();
-            case 2: return Config.pristineChance.get("tier2").getInt();
-            case 3: return Config.pristineChance.get("tier3").getInt();
-            case 4: return Config.pristineChance.get("tier4").getInt();
+            case 1: return Config.pristineChance.get("tier1");
+            case 2: return Config.pristineChance.get("tier2");
+            case 3: return Config.pristineChance.get("tier3");
+            case 4: return Config.pristineChance.get("tier4");
             default: return 0;
         }
     }

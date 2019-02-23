@@ -1,11 +1,8 @@
 package xt9.deepmoblearning.common.mobmetas;
 
+import net.minecraft.entity.monster.EntityPolarBear;
 import net.minecraft.world.World;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import twilightforest.entity.boss.EntityTFSnowQueen;
 
 /**
  * Created by xt9 on 2018-01-21.
@@ -17,11 +14,16 @@ public class TwilightGlacierMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityTFSnowQueen getEntity(World world) {
+    @Override
+    public EntityPolarBear getEntity(World world) {
+        return new EntityPolarBear(world);
+    }
+
+    /*    public EntityTFSnowQueen getEntity(World world) {
         EntityTFSnowQueen entity = new EntityTFSnowQueen(world);
         entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.SNOWBALL));
         return entity;
-    }
+    }*/
 
     @Override
     public String getExtraTooltip() {

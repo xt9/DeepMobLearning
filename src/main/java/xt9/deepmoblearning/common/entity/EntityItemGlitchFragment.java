@@ -23,14 +23,15 @@ public class EntityItemGlitchFragment extends EntityItem {
     }
 
     public EntityItemGlitchFragment(World worldIn, double x, double y, double z, ItemStack stack) {
+        // @todo 1.13 see if this needs it's own type
         super(worldIn, x, y, z);
         setItem(stack);
         setPickupDelay(15);
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if(isInWater()) {
             ThreadLocalRandom rand = ThreadLocalRandom.current();
@@ -80,7 +81,7 @@ public class EntityItemGlitchFragment extends EntityItem {
 
                     entities.forEach(entityItem -> {
                         if (entityItem.getItem().getCount() == 0) {
-                            entityItem.setDead();
+                            entityItem.remove();
                             progress = 0;
                         }
                     });
@@ -99,7 +100,7 @@ public class EntityItemGlitchFragment extends EntityItem {
     }
 
     public boolean isItemListValid(List<EntityItem> list) {
-        // Don't check for glitch fragment because if it wasn't here the method would not run
+        // Don't check for entityGlitch fragment because if it wasn't here the method would not run
         boolean foundGold = false;
         boolean foundLapis = false;
 
@@ -107,7 +108,7 @@ public class EntityItemGlitchFragment extends EntityItem {
             if(ItemStack.areItemsEqual(entityItem.getItem(), new ItemStack(Items.GOLD_INGOT))) {
                 foundGold = true;
             }
-            if(ItemStack.areItemStacksEqual(entityItem.getItem(), new ItemStack(Items.DYE, entityItem.getItem().getCount(), 4))) {
+            if(ItemStack.areItemStacksEqual(entityItem.getItem(), new ItemStack(Items.LAPIS_LAZULI, entityItem.getItem().getCount()))) {
                 foundLapis = true;
             }
         }

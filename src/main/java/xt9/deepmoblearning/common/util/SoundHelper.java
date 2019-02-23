@@ -20,13 +20,13 @@ public class SoundHelper {
                 world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_VILLAGER_CONVERTED, SoundCategory.MASTER, 1.6F, 0.8F);
                 break;
             case "glitchAlert":
-                world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_BELL, SoundCategory.MASTER, 1.6F, 0.4F);
+                world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_BELL, SoundCategory.MASTER, 1.6F, 0.4F);
                 break;
             case "waveCountdown":
-                world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_PLING, SoundCategory.MASTER, 1.5F, 1.1F);
+                world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.MASTER, 1.5F, 1.1F);
                 for (int seconds = 1; seconds < 5; seconds++) {
                     float pitch = (seconds * 0.1F) + 1.1F;
-                    exec.schedule(() -> world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_PLING, SoundCategory.MASTER, 1.5F, pitch), seconds, TimeUnit.SECONDS);
+                    exec.schedule(() -> world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_NOTE_BLOCK_PLING, SoundCategory.MASTER, 1.5F, pitch), seconds, TimeUnit.SECONDS);
                 }
                 break;
             case "trialWon":
@@ -35,7 +35,7 @@ public class SoundHelper {
 
                 for (int fireworks = 1; fireworks < 5; fireworks++) {
                     float pitch = (fireworks * 0.05F) + 1F;
-                    exec.schedule(() -> world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_FIREWORK_LAUNCH, SoundCategory.MASTER, 1.3F, pitch), fireworks * 450, TimeUnit.MILLISECONDS);
+                    exec.schedule(() -> world.playSound(null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_FIREWORK_ROCKET_LAUNCH, SoundCategory.MASTER, 1.3F, pitch), fireworks * 450, TimeUnit.MILLISECONDS);
                 }
                 break;
             default:

@@ -17,13 +17,15 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class EntityTrialEnderman extends EntityEnderman {
     public EntityTrialEnderman(World world) {
+        // @todo 1.13 see if this needs it's own type
         super(world);
     }
 
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
+    @Override
+    protected void registerAttributes() {
+        super.registerAttributes();
+        getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
+        getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
     }
 
     protected void initEntityAI() {
@@ -66,8 +68,8 @@ public class EntityTrialEnderman extends EntityEnderman {
         } else {
             boolean flag = attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ());
             if (flag) {
-                world.playSound(null, prevPosX, prevPosY, prevPosZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
-                playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
+                world.playSound(null, prevPosX, prevPosY, prevPosZ, SoundEvents.ENTITY_ENDERMAN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
+                playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, 1.0F, 1.0F);
             }
 
             return flag;
@@ -85,22 +87,26 @@ public class EntityTrialEnderman extends EntityEnderman {
             this.enderman = entity;
         }
 
+        @Override
         public boolean shouldExecute() {
             double d0 = getTargetDistance();
             player = enderman.world.getNearestAttackablePlayer(enderman.posX, enderman.posY, enderman.posZ, d0, d0, null, player -> player != null && enderman.shouldAttackPlayer());
             return player != null;
         }
 
+        @Override
         public void startExecuting() {
             aggroTime = 5;
             teleportTime = 0;
         }
 
+        @Override
         public void resetTask() {
             player = null;
             super.resetTask();
         }
 
+        @Override
         public boolean shouldContinueExecuting() {
             if (player != null) {
                 if (!enderman.shouldAttackPlayer()) {
@@ -110,11 +116,12 @@ public class EntityTrialEnderman extends EntityEnderman {
                     return true;
                 }
             } else {
-                return targetEntity != null && targetEntity.isEntityAlive() || super.shouldContinueExecuting();
+                return targetEntity != null && targetEntity.isAlive() || super.shouldContinueExecuting();
             }
         }
 
-        public void updateTask() {
+        @Override
+        public void tick() {
             if (player != null) {
                 if (--aggroTime <= 0) {
                     targetEntity = player;
@@ -134,7 +141,7 @@ public class EntityTrialEnderman extends EntityEnderman {
                     }
                 }
 
-                super.updateTask();
+                super.tick();
             }
 
         }

@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermalfoundation"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      { "item": "deepmoblearning:data_model_blank" }
+    ],
+    [
+      { "item": "thermalfoundation:material1todo" },
+      { "item": "thermalfoundation:material2todo" },
+      { "item": "thermalfoundation:material3todo" }
+    ]
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_thermal_elemental"
+  }
+}

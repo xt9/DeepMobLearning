@@ -8,7 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
 
 /**
@@ -27,7 +29,7 @@ public class ContainerExtractionChamber extends Container {
         this.player = inventory.player;
         this.world = world;
         this.tile = te;
-        this.inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+        this.inventory = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(new BaseItemHandler());
         this.currentPristine = tile.getPristine();
 
         tile.updateState();
@@ -61,29 +63,29 @@ public class ContainerExtractionChamber extends Container {
     }
 
     private void addSlotsToHandler() {
-        addSlotToContainer(new SlotExtractionChamber(inventory, INPUT_SLOT, 79, 62));
+        addSlot(new SlotExtractionChamber(inventory, INPUT_SLOT, 79, 62));
 
         // Output inventory x16 slots
          // Row 1
-        addSlotToContainer(new SlotExtractionChamber(inventory, 1, 100, 7));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 2, 100 + (18), 7));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 3, 100 + (18 * 2), 7));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 4, 100 + (18 * 3), 7));
+        addSlot(new SlotExtractionChamber(inventory, 1, 100, 7));
+        addSlot(new SlotExtractionChamber(inventory, 2, 100 + (18), 7));
+        addSlot(new SlotExtractionChamber(inventory, 3, 100 + (18 * 2), 7));
+        addSlot(new SlotExtractionChamber(inventory, 4, 100 + (18 * 3), 7));
         // Row 2
-        addSlotToContainer(new SlotExtractionChamber(inventory, 5, 100, 7 + 18));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 6, 100 + (18), 7 + 18));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 7, 100 + (18 * 2), 7 + 18));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 8, 100 + (18 * 3), 7 + 18));
+        addSlot(new SlotExtractionChamber(inventory, 5, 100, 7 + 18));
+        addSlot(new SlotExtractionChamber(inventory, 6, 100 + (18), 7 + 18));
+        addSlot(new SlotExtractionChamber(inventory, 7, 100 + (18 * 2), 7 + 18));
+        addSlot(new SlotExtractionChamber(inventory, 8, 100 + (18 * 3), 7 + 18));
         // Row 3
-        addSlotToContainer(new SlotExtractionChamber(inventory, 9, 100, 7 + (18 * 2)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 10, 100 + (18), 7 + (18 * 2)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 11, 100 + (18 * 2), 7 + (18 * 2)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 12, 100 + (18 * 3), 7 + (18 * 2)));
+        addSlot(new SlotExtractionChamber(inventory, 9, 100, 7 + (18 * 2)));
+        addSlot(new SlotExtractionChamber(inventory, 10, 100 + (18), 7 + (18 * 2)));
+        addSlot(new SlotExtractionChamber(inventory, 11, 100 + (18 * 2), 7 + (18 * 2)));
+        addSlot(new SlotExtractionChamber(inventory, 12, 100 + (18 * 3), 7 + (18 * 2)));
         // Row 4
-        addSlotToContainer(new SlotExtractionChamber(inventory, 13, 100, 7 + (18 * 3)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 14, 100 + (18), 7 + (18 * 3)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 15, 100 + (18 * 2), 7 + (18 * 3)));
-        addSlotToContainer(new SlotExtractionChamber(inventory, 16, 100 + (18 * 3), 7 + (18 * 3)));
+        addSlot(new SlotExtractionChamber(inventory, 13, 100, 7 + (18 * 3)));
+        addSlot(new SlotExtractionChamber(inventory, 14, 100 + (18), 7 + (18 * 3)));
+        addSlot(new SlotExtractionChamber(inventory, 15, 100 + (18 * 2), 7 + (18 * 3)));
+        addSlot(new SlotExtractionChamber(inventory, 16, 100 + (18 * 3), 7 + (18 * 3)));
     }
 
     private void addInventorySlots() {
@@ -91,7 +93,7 @@ public class ContainerExtractionChamber extends Container {
         for (int row = 0; row < 9; row++) {
             int index = row;
             Slot slot = new Slot(player.inventory, index, 8 + row * 18, 154);
-            addSlotToContainer(slot);
+            addSlot(slot);
         }
 
         // 3 Top rows, starting with the bottom one
@@ -101,7 +103,7 @@ public class ContainerExtractionChamber extends Container {
                 int y = 96 + row * 18;
                 int index = column + row * 9 + 9;
                 Slot slot = new Slot(player.inventory, index, x, y);
-                addSlotToContainer(slot);
+                addSlot(slot);
             }
         }
     }

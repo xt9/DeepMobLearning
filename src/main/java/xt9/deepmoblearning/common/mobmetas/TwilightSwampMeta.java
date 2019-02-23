@@ -1,11 +1,8 @@
 package xt9.deepmoblearning.common.mobmetas;
 
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.World;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
-import twilightforest.entity.boss.EntityTFMinoshroom;
 
 
 /**
@@ -18,12 +15,17 @@ public class TwilightSwampMeta extends MobMetaData {
         super(key, name, pluralName, numberOfHearts, interfaceScale, interfaceOffsetX, interfaceOffsetY, livingMatter, pristineMatter, mobTrivia);
     }
 
-    public EntityTFMinoshroom getEntity(World world) {
+    @Override
+    public EntityCow getEntity(World world) {
+        return new EntityCow(world);
+    }
+
+    /*    public EntityTFMinoshroom getEntity(World world) {
         EntityTFMinoshroom entity = new EntityTFMinoshroom(world);
         Item diamondAxe = Item.getByNameOrId("twilightforest:minotaur_axe") != null ? Item.getByNameOrId("twilightforest:minotaur_axe") : Items.DIAMOND_AXE;
         entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(diamondAxe));
         return entity;
-    }
+    }*/
 
     @Override
     public String getExtraTooltip() {

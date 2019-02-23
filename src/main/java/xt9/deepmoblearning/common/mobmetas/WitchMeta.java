@@ -19,7 +19,7 @@ public class WitchMeta extends MobMetaData {
 
     public EntityWitch getEntity(World world) {
         EntityWitch entity = new EntityWitch(world);
-        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.POTIONITEM));
+        entity.setHeldItem(EnumHand.MAIN_HAND, new ItemStack(Items.POTION));
         return entity;
     }
 }

@@ -3,9 +3,8 @@ package xt9.deepmoblearning.common.capabilities;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -13,36 +12,35 @@ import javax.annotation.Nullable;
 /**
  * Created by xt9 on 2018-04-07.
  */
-public class PlayerTrialProvider implements ICapabilityProvider, INBTSerializable<NBTTagCompound> {
-    @CapabilityInject(IPlayerTrial.class)
-    public static final Capability<IPlayerTrial> PLAYER_TRIAL_CAP = null;
+@SuppressWarnings("unchecked")
+public class PlayerTrialProvider implements ICapabilitySerializable<NBTTagCompound> {
+    private PlayerTrial playerTrial = new PlayerTrial();
 
-
-    @SuppressWarnings("ConstantConditions")
-    private IPlayerTrial instance = PLAYER_TRIAL_CAP.getDefaultInstance();
-
+    @Nonnull
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing enumFacing) {
-        //noinspection ConstantConditions
-        return capability == PLAYER_TRIAL_CAP;
+    @SuppressWarnings("ConstantConditions")
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
+        if (cap == PlayerProperties.PLAYER_TRIAL_CAP) {
+            return LazyOptional.of(() -> (T) playerTrial);
+        }
+        return LazyOptional.empty();
     }
 
-    @Nullable
+    @Nonnull
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing enumFacing) {
-        //noinspection ConstantConditions
-        return capability == PLAYER_TRIAL_CAP ? PLAYER_TRIAL_CAP.cast(instance) : null;
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing enumFacing) {
+        return getCapability(capability);
     }
 
     @Override
     public NBTTagCompound serializeNBT() {
-        //noinspection ConstantConditions
-        return (NBTTagCompound) PLAYER_TRIAL_CAP.getStorage().writeNBT(PLAYER_TRIAL_CAP, instance, null);
+        NBTTagCompound compound = new NBTTagCompound();
+        playerTrial.write(compound);
+        return compound;
     }
 
     @Override
     public void deserializeNBT(NBTTagCompound compound) {
-        //noinspection ConstantConditions
-        PLAYER_TRIAL_CAP.getStorage().readNBT(PLAYER_TRIAL_CAP, instance, null, compound);
+        playerTrial.read(compound);
     }
 }

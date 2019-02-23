@@ -15,10 +15,11 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
+import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
 import xt9.deepmoblearning.common.items.*;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
@@ -100,14 +101,14 @@ public class EntityDeathHandler {
 
         // Chance to drop pristine matter from the model that gained data
         if(ItemGlitchArmor.isSetEquippedByPlayer(player)) {
-            IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+            PlayerTrial cap = DeepMobLearning.proxy.getTrialCapability(player);
             if(!cap.isTrialActive()) {
                 ItemGlitchArmor.dropPristineMatter(event.getEntityLiving().world, event.getEntityLiving().getPosition(), updatedModels.get(0), player);
             }
         }
 
         if(player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemGlitchSword) {
-            IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+            PlayerTrial cap = DeepMobLearning.proxy.getTrialCapability(player);
             if(!cap.isTrialActive()) {
                 ItemStack sword = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
                 if(ItemGlitchSword.canIncreaseDamage(sword)) {
@@ -139,7 +140,7 @@ public class EntityDeathHandler {
     private static void handlePlayerDeathDuringTrial(LivingDeathEvent event) {
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 
-        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+        PlayerTrial cap = DeepMobLearning.proxy.getTrialCapability(player);
 
 
         BlockPos tilePos = BlockPos.fromLong(cap.getTilePos());
@@ -182,7 +183,7 @@ public class EntityDeathHandler {
                 addAffixes(trialKey, dataModel);
             } else {
                 MobMetaData meta = DataModel.getMobMetaData(dataModel);
-                PlayerHelper.sendMessage(player, new TextComponentString("Can't attune the " + trialKey.getDisplayName() + ", There is no Trial for: " + meta.getName()));
+                PlayerHelper.sendMessage(player, new TextComponentString("Can't attune the " + trialKey.getDisplayName().getFormattedText() + ", There is no Trial for: " + meta.getName()));
             }
         }
     }

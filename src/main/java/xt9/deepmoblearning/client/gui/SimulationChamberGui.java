@@ -46,22 +46,14 @@ public class SimulationChamberGui extends GuiContainer {
     public SimulationChamberGui(TileEntitySimulationChamber te, InventoryPlayer inventory, World world) {
         super(new ContainerSimulationChamber(te, inventory, world));
 
-        this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY, null);
+        this.energyStorage = (DeepEnergyStorage) te.getCapability(CapabilityEnergy.ENERGY).orElse(new DeepEnergyStorage(2000000, 25600 , 0, 0));
 
-        this.renderer = Minecraft.getMinecraft().fontRenderer;
+        this.renderer = Minecraft.getInstance().fontRenderer;
         this.animationList = new HashMap<>();
         this.world = world;
         this.tile = te;
         xSize = WIDTH;
         ySize = HEIGHT;
-    }
-
-    /* Needed on 1.12 to render tooltips */
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override
@@ -111,8 +103,8 @@ public class SimulationChamberGui extends GuiContainer {
         }
 
         // Draw the main GUI
-        Minecraft.getMinecraft().getTextureManager().bindTexture(base);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        Minecraft.getInstance().getTextureManager().bindTexture(base);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         drawTexturedModalRect(left, top, 0, 0, 216, 141);
 
         // Draw data model slot
@@ -166,7 +158,7 @@ public class SimulationChamberGui extends GuiContainer {
         }
 
         // Draw player inventory
-        Minecraft.getMinecraft().getTextureManager().bindTexture(defaultGui);
+        Minecraft.getInstance().getTextureManager().bindTexture(defaultGui);
         drawTexturedModalRect(left + 20, top + 145, 0, 0, 176, 90);
 
 
@@ -259,13 +251,13 @@ public class SimulationChamberGui extends GuiContainer {
     private void animateString(String string, Animation anim, Animation precedingAnim, int delay, boolean loop, int left, int top, int color) {
         if(precedingAnim != null) {
             if (precedingAnim.hasFinished()) {
-                String result = anim.animate(string, delay, world.getTotalWorldTime(), loop);
+                String result = anim.animate(string, delay, world.getWorldInfo().getGameTime(), loop);
                 drawString(renderer, result, left, top, color);
             } else {
                 return;
             }
         }
-        String result = anim.animate(string, delay, world.getTotalWorldTime(), loop);
+        String result = anim.animate(string, delay, world.getWorldInfo().getGameTime(), loop);
         drawString(renderer, result, left, top, color);
     }
 }

@@ -7,11 +7,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import xt9.deepmoblearning.DeepMobLearning;
-import xt9.deepmoblearning.common.network.LevelUpModelMessage;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import xt9.deepmoblearning.common.network.messages.LevelUpModelMessage;
+import xt9.deepmoblearning.common.network.Network;
 import xt9.deepmoblearning.common.util.KeyboardHelper;
 
 import javax.annotation.Nullable;
@@ -26,9 +28,9 @@ public class ItemCreativeModelLearner extends ItemBase {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer player, @Nullable EnumHand hand) {
         if(player.world.isRemote) {
             if(KeyboardHelper.isHoldingShift()) {
-                DeepMobLearning.network.sendToServer(new LevelUpModelMessage(0));
+                Network.channel.sendToServer(new LevelUpModelMessage(0));
             } else if(KeyboardHelper.isHoldingCTRL()) {
-                DeepMobLearning.network.sendToServer(new LevelUpModelMessage(1));
+                Network.channel.sendToServer(new LevelUpModelMessage(1));
             }
         }
 
@@ -37,14 +39,14 @@ public class ItemCreativeModelLearner extends ItemBase {
     }
 
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
         if(!KeyboardHelper.isHoldingShift()) {
-            list.add(I18n.format("deepmoblearning.holdshift"));
+            list.add(new TextComponentString(I18n.format("deepmoblearning.holdshift")));
         } else {
-            list.add("A creative item that levels up data models inside the Deep Learner." );
-            list.add("§r§oSHIFT§r§7 + §r§oRIGHT§r§7 click to increase tier.§r" );
-            list.add("§r§oCTRL§r§7 + §r§oRIGHT§r§7 click to simulate kills.§r" );
+            list.add(new TextComponentString("A creative item that levels up data models inside the Deep Learner."));
+            list.add(new TextComponentString("§r§oSHIFT§r§7 + §r§oRIGHT§r§7 click to increase tier.§r"));
+            list.add(new TextComponentString("§r§oCTRL§r§7 + §r§oRIGHT§r§7 click to simulate kills.§r"));
         }
 
     }

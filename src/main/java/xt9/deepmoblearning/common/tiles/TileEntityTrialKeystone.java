@@ -6,6 +6,8 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -14,22 +16,31 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.items.CapabilityItemHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
+import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
 import xt9.deepmoblearning.common.handlers.BaseItemHandler;
 import xt9.deepmoblearning.common.handlers.TrialKeyHandler;
+import xt9.deepmoblearning.common.inventory.ContainerSimulationChamber;
+import xt9.deepmoblearning.common.inventory.ContainerTrialKeystone;
 import xt9.deepmoblearning.common.items.ItemTrialKey;
-import xt9.deepmoblearning.common.network.RequestKeystoneItemMessage;
-import xt9.deepmoblearning.common.network.UpdateKeystoneItemMessage;
+import xt9.deepmoblearning.common.network.Network;
+import xt9.deepmoblearning.common.network.messages.RequestKeystoneItemMessage;
+import xt9.deepmoblearning.common.network.messages.UpdateKeystoneItemMessage;
 import xt9.deepmoblearning.common.trials.Trial;
 import xt9.deepmoblearning.common.trials.TrialFactory;
 import xt9.deepmoblearning.common.trials.TrialRuleset;
@@ -50,7 +61,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Created by xt9 on 2018-03-25.
  */
-public class TileEntityTrialKeystone extends TileEntity implements ITickable, IGuiTile {
+public class TileEntityTrialKeystone extends TileEntity implements ITickable, IInteractionObject {
     public static final String NBT_LONG_TILE_POS = DeepConstants.MODID + ":tilepos";
     private static final int ARENA_RADIUS = 21;
 
@@ -72,14 +83,25 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         @Override
         protected void onContentsChanged(int slot) {
             if (!world.isRemote) {
-                DeepMobLearning.network.sendToAllAround(new UpdateKeystoneItemMessage(TileEntityTrialKeystone.this), new NetworkRegistry.TargetPoint(world.provider.getDimension(), pos.getX(), pos.getY(), pos.getZ(), 64));
+                Network.channel.send(PacketDistributor.TRACKING_CHUNK.with(() -> world.getChunk(pos)), new UpdateKeystoneItemMessage(pos, getTrialKey()));
             }
             super.onContentsChanged(slot);
         }
     };
 
+    public TileEntityTrialKeystone() {
+        super(Registry.tileTrialKeystone);
+    }
 
-    public void update() {
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if(world.isRemote) {
+            Network.channel.sendToServer(new RequestKeystoneItemMessage(pos, world.dimension.getType().getId()));
+        }
+    }
+
+    public void tick() {
         tickCount++;
 
         if(!world.isRemote) {
@@ -136,9 +158,9 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
     private void disableFlying() {
         participants.forEach(p -> {
-            if(!p.isDead && !p.capabilities.isCreativeMode) {
-                p.capabilities.allowFlying = false;
-                p.capabilities.isFlying = false;
+            if(p.isAlive() && !p.abilities.isCreativeMode) {
+                p.abilities.allowFlying = false;
+                p.abilities.isFlying = false;
                 p.sendPlayerAbilities();
             }
         });
@@ -210,7 +232,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
 
     private void updateCapability() {
         participants.forEach(p -> {
-            PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
+            PlayerTrial cap = DeepMobLearning.proxy.getTrialCapability(p);
             cap.setWaveMobTotal(waveMobTotal);
             cap.setCurrentWave(currentWave);
             cap.setDefeated(mobsDefeated);
@@ -222,7 +244,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     private void clearPlayerCapability(EntityPlayerMP p) {
-        PlayerTrial cap = (PlayerTrial) PlayerHelper.getTrialCapability(p);
+        PlayerTrial cap = DeepMobLearning.proxy.getTrialCapability(p);
         cap.setWaveMobTotal(0);
         cap.setCurrentWave(0);
         cap.setDefeated(0);
@@ -289,7 +311,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         e.enablePersistence();
 
         EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
-        if(target != null && target.isEntityAlive()) {
+        if(target != null && target.isAlive()) {
             e.setAttackTarget(target);
         }
 
@@ -312,7 +334,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             e.enablePersistence();
 
             EntityPlayer target = e.world.getNearestAttackablePlayer(e.getPosition(), 32, 5);
-            if(target != null  && target.isEntityAlive()) {
+            if(target != null  && target.isAlive()) {
                 e.setAttackTarget(target);
             }
 
@@ -336,7 +358,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         );
 
         for (BlockPos blockPos : groundLayer) {
-            if(!world.getBlockState(blockPos).isFullBlock()) {
+            if(!world.getBlockState(blockPos).isFullCube()) {
                 return false;
             }
         }
@@ -384,76 +406,88 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     @Override
-    public void onLoad() {
-        if (world.isRemote) {
-            DeepMobLearning.network.sendToServer(new RequestKeystoneItemMessage(this));
-        }
-        super.onLoad();
-    }
-
-    @Override
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(getPos(), getPos().add(1, 2, 1));
     }
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(getPos(), 3, writeToNBT(new NBTTagCompound()));
+        return new SPacketUpdateTileEntity(getPos(), 3, write(new NBTTagCompound()));
     }
 
     @Override
     public final NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+        return this.write(new NBTTagCompound());
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        readFromNBT(packet.getNbtCompound());
+        read(packet.getNbtCompound());
     }
 
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public NBTTagCompound write(NBTTagCompound compound) {
         compound.setBoolean("active", active);
-        compound.setInteger("currentWave", currentWave);
-        compound.setInteger("lastWave", lastWave);
-        compound.setInteger("mobsSpawned", mobsSpawned);
-        compound.setInteger("mobsDefeated", mobsDefeated);
-        compound.setInteger("waveMobTotal", waveMobTotal);
+        compound.setInt("currentWave", currentWave);
+        compound.setInt("lastWave", lastWave);
+        compound.setInt("mobsSpawned", mobsSpawned);
+        compound.setInt("mobsDefeated", mobsDefeated);
+        compound.setInt("waveMobTotal", waveMobTotal);
         compound.setTag("inventory", trialKey.serializeNBT());
-        return super.writeToNBT(compound);
+        return super.write(compound);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void read(NBTTagCompound compound) {
         active = compound.getBoolean("active");
-        currentWave = compound.getInteger("currentWave");
-        lastWave = compound.getInteger("lastWave");
-        mobsSpawned = compound.getInteger("mobsSpawned");
-        mobsDefeated = compound.getInteger("mobsDefeated");
-        waveMobTotal = compound.getInteger("waveMobTotal");
-        trialKey.deserializeNBT(compound.getCompoundTag("inventory"));
-        super.readFromNBT(compound);
+        currentWave = compound.getInt("currentWave");
+        lastWave = compound.getInt("lastWave");
+        mobsSpawned = compound.getInt("mobsSpawned");
+        mobsDefeated = compound.getInt("mobsDefeated");
+        waveMobTotal = compound.getInt("waveMobTotal");
+        trialKey.deserializeNBT(compound.getCompound("inventory"));
+        super.read(compound);
+    }
+
+    @Nonnull
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable EnumFacing facing) {
+        if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            // If facing is null its interacting with a player or some fake player
+            if(facing == null) {
+                return LazyOptional.of(() -> (T) trialKey);
+            }
+        }
+        return super.getCapability(cap, facing);
     }
 
     @Override
-    public boolean hasCapability(Capability capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    @SuppressWarnings("NullableProblems")
+    public Container createContainer(InventoryPlayer inventory, EntityPlayer player) {
+        return new ContainerTrialKeystone(this, inventory, this.world);
+    }
+
+    @Override
+    @SuppressWarnings({"NullableProblems", "ConstantConditions"})
+    public String getGuiID() {
+        return new ResourceLocation(DeepConstants.MODID, "tile/trial_keystone").toString();
+    }
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public ITextComponent getName() {
+        return new TextComponentString("Trial Keystone");
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
     }
 
     @Nullable
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            // If facing is null its interacting with a player or some fake player
-            if(facing == null) {
-                return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(trialKey);
-            }
-        }
-
-        return super.getCapability(capability, facing);
-    }
-
-    public int getGuiID() {
-        return DeepConstants.TILE_TRIAL_KEYSTONE_GUI_ID;
+    public ITextComponent getCustomName() {
+        return null;
     }
 }

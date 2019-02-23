@@ -7,11 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.TextComponentString;
 import xt9.deepmoblearning.DeepConstants;
+import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
-import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
-import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
+import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.items.ItemDataModel;
-import xt9.deepmoblearning.common.items.ItemGlitchArmor;
 import xt9.deepmoblearning.common.items.ItemGlitchSword;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
 import xt9.deepmoblearning.common.mobmetas.MobMetaData;
@@ -88,16 +87,17 @@ public class DataModel {
         int tier = getTier(stack);
         int i = getCurrentTierKillCount(stack);
         boolean isGlitchSwordEquipped = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() instanceof ItemGlitchSword;
-        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
 
-        i = i + (isGlitchSwordEquipped && !cap.isTrialActive() ? 2 : 1);
+        PlayerTrial playerTrialCap = DeepMobLearning.proxy.getTrialCapability(player);
+
+        i = i + (isGlitchSwordEquipped && !playerTrialCap.isTrialActive() ? 2 : 1);
         setCurrentTierKillCount(stack, i);
 
         // Update the totals
         setTotalKillCount(stack, getTotalKillCount(stack) + 1);
 
         if(DataModelExperience.shouldIncreaseTier(tier, i, getCurrentTierSimulationCount(stack))) {
-            PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName() + " reached the " + getTierName(stack, true) + " tier"));
+            PlayerHelper.sendMessage(player, new TextComponentString(stack.getDisplayName().getFormattedText() + " reached the " + getTierName(stack, true) + " tier"));
 
             setCurrentTierKillCount(stack, 0);
             setCurrentTierSimulationCount(stack, 0);

@@ -27,7 +27,6 @@ public class RenderEntityGlitch extends RenderLiving<EntityGlitch> {
 
     @Override
     public void doRender(EntityGlitch entity, double x, double y, double z, float entityYaw, float partialTicks) {
-
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 }

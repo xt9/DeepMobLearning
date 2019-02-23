@@ -2,9 +2,11 @@ package xt9.deepmoblearning.common.items;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -17,9 +19,9 @@ public class ItemFallbackGuidebook extends ItemBase {
         super("book", 1);
     }
 
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        list.add("This item does nothing");
-        list.add("Install Patchouli for an indepth mod Guide.");
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> list, ITooltipFlag flagIn) {
+        list.add(new TextComponentString("This item does nothing"));
+        list.add(new TextComponentString("Install Patchouli for an indepth mod Guide."));
     }
 }

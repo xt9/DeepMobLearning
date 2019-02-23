@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DTD",
+    "SMS",
+    "SSS"
+  ],
+  "key": {
+    "S": { "item": "minecraft:stone" },
+    "D": { "item": "minecraft:diamond" },
+    "M": { "item": "deepmoblearning:machine_casing" },
+    "T": { "item": "deepmoblearning:trial_key" }
+  },
+  "result": {
+    "item": "deepmoblearning:trial_keystone"
+  }
+}

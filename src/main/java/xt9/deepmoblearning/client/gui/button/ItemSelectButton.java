@@ -35,19 +35,21 @@ public class ItemSelectButton extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+    public void drawButtonForegroundLayer(int mouseX, int mouseY) {
         if (visible) {
-            mc.getTextureManager().bindTexture(TEXTURE);
-            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            Minecraft.getInstance().getTextureManager().bindTexture(TEXTURE);
+            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
             this.hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
             int i = getHoverState(hovered);
 
             GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             drawTexturedModalRect(x, y, i * 18, 0, width, height);
-            mouseDragged(mc, mouseX, mouseY);
+
+            // @todo 1.13 is this needed?
+            //mouseDragged(mouseX, mouseY);
         }
 
     }

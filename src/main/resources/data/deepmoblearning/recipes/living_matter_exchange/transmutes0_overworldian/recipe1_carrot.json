@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "deepmoblearning:living_matter_overworldian" },
+    { "item": "minecraft:wheat_seeds" }
+  ],
+  "result": {
+    "item": "minecraft:carrot",
+    "count": 2
+  }
+}

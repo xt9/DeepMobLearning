@@ -8,10 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.LootTableManager;
+import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.entity.EntityGlitch;
 
@@ -55,7 +59,7 @@ public class LootHoarderAffix implements ITrialAffix {
             if(ThreadLocalRandom.current().nextInt(1, 100) > 75) {
                 EntityZombie hoarder = new EntityZombie(world);
                 hoarder.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Items.GOLDEN_HELMET));
-                hoarder.setCustomNameTag("Loot Hoarder");
+                hoarder.setCustomName(new TextComponentString("Loot Hoarder"));
                 hoarder.setChild(true);
 
                 int randomX = pos.getX() + ThreadLocalRandom.current().nextInt(-5, 5);
@@ -67,7 +71,7 @@ public class LootHoarderAffix implements ITrialAffix {
                 hoarder.enablePersistence();
 
                 // Get loot table
-                LootTable table = world.getLootTableManager().getLootTableFromLocation(new ResourceLocation(DeepConstants.MODID, "loot_hoarder"));
+                LootTable table = ServerLifecycleHooks.getCurrentServer().getLootTableManager().getLootTableFromLocation(new ResourceLocation(DeepConstants.MODID, "loot_hoarder"));
                 LootContext ctx = new LootContext.Builder((WorldServer)world).build();
                 List<ItemStack> looted = table.generateLootForPools(world.rand, ctx);
 

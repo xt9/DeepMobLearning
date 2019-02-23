@@ -27,14 +27,14 @@ public class ClickableZoneButton extends GuiButton {
     }
 
     @Override
-    public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+    public void drawButtonForegroundLayer(int mouseX, int mouseY) {
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
         if(hovered) {
-            GuiUtils.drawHoveringText(tooltip, mouseX - 18, mouseY - 9, screenWidth, screenHeight, -1, mc.fontRenderer);
+            GuiUtils.drawHoveringText(tooltip, mouseX - 18, mouseY - 9, screenWidth, screenHeight, -1, Minecraft.getInstance().fontRenderer);
         }
     }
 }
