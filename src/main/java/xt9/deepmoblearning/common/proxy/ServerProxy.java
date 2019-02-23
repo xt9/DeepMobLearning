@@ -2,12 +2,9 @@ package xt9.deepmoblearning.common.proxy;
 
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.INBTBase;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.common.capabilities.Capability;
@@ -48,7 +45,7 @@ public class ServerProxy implements IProxy {
 
     @Override
     public PlayerTrial getTrialCapability(EntityPlayer player) {
-        return player.getCapability(PlayerProperties.PLAYER_TRIAL_CAP).orElse(new PlayerTrial());
+        return player.getCapability(PlayerProperties.playerTrialCap).orElse(new PlayerTrial());
     }
 
     @Override

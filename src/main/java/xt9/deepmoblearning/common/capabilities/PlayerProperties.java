@@ -8,5 +8,5 @@ import net.minecraftforge.common.capabilities.CapabilityInject;
  */
 public class PlayerProperties {
     @CapabilityInject(PlayerTrial.class)
-    public static Capability<PlayerTrial> PLAYER_TRIAL_CAP;
+    public static Capability<PlayerTrial> playerTrialCap;
 }

@@ -20,9 +20,7 @@ public class PlayerTrial {
     private boolean isActive = false;
     private long tilePos;
 
-    public PlayerTrial() {
-
-    }
+    public PlayerTrial() {}
 
     public PlayerTrial(int currentWave, int lastWave, int mobsDefeated, int waveMobTotal, long pos, boolean isActive) {
         this.currentWave = currentWave;
@@ -32,7 +30,6 @@ public class PlayerTrial {
         this.tilePos = pos;
         this.isActive = isActive;
     }
-
 
     public NBTTagCompound write(NBTTagCompound compound) {
         compound.setInt("currentWave", getCurrentWave());

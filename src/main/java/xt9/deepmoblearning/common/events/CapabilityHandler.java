@@ -21,8 +21,6 @@ import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
  */
 @Mod.EventBusSubscriber
 public class CapabilityHandler {
-
-
     @SubscribeEvent
     @SuppressWarnings("unused")
     public static void attachCapability(AttachCapabilitiesEvent<Entity> event) {
@@ -38,13 +36,13 @@ public class CapabilityHandler {
 
         if(!player.world.isRemote) {
             event.getOriginal()
-                .getCapability(PlayerProperties.PLAYER_TRIAL_CAP)
-                .ifPresent(oldCap -> player.getCapability(PlayerProperties.PLAYER_TRIAL_CAP).ifPresent(cap -> cap.copyFrom(oldCap)));
+                .getCapability(PlayerProperties.playerTrialCap)
+                .ifPresent(oldCap -> player.getCapability(PlayerProperties.playerTrialCap).ifPresent(cap -> cap.copyFrom(oldCap)));
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
     public static void onPlayerJoinedWorldClient(EntityJoinWorldEvent event) {
         /* Re-init the player capability when player joins world */
         if(event.getEntity() instanceof EntityPlayerSP) {

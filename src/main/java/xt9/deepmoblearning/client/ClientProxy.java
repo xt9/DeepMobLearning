@@ -8,28 +8,16 @@ import net.minecraft.client.renderer.entity.RenderEnderman;
 import net.minecraft.client.renderer.entity.RenderSlime;
 import net.minecraft.client.renderer.entity.RenderSpider;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearning.client.gui.*;
 import xt9.deepmoblearning.client.particle.ParticleGlitch;
 import xt9.deepmoblearning.client.particle.ParticleScalableSmoke;
 import xt9.deepmoblearning.client.renders.*;
 import xt9.deepmoblearning.common.capabilities.PlayerProperties;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
-import xt9.deepmoblearning.common.network.Network;
-import xt9.deepmoblearning.common.network.messages.RequestKeystoneItemMessage;
 import xt9.deepmoblearning.common.proxy.IProxy;
 import xt9.deepmoblearning.common.entity.*;
-import xt9.deepmoblearning.common.items.ItemDeepLearner;
-import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
-import xt9.deepmoblearning.common.tiles.TileEntitySimulationChamber;
-import xt9.deepmoblearning.common.tiles.TileEntityTrialKeystone;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -51,7 +39,7 @@ public class ClientProxy implements IProxy {
 
     @Override
     public PlayerTrial getTrialCapability(EntityPlayer player) {
-        return player.getCapability(PlayerProperties.PLAYER_TRIAL_CAP).orElseGet(PlayerTrial::new);
+        return player.getCapability(PlayerProperties.playerTrialCap).orElseGet(PlayerTrial::new);
     }
 
     @Override

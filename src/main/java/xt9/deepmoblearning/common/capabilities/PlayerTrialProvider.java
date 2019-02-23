@@ -20,7 +20,7 @@ public class PlayerTrialProvider implements ICapabilitySerializable<NBTTagCompou
     @Override
     @SuppressWarnings("ConstantConditions")
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap) {
-        if (cap == PlayerProperties.PLAYER_TRIAL_CAP) {
+        if (cap == PlayerProperties.playerTrialCap) {
             return LazyOptional.of(() -> (T) playerTrial);
         }
         return LazyOptional.empty();
