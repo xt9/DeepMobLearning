@@ -5,8 +5,8 @@
   "sortnum": 0,
   "pages": [
     {
-      "type": "crafting",
-      "recipe": "deepmoblearning:recipe5_trial_key",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:trial_key",
       "text": "This little guy is what starts a $(l:2_trials/1_trials)Trial$(), but first you need to $(item)Attune$() it.$(br2)Hover over the $(item)Key$() to see what $(l:0_introduction/2_data_models)Data Models$() you can use to attune it with. More may be added in the future."
     },
     {

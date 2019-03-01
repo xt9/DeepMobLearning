@@ -10,7 +10,7 @@
     "S": { "item": "minecraft:stone", "data": 0 },
     "G": { "item": "minecraft:gold_ingot", "data": 0 },
     "R": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 },
-    "C": { "item": "minecraft:dye", "data": 6 }
+    "C": { "type": "forge:ore_dict", "ore": "gemLapis" }
   },
   "result": {
     "item": "deepmoblearning:data_model_blank",

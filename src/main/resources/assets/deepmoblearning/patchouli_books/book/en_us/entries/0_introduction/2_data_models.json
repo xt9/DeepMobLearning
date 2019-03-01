@@ -5,8 +5,8 @@
   "sortnum": 2,
   "pages": [
     {
-      "type": "crafting",
-      "recipe": "deepmoblearning:data_model/data_model_blank",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_blank",
       "text": "You can craft a $(item)Blank Data Model$() with some of that$(br)$(l:0_introduction/0_introduction#sooted_redstone)Soot-covered Redstone$() you made earlier."
     },
     {
@@ -20,71 +20,80 @@
       "text": "$(item)Data Models$() are split into $(item)Types$() depending on their $(item)Habitat$().$(br2)The basic $(item)Habitats$() are: $(a)Overworldian$(), $(c)Hellish$() and $(d)Extraterrestrial$().$(br2)The type of the $(item)Data Model$() will determine what kind of $(l:1_machines/1_matter#living)Living Matter$() and $(l:1_machines/1_matter#pristine)Pristine Matter$() the $(l:1_machines/0_simulation_chamber)Simulation Chamber$() will produce."
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_zombie",
-      "recipe2": "deepmoblearning:data_model/data_model_skeleton"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_zombie",
+      "recipe2": "deepmoblearning:data_model_skeleton",
+      "title": "Zombie",
+      "title2": "Skeleton"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_creeper",
-      "recipe2": "deepmoblearning:data_model/data_model_spider"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_creeper",
+      "recipe2": "deepmoblearning:data_model_spider",
+      "title": "Creeper",
+      "title2": "Spider"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_slime",
-      "recipe2": "deepmoblearning:data_model/data_model_witch"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_slime",
+      "recipe2": "deepmoblearning:data_model_witch",
+      "title": "Slime",
+      "title2": "Witch"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_blaze",
-      "recipe2": "deepmoblearning:data_model/data_model_ghast"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_blaze",
+      "recipe2": "deepmoblearning:data_model_ghast",
+      "title": "Blaze",
+      "title2": "Ghast"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_wither_skeleton",
-      "recipe2": "deepmoblearning:data_model/data_model_enderman"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_wither_skeleton",
+      "recipe2": "deepmoblearning:data_model_enderman",
+      "title": "Wither Skeleton",
+      "title2": "Enderman"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_wither",
-      "recipe2": "deepmoblearning:data_model/data_model_dragon"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_wither",
+      "recipe2": "deepmoblearning:data_model_dragon",
+      "title": "Wither",
+      "title2": "Dragon"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_shulker",
-      "recipe2": "deepmoblearning:data_model/data_model_guardian"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_shulker",
+      "recipe2": "deepmoblearning:data_model_guardian",
+      "title": "Shulker",
+      "title2": "Guardian"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_thermal_elemental",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_thermal_elemental",
+      "title": "Thermal Elemental",
       "flag": "mod:thermalfoundation"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_twilight_A_forest",
-      "recipe2": "deepmoblearning:data_model/data_model_twilight_B_swamp",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_twilight_forest",
+      "recipe2": "deepmoblearning:data_model_twilight_swamp",
+      "title": "Twilight Forest",
+      "title2": "Twilight Swamp",
       "flag": "mod:twilightforest"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_twilight_C_darkwood",
-      "recipe2": "deepmoblearning:data_model/data_model_twilight_D_glacier",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_twilight_darkwood",
+      "recipe2": "deepmoblearning:data_model_twilight_glacier",
+      "title": "Twilight Darkwood",
+      "title2": "Twilight Glacier",
       "flag": "mod:twilightforest"
     },
     {
-      "type": "crafting",
-      "title": " ",
-      "recipe": "deepmoblearning:data_model/data_model_tinkers_slime",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_tinker_slime",
+      "title": "Blue Slime",
       "flag": "mod:tconstruct"
     }
   ]

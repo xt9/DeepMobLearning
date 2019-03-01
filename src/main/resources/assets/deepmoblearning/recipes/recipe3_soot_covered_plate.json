@@ -1,13 +1,11 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "OO",
-    "OC"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "type": "forge:ore_dict", "ore": "obsidian" },
+    { "type": "forge:ore_dict", "ore": "obsidian" },
+    { "type": "forge:ore_dict", "ore": "obsidian" },
+    { "item": "deepmoblearning:soot_covered_redstone", "data": 0 }
   ],
-  "key": {
-    "O": { "item": "minecraft:obsidian", "data": 0 },
-    "C": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 }
-  },
   "result": {
     "item": "deepmoblearning:soot_covered_plate",
     "count": 8

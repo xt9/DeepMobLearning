@@ -7,10 +7,10 @@
   ],
   "key": {
     "M": { "item": "deepmoblearning:machine_casing", "data": 0 },
-    "P": { "item": "minecraft:ender_pearl", "data": 0 },
+    "P": { "type": "forge:ore_dict", "ore": "enderpearl" },
     "G": { "item": "minecraft:glass_pane", "data": 0 },
     "C": { "item": "minecraft:comparator", "data": 0 },
-    "D": { "item": "minecraft:dye", "data": 6 }
+    "D": { "type": "forge:ore_dict", "ore": "gemLapis" }
   },
   "result": {
     "item": "deepmoblearning:simulation_chamber",

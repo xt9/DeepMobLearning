@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -21,9 +22,10 @@ import xt9.deepmoblearning.common.Registry;
 import xt9.deepmoblearning.common.capabilities.PlayerTrial;
 import xt9.deepmoblearning.common.config.Config;
 import xt9.deepmoblearning.common.network.*;
+import xt9.deepmoblearning.plugins.patchouli.Module;
 
 @Mod(modid = DeepConstants.MODID, version = DeepConstants.VERSION, useMetadata = true, guiFactory = "xt9.deepmoblearning.client.gui.config.GuiFactory",
-    dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct;after:patchouli")
+    dependencies = "after:jei;after:thermalfoundation;after:twilightforest;after:tconstruct;after:patchouli;after:crafttweaker")
 @Mod.EventBusSubscriber
 public class DeepMobLearning {
     private int networkID = 0;
@@ -84,7 +86,20 @@ public class DeepMobLearning {
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
         proxy.init();
+
+        if(DeepConstants.MOD_PATCHOULI_LOADED) {
+            Module.init();
+        }
     }
+
+    @Mod.EventHandler
+    public void init(FMLPostInitializationEvent event) {
+        if(DeepConstants.MOD_PATCHOULI_LOADED) {
+            Module.postInit();
+        }
+    }
+
+
 
     @Mod.EventHandler
     public void load(FMLInitializationEvent event) {

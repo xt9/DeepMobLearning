@@ -7,7 +7,7 @@
   ],
   "key": {
     "P": { "item": "deepmoblearning:soot_covered_plate", "data": 0 },
-    "I": { "item": "minecraft:iron_ingot", "data": 0 },
+    "I": { "type": "forge:ore_dict", "ore": "ingotIron" },
     "C": { "item": "deepmoblearning:soot_covered_redstone", "data": 0 }
   },
   "result": {

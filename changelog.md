@@ -1,5 +1,11 @@
 # 1.12.2
 
+### 2.3.0
+- ALTERED some recipes to have less tedium, may affect pack makers if you have not replaced any of the default recipes.
+- Added Patchouli template processor for reverse recipe lookup. Will be able to grab recipes for DML items that Crafttweaker might have altered, and will ask the user to consult JEI if can't find a crafting table recipe.
+- Fixed some typos in the Patchouli manual.
+- Added Oredicts to recipes where they were missing.
+
 ### 2.2.0
 - Removed GuideAPI guide
 - Added Patchouli guide (Soft dependency)

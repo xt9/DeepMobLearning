@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 def mcVersion = "1.12.2"
 def modMajor = "2"
-def modMinor = "2"
+def modMinor = "3"
 def modPatch = "0"
 
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
@@ -74,7 +74,7 @@ dependencies {
     // at runtime, use the full JEI jar
     runtime "mezz.jei:jei_${mcVersion}:4.10.0.201"
 
-    compile "vazkii.patchouli:Patchouli:1.0-14.68"
+    compile "vazkii.patchouli:Patchouli:1.0-18.91"
     compile "info.amerifrance.guideapi:Guide-API:1.12-2.1.5-60"
 
     compile "blood-magic:BloodMagic-1.12.2:2.2.12:97"

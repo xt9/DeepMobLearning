@@ -9,8 +9,8 @@
       "text": "Before you can start reaping the rewards you will need to collect some $(item)Data$() about a mob, the handheld device that makes that possible is called the $(item)Deep Learner$().$(br2)The $(item)Deep Learner$() is a device that can detect whenever you deliver mortal harm to a mob."
     },
     {
-      "type": "crafting",
-      "recipe": "deepmoblearning:recipe1_deep_learner",
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:deep_learner",
       "text": "It can turn your encounter with that mob into $(item)Data$() if you have a $(l:0_introduction/2_data_models)Data model$() attached to the $(item)Deep Learner$().$(br2)The $(item)Deep Learner$() Can have 4 attached $(l:0_introduction/2_data_models)Data Models$() at any given time."
     },
     {

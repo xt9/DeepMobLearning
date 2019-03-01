@@ -6,7 +6,7 @@
     " NN"
   ],
   "key": {
-    "E": { "item": "minecraft:ender_pearl", "data": 0 },
+    "E": { "type": "forge:ore_dict", "ore": "enderpearl" },
     "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
     "N": { "type": "forge:ore_dict", "ore": "nuggetIron" }
   },

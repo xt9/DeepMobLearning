@@ -10,7 +10,7 @@
     "G": { "type": "forge:ore_dict", "ore": "ingotGold" },
     "D": { "type": "forge:ore_dict", "ore": "gemDiamond" },
     "C": { "item": "minecraft:comparator", "data": 0 },
-    "Y": { "item": "minecraft:dye", "data": 11 }
+    "Y": { "type": "forge:ore_dict", "ore": "dyeYellow" }
   },
   "result": {
     "item": "deepmoblearning:extraction_chamber",

@@ -13,15 +13,13 @@
       "item": "deepmoblearning:soot_covered_redstone",
       "title": "Sooting Redstone",
       "anchor": "sooted_redstone",
-      "link_recipe": true,
       "text": "$(item)Soot-covered Redstone$() can be created by crushing some $(item)Redstone$() against a $(item)Block of Coal$().$(br2)This sooty marvel will be required to craft most things this $(item)Mod$() has to offer."
     },
     {
-      "type": "crafting",
-      "recipe": "deepmoblearning:recipe3_soot_covered_plate",
-      "recipe2": "deepmoblearning:recipe2_machine_casing",
-      "anchor": "plates_and_casings",
-      "title": "Plating & Casings"
+      "type": "recipelookup",
+      "recipe": "deepmoblearning:soot_covered_plate",
+      "recipe2": "deepmoblearning:machine_casing",
+      "title2": "Machine Casing"
     }
   ]
 }
