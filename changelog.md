@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.4.1
+- Fixed sided crash with new Patchouli processor.
+
 ### 2.4.0
 - Added support for Matter Overdrive Androids.
 

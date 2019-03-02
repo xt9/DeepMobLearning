@@ -87,14 +87,14 @@ public class DeepMobLearning {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, proxy);
         proxy.init();
 
-        if(DeepConstants.MOD_PATCHOULI_LOADED) {
+        if(DeepConstants.MOD_PATCHOULI_LOADED && event.getSide() == Side.CLIENT) {
             Module.init();
         }
     }
 
     @Mod.EventHandler
-    public void init(FMLPostInitializationEvent event) {
-        if(DeepConstants.MOD_PATCHOULI_LOADED) {
+    public void postInit(FMLPostInitializationEvent event) {
+        if(DeepConstants.MOD_PATCHOULI_LOADED && event.getSide() == Side.CLIENT) {
             Module.postInit();
         }
     }
