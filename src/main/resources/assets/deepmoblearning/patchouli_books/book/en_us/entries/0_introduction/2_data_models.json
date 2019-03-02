@@ -92,6 +92,12 @@
     },
     {
       "type": "recipelookup",
+      "recipe": "deepmoblearning:data_model_mo_android",
+      "title": "Rogue Android",
+      "flag": "mod:matteroverdrive"
+    },
+    {
+      "type": "recipelookup",
       "recipe": "deepmoblearning:data_model_tinker_slime",
       "title": "Blue Slime",
       "flag": "mod:tconstruct"

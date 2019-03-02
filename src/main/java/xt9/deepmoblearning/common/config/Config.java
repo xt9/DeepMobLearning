@@ -102,6 +102,9 @@ public class Config {
         if(DeepConstants.MOD_TCON_LOADED) {
             dataModel.put(MobKey.TINKERSLIME, config.get(dataModel.getName(), MobKey.TINKERSLIME, 256,null, 1, 6666));
         }
+        if(DeepConstants.MOD_MO_LOADED) {
+            dataModel.put(MobKey.MO_ANDROID, config.get(dataModel.getName(), MobKey.MO_ANDROID, 256,null, 1, 6666));
+        }
     }
 
     private static void initDataModelMobs() {
@@ -135,6 +138,9 @@ public class Config {
         }
         if(DeepConstants.MOD_TCON_LOADED) {
             dataModelMobNames.put(MobKey.TINKERSLIME, new Property(MobKey.TINKERSLIME, config.getStringList(MobKey.TINKERSLIME, dataModelMobNames.getName(), DeepConstants.MOBS.TINKERSLIME, "Tinker construct slime"), Property.Type.STRING));
+        }
+        if(DeepConstants.MOD_MO_LOADED) {
+            dataModelMobNames.put(MobKey.MO_ANDROID, new Property(MobKey.MO_ANDROID, config.getStringList(MobKey.MO_ANDROID, dataModelMobNames.getName(), DeepConstants.MOBS.MOAndroid, "Matter Overdrive Androids"), Property.Type.STRING));
         }
     }
 
@@ -196,6 +202,10 @@ public class Config {
             pristineOutputs.put(MobKey.TWILIGHTSWAMP, new Property(MobKey.TWILIGHTSWAMP, config.getStringList(MobKey.TWILIGHTSWAMP, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTSWAMP, "Twilight Swamp creatures"), Property.Type.STRING));
             pristineOutputs.put(MobKey.TWILIGHTDARKWOOD, new Property(MobKey.TWILIGHTDARKWOOD, config.getStringList(MobKey.TWILIGHTDARKWOOD, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTDARKWOOD, "Twilight Darkwood creatures"), Property.Type.STRING));
             pristineOutputs.put(MobKey.TWILIGHTGLACIER, new Property(MobKey.TWILIGHTGLACIER, config.getStringList(MobKey.TWILIGHTGLACIER, pristineOutputs.getName(), DeepConstants.LOOT.TWILIGHTGLACIER, "Twilight Glacier creatures"), Property.Type.STRING));
+        }
+
+        if(DeepConstants.MOD_MO_LOADED) {
+            pristineOutputs.put(MobKey.MO_ANDROID, new Property(MobKey.MO_ANDROID, config.getStringList(MobKey.MO_ANDROID, pristineOutputs.getName(), DeepConstants.LOOT.MOAndroid, "Matter Overdrive Androids"), Property.Type.STRING));
         }
     }
 

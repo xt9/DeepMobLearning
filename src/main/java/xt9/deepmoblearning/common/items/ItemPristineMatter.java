@@ -150,4 +150,10 @@ public class ItemPristineMatter extends ItemBase {
             super("pristine_matter_tinker_slime", MobKey.TINKERSLIME);
         }
     }
+
+    public static class MOAndroid extends ItemPristineMatter {
+        public MOAndroid() {
+            super("pristine_matter_mo_android", MobKey.MO_ANDROID);
+        }
+    }
 }

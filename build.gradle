@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 def mcVersion = "1.12.2"
 def modMajor = "2"
-def modMinor = "3"
+def modMinor = "4"
 def modPatch = "0"
 
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
@@ -79,6 +79,8 @@ dependencies {
 
     compile "blood-magic:BloodMagic-1.12.2:2.2.12:97"
     compile "deep-mob-learning-blood-magic-addon:deepmoblearningbm-1.12.2:0.9.1:universal"
+
+    compile "matteroverdrive:MatterOverdrive-1.12.2:release:universal"
 
     compile "cofhcore:CoFHCore-1.12.2:4.6.1.22:universal"
     compile "thermal-foundation:ThermalFoundation-1.12.2:2.6.1.22:universal"

@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.4.0
+- Added support for Matter Overdrive Androids.
+
 ### 2.3.0
 - ALTERED some recipes to have less tedium, may affect pack makers if you have not replaced any of the default recipes.
 - Added Patchouli template processor for reverse recipe lookup. Will be able to grab recipes for DML items that Crafttweaker might have altered, and will ask the user to consult JEI if can't find a crafting table recipe.

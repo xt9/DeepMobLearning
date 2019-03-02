@@ -25,4 +25,5 @@ public class MobKey {
     public static final String TWILIGHTDARKWOOD = "twilightdarkwood";
     public static final String TWILIGHTGLACIER = "twilightglacier";
     public static final String TINKERSLIME = "tinkerslime";
+    public static final String MO_ANDROID = "mo_android";
 }

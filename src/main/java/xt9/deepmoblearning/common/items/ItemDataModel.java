@@ -270,4 +270,15 @@ public class ItemDataModel extends ItemBase {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
+
+    public static class MOAndroid extends ItemDataModel {
+        public MOAndroid() {
+            super("data_model_mo_android", MobKey.MO_ANDROID);
+        }
+
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+            super.addInformation(stack, worldIn, list, flagIn);
+        }
+    }
 }

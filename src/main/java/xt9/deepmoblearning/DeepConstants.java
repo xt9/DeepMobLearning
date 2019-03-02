@@ -1,5 +1,6 @@
 package xt9.deepmoblearning;
 
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.Loader;
 
 /**
@@ -33,6 +34,7 @@ public class DeepConstants {
     public static final boolean MOD_TWILIGHT_LOADED = Loader.isModLoaded("twilightforest");
     public static final boolean MOD_TCON_LOADED = Loader.isModLoaded("tconstruct");
     public static final boolean MOD_PATCHOULI_LOADED = Loader.isModLoaded("patchouli");
+    public static final boolean MOD_MO_LOADED = Loader.isModLoaded("matteroverdrive");
 
     // NBT references
     public static final String NBT_STRING_AFFIX_CONNECTION = DeepConstants.MODID + ":mob_type";
@@ -63,6 +65,17 @@ public class DeepConstants {
 
         public static final String[] GHAST = {
             "minecraft:ghast_tear,8,0"
+        };
+
+        public static final String[] GUARDIAN = {
+            "minecraft:prismarine_shard,32,0",
+            "minecraft:prismarine_crystals,32,0",
+            "minecraft:fish,64,0"
+        };
+
+        public static final String[] MOAndroid = {
+            "matteroverdrive:energy_pack,6,0",
+            "matteroverdrive:tritanium_ingot,4,0"
         };
 
         public static final String[] SKELETON = {
@@ -160,12 +173,6 @@ public class DeepConstants {
             "minecraft:shulker_shell,18,0",
             "minecraft:diamond,2,0"
         };
-
-        public static final String[] GUARDIAN = {
-            "minecraft:prismarine_shard,32,0",
-            "minecraft:prismarine_crystals,32,0",
-            "minecraft:fish,64,0"
-        };
     }
 
     public static final class TRIAL_REWARD {
@@ -218,6 +225,11 @@ public class DeepConstants {
 
         public static final String[] GHAST = {
                 "minecraft:ghast"
+        };
+
+        public static final String[] MOAndroid = {
+            "matteroverdrive:ranged_rogue_android",
+            "matteroverdrive:rogue_android"
         };
 
         public static final String[] SKELETON = {

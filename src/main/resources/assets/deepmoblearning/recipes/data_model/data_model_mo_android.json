@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    [
+      { "item": "deepmoblearning:data_model_blank", "data": 0 }
+    ],
+    [
+      { "item": "matteroverdrive:rogue_android_part", "data": 0 },
+      { "item": "matteroverdrive:rogue_android_part", "data": 1 },
+      { "item": "matteroverdrive:rogue_android_part", "data": 2 },
+      { "item": "matteroverdrive:rogue_android_part", "data": 3 }
+    ]
+  ],
+  "result": {
+    "item": "deepmoblearning:data_model_mo_android",
+    "count": 1
+  }
+}
