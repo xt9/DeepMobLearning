@@ -243,7 +243,7 @@ public class MobMetaFactory {
             }
         }
 
-        if(DeepConstants.MOD_TWILIGHT_LOADED && key.equals(MobKey.MO_ANDROID)) {
+        if(key.equals(MobKey.MO_ANDROID)) {
             meta = new MOAndroidMeta(MobKey.MO_ANDROID, "Rogue Android", "Rogue Androids", 0, 33, 4, 8, Registry.livingMatterOverworldian, Registry.pristineMatterMOAndroid);
         }
 

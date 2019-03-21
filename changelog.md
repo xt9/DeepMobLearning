@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.4.2
+- Fixed an issue where the Matter Overdrive data model only worked if Twilight forest was loaded.
+
 ### 2.4.1
 - Fixed sided crash with new Patchouli processor.
 
