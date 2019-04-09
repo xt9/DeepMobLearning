@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.5.0
+- Added NBT support for Trial Rewards & Pristine Outputs(Loot Fabricator)
+
 ### 2.4.2
 - Fixed an issue where the Matter Overdrive data model only worked if Twilight forest was loaded.
 

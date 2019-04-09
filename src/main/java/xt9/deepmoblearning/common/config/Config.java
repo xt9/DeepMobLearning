@@ -2,6 +2,9 @@ package xt9.deepmoblearning.common.config;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
@@ -11,6 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
+import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 
 import java.io.File;
 
@@ -170,7 +174,7 @@ public class Config {
     }
 
     private static void initPristineOutputs() {
-        pristineOutputs.setComment("Entries for Loot fabricator outputs from the different pristine items.\nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
+        pristineOutputs.setComment("Entries for Loot fabricator outputs from the different pristine items.\nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.\nOptionally supports NBT tags, example:\ndeepmoblearning:glitch_infused_sword,1,0,{display:{Name:\"Not a sword really\"}}");
         config.setCategoryComment(pristineOutputs.getName(), pristineOutputs.getComment());
 
         pristineOutputs.put(MobKey.BLAZE, new Property(MobKey.BLAZE, config.getStringList(MobKey.BLAZE, pristineOutputs.getName(), DeepConstants.LOOT.BLAZE, "Blaze"), Property.Type.STRING));
@@ -210,7 +214,7 @@ public class Config {
     }
 
     private static void initTrialRewards() {
-        trialRewards.setComment("Rewards for the Max tier of trials.\nCAUTION: Max 3 items per list, anything after that will be trimmed. \nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.");
+        trialRewards.setComment("Rewards for the Max tier of trials.\nCAUTION: Max 3 items per list, anything after that will be trimmed. \nInput format \"minecraft:coal,64,0\"\nWhere minecraft:coal is the registryName, 64 is the amount and 0 is the damagevalue/meta. \",\" is the delimiter.\nOptionally supports NBT tags, example:\ndeepmoblearning:glitch_infused_sword,1,0,{display:{Name:\"Not a sword really\"}}");
         config.setCategoryComment(trialRewards.getName(), trialRewards.getComment());
 
         trialRewards.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, trialRewards.getName(), DeepConstants.TRIAL_REWARD.ZOMBIE, "Zombie Trial Reward"), Property.Type.STRING));
@@ -280,6 +284,7 @@ public class Config {
             String itemName = vals[0];
             int amount;
             int meta;
+            NBTTagCompound nbt = null;
 
             try {
                 amount = Integer.parseInt(vals[1]);
@@ -289,8 +294,26 @@ public class Config {
                 return ItemStack.EMPTY;
             }
 
+            if(vals.length > 3) {
+                StringBuilder nbtString = new StringBuilder();
+                for (int i = 3; i < vals.length; i++) {
+                    nbtString.append(vals[i]);
+                    nbtString.append(i == (vals.length - 1) ? "" : ",");
+                }
+                try {
+                    nbt = JsonToNBT.getTagFromJson(nbtString.toString());
+                } catch (NBTException e) {
+                    e.printStackTrace();
+                    return ItemStack.EMPTY;
+                }
+            }
+
             Item item = Item.getByNameOrId(itemName);
-            if(item != null) {
+            if(item != null && nbt != null) {
+                ItemStack nbtStack = new ItemStack(item, amount, meta);
+                nbtStack.setTagCompound(nbt);
+                return nbtStack;
+            } else if(item != null) {
                 return new ItemStack(item, amount, meta);
             } else {
                 return ItemStack.EMPTY;
