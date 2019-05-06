@@ -17,9 +17,11 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.blocks.BlockTrialKeystone;
@@ -41,10 +43,7 @@ import xt9.deepmoblearning.common.util.TrialKey;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -145,14 +144,16 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     private void participantBouncer() {
-        participants.forEach(p -> {
-            double distance = BlockDistance.getBlockDistance(this.getPos(), p.getPosition());
+        Iterator<EntityPlayerMP> it = participants.iterator();
+        while (it.hasNext()) {
+            EntityPlayerMP player = it.next();
+            double distance = BlockDistance.getBlockDistance(this.getPos(), player.getPosition());
             if (distance > ARENA_RADIUS) {
-                participants.remove(p);
-                clearPlayerCapability(p);
-                PlayerHelper.sendMessage(p, new TextComponentString("You left the Trial"));
+                clearPlayerCapability(player);
+                PlayerHelper.sendMessage(player, new TextComponentString("You left the Trial"));
+                it.remove();
             }
-        });
+        }
     }
 
     private void runAffixes() {
@@ -436,8 +437,13 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
+    }
+
+    @Override
     public boolean hasCapability(Capability capability, @Nullable EnumFacing facing) {
-        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == null || super.hasCapability(capability, facing);
     }
 
     @Nullable

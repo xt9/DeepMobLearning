@@ -1,5 +1,11 @@
 # 1.12.2
 
+### 2.5.1
+- [#22] Fixed a crash caused by attaching a Hopper to the Trial Keystone
+- [#24] Fixed a crash related to leaving the trial in rare cases
+- GUIs will no longer open when the machines are right clicked with a wrench.
+- [#19] Crescent Hammer does no longer void machine contents.
+
 ### 2.5.0
 - Added NBT support for Trial Rewards & Pristine Outputs(Loot Fabricator)
 

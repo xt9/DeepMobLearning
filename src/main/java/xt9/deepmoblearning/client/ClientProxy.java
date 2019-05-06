@@ -68,6 +68,10 @@ public class ClientProxy extends CommonProxy {
         EntityEquipmentSlot slot = EntityEquipmentSlot.values()[ID/100];
         ItemStack item = player.getItemStackFromSlot(slot);
 
+        if(item.getItem().getToolClasses(item).contains("wrench")) {
+            return null;
+        }
+
         if(ID % 100 == DeepConstants.ITEM_DEEP_LEARNER_GUI_ID && item.getItem() instanceof ItemDeepLearner) {
             return new DeepLearnerGui(player.inventory, world, slot, item);
         } else {
