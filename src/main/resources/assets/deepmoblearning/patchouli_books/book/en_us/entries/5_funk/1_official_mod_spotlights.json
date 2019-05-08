@@ -1,0 +1,12 @@
+{
+  "name": "Official Mod Spotlights",
+  "icon": "minecraft:noteblock",
+  "category": "5_funk",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "text",
+      "text": "During the development of the Mod and after its release I have done a few spotlight/update videos, you can find all of them in this $(l:https://www.youtube.com/watch?v=-C5T60iSjyM&list=PLJB-Y_FDFQZ5EKkzc6IrDRv9sr1thJ27M)Playlist$()$(br2)$(item)SystemCollapse$() also covered a lot of the mods progression in one of his SkyFactory 4 episodes and you can find that $(l:https://www.youtube.com/watch?v=urmzj-jwUTg)here$()."
+    }
+  ]
+}

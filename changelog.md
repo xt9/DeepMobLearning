@@ -5,6 +5,9 @@
 - [#24] Fixed a crash related to leaving the trial in rare cases
 - GUIs will no longer open when the machines are right clicked with a wrench.
 - [#19] Crescent Hammer does no longer void machine contents.
+- Added a Patchouli Category/Chapters for project links for the Project, Source, Issue Tracker & Discord (And some self plugs like my patreon page)
+- From this version forward Patchouli will be a Hard dependency on Curseforge, but the mod can still be played without it.
+(I have been getting a lot of "getting started" types of questions and this should alleviate that)
 
 ### 2.5.0
 - Added NBT support for Trial Rewards & Pristine Outputs(Loot Fabricator)
