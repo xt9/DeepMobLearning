@@ -58,7 +58,10 @@ public class ItemGlitchArmor extends ItemArmor {
         list.add("§r(Bonuses are disabled during Trials)§r");
         list.add("§6  1. " + PRISTINE_SET_CHANCE + "% chance to drop " + PRISTINE_SET_NUMBER_OF_DROPS + " Pristine Matter§r");
         list.add("§6     when a Data Model gains Data.§r");
-        list.add("§6  2. Flight & Immunity against fall damage§r");
+
+        if(Config.isGlitchArmorCreativeFlightEnabled.getBoolean()) {
+            list.add("§6  2. Flight & Immunity against fall damage§r");
+        }
     }
 
     public static boolean isSetEquippedByPlayer(EntityPlayer player) {

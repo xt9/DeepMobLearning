@@ -29,6 +29,7 @@ public class DeepGuiConfig extends GuiConfig {
 
         elements.add(new ConfigElement(Config.rfCostExtractionChamber));
         elements.add(new ConfigElement(Config.isSootedRedstoneCraftingEnabled));
+        elements.add(new ConfigElement(Config.isGlitchArmorCreativeFlightEnabled));
         elements.add(new ConfigElement(Config.guiOverlaySide));
         elements.add(new ConfigElement(Config.guiOverlayVerticalSpacing));
         elements.add(new ConfigElement(Config.guiOverlayHorizontalSpacing));

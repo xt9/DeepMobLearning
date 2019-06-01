@@ -1,16 +1,10 @@
 package xt9.deepmoblearning.common.entity;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.EnderTeleportEvent;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by xt9 on 2018-04-05.
@@ -22,8 +16,8 @@ public class EntityTrialEnderman extends EntityEnderman {
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.16D);
-        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.5D);
+        getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+        getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
     }
 
     protected void initEntityAI() {
@@ -33,45 +27,15 @@ public class EntityTrialEnderman extends EntityEnderman {
         tasks.addTask(8, new EntityAILookIdle(this));
         targetTasks.addTask(1, new AIFindPlayer(this));
         targetTasks.addTask(2, new EntityAIHurtByTarget(this, false, new Class[0]));
+    }
 
+    @Override
+    protected void updateAITasks() {
+        // Disables enderman taking damage from water.
     }
 
     private boolean shouldAttackPlayer() {
         return true;
-    }
-
-    @Override
-    protected boolean teleportRandomly() {
-        double x = posX + ThreadLocalRandom.current().nextInt(-5, 5);
-        double y = posY;
-        double z = posX + ThreadLocalRandom.current().nextInt(-5, 5);
-        return teleportTo(x, y, z);
-    }
-
-    @Override
-    protected boolean teleportToEntity(Entity entity) {
-        return teleportRandomly();
-    }
-
-    @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
-        super.attackEntityFrom(source, amount);
-        return true;
-    }
-
-    private boolean teleportTo(double x, double y, double z) {
-        EnderTeleportEvent event = new EnderTeleportEvent(this, x, y, z, 0.0F);
-        if (MinecraftForge.EVENT_BUS.post(event)) {
-            return false;
-        } else {
-            boolean flag = attemptTeleport(event.getTargetX(), event.getTargetY(), event.getTargetZ());
-            if (flag) {
-                world.playSound(null, prevPosX, prevPosY, prevPosZ, SoundEvents.ENTITY_ENDERMEN_TELEPORT, getSoundCategory(), 1.0F, 1.0F);
-                playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 1.0F, 1.0F);
-            }
-
-            return flag;
-        }
     }
 
     static class AIFindPlayer extends EntityAINearestAttackableTarget<EntityPlayer> {

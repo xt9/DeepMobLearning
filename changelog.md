@@ -1,5 +1,11 @@
 # 1.12.2
 
+### 2.5.2
+- [#30] Added a config option to disable the creative flight on the Glitch armor.
+- [#33] Reworked how enderman teleports are disabled during trials. (I apologize for the frustration this may have caused, I know they would teleport around in SF4)
+- [#33] Endermen that is spawned from the trial no longer take damage from being wet.
+- Added a link to Vallens Bit-by-bit to the mod spotlights chapter in Patchouli.
+
 ### 2.5.1
 - [#22] Fixed a crash caused by attaching a Hopper to the Trial Keystone
 - [#24] Fixed a crash related to leaving the trial in rare cases

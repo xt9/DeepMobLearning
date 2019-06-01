@@ -34,6 +34,7 @@ public class Config {
 
     public static Property rfCostExtractionChamber;
     public static Property isSootedRedstoneCraftingEnabled;
+    public static Property isGlitchArmorCreativeFlightEnabled;
 
     public static Property guiOverlaySide;
     public static Property guiOverlayVerticalSpacing;
@@ -54,6 +55,7 @@ public class Config {
 
         rfCostExtractionChamber = config.get(Configuration.CATEGORY_GENERAL, "rfCostLootFabricator", 256, "RF/t cost for the Loot Fabricator, roof is 18k RF/t");
         isSootedRedstoneCraftingEnabled = config.get(Configuration.CATEGORY_GENERAL, "isSootedRedstoneCraftingEnabled", true, "Enable the Crafting of sooted redstone on Vanilla blocks of coal");
+        isGlitchArmorCreativeFlightEnabled = config.get(Configuration.CATEGORY_GENERAL, "isGlitchArmorCreativeFlightEnabled", true, "Set to false to disable the creative flight portion of the Glitch armorset.");
 
         guiOverlaySide = config.get(Configuration.CATEGORY_GENERAL, "guiOverlaySide", "topleft", "Which position on the screen the Deep learner gui will appear on. (bottomleft will clash with the chat) [values: topleft/topright/bottomleft/bottomright]");
         guiOverlayVerticalSpacing = config.get(Configuration.CATEGORY_GENERAL, "guiOverlayVerticalSpacing", 0, "Vertical spacing from the selected corner, values can be both positive and negative");

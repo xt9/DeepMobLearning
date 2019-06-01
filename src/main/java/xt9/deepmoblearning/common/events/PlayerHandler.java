@@ -37,20 +37,22 @@ public class PlayerHandler {
     public static void playerTickUpdate(TickEvent.PlayerTickEvent event) {
         PlayerCapabilities cap = event.player.capabilities;
 
-        if(!event.player.world.isRemote) {
-            if(!cap.allowFlying && ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
-                cap.allowFlying = true;
-                event.player.sendPlayerAbilities();
-                PlayerHandler.FLYING_PLAYERS.add(event.player.getUniqueID());
-            }
-
-            if(FLYING_PLAYERS.contains(event.player.getUniqueID()) && !ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
-                if(cap.allowFlying && !event.player.isSpectator() && !event.player.isCreative()) {
-                    cap.allowFlying = false;
-                    cap.isFlying = false;
+        if(Config.isGlitchArmorCreativeFlightEnabled.getBoolean()) {
+            if(!event.player.world.isRemote) {
+                if(!cap.allowFlying && ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
+                    cap.allowFlying = true;
                     event.player.sendPlayerAbilities();
+                    PlayerHandler.FLYING_PLAYERS.add(event.player.getUniqueID());
                 }
-                FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.player.getUniqueID().toString()));
+
+                if(FLYING_PLAYERS.contains(event.player.getUniqueID()) && !ItemGlitchArmor.isSetEquippedByPlayer(event.player)) {
+                    if(cap.allowFlying && !event.player.isSpectator() && !event.player.isCreative()) {
+                        cap.allowFlying = false;
+                        cap.isFlying = false;
+                        event.player.sendPlayerAbilities();
+                    }
+                    FLYING_PLAYERS.removeIf(uuid -> uuid.toString().equals(event.player.getUniqueID().toString()));
+                }
             }
         }
     }
