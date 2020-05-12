@@ -176,7 +176,7 @@ public class TrialOverlay extends GuiScreen {
         renderScaledStringWithColor(scale, scaledX, y + 32, "Opponents", Color.BRIGHT_LIME);
 
         int toKill = clientCapability.getWaveMobTotal() - clientCapability.getDefated();
-        if(toKill== 0) {
+        if(toKill <= 0) {
             drawString(fontRender, "Wave cleared", x + 1, y + 46, Color.WHITE);
         } else {
             drawString(fontRender, toKill + " to go", x + 1, y + 46, Color.WHITE);
