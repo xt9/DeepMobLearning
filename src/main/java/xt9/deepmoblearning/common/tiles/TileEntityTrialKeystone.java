@@ -101,7 +101,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
                         if(tickCount % (DeepConstants.TICKS_TO_SECOND * trialData.getSpawnDelay()) == 0) {
                             spawnTrialMob();
                         }
-                    } else if(mobsDefeated == waveMobTotal) {
+                    } else if(mobsDefeated >= waveMobTotal) {
                         if(currentWave == (lastWave - 1)) {
                             finishTrial(false, true);
                         } else {
