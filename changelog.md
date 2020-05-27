@@ -1,5 +1,9 @@
 # 1.12.2
 
+### 2.5.3
+- Fixed trial slime localization
+- Fixed sidebar text in Patchouli for the system malfunction chapter
+
 ### 2.5.2
 - [#30] Added a config option to disable the creative flight on the Glitch armor.
 - [#33] Reworked how enderman teleports are disabled during trials. (I apologize for the frustration this may have caused, I know they would teleport around in SF4)
