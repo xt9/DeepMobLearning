@@ -5,8 +5,7 @@
 - Fixed sidebar text in Patchouli for the system malfunction chapter
 - Fixed weather conditions not being reapplied after a Trial if doWeatherCycle is off.
 - Fixed a bug where you could receive more than one data per mob kill (Glitch sword excluded)
-- Fixed trial slime not showing the correct name.
-- Fixed a patchouli entry.
+- Fixed a bug where the trial could not be finished
 - Added MIT license
 
 ### 2.5.2
