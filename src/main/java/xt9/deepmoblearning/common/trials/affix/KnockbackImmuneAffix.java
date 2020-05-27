@@ -29,6 +29,11 @@ public class KnockbackImmuneAffix implements ITrialAffix {
     }
 
     @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
     public String getAffixName() {
         return "Knockback Immunity";
     }

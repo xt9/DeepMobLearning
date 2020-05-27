@@ -11,6 +11,7 @@ public interface ITrialAffix {
     void applyToGlitch(EntityGlitch entity);
     // Run will run every update tick from the Trial Keystone, it's up to the implementing class to stagger this to avoid performance issues.
     void run();
+    void cleanUp();
     String getAffixName();
     String getAffixNameWithFormatting();
 }

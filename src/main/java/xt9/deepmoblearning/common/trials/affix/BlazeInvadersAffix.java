@@ -57,6 +57,11 @@ public class BlazeInvadersAffix implements ITrialAffix {
     }
 
     @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
     public String getAffixName() {
         return "Blaze Invaders";
     }

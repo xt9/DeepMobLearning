@@ -24,6 +24,11 @@ public class SpeedAffix implements ITrialAffix {
     public void run() {}
 
     @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
     public String getAffixName() {
         return "Speed";
     }

@@ -63,6 +63,11 @@ public class RegenPartyAffix implements ITrialAffix {
     }
 
     @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
     public String getAffixName() {
         return "Regen Party";
     }

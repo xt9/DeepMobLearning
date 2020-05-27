@@ -18,6 +18,8 @@ public class ThunderDomeAffix implements ITrialAffix {
     private BlockPos pos;
     private World world;
     private int ticks = 0;
+    private boolean wasRaining;
+    private boolean wasThundering;
 
     public ThunderDomeAffix() {
         this.pos = new BlockPos(0, 0, 0);
@@ -27,6 +29,8 @@ public class ThunderDomeAffix implements ITrialAffix {
     public ThunderDomeAffix(BlockPos pos, World world) {
         this.pos = pos;
         this.world = world;
+        this.wasRaining = world.getWorldInfo().isRaining();
+        this.wasThundering = world.getWorldInfo().isThundering();
     }
 
 
@@ -81,6 +85,15 @@ public class ThunderDomeAffix implements ITrialAffix {
 
             ticks = 0;
         }
+    }
+
+    @Override
+    public void cleanUp() {
+        /* Go back to the initial weather state */
+        WorldInfo info = world.getWorldInfo();
+        info.setCleanWeatherTime(0);
+        info.setRaining(wasRaining);
+        info.setThundering(wasThundering);
     }
 
     @Override

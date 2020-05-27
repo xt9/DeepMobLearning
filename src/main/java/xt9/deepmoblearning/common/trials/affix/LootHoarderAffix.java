@@ -83,6 +83,11 @@ public class LootHoarderAffix implements ITrialAffix {
     }
 
     @Override
+    public void cleanUp() {
+
+    }
+
+    @Override
     public String getAffixName() {
         return "Loot Hoarders";
     }

@@ -18,6 +18,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldInfo;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -101,7 +102,9 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
                         if(tickCount % (DeepConstants.TICKS_TO_SECOND * trialData.getSpawnDelay()) == 0) {
                             spawnTrialMob();
                         }
-                    } else if(mobsDefeated == waveMobTotal) {
+                    }
+
+                    if(mobsDefeated >= waveMobTotal) {
                         if(currentWave == (lastWave - 1)) {
                             finishTrial(false, true);
                         } else {
@@ -159,6 +162,10 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         affixes.forEach(ITrialAffix::run);
     }
 
+    private void affixCleanup() {
+        affixes.forEach(ITrialAffix::cleanUp);
+    }
+
 
     public void startTrial() {
         if(hasTrialKey()) {
@@ -174,6 +181,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
         if (!TrialKey.isAttuned(activeKey)) {
             return;
         }
+
         participants.addAll(PlayerHelper.getPlayersInArea(world, this.getPos(), ARENA_RADIUS, this.getPos().getY(), this.getPos().getY() + 6));
         trialData = TrialFactory.createTrial(TrialKey.getMobKey(activeKey));
         lastWave = TrialRuleset.getMaxWaveFromTier(TrialKey.getTier(activeKey));
@@ -243,6 +251,8 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
     }
 
     public void finishTrial(boolean abort, boolean sendMessages) {
+        affixCleanup();
+
         if(!abort) {
             if(sendMessages) {
                 participants.forEach(p -> PlayerHelper.sendMessageToOverlay(p, "TrialCompleted"));
