@@ -1,6 +1,7 @@
 package xt9.deepmoblearning.common.network;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -41,9 +42,9 @@ public class RequestKeystoneItemMessage implements IMessage {
         @Override
         public IMessage onMessage(RequestKeystoneItemMessage message, MessageContext ctx) {
             World world = FMLCommonHandler.instance().getMinecraftServerInstance().getWorld(message.dimension);
-            TileEntityTrialKeystone te = (TileEntityTrialKeystone) world.getTileEntity(message.pos);
-            if (te != null) {
-                return new UpdateKeystoneItemMessage(te);
+            TileEntity te = world.getTileEntity(message.pos);
+            if (te instanceof TileEntityTrialKeystone) {
+                return new UpdateKeystoneItemMessage((TileEntityTrialKeystone) te);
             } else {
                 return null;
             }
