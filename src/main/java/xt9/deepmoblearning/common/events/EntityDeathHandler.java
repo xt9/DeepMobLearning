@@ -10,7 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -18,8 +17,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.capabilities.IPlayerTrial;
 import xt9.deepmoblearning.common.capabilities.PlayerTrialProvider;
@@ -33,12 +30,17 @@ import xt9.deepmoblearning.common.util.PlayerHelper;
 import xt9.deepmoblearning.common.util.TrialKey;
 import xt9.deepmoblearning.common.util.DataModel;
 
+import java.util.UUID;
+import java.util.stream.Collectors;
+
 
 /**
  * Created by xt9 on 2017-06-11.
  */
 @Mod.EventBusSubscriber
 public class EntityDeathHandler {
+    public static Integer entityUUIDBlacklistCap = 1000;
+    public static NonNullList<UUID> killedEntityUUIDBlacklist = NonNullList.create();
 
     @SubscribeEvent
     public static void dropEvent(LivingDropsEvent event) {
@@ -63,6 +65,10 @@ public class EntityDeathHandler {
 
     @SubscribeEvent
     public static void entityDeath(LivingDeathEvent event) {
+        if(killedEntityUUIDBlacklist.size() >= entityUUIDBlacklistCap) {
+            clearEntityBlacklist();
+        }
+
         if(event.getEntityLiving().getEntityData().hasKey(TileEntityTrialKeystone.NBT_LONG_TILE_POS)) {
             handleTrialMobDeath(event);
         }
@@ -74,6 +80,12 @@ public class EntityDeathHandler {
         if(event.getEntityLiving() instanceof EntityPlayer) {
             handlePlayerDeathDuringTrial(event);
         }
+    }
+
+    private static void clearEntityBlacklist() {
+        UUID lastUUID = killedEntityUUIDBlacklist.get(killedEntityUUIDBlacklist.size() - 1);
+        killedEntityUUIDBlacklist.clear();
+        killedEntityUUIDBlacklist.add(lastUUID);
     }
 
 
@@ -165,7 +177,8 @@ public class EntityDeathHandler {
             if (stack.getItem() instanceof ItemDataModel) {
                 MobMetaData meta = DataModel.getMobMetaData(stack);
 
-                if (meta.entityLivingMatchesMob(event.getEntityLiving())) {
+                /* Only count the kill if the entity has not been killed before */
+                if (meta.entityLivingMatchesMob(event.getEntityLiving()) && !isEntityBlacklisted(event.getEntityLiving())) {
                     DataModel.increaseMobKillCount(stack, player);
                     result.add(stack);
                 }
@@ -173,7 +186,12 @@ public class EntityDeathHandler {
             ItemDeepLearner.setContainedItems(deepLearner, deepLearnerItems);
         });
 
+        killedEntityUUIDBlacklist.add(event.getEntityLiving().getUniqueID());
         return result;
+    }
+
+    private static boolean isEntityBlacklisted(EntityLivingBase entityLiving) {
+        return killedEntityUUIDBlacklist.stream().filter(uuid -> uuid.toString().equals(entityLiving.getUniqueID().toString())).collect(Collectors.toList()).size() > 0;
     }
 
     private static void attuneTrialKey(ItemStack trialKey, ItemStack dataModel, LivingDeathEvent event, EntityPlayerMP player) {
