@@ -3,6 +3,11 @@
 ### 2.5.3
 - Fixed trial slime localization
 - Fixed sidebar text in Patchouli for the system malfunction chapter
+- Fixed weather conditions not being reapplied after a Trial if doWeatherCycle is off.
+- Fixed a bug where you could receive more than one data per mob kill (Glitch sword excluded)
+- Fixed trial slime not showing the correct name.
+- Fixed a patchouli entry.
+- Added MIT license
 
 ### 2.5.2
 - [#30] Added a config option to disable the creative flight on the Glitch armor.

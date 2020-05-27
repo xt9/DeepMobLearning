@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 def mcVersion = "1.12.2"
 def modMajor = "2"
 def modMinor = "5"
-def modPatch = "2"
+def modPatch = "3"
 
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
 group = "xt9.deepmoblearning" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
