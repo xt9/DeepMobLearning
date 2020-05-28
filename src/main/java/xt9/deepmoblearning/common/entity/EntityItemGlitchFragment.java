@@ -43,10 +43,6 @@ public class EntityItemGlitchFragment extends EntityItem {
 
             progress++;
             boolean isValidEntities = goldEntities.size() > 0 && lapisEntities.size() > 0 && fragmentEntities.size() > 0;
-            if (!isValidEntities) {
-                progress = 0;
-                return;
-            }
 
             if (world.isRemote) {
                 DeepMobLearning.proxy.spawnSmokeParticle(world,
@@ -59,22 +55,29 @@ public class EntityItemGlitchFragment extends EntityItem {
                     "cyan"
                 );
 
-                // If all valid entities exist, spawn more particles
-                for (int i = 0; i < 3; i++) {
-                    DeepMobLearning.proxy.spawnSmokeParticle(world,
-                        posX + rand.nextDouble(-0.25D, 0.25D),
-                        posY + rand.nextDouble(-0.1D, 0.8D),
-                        posZ + rand.nextDouble(-0.25D, 0.25D),
-                        rand.nextDouble(-0.08, 0.08D),
-                        rand.nextDouble(-0.08D, 0.22D),
-                        rand.nextDouble(-0.08D, 0.08D),
-                        "cyan"
-                    );
+                if(isValidEntities) {
+                    // Increase the amount of particles when all criterias are met
+                    for (int i = 0; i < 3; i++) {
+                        DeepMobLearning.proxy.spawnSmokeParticle(world,
+                            posX + rand.nextDouble(-0.25D, 0.25D),
+                            posY + rand.nextDouble(-0.1D, 0.8D),
+                            posZ + rand.nextDouble(-0.25D, 0.25D),
+                            rand.nextDouble(-0.08, 0.08D),
+                            rand.nextDouble(-0.08D, 0.22D),
+                            rand.nextDouble(-0.08D, 0.08D),
+                            "cyan"
+                        );
+                    }
                 }
             }
 
+            if (!isValidEntities) {
+                progress = 0;
+                return;
+            }
+
             if (!world.isRemote) {
-                if (progress >= 35 && this.getItem().getCount() > 0) {
+                if (progress >= 35) {
                     EntityItem gold = goldEntities.get(goldEntities.size() - 1);
                     EntityItem lapis = lapisEntities.get(lapisEntities.size() - 1);
                     EntityItem fragment = fragmentEntities.get(fragmentEntities.size() - 1);
@@ -83,16 +86,20 @@ public class EntityItemGlitchFragment extends EntityItem {
                     shrink(lapis);
                     shrink(fragment);
 
-                    EntityItem newItem = new EntityItem(world, posX, posY + 0.6D, posZ, new ItemStack(Registry.glitchInfusedIngot, 1));
-                    newItem.motionX = rand.nextDouble(-0.2D, 0.2D);
-                    newItem.motionY = 0;
-                    newItem.motionZ = rand.nextDouble(-0.2D, 0.2D);
-                    newItem.setDefaultPickupDelay();
-
-                    world.spawnEntity(newItem);
+                    createAndSpawnIngot(rand.nextDouble(-0.2D, 0.2D), rand.nextDouble(-0.2D, 0.2D));
                 }
             }
         }
+    }
+
+    private void createAndSpawnIngot(double motionX, double motionZ) {
+        EntityItem newItem = new EntityItem(world, posX, posY + 0.6D, posZ, new ItemStack(Registry.glitchInfusedIngot, 1));
+        newItem.motionX = motionX;
+        newItem.motionY = 0;
+        newItem.motionZ = motionZ;
+        newItem.setDefaultPickupDelay();
+
+        world.spawnEntity(newItem);
     }
 
     private void shrink(EntityItem entityItem) {
@@ -113,7 +120,4 @@ public class EntityItemGlitchFragment extends EntityItem {
     private boolean isStackLapis(ItemStack item) {
         return ItemStack.areItemStacksEqual(item, new ItemStack(Items.DYE, item.getCount(), 4)) && item.getCount() > 0;
     }
-
-
-
 }
