@@ -145,7 +145,6 @@ public class PlayerHandler {
         EntityItem item = new EntityItem(event.getWorld(), vector.x, vector.y + 0.5D, vector.z, new ItemStack(Registry.sootedRedstone, 1));
         item.setDefaultPickupDelay();
 
-
         event.getWorld().spawnEntity(item);
     }
 

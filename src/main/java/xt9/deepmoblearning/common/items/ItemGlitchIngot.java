@@ -21,9 +21,7 @@ public class ItemGlitchIngot extends ItemBase {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        if(Config.isSootedRedstoneCraftingEnabled.getBoolean()) {
-            list.add("Made by stabilizing " + new ItemStack(Registry.glitchFragment).getDisplayName());
-            list.add("more info found in JEI or the Guidebook");
-        }
+        list.add("Made by stabilizing " + new ItemStack(Registry.glitchFragment).getDisplayName());
+        list.add("more info found in JEI or the Guidebook");
     }
 }

@@ -23,11 +23,9 @@ public class ItemGlitchFragment extends ItemBase {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
-        if(Config.isSootedRedstoneCraftingEnabled.getBoolean()) {
-            list.add("Crafted by crushing a " + new ItemStack(Registry.glitchHeart, 1).getDisplayName());
-            list.add("against some §5Obsidian§7 (Left click)");
-            list.add("§rYields 3 fragments per crushed heart");
-        }
+        list.add("Crafted by crushing a " + new ItemStack(Registry.glitchHeart, 1).getDisplayName());
+        list.add("against some §5Obsidian§7 (Left click)");
+        list.add("§rYields 3 fragments per crushed heart");
     }
 
     @Override
