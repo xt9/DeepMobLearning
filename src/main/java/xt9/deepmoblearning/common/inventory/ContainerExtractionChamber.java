@@ -10,6 +10,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.tiles.TileEntityExtractionChamber;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Created by xt9 on 2018-01-07.
@@ -144,7 +145,12 @@ public class ContainerExtractionChamber extends Container {
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player) {
-        return !player.isSpectator();
-    }
+	public boolean canInteractWith(EntityPlayer player) {
+		BlockPos pos = this.tile.getPos();
+		if (this.tile.getWorld().getTileEntity(pos) != this.tile) {
+			return false;
+		} else {
+			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+		}
+	}
 }
