@@ -2,13 +2,11 @@ package xt9.deepmoblearning.common.entity;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import xt9.deepmoblearning.DeepMobLearning;
 import xt9.deepmoblearning.common.Registry;
-import xt9.deepmoblearning.common.items.ItemGlitchIngot;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,6 +16,7 @@ import java.util.stream.Collectors;
  * Created by xt9 on 2018-05-16.
  */
 public class EntityItemGlitchFragment extends EntityItem {
+    private ThreadLocalRandom rand = ThreadLocalRandom.current();
     private long progress = 0;
 
     public EntityItemGlitchFragment(World worldIn) {
@@ -35,7 +34,6 @@ public class EntityItemGlitchFragment extends EntityItem {
         super.onUpdate();
 
         if(isInWater()) {
-            ThreadLocalRandom rand = ThreadLocalRandom.current();
             AxisAlignedBB box = new AxisAlignedBB(posX - 1, posY - 1, posZ - 1, posX + 1, posY + 1, posZ + 1);
             List<EntityItem> goldEntities = world.getEntitiesWithinAABB(EntityItem.class, box).stream().filter((entityItem) -> isStackGold(entityItem.getItem())).collect(Collectors.toList());
             List<EntityItem> lapisEntities = world.getEntitiesWithinAABB(EntityItem.class, box).stream().filter((entityItem) -> isStackLapis(entityItem.getItem())).collect(Collectors.toList());
@@ -45,28 +43,12 @@ public class EntityItemGlitchFragment extends EntityItem {
             boolean isValidEntities = goldEntities.size() > 0 && lapisEntities.size() > 0 && fragmentEntities.size() > 0;
 
             if (world.isRemote) {
-                DeepMobLearning.proxy.spawnSmokeParticle(world,
-                    posX + rand.nextDouble(-0.25D, 0.25D),
-                    posY + rand.nextDouble(-0.1D, 0.1D),
-                    posZ + rand.nextDouble(-0.25D, 0.25D),
-                    rand.nextDouble(-0.08, 0.08D),
-                    rand.nextDouble(-0.08D, 0.22D),
-                    rand.nextDouble(-0.08D, 0.08D),
-                    "cyan"
-                );
+                spawnFragmentParticles();
 
                 if(isValidEntities) {
                     // Increase the amount of particles when all criterias are met
                     for (int i = 0; i < 3; i++) {
-                        DeepMobLearning.proxy.spawnSmokeParticle(world,
-                            posX + rand.nextDouble(-0.25D, 0.25D),
-                            posY + rand.nextDouble(-0.1D, 0.8D),
-                            posZ + rand.nextDouble(-0.25D, 0.25D),
-                            rand.nextDouble(-0.08, 0.08D),
-                            rand.nextDouble(-0.08D, 0.22D),
-                            rand.nextDouble(-0.08D, 0.08D),
-                            "cyan"
-                        );
+                        spawnFragmentParticles();
                     }
                 }
             }
@@ -86,17 +68,29 @@ public class EntityItemGlitchFragment extends EntityItem {
                     shrink(lapis);
                     shrink(fragment);
 
-                    createAndSpawnIngot(rand.nextDouble(-0.2D, 0.2D), rand.nextDouble(-0.2D, 0.2D));
+                    spawnIngot();
                 }
             }
         }
     }
 
-    private void createAndSpawnIngot(double motionX, double motionZ) {
+    private void spawnFragmentParticles() {
+        DeepMobLearning.proxy.spawnSmokeParticle(world,
+            posX + rand.nextDouble(-0.25D, 0.25D),
+            posY + rand.nextDouble(-0.1D, 0.8D),
+            posZ + rand.nextDouble(-0.25D, 0.25D),
+            rand.nextDouble(-0.08, 0.08D),
+            rand.nextDouble(-0.08D, 0.22D),
+            rand.nextDouble(-0.08D, 0.08D),
+            "cyan"
+        );
+    }
+
+    private void spawnIngot() {
         EntityItem newItem = new EntityItem(world, posX, posY + 0.6D, posZ, new ItemStack(Registry.glitchInfusedIngot, 1));
-        newItem.motionX = motionX;
+        newItem.motionX = rand.nextDouble(-0.2D, 0.2D);
         newItem.motionY = 0;
-        newItem.motionZ = motionZ;
+        newItem.motionZ = rand.nextDouble(-0.2D, 0.2D);
         newItem.setDefaultPickupDelay();
 
         world.spawnEntity(newItem);

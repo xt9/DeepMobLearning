@@ -1,5 +1,8 @@
 # 1.12.2
 
+### 2.5.4
+- Fixed a bug where crafting Glitch Ingots would consume items unrelated to the craft
+
 ### 2.5.3
 - Fixed trial slime localization
 - Fixed sidebar text in Patchouli for the system malfunction chapter

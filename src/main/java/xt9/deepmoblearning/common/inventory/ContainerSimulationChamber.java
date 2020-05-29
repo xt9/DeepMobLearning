@@ -115,7 +115,7 @@ public class ContainerSimulationChamber extends Container {
     @Override
 	public boolean canInteractWith(EntityPlayer player) {
 		BlockPos pos = this.tile.getPos();
-		if (this.tile.getWorld().getTileEntity(pos) != this.tile) {
+		if (this.tile.getWorld().getTileEntity(pos) != this.tile || player.isSpectator()) {
 			return false;
 		} else {
 			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
