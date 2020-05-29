@@ -2,6 +2,7 @@
 
 ### 2.5.4
 - Fixed a bug where crafting Glitch Ingots would consume items unrelated to the craft
+- More sanity checking related to entity deaths
 
 ### 2.5.3
 - Fixed trial slime localization
