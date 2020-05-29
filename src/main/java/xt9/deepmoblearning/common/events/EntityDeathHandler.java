@@ -39,7 +39,7 @@ import java.util.stream.Collectors;
  */
 @Mod.EventBusSubscriber
 public class EntityDeathHandler {
-    public static Integer entityUUIDBlacklistCap = 1000;
+    public static Integer blacklistCap = 1000;
     public static NonNullList<UUID> killedEntityUUIDBlacklist = NonNullList.create();
 
     @SubscribeEvent
@@ -65,8 +65,39 @@ public class EntityDeathHandler {
 
     @SubscribeEvent
     public static void entityDeath(LivingDeathEvent event) {
-        if(killedEntityUUIDBlacklist.size() >= entityUUIDBlacklistCap) {
-            clearEntityBlacklist();
+        if(event.getEntityLiving() instanceof EntityPlayer) {
+            handlePlayerDeath(event);
+        } else {
+            handleMobDeath(event);
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private static void handlePlayerDeath(LivingDeathEvent event) {
+        EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+
+        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
+
+
+        BlockPos tilePos = BlockPos.fromLong(cap.getTilePos());
+        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
+
+        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
+        if(tile instanceof TileEntityTrialKeystone) {
+            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
+            if(keystone.isTrialActive()) {
+                keystone.playerDied((EntityPlayerMP) player);
+            }
+        }
+    }
+
+    private static void handleMobDeath(LivingDeathEvent event) {
+        if (killedEntityUUIDBlacklist.size() >= blacklistCap) {
+            cullEntityBlacklist();
+        }
+
+        if(isEntityBlacklisted(event.getEntityLiving())) {
+            return;
         }
 
         if(event.getEntityLiving().getEntityData().hasKey(TileEntityTrialKeystone.NBT_LONG_TILE_POS)) {
@@ -77,15 +108,11 @@ public class EntityDeathHandler {
             handlePlayerKilledEntity(event);
         }
 
-        if(event.getEntityLiving() instanceof EntityPlayer) {
-            handlePlayerDeathDuringTrial(event);
-        }
-
         /* Blacklist the entity from being used for data/trial mob count again */
         killedEntityUUIDBlacklist.add(event.getEntityLiving().getUniqueID());
     }
 
-    private static void clearEntityBlacklist() {
+    private static void cullEntityBlacklist() {
         UUID lastUUID = killedEntityUUIDBlacklist.get(killedEntityUUIDBlacklist.size() - 1);
         killedEntityUUIDBlacklist.clear();
         killedEntityUUIDBlacklist.add(lastUUID);
@@ -100,7 +127,7 @@ public class EntityDeathHandler {
         // Check if the tile still exists (Could be broken after the mob got the nbt tag)
         if(tile instanceof TileEntityTrialKeystone) {
             TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
-            if(keystone.isTrialActive() && !isEntityBlacklisted(event.getEntityLiving())) {
+            if(keystone.isTrialActive()) {
                 keystone.catchMobDeath();
             }
         }
@@ -152,25 +179,6 @@ public class EntityDeathHandler {
         trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private static void handlePlayerDeathDuringTrial(LivingDeathEvent event) {
-        EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-
-        IPlayerTrial cap = player.getCapability(PlayerTrialProvider.PLAYER_TRIAL_CAP, null);
-
-
-        BlockPos tilePos = BlockPos.fromLong(cap.getTilePos());
-        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
-
-        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
-        if(tile instanceof TileEntityTrialKeystone) {
-            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
-            if(keystone.isTrialActive()) {
-                keystone.playerDied((EntityPlayerMP) player);
-            }
-        }
-    }
-
     private static NonNullList<ItemStack> updateAndReturnModels(ItemStack deepLearner, LivingDeathEvent event, EntityPlayerMP player) {
         NonNullList<ItemStack> deepLearnerItems = ItemDeepLearner.getContainedItems(deepLearner);
         NonNullList<ItemStack> result = NonNullList.create();
@@ -180,7 +188,7 @@ public class EntityDeathHandler {
                 MobMetaData meta = DataModel.getMobMetaData(stack);
 
                 /* Only count the kill if the entity has not been killed before */
-                if (meta.entityLivingMatchesMob(event.getEntityLiving()) && !isEntityBlacklisted(event.getEntityLiving())) {
+                if (meta.entityLivingMatchesMob(event.getEntityLiving())) {
                     DataModel.increaseMobKillCount(stack, player);
                     result.add(stack);
                 }
