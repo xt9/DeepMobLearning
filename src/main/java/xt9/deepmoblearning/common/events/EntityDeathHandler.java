@@ -80,6 +80,9 @@ public class EntityDeathHandler {
         if(event.getEntityLiving() instanceof EntityPlayer) {
             handlePlayerDeathDuringTrial(event);
         }
+
+        /* Blacklist the entity from being used for data/trial mob count again */
+        killedEntityUUIDBlacklist.add(event.getEntityLiving().getUniqueID());
     }
 
     private static void clearEntityBlacklist() {
@@ -88,6 +91,20 @@ public class EntityDeathHandler {
         killedEntityUUIDBlacklist.add(lastUUID);
     }
 
+    private static void handleTrialMobDeath(LivingDeathEvent event) {
+        Long pos = event.getEntity().getEntityData().getLong(TileEntityTrialKeystone.NBT_LONG_TILE_POS);
+
+        BlockPos tilePos = BlockPos.fromLong(pos);
+        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
+
+        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
+        if(tile instanceof TileEntityTrialKeystone) {
+            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
+            if(keystone.isTrialActive() && !isEntityBlacklisted(event.getEntityLiving())) {
+                keystone.catchMobDeath();
+            }
+        }
+    }
 
     @SuppressWarnings("ConstantConditions")
     private static void handlePlayerKilledEntity(LivingDeathEvent event) {
@@ -135,21 +152,6 @@ public class EntityDeathHandler {
         trialKeys.forEach(stack -> attuneTrialKey(stack, updatedModels.get(0), event, player));
     }
 
-    private static void handleTrialMobDeath(LivingDeathEvent event) {
-        Long pos = event.getEntity().getEntityData().getLong(TileEntityTrialKeystone.NBT_LONG_TILE_POS);
-
-        BlockPos tilePos = BlockPos.fromLong(pos);
-        TileEntity tile = event.getEntityLiving().getEntityWorld().getTileEntity(tilePos);
-
-        // Check if the tile still exists (Could be broken after the mob got the nbt tag)
-        if(tile instanceof TileEntityTrialKeystone) {
-            TileEntityTrialKeystone keystone = (TileEntityTrialKeystone) tile;
-            if(keystone.isTrialActive()) {
-                keystone.catchMobDeath();
-            }
-        }
-    }
-
     @SuppressWarnings("ConstantConditions")
     private static void handlePlayerDeathDuringTrial(LivingDeathEvent event) {
         EntityPlayer player = (EntityPlayer) event.getEntityLiving();
@@ -186,7 +188,6 @@ public class EntityDeathHandler {
             ItemDeepLearner.setContainedItems(deepLearner, deepLearnerItems);
         });
 
-        killedEntityUUIDBlacklist.add(event.getEntityLiving().getUniqueID());
         return result;
     }
 
