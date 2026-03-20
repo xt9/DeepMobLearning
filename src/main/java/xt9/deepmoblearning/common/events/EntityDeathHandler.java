@@ -113,8 +113,11 @@ public class EntityDeathHandler {
     }
 
     private static void cullEntityBlacklist() {
+        if (killedEntityUUIDBlacklist.isEmpty()) return;
+    
         UUID lastUUID = killedEntityUUIDBlacklist.get(killedEntityUUIDBlacklist.size() - 1);
-        killedEntityUUIDBlacklist.clear();
+    
+        killedEntityUUIDBlacklist = new ArrayList<>();
         killedEntityUUIDBlacklist.add(lastUUID);
     }
 
