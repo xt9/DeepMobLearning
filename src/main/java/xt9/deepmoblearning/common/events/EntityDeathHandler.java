@@ -117,7 +117,7 @@ public class EntityDeathHandler {
     
         UUID lastUUID = killedEntityUUIDBlacklist.get(killedEntityUUIDBlacklist.size() - 1);
     
-        killedEntityUUIDBlacklist = new ArrayList<>();
+        killedEntityUUIDBlacklist = NonNullList.create();
         killedEntityUUIDBlacklist.add(lastUUID);
     }
 
