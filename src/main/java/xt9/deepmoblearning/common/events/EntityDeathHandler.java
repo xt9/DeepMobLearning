@@ -203,7 +203,7 @@ public class EntityDeathHandler {
     }
 
     private static boolean isEntityBlacklisted(EntityLivingBase entityLiving) {
-        return killedEntityUUIDBlacklist.stream().filter(uuid -> uuid.toString().equals(entityLiving.getUniqueID().toString())).collect(Collectors.toList()).size() > 0;
+        return killedEntityUUIDBlacklist.contains(entityLiving.getUniqueID());
     }
 
     private static void attuneTrialKey(ItemStack trialKey, ItemStack dataModel, LivingDeathEvent event, EntityPlayerMP player) {
