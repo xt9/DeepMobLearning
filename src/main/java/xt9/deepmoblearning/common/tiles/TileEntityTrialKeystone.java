@@ -262,6 +262,7 @@ public class TileEntityTrialKeystone extends TileEntity implements ITickable, IG
             NonNullList<ItemStack> rewards = TrialFactory.getRewards(activeKey);
             rewards.forEach(stack -> {
                 EntityItem item = new EntityItem(world, pos.getX(), pos.getY() + 2, pos.getZ(), stack);
+                item.setEntityInvulnerable(true);
                 item.setDefaultPickupDelay();
                 world.spawnEntity(item);
             });
