@@ -9,7 +9,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import vazkii.patchouli.api.PatchouliAPI;
 import xt9.deepmoblearning.DeepConstants;
-import xt9.deepmoblearningbm.ModConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,8 +43,8 @@ public class Module {
             if(r.getValue().getRecipeOutput().getItem().getRegistryName().getResourceDomain().equals(DeepConstants.MODID)) {
                 dmlItemRecipes.add(r.getValue());
             }
-            /* Add for blood magic addon aswell */
-            if(r.getValue().getRecipeOutput().getItem().getRegistryName().getResourceDomain().equals(ModConstants.MODID)) {
+            /* Add for blood magic addon as well, without hard dependency on addon classes */
+            if(r.getValue().getRecipeOutput().getItem().getRegistryName().getResourceDomain().equals("deepmoblearningbm")) {
                 dmlItemRecipes.add(r.getValue());
             }
         });
