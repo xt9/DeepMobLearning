@@ -15,21 +15,6 @@ def modMajor = "2"
 def modMinor = "5"
 def modPatch = "4"
 
-// CoFH / Thermal Foundation — pinned universal jars from https://maven.covers1624.net (see ThermalFoundation-1.12-Legacy)
-ext.cofhVersions = [
-        rf     : "1.12-2.1.0.6",
-        core   : "1.12.2-4.6.1.22",
-        world  : "1.12.2-1.3.0.6",
-        thermal: "1.12.2-2.6.1.22"
-]
-
-// CurseForge file IDs for https://www.cursemaven.com/ (project slug arbitrary; id must match file)
-ext.curseVersions = [
-        guideApi       : "2645992", // Guide-API-1.12-2.1.8-63 — matches Blood Magic 1.12 branch (gradle.properties)
-        bloodMagic     : "2822288", // BloodMagic-1.12.2-2.4.3-105.jar
-        matterOverdrive: "6439254"  // MatterOverdrive-1.12.2-0.9.0-universal (Community Edition)
-]
-
 version = "${mcVersion}-${modMajor}.${modMinor}.${modPatch}"
 group = "xt9.deepmoblearning" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "deepmoblearning"
@@ -99,6 +84,22 @@ repositories {
     }
 }
 
+// CoFH / Thermal Foundation — pinned universal jars from https://maven.covers1624.net (see ThermalFoundation-1.12-Legacy)
+ext.cofhVersions = [
+        rf     : "1.12-2.1.0.6",
+        core   : "1.12.2-4.6.1.22",
+        world  : "1.12.2-1.3.0.6",
+        thermal: "1.12.2-2.6.1.22"
+]
+
+// CurseForge file IDs for https://www.cursemaven.com/ (project slug arbitrary; id must match file)
+ext.curseVersions = [
+        guideApi        : "2645992", // Guide-API-1.12-2.1.8-63 — matches Blood Magic 1.12 branch (gradle.properties)
+        bloodMagic      : "2822288", // BloodMagic-1.12.2-2.4.3-105.jar
+        matterOverdrive : "6439254",  // MatterOverdrive-1.12.2-0.9.0-universal (Community Edition)
+        mantle          : "2713386"
+]
+
 dependencies {
     // compile against the JEI API but do not include it at runtime
     deobfProvided "mezz.jei:jei_${mcVersion}:4.10.0.201:api"
@@ -110,6 +111,7 @@ dependencies {
     // Blood Magic + Guide-API (CurseMaven) — aligns with WayofTime/BloodMagic 1.12 branch deps; no Java API usage in DML, useful for dev classpath / parity
     deobfCompile "curse.maven:guide-api-228832:${curseVersions.guideApi}"
     deobfCompile "curse.maven:blood-magic-224791:${curseVersions.bloodMagic}"
+    deobfCompile "curse.maven:mantle-74924:${curseVersions.mantle}"
 
     // Matter Overdrive: Community Edition + CLib (see artillect/MatterOverdrive 1.12.2 build.gradle — CLib on tterrag)
     deobfCompile "com.astro.clib:CLib:1.0.2.31:deobf"
