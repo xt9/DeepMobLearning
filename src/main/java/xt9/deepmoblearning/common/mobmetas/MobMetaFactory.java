@@ -11,7 +11,7 @@ public class MobMetaFactory {
         /* Fallback if key does not match any entry */
         MobMetaData meta = new ZombieMeta("zombie", "Zombie", "Zombies", 0, 0, 0, 0, Registry.livingMatterOverworldian, Registry.pristineMatterZombie);
 
-        if(key.equals(MobKey.ZOMBIE)) {
+        if (key.equals(MobKey.ZOMBIE)) {
             meta = new ZombieMeta(
                 MobKey.ZOMBIE,
                 "Zombie",
@@ -179,6 +179,18 @@ public class MobMetaFactory {
                 -5,
                 Registry.livingMatterOverworldian,
                 Registry.pristineMatterGuardian
+            );
+        } else if(key.equals(MobKey.ILLAGER)) {
+            meta = new IllagerMeta(
+                MobKey.ILLAGER,
+                "Illager",
+                "Illagers",
+                12,
+                34,
+                4,
+                11,
+                Registry.livingMatterOverworldian,
+                Registry.pristineMatterIllager
             );
         }
 

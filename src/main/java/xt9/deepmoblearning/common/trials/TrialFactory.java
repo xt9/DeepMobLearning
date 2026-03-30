@@ -32,6 +32,8 @@ public class TrialFactory {
             trial = new SlimeTrial(MobKey.SLIME, new int[]{4, 5, 5, 7, 7, 9, 15});
         } else if(key.equals(MobKey.WITHERSKELETON)) {
             trial = new WitherSkeletonTrial(MobKey.WITHERSKELETON, new int[]{2, 3, 4, 4, 6, 8, 11});
+        } else if(key.equals(MobKey.ILLAGER)) {
+            trial = new IllagerTrial(MobKey.ILLAGER, new int[]{2, 3, 4, 4, 6, 8, 11});
         }
 
         return trial;
@@ -46,6 +48,7 @@ public class TrialFactory {
         validKeys.add(MobKey.SPIDER);
         validKeys.add(MobKey.SLIME);
         validKeys.add(MobKey.WITHERSKELETON);
+        validKeys.add(MobKey.ILLAGER);
         return validKeys;
     }
 

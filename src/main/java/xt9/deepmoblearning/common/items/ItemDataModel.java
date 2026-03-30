@@ -281,4 +281,15 @@ public class ItemDataModel extends ItemBase {
             super.addInformation(stack, worldIn, list, flagIn);
         }
     }
+
+    public static class Illager extends ItemDataModel {
+        public Illager() {
+            super("data_model_illager", MobKey.ILLAGER);
+        }
+
+        @SideOnly(Side.CLIENT)
+        public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
+            super.addInformation(stack, worldIn, list, flagIn);
+        }
+    }
 }
