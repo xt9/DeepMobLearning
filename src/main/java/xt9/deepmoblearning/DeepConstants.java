@@ -73,6 +73,12 @@ public class DeepConstants {
             "minecraft:fish,64,0"
         };
 
+
+        public static final String[] ILLAGER = {
+            "minecraft:emerald,4,0",
+            "minecraft:totem_of_undying,1,0",
+        };
+
         public static final String[] MOAndroid = {
             "matteroverdrive:energy_pack,6,0",
             "matteroverdrive:tritanium_ingot,4,0"
@@ -203,6 +209,10 @@ public class DeepConstants {
         public static final String[] WITHERSKELETON = {
             "deepmoblearning:glitch_heart,5,0"
         };
+
+        public static final String[] ILLAGER = {
+                "deepmoblearning:glitch_heart,5,0"
+        };
     }
 
     public static final class MOBS {
@@ -228,8 +238,14 @@ public class DeepConstants {
         };
 
         public static final String[] MOAndroid = {
-            "matteroverdrive:ranged_rogue_android",
-            "matteroverdrive:rogue_android"
+                "matteroverdrive:ranged_rogue_android",
+                "matteroverdrive:rogue_android"
+        };
+
+        public static final String[] ILLAGER = {
+                "minecraft:vindication_illager",
+                "minecraft:evocation_illager",
+                "minecraft:illusion_illager"
         };
 
         public static final String[] SKELETON = {

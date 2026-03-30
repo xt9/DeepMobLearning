@@ -17,6 +17,7 @@ public class MobKey {
     public static final String SPIDER = "spider";
     public static final String WITCH = "witch";
     public static final String WITHER = "wither";
+    public static final String ILLAGER = "illager";
     public static final String WITHERSKELETON = "witherskeleton";
     public static final String ZOMBIE = "zombie";
     public static final String TE = "thermalelemental";

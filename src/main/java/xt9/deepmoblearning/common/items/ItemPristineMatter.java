@@ -156,4 +156,10 @@ public class ItemPristineMatter extends ItemBase {
             super("pristine_matter_mo_android", MobKey.MO_ANDROID);
         }
     }
+
+    public static class Illager extends ItemPristineMatter {
+        public Illager() {
+            super("pristine_matter_illager", MobKey.ILLAGER);
+        }
+    }
 }

@@ -76,6 +76,7 @@ public class Registry {
     private static ItemDataModel.TwilightGlacier dataModelTwilightGlacier = new ItemDataModel.TwilightGlacier();
     private static ItemDataModel.TinkerSlime dataModelTinkerSlime = new ItemDataModel.TinkerSlime();
     private static ItemDataModel.MOAndroid dataModelMOAndroid = new ItemDataModel.MOAndroid();
+    private static ItemDataModel.Illager dataModelIllager= new ItemDataModel.Illager();
 
     // Living matter
     public static ItemLivingMatter.Overworldian livingMatterOverworldian = new ItemLivingMatter.Overworldian();
@@ -105,6 +106,7 @@ public class Registry {
     public static ItemPristineMatter.TwilightGlacier pristineMatterTwilightGlacier = new ItemPristineMatter.TwilightGlacier();
     public static ItemPristineMatter.TinkerSlime pristineMatterTinkerSlime = new ItemPristineMatter.TinkerSlime();
     public static ItemPristineMatter.MOAndroid pristineMatterMOAndroid = new ItemPristineMatter.MOAndroid();
+    public static ItemPristineMatter.Illager pristineMatterIllager = new ItemPristineMatter.Illager();
 
     /* Init the list of data models */
     private static void populateDataModelList() {
@@ -122,6 +124,7 @@ public class Registry {
         dataModels.add(dataModelDragon);
         dataModels.add(dataModelShulker);
         dataModels.add(dataModelGuardian);
+        dataModels.add(dataModelIllager);
 
         if(DeepConstants.MOD_TE_LOADED) {
             dataModels.add(dataModelTE);
@@ -169,6 +172,7 @@ public class Registry {
         pristineMatter.add(pristineMatterDragon);
         pristineMatter.add(pristineMatterShulker);
         pristineMatter.add(pristineMatterGuardian);
+        pristineMatter.add(pristineMatterIllager);
 
         if(DeepConstants.MOD_TE_LOADED) {
             pristineMatter.add(pristineMatterTE);

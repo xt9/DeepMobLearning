@@ -51,6 +51,7 @@ item.deepmoblearning.data_model_twilight_darkwood.name=§bTwilight Darkwood Data
 item.deepmoblearning.data_model_twilight_glacier.name=§bTwilight Glacier Data Model§r
 item.deepmoblearning.data_model_tinker_slime.name=§bBlue Slime Data Model§r
 item.deepmoblearning.data_model_mo_android.name=§bRogue Android Data Model§r
+item.deepmoblearning.data_model_illager.name=§bIllager Data Model§r
 #
 # Living matter
 #
@@ -83,6 +84,7 @@ item.deepmoblearning.pristine_matter_twilight_darkwood.name=Pristine Twilight Da
 item.deepmoblearning.pristine_matter_twilight_glacier.name=Pristine Twilight Glacier Matter
 item.deepmoblearning.pristine_matter_tinker_slime.name=Pristine Blue Slime Matter
 item.deepmoblearning.pristine_matter_mo_android.name=Pristine Rogue Android Matter
+item.deepmoblearning.pristine_matter_illager.name=Pristine Illager Matter
 
 #
 # Creative tab

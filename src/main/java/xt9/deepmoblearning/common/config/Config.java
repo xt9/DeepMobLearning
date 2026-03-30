@@ -14,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import xt9.deepmoblearning.DeepConstants;
 import xt9.deepmoblearning.common.mobmetas.MobKey;
-import xt9.deepmoblearning.common.util.ItemStackNBTHelper;
 
 import java.io.File;
 
@@ -94,6 +93,7 @@ public class Config {
         dataModel.put(MobKey.SHULKER, config.get(dataModel.getName(), MobKey.SHULKER, 256, null, 1, 6666));
         dataModel.put(MobKey.GUARDIAN, config.get(dataModel.getName(), MobKey.GUARDIAN, 340,null, 1, 6666));
         dataModel.put(MobKey.WITHERSKELETON, config.get(dataModel.getName(), MobKey.WITHERSKELETON, 880,null, 1, 6666));
+        dataModel.put(MobKey.ILLAGER, config.get(dataModel.getName(), MobKey.ILLAGER, 512,null, 1, 6666));
 
         /* Extension models */
         if(DeepConstants.MOD_TE_LOADED) {
@@ -131,6 +131,7 @@ public class Config {
         dataModelMobNames.put(MobKey.SHULKER, new Property(MobKey.SHULKER, config.getStringList(MobKey.SHULKER, dataModelMobNames.getName(), DeepConstants.MOBS.SHULKER, "Shulker"), Property.Type.STRING));
         dataModelMobNames.put(MobKey.GUARDIAN, new Property(MobKey.GUARDIAN, config.getStringList(MobKey.GUARDIAN, dataModelMobNames.getName(), DeepConstants.MOBS.GUARDIAN, "Guardian"), Property.Type.STRING));
         dataModelMobNames.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, dataModelMobNames.getName(), DeepConstants.MOBS.WITHERSKELETON, "Wither Skeleton"), Property.Type.STRING));
+        dataModelMobNames.put(MobKey.ILLAGER, new Property(MobKey.ILLAGER, config.getStringList(MobKey.ILLAGER, dataModelMobNames.getName(), DeepConstants.MOBS.ILLAGER, "Illager"), Property.Type.STRING));
 
         /* Extension models */
         if(DeepConstants.MOD_TE_LOADED) {
@@ -193,6 +194,7 @@ public class Config {
         pristineOutputs.put(MobKey.ZOMBIE, new Property(MobKey.ZOMBIE, config.getStringList(MobKey.ZOMBIE, pristineOutputs.getName(), DeepConstants.LOOT.ZOMBIE, "Zombie"), Property.Type.STRING));
         pristineOutputs.put(MobKey.SHULKER, new Property(MobKey.SHULKER, config.getStringList(MobKey.SHULKER, pristineOutputs.getName(), DeepConstants.LOOT.SHULKER, "Shulker"), Property.Type.STRING));
         pristineOutputs.put(MobKey.GUARDIAN, new Property(MobKey.GUARDIAN, config.getStringList(MobKey.GUARDIAN, pristineOutputs.getName(), DeepConstants.LOOT.GUARDIAN, "Guardian"), Property.Type.STRING));
+        pristineOutputs.put(MobKey.ILLAGER, new Property(MobKey.ILLAGER, config.getStringList(MobKey.ILLAGER, pristineOutputs.getName(), DeepConstants.LOOT.ILLAGER, "Illager"), Property.Type.STRING));
 
 
         if(DeepConstants.MOD_TE_LOADED) {
@@ -225,7 +227,8 @@ public class Config {
         trialRewards.put(MobKey.WITCH, new Property(MobKey.WITCH, config.getStringList(MobKey.WITCH, trialRewards.getName(), DeepConstants.TRIAL_REWARD.WITCH, "Witch Trial Reward"), Property.Type.STRING));
         trialRewards.put(MobKey.SPIDER, new Property(MobKey.SPIDER, config.getStringList(MobKey.SPIDER, trialRewards.getName(), DeepConstants.TRIAL_REWARD.SPIDER, "Spider Trial Reward"), Property.Type.STRING));
         trialRewards.put(MobKey.SLIME, new Property(MobKey.SLIME, config.getStringList(MobKey.SLIME, trialRewards.getName(), DeepConstants.TRIAL_REWARD.SLIME, "Slime Trial Reward"), Property.Type.STRING));
-        trialRewards.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, trialRewards.getName(), DeepConstants.TRIAL_REWARD.WITHERSKELETON, "Slime Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.WITHERSKELETON, new Property(MobKey.WITHERSKELETON, config.getStringList(MobKey.WITHERSKELETON, trialRewards.getName(), DeepConstants.TRIAL_REWARD.WITHERSKELETON, "Wither Skeleton Trial Reward"), Property.Type.STRING));
+        trialRewards.put(MobKey.ILLAGER, new Property(MobKey.ILLAGER, config.getStringList(MobKey.ILLAGER, trialRewards.getName(), DeepConstants.TRIAL_REWARD.ILLAGER, "Illager Trial Reward"), Property.Type.STRING));
     }
 
     @SubscribeEvent
